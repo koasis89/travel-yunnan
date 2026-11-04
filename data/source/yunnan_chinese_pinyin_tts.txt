@@ -1,0 +1,596 @@
+包车
+bāo chē
+预订
+yù dìng
+虎跳峡
+hǔ tiào xiá
+茶马客栈
+chá mǎ kè zhàn
+中途客栈
+zhōng tú kè zhàn
+靠山十九度
+kào shān shí jiǔ dù
+香格里拉
+xiāng gé lǐ lā
+丽江古城
+lì jiāng gǔ chéng
+昆明
+kūn míng
+等
+děng
+小时
+xiǎo shí
+行李
+xíng lǐ
+托运
+tuō yùn
+明天上午
+míng tiān shàng wǔ
+车牌号
+chē pái hào
+司机师傅
+sī jī shī fù
+联系方式
+lián xì fāng shì
+空调
+kōng tiáo
+开
+kāi
+关
+guān
+洗手间
+xǐ shǒu jiān
+不好意思
+bù hǎo yì sī
+多少钱
+duō shǎo qián
+总费用
+zǒng fèi yòng
+护照
+hù zhào
+入住
+rù zhù
+押金
+yā jīn
+早餐
+zǎo cān
+无线网密码
+wú xiàn wǎng mì mǎ
+服务员
+fú wù yuán
+菜单
+cài dān
+推荐菜
+tuī jiàn cài
+香菜
+xiāng cài
+冰啤酒
+bīng pí jiǔ
+矿泉水
+kuàng quán shuǐ
+结账
+jié zhàng
+微信支付
+wēi xìn zhī fù
+支付宝
+zhī fù bǎo
+扫码
+sǎo mǎ
+发票
+fā piào
+成人票
+chéng rén piào
+往返索道
+wǎng fǎn suǒ dào
+便宜
+pián yi
+太贵了
+tài guì le
+尝
+cháng
+一斤
+yī jīn
+新包装
+xīn bāo zhuāng
+充电宝
+chōng diàn bǎo
+违禁品
+wéi jìn pǐn
+安检
+ān jiǎn
+检票口
+jiǎn piào kǒu
+火车站
+huǒ chē zhàn
+
+你好 我要预订包车
+nǐ hǎo  wǒ yào yù dìng bāo chē
+你好 我要预订包车
+nǐ hǎo  wǒ yào yù dìng bāo chē
+你好 我要预订包车
+nǐ hǎo  wǒ yào yù dìng bāo chē
+
+我要去虎跳峡
+wǒ yào qù hǔ tiào xiá
+我要去虎跳峡
+wǒ yào qù hǔ tiào xiá
+我要去虎跳峡
+wǒ yào qù hǔ tiào xiá
+
+在景区等一个半小时
+zài jǐng qū děng yí gè bàn xiǎo shí
+在景区等一个半小时
+zài jǐng qū děng yí gè bàn xiǎo shí
+在景区等一个半小时
+zài jǐng qū děng yí gè bàn xiǎo shí
+
+然后送我们到茶马客栈
+rán hòu sòng wǒ men dào chá mǎ kè zhàn
+然后送我们到茶马客栈
+rán hòu sòng wǒ men dào chá mǎ kè zhàn
+然后送我们到茶马客栈
+rán hòu sòng wǒ men dào chá mǎ kè zhàn
+
+这辆车一共多少钱
+zhè liàng chē yī gòng duō shǎo qián
+这辆车一共多少钱
+zhè liàng chē yī gòng duō shǎo qián
+这辆车一共多少钱
+zhè liàng chē yī gòng duō shǎo qián
+
+行李送到靠山十九度
+xíng lǐ sòng dào kào shān shí jiǔ dù
+行李送到靠山十九度
+xíng lǐ sòng dào kào shān shí jiǔ dù
+行李送到靠山十九度
+xíng lǐ sòng dào kào shān shí jiǔ dù
+
+明天上午十点
+míng tiān shàng wǔ shí diǎn
+明天上午十点
+míng tiān shàng wǔ shí diǎn
+明天上午十点
+míng tiān shàng wǔ shí diǎn
+
+去香格里拉
+qù xiāng gé lǐ lā
+去香格里拉
+qù xiāng gé lǐ lā
+去香格里拉
+qù xiāng gé lǐ lā
+
+请告诉我车牌号
+qǐng gào sù wǒ chē pái hào
+请告诉我车牌号
+qǐng gào sù wǒ chē pái hào
+请告诉我车牌号
+qǐng gào sù wǒ chē pái hào
+
+请给我师傅的电话
+qǐng gěi wǒ shī fù de diàn huà
+请给我师傅的电话
+qǐng gěi wǒ shī fù de diàn huà
+请给我师傅的电话
+qǐng gěi wǒ shī fù de diàn huà
+
+师傅 请开空调
+shī fù  qǐng kāi kōng tiáo
+师傅 请开空调
+shī fù  qǐng kāi kōng tiáo
+师傅 请开空调
+shī fù  qǐng kāi kōng tiáo
+
+师傅 请关空调
+shī fù  qǐng guān kōng tiáo
+师傅 请关空调
+shī fù  qǐng guān kōng tiáo
+师傅 请关空调
+shī fù  qǐng guān kōng tiáo
+
+师傅 不好意思
+shī fù  bù hǎo yì sī
+师傅 不好意思
+shī fù  bù hǎo yì sī
+师傅 不好意思
+shī fù  bù hǎo yì sī
+
+我要去洗手间
+wǒ yào qù xǐ shǒu jiān
+我要去洗手间
+wǒ yào qù xǐ shǒu jiān
+我要去洗手间
+wǒ yào qù xǐ shǒu jiān
+
+请停一下
+qǐng tíng yī xià
+请停一下
+qǐng tíng yī xià
+请停一下
+qǐng tíng yī xià
+
+你好 我要入住
+nǐ hǎo  wǒ yào rù zhù
+你好 我要入住
+nǐ hǎo  wǒ yào rù zhù
+你好 我要入住
+nǐ hǎo  wǒ yào rù zhù
+
+这是我的护照
+zhè shì wǒ de hù zhào
+这是我的护照
+zhè shì wǒ de hù zhào
+这是我的护照
+zhè shì wǒ de hù zhào
+
+有押金吗
+yǒu yā jīn ma
+有押金吗
+yǒu yā jīn ma
+有押金吗
+yǒu yā jīn ma
+
+可以微信支付吗
+kě yǐ wēi xìn zhī fù ma
+可以微信支付吗
+kě yǐ wēi xìn zhī fù ma
+可以微信支付吗
+kě yǐ wēi xìn zhī fù ma
+
+早餐几点到几点
+zǎo cān jǐ diǎn dào jǐ diǎn
+早餐几点到几点
+zǎo cān jǐ diǎn dào jǐ diǎn
+早餐几点到几点
+zǎo cān jǐ diǎn dào jǐ diǎn
+
+无线网密码是多少
+wú xiàn wǎng mì mǎ shì duō shǎo
+无线网密码是多少
+wú xiàn wǎng mì mǎ shì duō shǎo
+无线网密码是多少
+wú xiàn wǎng mì mǎ shì duō shǎo
+
+服务员 点单
+fú wù yuán  diǎn dān
+服务员 点单
+fú wù yuán  diǎn dān
+服务员 点单
+fú wù yuán  diǎn dān
+
+请给我菜单
+qǐng gěi wǒ cài dān
+请给我菜单
+qǐng gěi wǒ cài dān
+请给我菜单
+qǐng gěi wǒ cài dān
+
+有什么推荐菜
+yǒu shén me tuī jiàn cài
+有什么推荐菜
+yǒu shén me tuī jiàn cài
+有什么推荐菜
+yǒu shén me tuī jiàn cài
+
+这个要一个
+zhè ge yào yí gè
+这个要一个
+zhè ge yào yí gè
+这个要一个
+zhè ge yào yí gè
+
+那个要一个
+nà ge yào yí gè
+那个要一个
+nà ge yào yí gè
+那个要一个
+nà ge yào yí gè
+
+所有的菜都不要香菜
+suǒ yǒu de cài dōu bú yào xiāng cài
+所有的菜都不要香菜
+suǒ yǒu de cài dōu bú yào xiāng cài
+所有的菜都不要香菜
+suǒ yǒu de cài dōu bú yào xiāng cài
+
+要一瓶冰啤酒
+yào yī píng bīng pí jiǔ
+要一瓶冰啤酒
+yào yī píng bīng pí jiǔ
+要一瓶冰啤酒
+yào yī píng bīng pí jiǔ
+
+要一瓶矿泉水
+yào yī píng kuàng quán shuǐ
+要一瓶矿泉水
+yào yī píng kuàng quán shuǐ
+要一瓶矿泉水
+yào yī píng kuàng quán shuǐ
+
+服务员 结账
+fú wù yuán  jié zhàng
+服务员 结账
+fú wù yuán  jié zhàng
+服务员 结账
+fú wù yuán  jié zhàng
+
+一共多少钱
+yī gòng duō shǎo qián
+一共多少钱
+yī gòng duō shǎo qián
+一共多少钱
+yī gòng duō shǎo qián
+
+我用微信支付
+wǒ yòng wēi xìn zhī fù
+我用微信支付
+wǒ yòng wēi xìn zhī fù
+我用微信支付
+wǒ yòng wēi xìn zhī fù
+
+请扫我的码
+qǐng sǎo wǒ de mǎ
+请扫我的码
+qǐng sǎo wǒ de mǎ
+请扫我的码
+qǐng sǎo wǒ de mǎ
+
+可以用支付宝吗
+kě yǐ yòng zhī fù bǎo ma
+可以用支付宝吗
+kě yǐ yòng zhī fù bǎo ma
+可以用支付宝吗
+kě yǐ yòng zhī fù bǎo ma
+
+请给我发票
+qǐng gěi wǒ fā piào
+请给我发票
+qǐng gěi wǒ fā piào
+请给我发票
+qǐng gěi wǒ fā piào
+
+你好 我要两张成人票
+nǐ hǎo  wǒ yào liǎng zhāng chéng rén piào
+你好 我要两张成人票
+nǐ hǎo  wǒ yào liǎng zhāng chéng rén piào
+你好 我要两张成人票
+nǐ hǎo  wǒ yào liǎng zhāng chéng rén piào
+
+包含往返索道吗
+bāo hán wǎng fǎn suǒ dào ma
+包含往返索道吗
+bāo hán wǎng fǎn suǒ dào ma
+包含往返索道吗
+bāo hán wǎng fǎn suǒ dào ma
+
+可以刷护照进去吗
+kě yǐ shuā hù zhào jìn qù ma
+可以刷护照进去吗
+kě yǐ shuā hù zhào jìn qù ma
+可以刷护照进去吗
+kě yǐ shuā hù zhào jìn qù ma
+
+这个一斤多少钱
+zhè ge yī jīn duō shǎo qián
+这个一斤多少钱
+zhè ge yī jīn duō shǎo qián
+这个一斤多少钱
+zhè ge yī jīn duō shǎo qián
+
+可以先尝尝吗
+kě yǐ xiān cháng cháng ma
+可以先尝尝吗
+kě yǐ xiān cháng cháng ma
+可以先尝尝吗
+kě yǐ xiān cháng cháng ma
+
+太贵了
+tài guì le
+太贵了
+tài guì le
+太贵了
+tài guì le
+
+便宜一点
+pián yi yì diǎn
+便宜一点
+pián yi yì diǎn
+便宜一点
+pián yi yì diǎn
+
+我多买 送几个
+wǒ duō mǎi  sòng jǐ gè
+我多买 送几个
+wǒ duō mǎi  sòng jǐ gè
+我多买 送几个
+wǒ duō mǎi  sòng jǐ gè
+
+请给我新包装
+qǐng gěi wǒ xīn bāo zhuāng
+请给我新包装
+qǐng gěi wǒ xīn bāo zhuāng
+请给我新包装
+qǐng gěi wǒ xīn bāo zhuāng
+
+你好 我要核对车票
+nǐ hǎo  wǒ yào hé duì chē piào
+你好 我要核对车票
+nǐ hǎo  wǒ yào hé duì chē piào
+你好 我要核对车票
+nǐ hǎo  wǒ yào hé duì chē piào
+
+这是我的护照
+zhè shì wǒ de hù zhào
+这是我的护照
+zhè shì wǒ de hù zhào
+这是我的护照
+zhè shì wǒ de hù zhào
+
+行李放在这里
+xíng lǐ fàng zài zhè lǐ
+行李放在这里
+xíng lǐ fàng zài zhè lǐ
+行李放在这里
+xíng lǐ fàng zài zhè lǐ
+
+我没有违禁品
+wǒ méi yǒu wéi jìn pǐn
+我没有违禁品
+wǒ méi yǒu wéi jìn pǐn
+我没有违禁品
+wǒ méi yǒu wéi jìn pǐn
+
+这是合规的充电宝
+zhè shì hé guī de chōng diàn bǎo
+这是合规的充电宝
+zhè shì hé guī de chōng diàn bǎo
+这是合规的充电宝
+zhè shì hé guī de chōng diàn bǎo
+
+检票口在哪里
+jiǎn piào kǒu zài nǎ lǐ
+检票口在哪里
+jiǎn piào kǒu zài nǎ lǐ
+检票口在哪里
+jiǎn piào kǒu zài nǎ lǐ
+
+腊排骨火锅
+là pái gǔ huǒ guō
+牦牛肉火锅
+máo niú ròu huǒ guō
+酸汤牦牛肉火锅
+suān tāng máo niú ròu huǒ guō
+野生菌火锅
+yě shēng jūn huǒ guō
+石锅鱼
+shí guō yú
+鸡豆凉粉
+jī dòu liáng fěn
+丽江粑粑
+lì jiāng bā ba
+松露粥
+sōng lù zhōu
+炸茄盒
+zhá qié hé
+拉子鸡
+lā zi jī
+牦牛汉堡
+máo niú hàn bǎo
+牦牛披萨
+máo niú pī sà
+牛肉面
+niú ròu miàn
+五花肉
+wǔ huā ròu
+炒饭
+chǎo fàn
+普洱猪肉小锅饭
+pǔ ěr zhū ròu xiǎo guō fàn
+云南菜
+yún nán cài
+纳西家常菜
+nà xī jiā cháng cài
+
+牦牛火锅
+máo niú huǒ guō
+牦牛肉
+máo niú ròu
+青稞粑粑
+qīng kē bā ba
+酥油茶
+sū yóu chá
+藏式肉饼
+zàng shì ròu bǐng
+烤土豆
+kǎo tǔ dòu
+牦牛奶蛋挞
+máo niú nǎi dàn tà
+
+过桥米线
+guò qiáo mǐ xiàn
+汽锅鸡
+qì guō jī
+野生菌火锅
+yě shēng jūn huǒ guō
+小锅米线
+xiǎo guō mǐ xiàn
+烧饵块
+shāo ěr kuài
+鲜花饼
+xiān huā bǐng
+云南菜
+yún nán cài
+
+田村
+tián cūn
+云雪丽
+yún xuě lì
+天天鲜
+tiān tiān xiān
+阿婆腊排骨火锅
+ā pó là pái gǔ huǒ guō
+拾全酒美野生菌火锅
+shí quán jiǔ měi yě shēng jūn huǒ guō
+建新园过桥米线
+jiàn xīn yuán guò qiáo mǐ xiàn
+福照楼汽锅鸡
+fú zhào lóu qì guō jī
+一朵菌
+yī duǒ jūn
+菌故
+jūn gù
+
+我要一份过桥米线
+wǒ yào yī fèn guò qiáo mǐ xiàn
+我要一份过桥米线
+wǒ yào yī fèn guò qiáo mǐ xiàn
+我要一份过桥米线
+wǒ yào yī fèn guò qiáo mǐ xiàn
+
+我要一份汽锅鸡
+wǒ yào yī fèn qì guō jī
+我要一份汽锅鸡
+wǒ yào yī fèn qì guō jī
+我要一份汽锅鸡
+wǒ yào yī fèn qì guō jī
+
+我要一个野生菌火锅
+wǒ yào yí gè yě shēng jūn huǒ guō
+我要一个野生菌火锅
+wǒ yào yí gè yě shēng jūn huǒ guō
+我要一个野生菌火锅
+wǒ yào yí gè yě shēng jūn huǒ guō
+
+我要一份牦牛肉火锅
+wǒ yào yī fèn máo niú ròu huǒ guō
+我要一份牦牛肉火锅
+wǒ yào yī fèn máo niú ròu huǒ guō
+我要一份牦牛肉火锅
+wǒ yào yī fèn máo niú ròu huǒ guō
+
+我要一个丽江粑粑
+wǒ yào yí gè lì jiāng bā ba
+我要一个丽江粑粑
+wǒ yào yí gè lì jiāng bā ba
+我要一个丽江粑粑
+wǒ yào yí gè lì jiāng bā ba
+
+我要一杯酥油茶
+wǒ yào yī bēi sū yóu chá
+我要一杯酥油茶
+wǒ yào yī bēi sū yóu chá
+我要一杯酥油茶
+wǒ yào yī bēi sū yóu chá
+
+不要辣
+bú yào là
+不要辣
+bú yào là
+不要辣
+bú yào là
+
+不要香菜
+bú yào xiāng cài
+不要香菜
+bú yào xiāng cài
+不要香菜
+bú yào xiāng cài
