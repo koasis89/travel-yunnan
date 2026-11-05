@@ -10,6 +10,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -105,13 +106,18 @@ fun AppNav(vm: AppViewModel, initialRoute: String? = null) {
     CompositionLocalProvider(LocalActions provides actions) {
         Scaffold(
             bottomBar = {
-                if (showBar) NavigationBar {
+                if (showBar) NavigationBar(containerColor = MaterialTheme.colorScheme.surfaceContainer, tonalElevation = 3.dp) {
                     TABS.forEach { t ->
                         NavigationBarItem(
                             selected = route == t.route,
                             onClick = { tab(t.base) },
                             icon = { Icon(t.icon, null) },
                             label = { Text(t.label) },
+                            colors = NavigationBarItemDefaults.colors(
+                                indicatorColor = MaterialTheme.colorScheme.secondaryContainer,
+                                selectedIconColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                                selectedTextColor = MaterialTheme.colorScheme.onBackground,
+                            ),
                         )
                     }
                 }

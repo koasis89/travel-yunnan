@@ -14,7 +14,7 @@ jobs:
         with: { python-version: '3.12' }
       - run: pip install openpyxl
       - name: 데이터 검증
-        run: python3 tools/build_data.py
+        run: python3 tools/build_data.py && python3 tools/audit.py
       - uses: android-actions/setup-android@v3
       - uses: gradle/actions/setup-gradle@v4
       - name: 단위·스크린샷 테스트

@@ -306,8 +306,8 @@
       "x": 672,
       "y": 303,
       "label": "목부",
-      "type": "poi",
-      "key": null,
+      "type": "place",
+      "key": "mufu",
       "keywords": [
         "목부"
       ],

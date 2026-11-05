@@ -20,6 +20,7 @@
 
 ```bash
 python3 tools/build_data.py        # 데이터 재생성·검증
+python3 tools/audit.py             # 내용 일관성 교차 검증(일정·숙소·식사·알림·비용·지도)
 python3 tools/gen_audio.py         # 바뀐 문장만 mp3 재생성 (pip install edge-tts)
 cd android && ./gradlew assembleRelease   # 서명 APK: android/app/build/outputs/apk/release/ (keystore.properties 필요)
 cd android && ./gradlew testDebugUnitTest   # 단위 테스트 + 화면 스크린샷(app/build/outputs/roborazzi)

@@ -128,7 +128,8 @@ private fun PhraseCard(item: SpeakItem, fav: Boolean, canFav: Boolean, cb: Phras
     val actions = LocalActions.current
     val ctx = LocalContext.current
     val showable = canFav // 회화 문장만 보여주기 화면 지원
-    Card(Modifier.fillMaxWidth().combinedClickable(onClick = { if (showable) actions.openShow(item.id) }, onLongClick = { if (showable) actions.openShow(item.id) })) {
+    Card(Modifier.fillMaxWidth().combinedClickable(onClick = { if (showable) actions.openShow(item.id) }, onLongClick = { if (showable) actions.openShow(item.id) }),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer), elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)) {
         Row(Modifier.padding(start = 16.dp, top = 12.dp, bottom = 12.dp, end = 4.dp)) {
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 Text(item.zh, fontSize = if (item.copyOnly) 17.sp else 24.sp, fontWeight = FontWeight.SemiBold,
@@ -142,8 +143,8 @@ private fun PhraseCard(item: SpeakItem, fav: Boolean, canFav: Boolean, cb: Phras
                 }
             }
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                if (!item.copyOnly) IconButton(onClick = { cb.speak(item) }) {
-                    Icon(Icons.AutoMirrored.Filled.VolumeUp, "듣기", tint = MaterialTheme.colorScheme.primary)
+                if (!item.copyOnly) FilledTonalIconButton(onClick = { cb.speak(item) }, modifier = Modifier.size(44.dp)) {
+                    Icon(Icons.AutoMirrored.Filled.VolumeUp, "듣기")
                 }
                 if (canFav) IconButton(onClick = { cb.toggleFav(item.id) }) {
                     Icon(if (fav) Icons.Filled.Star else Icons.Filled.StarBorder, "즐겨찾기",

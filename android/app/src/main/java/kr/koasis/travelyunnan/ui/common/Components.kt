@@ -33,7 +33,7 @@ fun AppTopBar(title: String, onBack: (() -> Unit)? = null, actions: @Composable 
             if (onBack != null) IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "뒤로") }
         },
         actions = actions,
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background),
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background, titleContentColor = MaterialTheme.colorScheme.onBackground),
     )
 }
 
@@ -56,8 +56,11 @@ fun DayChips(days: List<Day>, selected: String?, onSelect: (String?) -> Unit, al
 
 @Composable
 fun SectionTitle(text: String, modifier: Modifier = Modifier) {
-    Text(text, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary,
-        modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp))
+    Row(modifier.padding(start = 16.dp, end = 16.dp, top = 14.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+        Box(Modifier.width(4.dp).height(16.dp).background(MaterialTheme.colorScheme.secondary, RoundedCornerShape(2.dp)))
+        Spacer(Modifier.width(8.dp))
+        Text(text, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onBackground)
+    }
 }
 
 @Composable
@@ -70,7 +73,7 @@ fun SmallAction(icon: ImageVector, label: String, onClick: () -> Unit) {
 @Composable
 fun InfoBanner(text: String, icon: ImageVector = Icons.Filled.Info, container: androidx.compose.ui.graphics.Color = MaterialTheme.colorScheme.secondaryContainer) {
     Row(
-        Modifier.fillMaxWidth().background(container, RoundedCornerShape(12.dp)).padding(12.dp),
+        Modifier.fillMaxWidth().background(container, RoundedCornerShape(14.dp)).padding(12.dp),
         verticalAlignment = Alignment.Top,
     ) {
         Icon(icon, null, Modifier.size(20.dp).padding(top = 2.dp)); Spacer(Modifier.width(8.dp))

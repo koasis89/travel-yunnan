@@ -1,6 +1,8 @@
 package kr.koasis.travelyunnan.ui.home
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -21,6 +23,7 @@ import kr.koasis.travelyunnan.data.json.Day
 import kr.koasis.travelyunnan.data.json.Schedule
 import kr.koasis.travelyunnan.domain.*
 import kr.koasis.travelyunnan.ui.AppViewModel
+import kr.koasis.travelyunnan.ui.common.BrandHeader
 import kr.koasis.travelyunnan.ui.common.InfoBanner
 import kr.koasis.travelyunnan.ui.common.SectionTitle
 import kr.koasis.travelyunnan.ui.nav.LocalActions
@@ -50,21 +53,17 @@ fun HomeContent(data: TripData, now: LocalDateTime, overrideActive: Boolean = fa
     val lodging = data.lodging(day.lodgingId)
     val meal = remember(day, now) { TaxiCards.mealFor(data, day.id, now.hour) }
 
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(bottom = 24.dp)) {
-        // 머리말
-        Column(Modifier.padding(start = 16.dp, end = 16.dp, top = 20.dp, bottom = 8.dp)) {
-            Text("윈난 7박 8일", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
-            Text(
-                when (phase) {
-                    is TripPhase.BeforeTrip -> "출발까지 D-${phase.daysLeft} · 2026.12.16(수) 쿤밍 도착"
-                    is TripPhase.OnTrip -> "${day.id} · ${day.dateLabel} · ${day.route}"
-                    TripPhase.AfterTrip -> "여행이 끝났다. 수고했다!"
-                },
-                style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary,
-            )
-            Text("현지 시각 " + now.format(DateTimeFormatter.ofPattern("M/d HH:mm")) + " (한국 -1시간)",
-                style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-        }
+    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(bottom = 28.dp)) {
+        // 브랜드 헤더
+        BrandHeader(
+            statusLine = when (phase) {
+                is TripPhase.BeforeTrip -> "출발까지 D-${phase.daysLeft} · 12/16(수) 쿤밍 도착"
+                is TripPhase.OnTrip -> "${day.id} · ${day.dateLabel} · ${day.route}"
+                TripPhase.AfterTrip -> "여행이 끝났다. 수고했다!"
+            },
+            subLine = "현지 시각 " + now.format(DateTimeFormatter.ofPattern("M/d HH:mm")) + " · 한국보다 1시간 늦다",
+        )
+        Spacer(Modifier.height(12.dp))
         if (overrideActive) Box(Modifier.padding(horizontal = 16.dp, vertical = 4.dp)) {
             InfoBanner("날짜 지정 모드다. 설정에서 해제하면 실제 시각으로 돌아간다.", Icons.Filled.Schedule)
         }
@@ -161,6 +160,7 @@ private fun DayCard(day: Day, isToday: Boolean, onClick: () -> Unit) {
     Card(
         Modifier.padding(horizontal = 16.dp, vertical = 4.dp).fillMaxWidth().clickable(onClick = onClick),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
     ) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Text((if (isToday) "오늘 " else "") + "${day.id} ${day.dateLabel} · ${day.route}", style = MaterialTheme.typography.titleMedium)
@@ -187,7 +187,9 @@ private fun DayCard(day: Day, isToday: Boolean, onClick: () -> Unit) {
 
 @Composable
 private fun NowCard(current: Schedule?, next: Schedule?, onClick: () -> Unit) {
-    Card(Modifier.padding(horizontal = 16.dp).fillMaxWidth().clickable(onClick = onClick)) {
+    Card(Modifier.padding(horizontal = 16.dp).fillMaxWidth().clickable(onClick = onClick),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             if (current != null) {
                 Text(current.timeLabel, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
@@ -211,12 +213,18 @@ private fun NowCard(current: Schedule?, next: Schedule?, onClick: () -> Unit) {
 
 @Composable
 private fun Shortcut(modifier: Modifier, icon: ImageVector, title: String, sub: String, color: Color, onClick: () -> Unit) {
-    Card(modifier.height(112.dp).clickable(onClick = onClick), colors = CardDefaults.cardColors(containerColor = color)) {
+    Card(
+        modifier.height(118.dp).clickable(onClick = onClick),
+        colors = CardDefaults.cardColors(containerColor = color),
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
+    ) {
         Column(Modifier.padding(14.dp).fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
-            Icon(icon, null, Modifier.size(28.dp))
+            Box(Modifier.size(34.dp).background(MaterialTheme.colorScheme.surface.copy(alpha = 0.7f), CircleShape), contentAlignment = Alignment.Center) {
+                Icon(icon, null, Modifier.size(20.dp))
+            }
             Column {
                 Text(title, style = MaterialTheme.typography.titleMedium, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                Text(sub, style = MaterialTheme.typography.bodySmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(sub, style = MaterialTheme.typography.bodySmall, maxLines = 1, overflow = TextOverflow.Ellipsis, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
     }

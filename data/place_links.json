@@ -231,6 +231,36 @@
       "match": "好菌道",
       "type": "meal",
       "key": "好菌道"
+    },
+    {
+      "match": "목부",
+      "type": "place",
+      "key": "mufu"
+    },
+    {
+      "match": "인상리장",
+      "type": "place",
+      "key": "yulong_center"
+    },
+    {
+      "match": "文山荷鲜居",
+      "type": "meal",
+      "key": "文山荷鲜居"
+    },
+    {
+      "match": "福照楼",
+      "type": "meal",
+      "key": "福照楼"
+    },
+    {
+      "match": "云平风味园",
+      "type": "meal",
+      "key": "云平风味园"
+    },
+    {
+      "match": "菌故",
+      "type": "meal",
+      "key": "菌故"
     }
   ]
 }

@@ -1,5 +1,6 @@
 package kr.koasis.travelyunnan.ui.more
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -52,14 +53,25 @@ fun MoreScreen() {
     )
     Column(Modifier.fillMaxSize()) {
         AppTopBar("더보기")
-        LazyColumn {
+        LazyColumn(contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             items(items) { it ->
-                ListItem(
-                    headlineContent = { Text(it.title) },
-                    supportingContent = { Text(if (it.enabled) it.sub else "${it.sub} · 다음 업데이트") },
-                    leadingContent = { Icon(it.icon, null) },
-                    modifier = Modifier.alpha(if (it.enabled) 1f else 0.5f).clickable(enabled = it.enabled, onClick = it.onClick),
-                )
+                Card(
+                    Modifier.fillMaxWidth().alpha(if (it.enabled) 1f else 0.5f).clickable(enabled = it.enabled, onClick = it.onClick),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
+                ) {
+                    Row(Modifier.padding(horizontal = 14.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Box(Modifier.size(40.dp).background(MaterialTheme.colorScheme.primaryContainer, androidx.compose.foundation.shape.CircleShape), contentAlignment = Alignment.Center) {
+                            Icon(it.icon, null, tint = MaterialTheme.colorScheme.onPrimaryContainer)
+                        }
+                        Spacer(Modifier.width(14.dp))
+                        Column(Modifier.weight(1f)) {
+                            Text(it.title, style = MaterialTheme.typography.titleMedium)
+                            Text(if (it.enabled) it.sub else "${it.sub} · 다음 업데이트", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
+                        Icon(Icons.Filled.ChevronRight, null, tint = MaterialTheme.colorScheme.outline)
+                    }
+                }
             }
         }
     }
