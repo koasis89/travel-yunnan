@@ -25,6 +25,7 @@ fun NumberCardScreen(vm: AppViewModel) {
     NumberCardContent(onSpeak = { text -> vm.speak("num-${text.hashCode()}", text) })
 }
 
+@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
 fun NumberCardContent(onSpeak: (String) -> Boolean) {
     val actions = LocalActions.current
@@ -39,10 +40,10 @@ fun NumberCardContent(onSpeak: (String) -> Boolean) {
             Text("${reading}块", fontSize = 34.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.primary, textAlign = TextAlign.Center, lineHeight = 44.sp)
             Text(ChineseNumber.pinyinHint(n), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Spacer(Modifier.height(12.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 FilledTonalButton(onClick = { onSpeak("${reading}块") }) { Icon(Icons.AutoMirrored.Filled.VolumeUp, null); Spacer(Modifier.width(4.dp)); Text("읽기") }
-                FilledTonalButton(onClick = { onSpeak("太贵了，便宜一点吧。") }) { Text("太贵了 · 便宜一点") }
-                FilledTonalButton(onClick = { onSpeak("${reading}块，可以吗？") }) { Text("…块可以吗?") }
+                FilledTonalButton(onClick = { onSpeak("太贵了，便宜一点吧。") }) { Text("太贵了 · 便宜一点 (비싸요, 깎아 주세요)") }
+                FilledTonalButton(onClick = { onSpeak("${reading}块，可以吗？") }) { Text("${reading}块，可以吗? (…위안 괜찮아요?)") }
             }
         }
         // 키패드
