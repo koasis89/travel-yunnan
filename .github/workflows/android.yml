@@ -15,7 +15,7 @@ jobs:
       - run: pip install openpyxl pillow
       - name: 데이터 검증
         run: python3 tools/build_data.py && python3 tools/audit.py
-      - uses: android-actions/setup-android@v3
+      # GitHub ubuntu 러너에는 Android SDK(ANDROID_HOME)가 이미 있다. AGP 가 필요한 platform·build-tools 를 받는다
       - uses: gradle/actions/setup-gradle@v4
       - name: 단위·스크린샷 테스트
         run: cd android && ./gradlew --no-daemon testDebugUnitTest
