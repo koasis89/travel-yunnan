@@ -6,6 +6,7 @@
 - `docs/작업절차서.md` : 단계별 상세 작업절차서(S0~S7)와 진행 기록
 - `docs/test_result.md` : 테스트 결과서와 실기기 체크리스트
 - `docs/배포안내.md` : 서명·릴리스 빌드·설치·데이터 동결 절차
+- `docs/웹버전_구축절차서.md` : 무료 웹 호스팅(Cloudflare Pages + Access)으로 웹 버전을 만드는 절차
 - `tools/` : 엑셀·회화 텍스트 → JSON 변환, 검증 스크립트 (`python3 tools/build_data.py`)
 - `data/json/` : 앱이 읽는 데이터(자동 생성, 수정하지 않는다)
 - `android/` : Android Studio 프로젝트 (Kotlin, Jetpack Compose)
