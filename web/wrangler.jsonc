@@ -1,0 +1,12 @@
+// Cloudflare Workers(정적 자산 전용) 배포 설정. 빌드 결과 dist/ 를 그대로 올린다.
+// 빌드: npm run build (ALLOWED_EMAILS 빌드 변수 필요) → 배포: npx wrangler deploy
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "travel-yunnan",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application"
+  },
+  "observability": { "enabled": false }
+}

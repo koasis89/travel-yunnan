@@ -17,7 +17,20 @@ npm run build        # 암호화 → 타입 검사 → dist/ 생성
 엑셀 수정 → `python3 tools/build_data.py` → `python3 tools/export_web.py` → 커밋·푸시 → Cloudflare Pages 자동 배포.
 `web/data/` 는 직접 고치지 않는다.
 
-## Cloudflare Pages 설정
+## Cloudflare 설정 (Workers 정적 자산, `web/wrangler.jsonc`)
+
+| 항목 | 값 |
+|---|---|
+| 프로젝트 이름 | `travel-yunnan` |
+| 빌드 명령 | `npm run build` |
+| 배포 명령 | `npx wrangler deploy` |
+| 고급 설정 → 루트 디렉터리(경로) | `web` |
+| 빌드 변수 | `ALLOWED_EMAILS`(허용 이메일, 쉼표 구분), `NODE_VERSION`=`22` |
+| Cloudflare Access로 보호 | 끔(이메일 로그인 + 암호화 사용) |
+
+주소: `https://travel-yunnan.<계정 하위도메인>.workers.dev`
+
+## Cloudflare Pages 설정(대안)
 
 | 항목 | 값 |
 |---|---|
