@@ -133,7 +133,14 @@ def main(src, outdir):
         p = {"id": e["id"], "zh": zh, "pinyin": e.get("pinyin", ""), "categories": e.get("categories", []),
              "repeat": 1, "ko": e.get("ko", ""), "koRead": e.get("koRead", ""),
              "copyOnly": bool(e.get("copyOnly", False)), "source": e.get("source", "")}
-        phrases.append(p); by_zh[zh] = p
+        # "after": 특정 문장 바로 뒤에 배치(화면 순서). 없으면 맨 뒤
+        after = e.get("after")
+        idx = next((i for i, q in enumerate(phrases) if q["id"] == after), None) if after else None
+        if idx is None:
+            phrases.append(p)
+        else:
+            phrases.insert(idx + 1, p)
+        by_zh[zh] = p
 
     # 한국어 뜻·한글 발음 병합
     missing = []

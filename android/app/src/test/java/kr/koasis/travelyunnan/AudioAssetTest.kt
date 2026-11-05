@@ -21,7 +21,7 @@ class AudioAssetTest {
         val expected = data.phrases.filter { !it.copyOnly }.map { it.id } + data.words.map { it.id } + data.foodNames.map { it.id }
         val missing = expected.filter { "$it.mp3" !in files }
         assertTrue("음원 없음: $missing", missing.isEmpty())
-        assertEquals(215, expected.size)
+        assertEquals(216, expected.size)
         val size = ctx.assets.openFd("audio/phrases/ph-001.mp3").use { it.length }
         assertTrue(size > 5000)
     }

@@ -184,6 +184,19 @@
       "copyOnly": false
     },
     {
+      "id": "px-018",
+      "zh": "请给我您的微信号。",
+      "pinyin": "qǐng gěi wǒ nín de wēi xìn hào",
+      "categories": [
+        "car"
+      ],
+      "repeat": 1,
+      "ko": "위챗 연락처(아이디)를 주세요",
+      "koRead": "칭 게이 워 닌 더 웨이신하오",
+      "copyOnly": false,
+      "source": "사용자 요청(기사 전화번호 문장 아래 배치)"
+    },
+    {
       "id": "ph-011",
       "zh": "师傅 请开空调",
       "pinyin": "shī fù qǐng kāi kōng tiáo",

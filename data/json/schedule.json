@@ -527,14 +527,30 @@
       "duration": "약 25분",
       "tip": "체크인",
       "amapUrl": null,
-      "message": "안녕하세요 매니저님, 호도협 트레킹을 가려고 하는데 빵차(대절차) 예약을 부탁드려도 될까요? 동선은 다음과 같습니다.\n你好，我想预订去虎跳峡徒步的包车。行程路线如下(Nǐhǎo, wǒ xiǎng yùdìng qù Hǔtiàoxiá túbù de bāochē. Xíngchéng lùxiàn rúxià)：\n• 출발: 백사고진 리샤인빌라 (白沙古镇Báishā gǔzhèn Lishine Villa)\n• 경유 및 대기: 상호도협 매표소/관람 (上虎跳峡 景区 停留 1~1.5小时Shànghǔtiàoxiá jǐngqū tínglǐu yī dào yīdiǎnwǔ xiǎoshí)\n• 최종 목적지: 차마객잔 (茶马客栈Chámǎ kèzhàn)\n상호도협에서 1시간~1.5시간 정도 대기한 후, 저희를 태워서 차마객잔까지 올라가 주는 조건입니다. 차 1대당 요금이 얼마인가요?\n在上虎跳峡景区等我们1到1.5小时，然后再载我们上山到茶马客栈。请问这样包下一辆车的总费用是多少钱？Zài Shànghǔtiàoxiá jǐngqū děng wǒmen yī dào yīdiǎnwǔ xiǎoshí, ránhòu zài zài wǒmen shàngshān dào Chámǎ kèzhàn.Qǐngwèn zhèyàng bāoxià yīliàng chē de zǒngfèiyòng shì duōshǎo qián?\n그리고 저희 큰 짐(캐리어)은 차마객잔에서 중도객잔 근처의 '컴인(COME INN)' 숙소로 보낼 예정입니다.\n另外，我们的行李（行李箱）到达茶马客栈后，需要托运到中途客栈附近的“靠山十九度 (COME INN) 客栈”。Lìngwài, wǒmen de xínglǐ (xínglǐxiāng) dàodá Chámǎ kèzhàn hòu, xūyào tuōyùn dào Zhōngtú kèzhàn fùjìn de “Kàoshān shíjiǔ dù kèzhàn”.\n\n칭 씨에짜이 웨이신 샨(请写在微信上 - 위챗에 글로 적어주세요)"
+      "message": null
     },
     {
       "id": "D4-10",
       "dayId": "D4",
       "seq": 10,
-      "timeLabel": "17:30~",
+      "timeLabel": "17:30~17:40",
       "timeStart": "17:30",
+      "timeEnd": "17:40",
+      "from": "빌라 프런트",
+      "via": "-",
+      "to": "Rishine 빌라 프런트",
+      "transport": "-",
+      "duration": "약 10분",
+      "tip": "★내일(12/20) 09:00 상호도협 → 차마객잔 빵차(전용차) 예약 요청. 상호도협 1~1.5시간 대기, 큰 짐은 Come Inn 전달 조건. 위챗 장문을 보여주고 요금·차량번호·기사 위챗 받기",
+      "amapUrl": null,
+      "message": "안녕하세요 매니저님, 호도협 트레킹을 가려고 하는데 빵차(대절차) 예약을 부탁드려도 될까요? 동선은 다음과 같습니다.\n你好，我想预订去虎跳峡徒步的包车。行程路线如下(Nǐhǎo, wǒ xiǎng yùdìng qù Hǔtiàoxiá túbù de bāochē. Xíngchéng lùxiàn rúxià)：\n• 출발: 백사고진 리샤인빌라 (白沙古镇Báishā gǔzhèn Lishine Villa)\n• 경유 및 대기: 상호도협 매표소/관람 (上虎跳峡 景区 停留 1~1.5小时Shànghǔtiàoxiá jǐngqū tínglǐu yī dào yīdiǎnwǔ xiǎoshí)\n• 최종 목적지: 차마객잔 (茶马客栈Chámǎ kèzhàn)\n상호도협에서 1시간~1.5시간 정도 대기한 후, 저희를 태워서 차마객잔까지 올라가 주는 조건입니다. 차 1대당 요금이 얼마인가요?\n在上虎跳峡景区等我们1到1.5小时，然后再载我们上山到茶马客栈。请问这样包下一辆车的总费用是多少钱？Zài Shànghǔtiàoxiá jǐngqū děng wǒmen yī dào yīdiǎnwǔ xiǎoshí, ránhòu zài zài wǒmen shàngshān dào Chámǎ kèzhàn.Qǐngwèn zhèyàng bāoxià yīliàng chē de zǒngfèiyòng shì duōshǎo qián?\n그리고 저희 큰 짐(캐리어)은 차마객잔에서 중도객잔 근처의 '컴인(COME INN)' 숙소로 보낼 예정입니다.\n另外，我们的行李（行李箱）到达茶马客栈后，需要托运到中途客栈附近的“靠山十九度 (COME INN) 客栈”。Lìngwài, wǒmen de xínglǐ (xínglǐxiāng) dàodá Chámǎ kèzhàn hòu, xūyào tuōyùn dào Zhōngtú kèzhàn fùjìn de “Kàoshān shíjiǔ dù kèzhàn”.\n\n칭 씨에짜이 웨이신 샨(请写在微信上 - 위챗에 글로 적어주세요)"
+    },
+    {
+      "id": "D4-11",
+      "dayId": "D4",
+      "seq": 11,
+      "timeLabel": "17:40~",
+      "timeStart": "17:40",
       "timeEnd": null,
       "from": "빌라",
       "via": "-",
