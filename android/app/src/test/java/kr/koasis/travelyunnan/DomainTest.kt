@@ -62,11 +62,14 @@ class DomainTest {
         assertEquals("D8", DayResolver.focusDay(p, data.days).id)
     }
 
-    @Test fun nextMove_isTrainC118() {
+    @Test fun nextMove_isTrainC446() {
         val m = NextMoveFinder.find(at("2026-12-17T06:00"), data.days) { data.scheduleOf(it) }!!
         assertEquals("D2", m.day.id)
-        assertTrue(m.row.transport.contains("C118"))
-        assertEquals(147L, m.minutesLeft)
+        assertTrue(m.row.transport.contains("C446"))
+        assertEquals(149L, m.minutesLeft)
+        val d7 = NextMoveFinder.find(at("2026-12-22T05:00"), data.days) { data.scheduleOf(it) }!!
+        assertTrue(d7.row.transport.contains("C644"))
+        assertEquals("07:22", d7.row.timeStart)
     }
 
     @Test fun openEndedRow_lastsUntilNextRow() {
@@ -101,7 +104,7 @@ class DomainTest {
     }
 
     @Test fun phraseSuggestion() {
-        val station = data.scheduleOf("D2").first { it.transport.contains("C118") }
+        val station = data.scheduleOf("D2").first { it.transport.contains("C446") }
         assertEquals("station", PhraseSuggester.suggest(station))
     }
 

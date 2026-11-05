@@ -3,7 +3,7 @@
   "items": [
     {
       "category": "교통·투어·입장료",
-      "amountKrw": 1150936.5,
+      "amountKrw": 1180636.5,
       "isTotal": false
     },
     {
@@ -23,7 +23,7 @@
     },
     {
       "category": "합계",
-      "amountKrw": 2750170.5,
+      "amountKrw": 2779870.5,
       "isTotal": true
     }
   ]
