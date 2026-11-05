@@ -10,6 +10,7 @@
 - `tools/` : 엑셀·회화 텍스트 → JSON 변환, 검증 스크립트 (`python3 tools/build_data.py`)
 - `data/json/` : 앱이 읽는 데이터(자동 생성, 수정하지 않는다)
 - `android/` : Android Studio 프로젝트 (Kotlin, Jetpack Compose)
+- `web/` : 웹 버전(PWA, Vite + React). Cloudflare Pages 배포, 이메일 로그인 + 데이터 암호화
 - `data/source/` : 원본 일정 엑셀(여권정보 시트 제외), 중국어 회화·병음 텍스트
 - `assets/maps/` : 엑셀에서 추출한 일정별 지도 이미지 7장
 - `assets/audio/phrases/` : 회화 음성 mp3 157개(edge-tts, `python3 tools/gen_audio.py`)

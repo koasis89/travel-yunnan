@@ -1,0 +1,12 @@
+/*
+  X-Robots-Tag: noindex, nofollow
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: no-referrer
+  Permissions-Policy: geolocation=(), camera=(), microphone=()
+
+/data.enc
+  Cache-Control: no-cache
+
+/keys.json
+  Cache-Control: no-cache
