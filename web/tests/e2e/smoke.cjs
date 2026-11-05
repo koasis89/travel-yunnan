@@ -11,7 +11,7 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   const page = await ctx.newPage()
   const errors = []
   page.on('pageerror', (e) => errors.push(String(e)))
-  page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()) })
+  page.on('console', (m) => { if (m.type() === 'error' && !m.text().startsWith('Warning: Parameter not found')) errors.push(m.text()) }) // Tesseract 엔진 설정 경고는 무해
 
   await page.goto(base)
   await page.waitForSelector('#email')
@@ -72,6 +72,24 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   await page.goto(base + '#/packing'); await page.locator('.check input').first().check(); await page.reload()
   await page.waitForSelector('.check input')
   ok('체크 상태 새로고침 후 유지', await page.locator('.check input').first().isChecked())
+
+  // 영수증 인식 → 자동 채움 → 저장
+  const fx = require('path').join(__dirname, '..', 'fixtures')
+  await page.goto(base + '#/expense'); await page.waitForSelector('text=영수증으로 추가')
+  await page.setInputFiles('[data-testid=receipt-input]', `${fx}/wechat.jpg`)
+  const filled = await page.waitForFunction(() => document.querySelector('input[inputmode=decimal]')?.value === '128', null, { timeout: 90000 }).then(() => true).catch(() => false)
+  ok('영수증(위챗페이) 금액 자동 채움 128', filled)
+  ok('영수증 가게 이름 채움', (await page.inputValue('input[placeholder^="메모"]').catch(() => '')).includes('田村'))
+  await page.screenshot({ path: `${out}/w20_receipt_prefill.png` })
+  await page.click('button:has-text("저장")')
+  ok('영수증 지출 저장·표시', await page.waitForSelector('text=영수증 인식', { timeout: 5000 }).then(() => true).catch(() => false))
+  await page.screenshot({ path: `${out}/w21_expense_list.png` })
+  // 한 번 받은 인식 데이터로 오프라인 인식
+  await page.waitForTimeout(1500); await ctx.setOffline(true)
+  await page.setInputFiles('[data-testid=receipt-input]', `${fx}/didi.jpg`)
+  ok('오프라인 영수증 인식(디디 32.5)', await page.waitForFunction(() => document.querySelector('input[inputmode=decimal]')?.value === '32.5', null, { timeout: 60000 }).then(() => true).catch(() => false))
+  await ctx.setOffline(false)
+  await page.click('button:has-text("취소")').catch(() => {})
 
   // 오프라인: 서비스 워커 캐시로 다시 열기
   await page.goto(base); await page.waitForFunction(() => navigator.serviceWorker?.controller != null, null, { timeout: 15000 }).catch(() => {})

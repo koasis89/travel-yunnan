@@ -183,3 +183,42 @@ object TripDataHolder {
         TripData.fromJson { File(dir, it).readText() }
     }
 }
+
+/** 영수증 해석: 웹 tests/receipt.test.ts 와 같은 경우 */
+class ReceiptParserTest {
+    private val days = listOf(
+        kr.koasis.travelyunnan.data.json.Day(id = "D2", date = "2026-12-17"),
+        kr.koasis.travelyunnan.data.json.Day(id = "D4", date = "2026-12-19"),
+    )
+
+    @Test fun wechatPay() {
+        val r = ReceiptParser.parse("支付成功\n¥128.00\n收款方 田村酸汤牦牛肉火锅\n支付时间 2026年12月17日 14:32:05\n交易单号 4200001234567890", days)
+        assertEquals(128.0, r.amount!!, 0.001); assertTrue(r.merchant.contains("田村")); assertEquals("2026-12-17", r.date)
+        assertEquals("14:32", r.time); assertEquals("D2", r.dayId); assertEquals("식비", r.category)
+    }
+
+    @Test fun alipayNegative() {
+        val r = ReceiptParser.parse("交易成功\n-45.00\n商品说明 丁丁当当酸奶\n收款方全称 丽江古城丁丁当当\n创建时间 2026-12-19 09:41", days)
+        assertEquals(45.0, r.amount!!, 0.001); assertEquals("D4", r.dayId)
+    }
+
+    @Test fun paperReceipt() {
+        val r = ReceiptParser.parse("云雪丽现炒云南菜(大水车店)\n电话 0888-5123456\n松露粥 1 38.00\n炸茄盒 2 56.00\n小计 236.00\n优惠 -10.00\n实收 226.00\n2026/12/17 19:20", days)
+        assertEquals(226.0, r.amount!!, 0.001); assertTrue(r.merchant.contains("云雪丽")); assertEquals("19:20", r.time)
+    }
+
+    @Test fun ocrNoise() {
+        assertEquals("合计:128.00", ReceiptParser.normalize("合 计 ：１２８，００"))
+        assertEquals(128.0, ReceiptParser.parse("合 计 ：１２８，００").amount!!, 0.001)
+        assertEquals(32.5, ReceiptParser.parse("行程 费用\n半 32.50").amount!!, 0.001)
+    }
+
+    @Test fun didiAndMisc() {
+        val r = ReceiptParser.parse("滴滴出行\n行程费用\n¥ 32.50\n2026-12-17 12:58")
+        assertEquals(32.5, r.amount!!, 0.001); assertEquals("교통·투어·입장료", r.category)
+        assertEquals(88.0, ReceiptParser.parse("2026\n3\n合计 88.00").amount!!, 0.001)
+        assertNull(ReceiptParser.parse("谢谢光临\n欢迎再来").amount)
+        assertEquals("숙박", ReceiptParser.guessCategory("丽江沐蘭遇の汤宿 房费"))
+        assertEquals("쇼핑·기념품·예비비", ReceiptParser.guessCategory("鲜花饼 礼盒"))
+    }
+}

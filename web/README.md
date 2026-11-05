@@ -48,3 +48,7 @@ npm run build        # 암호화 → 타입 검사 → dist/ 생성
 npm run build && npx vite preview --port 4173 &
 node tests/e2e/smoke.cjs http://localhost:4173/ ../docs/screenshots/web   # Playwright 필요
 ```
+
+## 영수증 인식
+
+경비 화면에서 영수증·결제 화면 사진을 고르면 기기 안에서 인식(Tesseract.js, chi_sim)해 금액·상호·일차·분류를 채운다. 인식 파일은 빌드 전에 `scripts/copy-ocr.mjs` 가 `public/ocr` 로 복사하며(리포 제외), 첫 사용 때 약 6MB 를 내려받아 캐시한다. 실제 인식 점검: `node tests/ocr-real.mjs`.

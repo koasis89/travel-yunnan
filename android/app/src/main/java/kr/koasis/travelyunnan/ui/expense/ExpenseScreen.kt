@@ -1,6 +1,17 @@
 package kr.koasis.travelyunnan.ui.expense
 
 import android.content.Intent
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.asImageBitmap
+import kotlinx.coroutines.launch
+import kr.koasis.travelyunnan.domain.ReceiptGuess
+import kr.koasis.travelyunnan.domain.ReceiptParser
+import kr.koasis.travelyunnan.ocr.ReceiptOcr
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -64,7 +75,29 @@ fun ExpenseScreen(vm: AppViewModel, data: TripData) {
     val list by vm.expenses.collectAsStateWithLifecycle()
     val settings by vm.settings.collectAsStateWithLifecycle()
     val now by vm.now.collectAsStateWithLifecycle()
-    ExpenseContent(data, list, settings, now, vm::addExpense, vm::deleteExpense, vm::setCnyRate, vm::setCash)
+    val ctx = LocalContext.current
+    val scope = rememberCoroutineScope()
+    var reading by remember { mutableStateOf(false) }
+    var prefill by remember { mutableStateOf<Pair<ReceiptGuess, Uri>?>(null) }
+    val picker = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        if (uri == null) return@rememberLauncherForActivityResult
+        runCatching { ctx.contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION) }
+        reading = true
+        scope.launch {
+            val g = runCatching { ReceiptParser.parse(ReceiptOcr.read(ctx, uri), data.days) }.getOrNull()
+            reading = false
+            if (g == null) android.widget.Toast.makeText(ctx, "영수증을 읽지 못했다", android.widget.Toast.LENGTH_SHORT).show()
+            else {
+                prefill = g to uri
+                android.widget.Toast.makeText(ctx, if (g.amount != null) "¥${g.amount} 를 읽었다. 확인 후 저장한다" else "금액을 찾지 못했다. 직접 입력한다", android.widget.Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+    ExpenseContent(
+        data, list, settings, now, vm::addExpense, vm::deleteExpense, vm::setCnyRate, vm::setCash,
+        reading = reading, prefill = prefill, onClearPrefill = { prefill = null },
+        onReceipt = { picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) },
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -72,6 +105,7 @@ fun ExpenseScreen(vm: AppViewModel, data: TripData) {
 fun ExpenseContent(
     data: TripData, list: List<Expense>, settings: AppSettings, now: LocalDateTime,
     onAdd: (Expense) -> Unit, onDelete: (Expense) -> Unit, onRate: (Double?) -> Unit, onCash: (Double) -> Unit,
+    reading: Boolean = false, prefill: Pair<ReceiptGuess, Uri>? = null, onClearPrefill: () -> Unit = {}, onReceipt: () -> Unit = {},
 ) {
     val actions = LocalActions.current
     val ctx = LocalContext.current
@@ -119,9 +153,17 @@ fun ExpenseContent(
         }
     }
     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.BottomEnd) {
-        ExtendedFloatingActionButton(onClick = { showAdd = true }, modifier = Modifier.padding(20.dp), icon = { Icon(Icons.Filled.Add, null) }, text = { Text("지출 추가") })
+        Column(Modifier.padding(20.dp), horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            ExtendedFloatingActionButton(onClick = { if (!reading) onReceipt() }, containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                icon = { if (reading) CircularProgressIndicator(Modifier.size(20.dp), strokeWidth = 2.dp) else Icon(Icons.Filled.PhotoCamera, null) },
+                text = { Text(if (reading) "영수증 읽는 중…" else "영수증으로 추가") })
+            ExtendedFloatingActionButton(onClick = { showAdd = true }, icon = { Icon(Icons.Filled.Add, null) }, text = { Text("지출 추가") })
+        }
     }
     if (showAdd) AddExpenseSheet(todayId, data.days.map { it.id }, onDismiss = { showAdd = false }) { onAdd(it); showAdd = false }
+    prefill?.let { (g, uri) ->
+        AddExpenseSheet(g.dayId ?: todayId, data.days.map { it.id }, onDismiss = onClearPrefill, guess = g, photo = uri) { onAdd(it); onClearPrefill() }
+    }
     if (showSettings) RateSheet(rate, settings.cashCny, onDismiss = { showSettings = false }, onRate = onRate, onCash = onCash)
 }
 
@@ -139,24 +181,34 @@ private fun ExpenseRow(e: Expense, rate: Double, onDelete: () -> Unit) {
     val t = LocalDateTime.ofInstant(Instant.ofEpochMilli(e.at), ZoneId.of("Asia/Shanghai"))
     ListItem(
         headlineContent = { Text((if (e.currency == "CNY") "¥%,.0f".format(e.amount) else "%,.0f원".format(e.amount)) + "  " + e.memo, fontWeight = FontWeight.SemiBold) },
-        supportingContent = { Text("${e.dayId} ${t.format(DateTimeFormatter.ofPattern("M/d HH:mm"))} · ${e.category} · ${e.method} · ${e.payer}" + if (e.currency == "CNY") " · 약 %,d원".format(e.krw(rate).toLong()) else "") },
+        supportingContent = { Text("${e.dayId} ${t.format(DateTimeFormatter.ofPattern("M/d HH:mm"))} · ${e.category} · ${e.method} · ${e.payer}" + (if (e.currency == "CNY") " · 약 %,d원".format(e.krw(rate).toLong()) else "") + if (e.ocr) " · 영수증 인식" else "") },
         trailingContent = { IconButton(onClick = onDelete) { Icon(Icons.Filled.Delete, "삭제", tint = MaterialTheme.colorScheme.outline) } },
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class, androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
-private fun AddExpenseSheet(todayId: String, dayIds: List<String>, onDismiss: () -> Unit, onSave: (Expense) -> Unit) {
-    var amount by rememberSaveable { mutableStateOf("") }
+private fun AddExpenseSheet(todayId: String, dayIds: List<String>, onDismiss: () -> Unit, guess: ReceiptGuess? = null, photo: Uri? = null, onSave: (Expense) -> Unit) {
+    val ctx = LocalContext.current
+    var amount by rememberSaveable { mutableStateOf(guess?.amount?.let { if (it == Math.floor(it)) it.toLong().toString() else it.toString() } ?: "") }
     var currency by rememberSaveable { mutableStateOf("CNY") }
-    var category by rememberSaveable { mutableStateOf(CATEGORIES[2]) }
+    var category by rememberSaveable { mutableStateOf(guess?.category ?: CATEGORIES[2]) }
     var method by rememberSaveable { mutableStateOf(METHODS[0]) }
     var payer by rememberSaveable { mutableStateOf(PAYERS[0]) }
     var day by rememberSaveable { mutableStateOf(todayId) }
-    var memo by rememberSaveable { mutableStateOf("") }
+    var memo by rememberSaveable { mutableStateOf(guess?.merchant ?: "") }
+    val thumb = remember(photo) { photo?.let { u -> runCatching { ctx.contentResolver.openInputStream(u)?.use { android.graphics.BitmapFactory.decodeStream(it, null, android.graphics.BitmapFactory.Options().apply { inSampleSize = 8 })?.asImageBitmap() } }.getOrNull() } }
     ModalBottomSheet(onDismissRequest = onDismiss) {
         Column(Modifier.padding(horizontal = 20.dp).padding(bottom = 32.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            Text("지출 추가", style = MaterialTheme.typography.titleLarge)
+            Text(if (guess != null) "영수증으로 추가" else "지출 추가", style = MaterialTheme.typography.titleLarge)
+            if (guess != null) Row(verticalAlignment = Alignment.CenterVertically) {
+                thumb?.let { Image(it, "영수증", Modifier.size(64.dp).clip(RoundedCornerShape(12.dp)), contentScale = ContentScale.Crop); Spacer(Modifier.width(10.dp)) }
+                Column {
+                    Text("영수증에서 읽은 값", style = MaterialTheme.typography.titleMedium)
+                    Text((if (guess.source.isNotBlank()) "근거: ${guess.source}" else "금액 근거를 찾지 못했다") + (guess.date?.let { " · $it ${guess.time ?: ""}" } ?: ""),
+                        style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+            }
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedTextField(amount, { amount = it.filter { c -> c.isDigit() || c == '.' } }, label = { Text("금액") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal), modifier = Modifier.weight(1f), singleLine = true)
                 listOf("CNY", "KRW").forEach { c -> FilterChip(currency == c, onClick = { currency = c }, label = { Text(if (c == "CNY") "¥ 위안" else "₩ 원") }) }
@@ -170,7 +222,7 @@ private fun AddExpenseSheet(todayId: String, dayIds: List<String>, onDismiss: ()
             Text("일차", style = MaterialTheme.typography.labelLarge)
             FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) { dayIds.forEach { d -> FilterChip(day == d, onClick = { day = d }, label = { Text(d) }) } }
             Button(
-                onClick = { amount.toDoubleOrNull()?.let { onSave(Expense(dayId = day, amount = it, currency = currency, category = category, memo = memo.trim(), method = method, payer = payer)) } },
+                onClick = { amount.toDoubleOrNull()?.let { onSave(Expense(dayId = day, amount = it, currency = currency, category = category, memo = memo.trim(), method = method, payer = payer, photoUri = photo?.toString(), ocr = guess != null)) } },
                 enabled = amount.toDoubleOrNull() != null, modifier = Modifier.fillMaxWidth(),
             ) { Text("저장") }
         }

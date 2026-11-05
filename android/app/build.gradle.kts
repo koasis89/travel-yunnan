@@ -105,6 +105,8 @@ dependencies {
     implementation(libs.androidx.biometric)
     implementation(libs.glance.appwidget)
     implementation(libs.glance.material3)
+    implementation(libs.mlkit.text.chinese)
+    implementation(libs.kotlinx.coroutines.play.services)
 
     testImplementation(libs.junit)
     testImplementation(libs.robolectric)

@@ -28,6 +28,14 @@ export default defineConfig({
       workbox: {
         // 암호문 데이터·키·음식 사진까지 미리 캐시 → 오프라인에서도 로그인·열람
         globPatterns: ['**/*.{js,css,html,png,jpg,jpeg,svg,webmanifest,enc,json}'],
+        // 영수증 OCR 파일(약 6MB)은 미리 받지 않고, 처음 쓸 때 받아 캐시한다
+        globIgnores: ['ocr/**'],
+        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
+        runtimeCaching: [{
+          urlPattern: ({ url }) => url.pathname.includes('/ocr/'),
+          handler: 'CacheFirst',
+          options: { cacheName: 'ocr', expiration: { maxEntries: 12 } },
+        }],
         navigateFallback: 'index.html',
         cleanupOutdatedCaches: true,
       },

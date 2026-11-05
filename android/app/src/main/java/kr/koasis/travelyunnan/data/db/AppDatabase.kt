@@ -26,6 +26,9 @@ data class Expense(
     val method: String = "",
     val payer: String = "",
     val at: Long = System.currentTimeMillis(),
+    /** 영수증 사진 URI(사진 선택기 영구 권한), 영수증 인식으로 만든 항목 여부 */
+    val photoUri: String? = null,
+    val ocr: Boolean = false,
 )
 
 /** 사진 일기(S6-5): 일정 행에 붙인 사진 URI 와 메모 */
@@ -87,7 +90,7 @@ interface UserDao {
     suspend fun deleteExpense(e: Expense)
 }
 
-@Database(entities = [Flag::class, PhraseFav::class, PhraseRecent::class, Expense::class, DiaryEntry::class], version = 2, exportSchema = true)
+@Database(entities = [Flag::class, PhraseFav::class, PhraseRecent::class, Expense::class, DiaryEntry::class], version = 3, exportSchema = true)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
 
@@ -98,7 +101,14 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_2_3 = object : androidx.room.migration.Migration(2, 3) {
+            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE `expense` ADD COLUMN `photoUri` TEXT")
+                db.execSQL("ALTER TABLE `expense` ADD COLUMN `ocr` INTEGER NOT NULL DEFAULT 0")
+            }
+        }
+
         fun create(context: Context): AppDatabase =
-            Room.databaseBuilder(context, AppDatabase::class.java, "travel_yunnan.db").addMigrations(MIGRATION_1_2).build()
+            Room.databaseBuilder(context, AppDatabase::class.java, "travel_yunnan.db").addMigrations(MIGRATION_1_2, MIGRATION_2_3).build()
     }
 }

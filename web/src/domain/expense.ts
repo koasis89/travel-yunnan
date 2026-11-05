@@ -1,4 +1,4 @@
-export interface Expense { id: number; dayId: string; amount: number; currency: 'CNY' | 'KRW'; category: string; memo: string; method: string; payer: string; at: number }
+export interface Expense { id: number; dayId: string; amount: number; currency: 'CNY' | 'KRW'; category: string; memo: string; method: string; payer: string; at: number; photo?: string; ocr?: boolean }
 export const CATEGORIES = ['교통·투어·입장료', '숙박', '식비', '쇼핑·기념품·예비비']
 export const METHODS = ['위챗', '알리페이', '현금', '카드']
 export const PAYERS = ['공동', '아빠', '첫째', '둘째']
