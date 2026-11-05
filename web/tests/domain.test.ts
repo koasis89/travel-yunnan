@@ -87,10 +87,10 @@ describe('템플릿·숫자·경비·캘린더', () => {
     expect(csv.split('\n')).toHaveLength(2); expect(csv).toContain('20000'); expect(csv).toContain('"a,b"')
     expect(budgetKey('식비(맛집·식사 계획)')).toBe('식비')
   })
-  it('캘린더 파일 12건', () => {
+  it('캘린더 파일 13건', () => {
     const ics = buildIcs(data.notifications)
     expect(ics.match(/BEGIN:VEVENT/g)).toHaveLength(data.notifications.length)
-    expect(data.notifications.length).toBe(12)
+    expect(data.notifications.length).toBe(13)
     expect(ics).toContain('DTSTART;TZID=Asia/Shanghai:20261217T063000')
   })
 })

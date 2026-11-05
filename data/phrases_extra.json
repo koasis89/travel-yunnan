@@ -777,6 +777,18 @@
       ],
       "after": "ph-010",
       "source": "사용자 요청(기사 전화번호 문장 아래 배치)"
+    },
+    {
+      "id": "px-019",
+      "zh": "我们12月19日上午11点半退房，到时候请帮我们把行李搬到可以停车的地方，可以吗？",
+      "pinyin": "wǒ men shí èr yuè shí jiǔ hào shàng wǔ shí yī diǎn bàn tuì fáng, dào shí hou qǐng bāng wǒ men bǎ xíng li bān dào kě yǐ tíng chē de dì fang, kě yǐ ma",
+      "ko": "12월 19일 오전 11시 반에 체크아웃해요. 그때 짐을 차가 설 수 있는 곳까지 옮겨 주실 수 있나요?",
+      "koRead": "워먼 스얼위에 스지우하오 샹우 스이디엔 빤 투이팡, 따오스허우 칭 빵 워먼 바 싱리 빤따오 커이 팅처 더 띠팡, 커이 마?",
+      "categories": [
+        "hotel"
+      ],
+      "after": "px-006",
+      "source": "물라뉴 탕수 호텔: 체크인 때 체크아웃 짐 운반 미리 요청"
     }
   ]
 }

@@ -66,7 +66,7 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   await page.goto(base + '#/transport')
   const [dl] = await Promise.all([page.waitForEvent('download'), page.click('text=캘린더 파일 받기')])
   const ics = require('fs').readFileSync(await dl.path(), 'utf8')
-  ok('캘린더 파일 12건', (ics.match(/BEGIN:VEVENT/g) || []).length === 12)
+  ok('캘린더 파일 13건', (ics.match(/BEGIN:VEVENT/g) || []).length === 13)
 
   // 체크 저장 유지
   await page.goto(base + '#/packing'); await page.locator('.check input').first().check(); await page.reload()
