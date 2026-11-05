@@ -35,9 +35,9 @@ DAY_WEATHER = {
 }
 # 일차 → 지도 id (data/maps.json 과 일치)
 DAY_MAPS = {
-    "D1": ["map04"], "D2": ["map02", "map06"], "D3": ["map02", "map06", "ref_cablecar"],
-    "D4": ["map02", "map06"], "D5": ["map05"], "D6": ["map05", "map03"],
-    "D7": ["map03", "map04"], "D8": ["map04"],
+    "D1": ["map_d1"], "D2": ["map_d2", "map06"], "D3": ["map_d3", "map06"],
+    "D4": ["map_d4", "map06"], "D5": ["map05"], "D6": ["map03", "map05"],
+    "D7": ["map03", "map_d7"], "D8": ["map_d8"],
 }
 
 CJK = r"一-鿿"

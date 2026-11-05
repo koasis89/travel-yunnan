@@ -3,6 +3,7 @@ package kr.koasis.travelyunnan.ui.map
 import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.detectTransformGestures
@@ -59,9 +60,9 @@ import kr.koasis.travelyunnan.ui.nav.LocalActions
 import kr.koasis.travelyunnan.util.External
 import java.time.LocalDateTime
 
-private val imageCache = android.util.LruCache<String, ImageBitmap>(8)
+private val imageCache = android.util.LruCache<String, ImageBitmap>(12)
 
-/** assets/images/{file} 을 읽는다. 지도 이미지는 1MB 미만이라 동기 디코딩으로 충분하며, 8장을 캐시한다. */
+/** assets/images/{file} 을 읽는다. 지도 이미지는 1MB 미만이라 동기 디코딩으로 충분하며, 12장을 캐시한다. */
 @Composable
 fun rememberAssetImage(file: String): ImageBitmap? {
     val ctx = LocalContext.current
@@ -109,6 +110,7 @@ private fun MapPage(data: TripData, map: MapItem, day: String?, flags: Set<Strin
     val ctx = LocalContext.current
     val img = rememberAssetImage(map.file)
     var selected by remember { mutableStateOf<Hotspot?>(null) }
+    var pinKind by rememberSaveable(map.id) { mutableStateOf("전체") }
     selected?.let { h -> HotspotSheet(data, h, day) { selected = null } }
     val amapLinks = remember(day) {
         if (day == null) emptyList() else
@@ -155,14 +157,34 @@ private fun MapPage(data: TripData, map: MapItem, day: String?, flags: Set<Strin
             }
         }
         if (map.pins.isNotEmpty()) {
-            item { SectionTitle("번호별 식당 (남문 기준 거리)") }
-            items(map.pins, key = { it.no }) { pin ->
+            item {
+                SectionTitle("번호별 식당 (남문 / 호텔 기준 거리)")
+                FlowRow(Modifier.padding(horizontal = 12.dp), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                    (listOf("전체") + map.pins.map { it.kind }.distinct()).forEach { k ->
+                        FilterChip(pinKind == k, onClick = { pinKind = k }, label = { Text(k) })
+                    }
+                }
+            }
+            val shown = map.pins.filter { pinKind == "전체" || it.kind == pinKind }
+            items(shown, key = { it.no }) { pin ->
                 val opt = remember(pin) { data.findMealOption(pin.nameZh)?.second }
+                val spot = remember(pin) { data.hotspotsOf(map.id).firstOrNull { h -> h.label.endsWith(pin.nameKo) } }
+                val badge = remember(pin) { runCatching { Color(android.graphics.Color.parseColor(pin.color)) }.getOrDefault(Color(0xFF6E6A64)) }
                 ListItem(
-                    headlineContent = { Text("${pin.no}. ${pin.nameKo}") },
-                    supportingContent = { Text("${pin.kind} · ${pin.nameZh} · ${pin.distance}") },
+                    leadingContent = {
+                        Box(Modifier.size(30.dp).background(badge, androidx.compose.foundation.shape.CircleShape), contentAlignment = Alignment.Center) {
+                            Text("${pin.no}", color = Color.White, fontWeight = FontWeight.Bold)
+                        }
+                    },
+                    headlineContent = { Text(pin.nameKo) },
+                    supportingContent = {
+                        Text(listOf(pin.kind, pin.nameZh, "남문 ${pin.distance.removePrefix("약 ")}", pin.hotelDistance.takeIf { it.isNotBlank() }?.let { "호텔 ${it.removePrefix("약 ")}" })
+                            .filterNotNull().joinToString(" · "))
+                    },
                     trailingContent = { if (opt != null) Icon(Icons.Filled.LocalTaxi, "택시 카드", tint = MaterialTheme.colorScheme.primary) },
-                    modifier = Modifier.clickable(enabled = opt != null) { opt?.let { actions.openTaxi(TargetType.meal, it.id) } },
+                    modifier = Modifier.clickable(enabled = spot != null || opt != null) {
+                        if (spot != null) selected = spot else opt?.let { actions.openTaxi(TargetType.meal, it.id) }
+                    },
                 )
             }
         }
@@ -253,20 +275,19 @@ fun MapViewScreen(data: TripData, id: String) {
 }
 
 
-/** 지도 위 마커: 숙소 빨강, 식당 주황, 장소 청록, 기타 회색. 부모 Box 의 좌상단 기준 픽셀 위치에 놓는다. */
+/** 지도 위 누르는 자리: 그림에 이미 점·번호가 그려져 있으므로 가리지 않게 색 테두리 고리만 그린다.
+ *  숙소 빨강, 식당 주황, 장소 청록, 기타 회색. 부모 Box 의 좌상단 기준 픽셀 위치에 놓는다. */
 @Composable
 private fun BoxScope.HotspotMarker(h: Hotspot, cx: Int, cy: Int, small: Boolean = false, onClick: () -> Unit) {
     val color = when (h.type) { "lodging" -> Color(0xFFB4442E); "meal" -> Color(0xFFE09A2B); "place" -> Color(0xFF1F6F6B); else -> Color(0xFF6E6A64) }
-    val d = if (small) 14.dp else 16.dp
+    val d = if (small) 22.dp else 26.dp
     val half = with(LocalDensity.current) { (d / 2).roundToPx() }
     Box(
         Modifier.align(Alignment.TopStart).offset { IntOffset(cx - half, cy - half) }
-            .size(d).background(color.copy(alpha = 0.92f), androidx.compose.foundation.shape.CircleShape)
+            .size(d).border(2.dp, color.copy(alpha = 0.75f), androidx.compose.foundation.shape.CircleShape)
+            .clip(androidx.compose.foundation.shape.CircleShape)
             .clickable(onClick = onClick),
-        contentAlignment = Alignment.Center,
-    ) {
-        Box(Modifier.size(if (small) 5.dp else 6.dp).background(Color.White, androidx.compose.foundation.shape.CircleShape))
-    }
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class, androidx.compose.foundation.layout.ExperimentalLayoutApi::class)

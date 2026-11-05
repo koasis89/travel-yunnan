@@ -240,7 +240,7 @@
     {
       "match": "인상리장",
       "type": "place",
-      "key": "yulong_center"
+      "key": "impression"
     },
     {
       "match": "文山荷鲜居",
@@ -261,6 +261,21 @@
       "match": "菌故",
       "type": "meal",
       "key": "菌故"
+    },
+    {
+      "match": "Sifang Street",
+      "type": "place",
+      "key": "sifang"
+    },
+    {
+      "match": "대索道",
+      "type": "place",
+      "key": "yulong_cableway"
+    },
+    {
+      "match": "甘海子",
+      "type": "place",
+      "key": "ganhaizi"
     }
   ]
 }

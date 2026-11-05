@@ -38,7 +38,7 @@ class DomainTest {
     @Test fun d3_dawn_tourPickup() {
         val s = nowState("2026-12-18T05:50")
         assertEquals("D3", (phase("2026-12-18T05:50") as TripPhase.OnTrip).day.id)
-        assertEquals("05:45", s.current?.timeStart)
+        assertEquals("05:00", s.current?.timeStart)
         assertTrue(s.next!!.transport.contains("투어 차량"))
     }
 
@@ -120,7 +120,7 @@ class DomainTest {
         val csv = kr.koasis.travelyunnan.ui.expense.expensesCsv(list, 200.0)
         assertTrue(csv.lines().size == 2 && csv.contains("20000") && csv.contains("\"a,b\""))
         assertEquals("식비", kr.koasis.travelyunnan.ui.expense.budgetKey("식비(맛집·식사 계획)"))
-        assertEquals(13, data.notifications.size)
+        assertEquals(14, data.notifications.size)
         assertTrue(data.notifications.all { kr.koasis.travelyunnan.notify.TripNotifier.epochMillis(it.at) > 0 })
     }
 
@@ -147,7 +147,7 @@ class S6Test {
         assertTrue(zh.startsWith("你好，我想预订12月21日上午10点，从靠山十九度到"))
         assertTrue(Templates.delivery.render(mapOf("room" to "305")).contains("房间号305"))
         assertFalse(Templates.delivery.render(emptyMap()).contains("房间号"))
-        assertEquals(4, Templates.all.size)
+        assertEquals(5, Templates.all.size)
     }
 
     @Test fun templateLinksAttachToRows() {
@@ -159,6 +159,21 @@ class S6Test {
         assertTrue(Templates.shangrila.render(sh.values).contains("上午10点半"))
         val d1 = d.scheduleOf("D1").first { it.timeStart == "23:40" }
         assertEquals(setOf("tpl-pickup", "tpl-delivery"), d.templatesFor(d1).map { it.templateId }.toSet())
+        val d3 = d.scheduleOf("D3").first { it.timeStart == "05:00" }
+        val g = d.templatesFor(d3).single()
+        assertEquals("tpl-guide", g.templateId)
+        assertTrue(Templates.all.first { it.id == "tpl-guide" }.render(emptyMap()).contains("四方街"))
+    }
+
+    @Test fun mapsOnePerDay() {
+        val d = TripDataHolder.data
+        assertEquals(listOf("map_d3", "map06"), d.day("D3")!!.mapIds)
+        assertEquals(listOf("map_d8"), d.day("D8")!!.mapIds)
+        assertTrue(d.maps.none { it.id == "map02" || it.id == "map04" || it.id == "ref_cablecar" })
+        val pins = d.map("map06")!!.pins
+        assertEquals(15, pins.size)
+        assertTrue(pins.all { it.hotelDistance.isNotBlank() && it.color.startsWith("#") })
+        assertTrue(d.hotspotsOf("map_d3").any { it.key == "sifang" })
     }
 
     @Test fun hotspotsResolve() {
@@ -168,7 +183,7 @@ class S6Test {
         val info = HotspotResolver.resolve(d, come)
         assertEquals("comeinn", info.lodging?.id)
         assertTrue(info.rows.any { it.second.dayId == "D5" })
-        val tian = HotspotResolver.resolve(d, d.hotspots.first { it.id == "map06-15" })
+        val tian = HotspotResolver.resolve(d, d.hotspots.first { it.id == "map06-17" })
         assertTrue(tian.meals.any { it.second.name.contains("田村") })
         assertEquals(TargetType.meal, tian.taxi?.first)
         val station = HotspotResolver.resolve(d, d.hotspots.first { it.id == "map03-04" }, "D7")

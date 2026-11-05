@@ -47,7 +47,9 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
     ['#/emergency', 'w13_emergency', 'text=영사안전콜센터'],
     ['#/templates?link=tl-06', 'w14_template_d5', 'text=上午10点半'],
     ['#/number', 'w15_number', 'text=一百五十块'],
-    ['#/more', 'w16_more', 'text=로그아웃'],
+    ['#/more', 'w16_more', 'text=문서함'],
+    ['#/schedule?day=D3', 'w22_schedule_d3', 'text=위챗: 투어 가이드에게 픽업 시각·장소 문의(12/15까지)'],
+    ['#/templates?link=tl-08', 'w23_template_guide', 'text=在四方街哪里集合'],
     ['#/show/msg-001', 'w17_show_msg', 'text=매니저에게 보여주세요'],
   ]
   for (const [hash, name, sel] of shots) {
@@ -66,7 +68,7 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   await page.goto(base + '#/transport')
   const [dl] = await Promise.all([page.waitForEvent('download'), page.click('text=캘린더 파일 받기')])
   const ics = require('fs').readFileSync(await dl.path(), 'utf8')
-  ok('캘린더 파일 13건', (ics.match(/BEGIN:VEVENT/g) || []).length === 13)
+  ok('캘린더 파일 14건', (ics.match(/BEGIN:VEVENT/g) || []).length === 14)
 
   // 체크 저장 유지
   await page.goto(base + '#/packing'); await page.locator('.check input').first().check(); await page.reload()
@@ -91,6 +93,46 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   await ctx.setOffline(false)
   await page.click('button:has-text("취소")').catch(() => {})
 
+  // 경비: 원화를 위안으로 잘못 넣은 기록 → 경고·원화로 고치기·수정·삭제 후 총액 즉시 반영
+  page.on('dialog', (d) => d.accept())
+  const total = async () => (await page.textContent('.card.mint .bold')).replace(/[^\d]/g, '')
+  const before = Number(await total())
+  await page.click('button:has-text("지출 추가")'); await page.fill('input[placeholder="금액"]', '55000'); await page.click('button:has-text("저장")')
+  ok('잘못 고른 통화 경고', await page.waitForSelector('[data-testid=fix-all-krw]', { timeout: 3000 }).then(() => true).catch(() => false))
+  const wrong = Number(await total())
+  await page.click('button:has-text("원화로 고치기 (55,000원)")')
+  ok('원화로 고치기 → 총액 즉시 반영', Number(await total()) === before + 55000 && wrong > before + 10000000, `${before}→${wrong}→${await total()}`)
+  await page.locator('button[aria-label=고치기]').first().click(); await page.fill('input[placeholder="금액"]', '60000'); await page.click('button:has-text("저장")')
+  ok('지출 수정 → 총액 반영', Number(await total()) === before + 60000)
+  await page.locator('button[aria-label=삭제]').first().click()
+  ok('지출 삭제 → 총액 즉시 반영', Number(await total()) === before)
+  await page.reload(); await page.waitForSelector('.card.mint')
+  ok('삭제 새로고침 후 유지', Number(await total()) === before)
+
+  // 문서함: PDF 바우처 → 쪽 그림 펼침·분류/일차 추정, 기차표 사진, 거르기, 일정 화면 바로가기
+  await page.goto(base + '#/docs'); await page.waitForSelector('text=아직 문서가 없다')
+  await page.setInputFiles('[data-testid=doc-input]', `${fx}/sample_voucher_1218.pdf`)
+  ok('PDF 추가 → 정보 편집 화면', await page.waitForSelector('[data-testid=doc-title]', { timeout: 30000 }).then(() => true).catch(() => false))
+  ok('PDF 2쪽을 그림으로 펼침', await page.waitForFunction(() => document.querySelectorAll('[data-testid=doc-pages] img').length === 2, null, { timeout: 15000 }).then(() => true).catch(() => false))
+  ok('PDF 분류·일차 추정(바우처·D3)', await page.isVisible('.card .chip.on:has-text("바우처")') && await page.isVisible('.card .chip.on:has-text("D3")'))
+  await page.fill('[data-testid=doc-title]', '옥룡설산 투어 바우처'); await page.click('button:has-text("저장")')
+  await page.screenshot({ path: `${out}/w24_doc_view.png` })
+  await page.goto(base + '#/docs')
+  await page.setInputFiles('[data-testid=doc-input]', `${fx}/C446_ticket_sample.png`)
+  await page.waitForSelector('[data-testid=doc-title]', { timeout: 15000 })
+  ok('사진 분류·일차 추정(기차표·D2)', await page.isVisible('.card .chip.on:has-text("기차표")') && await page.isVisible('.card .chip.on:has-text("D2")'))
+  await page.click('button:has-text("저장")')
+  await page.goto(base + '#/docs'); await page.waitForSelector('[data-testid=doc-row]')
+  ok('문서함 목록 2건', (await page.locator('[data-testid=doc-row]').count()) === 2)
+  await page.click('.chip:has-text("기차표")')
+  ok('분류 거르기(기차표 1건)', (await page.locator('[data-testid=doc-row]').count()) === 1)
+  await page.screenshot({ path: `${out}/w25_docs_list.png` })
+  await page.goto(base + '#/schedule?day=D3')
+  ok('일정 D3 문서 바로가기', await page.waitForSelector('[data-testid=day-docs]:has-text("D3 문서 1건")', { timeout: 5000 }).then(() => true).catch(() => false))
+  await page.reload(); await page.goto(base + '#/docs')
+  ok('새로고침 후 문서 유지', await page.waitForSelector('[data-testid=doc-row]', { timeout: 5000 }).then(async () => (await page.locator('[data-testid=doc-row]').count()) === 2).catch(() => false))
+  const docHref = await page.locator('[data-testid=doc-row]:has-text("옥룡설산")').getAttribute('href')
+
   // 오프라인: 서비스 워커 캐시로 다시 열기
   await page.goto(base); await page.waitForFunction(() => navigator.serviceWorker?.controller != null, null, { timeout: 15000 }).catch(() => {})
   await page.waitForTimeout(1500)
@@ -98,6 +140,8 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   await page.reload(); 
   ok('오프라인 재실행 후 열림', await page.waitForSelector('text=바로가기', { timeout: 15000 }).then(() => true).catch(() => false))
   await page.screenshot({ path: `${out}/w18_offline_home.png` })
+  await page.goto(base + docHref)
+  ok('오프라인 문서 열람(바우처 2쪽)', await page.waitForFunction(() => document.querySelectorAll('[data-testid=doc-pages] img').length === 2, null, { timeout: 10000 }).then(() => true).catch(() => false))
   await ctx.setOffline(false)
 
   // 다크 모드

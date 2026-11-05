@@ -21,7 +21,7 @@ describe('일차·현재 일정 (앱 DomainTest 와 동일)', () => {
     expect(focusDay(p, data.days).id).toBe('D1')
   })
   it('D1 22:30 공항 도착', () => { const s = nowAt('2026-12-16T22:30'); expect(s.current?.id).toBe('D1-01'); expect(s.next?.id).toBe('D1-02') })
-  it('D3 05:50 투어 픽업', () => { const s = nowAt('2026-12-18T05:50'); expect(s.current?.timeStart).toBe('05:45'); expect(s.next?.transport).toContain('투어 차량') })
+  it('D3 05:50 투어 픽업', () => { const s = nowAt('2026-12-18T05:50'); expect(s.current?.timeStart).toBe('05:00'); expect(s.next?.transport).toContain('투어 차량') })
   it('D5 12:30 트레킹', () => { const s = nowAt('2026-12-20T12:30'); expect(s.current?.from).toBe('차마객잔'); expect(s.current?.to).toContain('중도객잔') })
   it('D8 19:45 공항 이동', () => {
     expect(nowAt('2026-12-23T19:45').current?.timeStart).toBe('19:30')
@@ -87,10 +87,20 @@ describe('템플릿·숫자·경비·캘린더', () => {
     expect(csv.split('\n')).toHaveLength(2); expect(csv).toContain('20000'); expect(csv).toContain('"a,b"')
     expect(budgetKey('식비(맛집·식사 계획)')).toBe('식비')
   })
-  it('캘린더 파일 13건', () => {
+  it('캘린더 파일 14건(투어 가이드 연락 포함)', () => {
     const ics = buildIcs(data.notifications)
     expect(ics.match(/BEGIN:VEVENT/g)).toHaveLength(data.notifications.length)
-    expect(data.notifications.length).toBe(13)
+    expect(data.notifications.length).toBe(14)
     expect(ics).toContain('DTSTART;TZID=Asia/Shanghai:20261217T063000')
+  })
+})
+
+import { looksLikeKrw } from '../src/domain/expense'
+describe('경비: 원화를 위안으로 잘못 고른 기록', () => {
+  const e = (amount: number, currency: 'CNY' | 'KRW') => ({ id: 1, dayId: 'D1', amount, currency, category: '식비', memo: '', method: '현금', payer: '공동', at: 0 })
+  it('¥5,000 이상만 의심', () => {
+    expect(looksLikeKrw(e(55000, 'CNY'))).toBe(true)
+    expect(looksLikeKrw(e(4999, 'CNY'))).toBe(false)
+    expect(looksLikeKrw(e(55000, 'KRW'))).toBe(false)
   })
 })

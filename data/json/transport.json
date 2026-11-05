@@ -15,13 +15,13 @@
     {
       "id": "tr-02",
       "group": "Klook",
-      "title": "옥룡설산·블루문밸리 투어",
-      "unit": "인",
-      "unitPrice": 52.79,
-      "currency": "USD",
-      "qty": 3,
-      "note": "~부터 가격, 대형 케이블카 포함 옵션 확인",
-      "totalKrw": 229636.5
+      "title": "옥룡설산·람월곡 종일 투어(대索道·인상리장 포함)",
+      "unit": "건",
+      "unitPrice": 353600,
+      "currency": "KRW",
+      "qty": 1,
+      "note": "예약 확정(12/18, 성인 3, 영어 가이드). 사방가 픽업 05:00~07:00",
+      "totalKrw": 353600
     },
     {
       "id": "tr-03",
@@ -169,13 +169,13 @@
     {
       "id": "tr-16",
       "group": "기타",
-      "title": "케이블카 추가분·예비비",
+      "title": "케이블카 대기·방한복 대여·예비비",
       "unit": "인",
-      "unitPrice": 150,
+      "unitPrice": 100,
       "currency": "CNY",
       "qty": 3,
       "note": "",
-      "totalKrw": 90000
+      "totalKrw": 60000
     }
   ],
   "notes": [

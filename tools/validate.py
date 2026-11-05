@@ -13,7 +13,7 @@ REPO = Path(__file__).resolve().parent.parent
 EXPECT_MIN = {
     "days.json": 8, "schedule.json": 60, "lodgings.json": 6, "meals.json": 25, "foods.json": 30,
     "phrases.json": 57, "words.json": 52, "foodNames.json": 39, "packing.json": 40, "notes.json": 15,
-    "transport.json": 10, "budget.json": 5, "weather.json": 6, "maps.json": 7, "places.json": 10,
+    "transport.json": 10, "budget.json": 5, "weather.json": 6, "maps.json": 10, "places.json": 10,
     "place_links.json": 20, "notifications.json": 13, "lodging_todos.json": 10, "map_hotspots.json": 50,
 }
 
@@ -119,7 +119,7 @@ def main(d):
     for x in data.get("template_links.json", {}).get("items", []):
         if (x["dayId"], x["timeStart"]) not in sched_keys:
             errors.append(f"template_links {x['id']}: 일정 행 없음 {x['dayId']} {x['timeStart']}")
-        if x["templateId"] not in {"tpl-tiger", "tpl-shangrila", "tpl-delivery", "tpl-pickup"}:
+        if x["templateId"] not in {"tpl-tiger", "tpl-shangrila", "tpl-delivery", "tpl-pickup", "tpl-guide"}:
             errors.append(f"template_links {x['id']}: 템플릿 {x['templateId']} 없음")
     for x in items("place_links.json"):
         t, k = x["type"], x["key"]

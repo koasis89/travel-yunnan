@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Bus, Car, CarTaxiFront, CheckCircle2, Clock, Footprints, MapPin, MessageSquareText, Mountain, PenLine, TrainFront } from 'lucide-react'
 import { DayChips, TopBar } from '../components/ui'
+import { DayDocsLink } from './Docs'
 import { useData, useNow } from '../store/data'
 import { useStored } from '../store/local'
 import { findNow, resolvePhase } from '../domain/tripTime'
@@ -40,6 +41,7 @@ export function Schedule() {
         <div className="small muted">숙박: {day.lodgingLabel || '-'}</div>
         <div className="tiny faint">길게 누르면 완료 표시</div>
       </div>
+      <div style={{ padding: '0 16px 10px' }}><DayDocsLink dayId={day.id} /></div>
       <div className="stack" style={{ padding: '0 16px 0 10px', gap: 8 }}>
         {rows.map((r) => (
           <div key={r.id} ref={r.id === current?.id ? curRef : undefined}>

@@ -154,7 +154,13 @@ data class MapItem(
 )
 
 @Serializable
-data class MapPin(val no: Int, val nameKo: String = "", val nameZh: String = "", val distance: String = "", val kind: String = "")
+data class MapPin(
+    val no: Int, val nameKo: String = "", val nameZh: String = "", val distance: String = "", val kind: String = "",
+    /** 물라뉴 호텔 기준 직선 거리(개략) */
+    val hotelDistance: String = "",
+    /** 지도 번호 색(#RRGGBB, 분류별) */
+    val color: String = "",
+)
 
 @Serializable
 data class Place(

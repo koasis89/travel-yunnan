@@ -4,7 +4,7 @@ import { BedDouble, CalendarDays, House, Menu as MenuIcon } from 'lucide-react'
 import { TripData } from './domain/types'
 import { DataProvider, useSettings } from './store/data'
 import { logout, savedEmail, unlock } from './store/vault'
-import { BrandHeader, ToastHost } from './components/ui'
+import { BrandHeader, ToastHost, toast } from './components/ui'
 import { Login } from './pages/Login'
 import { Home } from './pages/Home'
 import { Schedule } from './pages/Schedule'
@@ -15,6 +15,7 @@ import { Expense } from './pages/Expense'
 import { Emergency, Notes, Packing } from './pages/Info'
 import { NumberCard, Templates } from './pages/Tools'
 import { More, Settings } from './pages/More'
+import { DocView, Docs } from './pages/Docs'
 
 const TABS = [
   { to: '/', label: '오늘', icon: House, end: true },
@@ -46,6 +47,11 @@ function ScrollTop() {
 function BigFont() {
   const [s] = useSettings()
   useEffect(() => { document.documentElement.classList.toggle('big', s.bigFont) }, [s.bigFont])
+  // 저장 공간이 꽉 차 기기에 저장하지 못하면 알린다(이번 실행 동안은 메모리에 남는다)
+  useEffect(() => {
+    const f = () => toast('기기 저장 공간이 부족해 변경을 저장하지 못했다. 문서함의 큰 파일을 지우고 다시 시도한다')
+    window.addEventListener('yn-storage-fail', f); return () => window.removeEventListener('yn-storage-fail', f)
+  }, [])
   return null
 }
 
@@ -78,6 +84,8 @@ export default function App() {
             <Route path="/show/:id" element={<ShowPhrase />} />
             <Route path="/transport" element={<Transport />} />
             <Route path="/expense" element={<Expense />} />
+            <Route path="/docs" element={<Docs />} />
+            <Route path="/docs/:id" element={<DocView />} />
             <Route path="/packing" element={<Packing />} />
             <Route path="/notes" element={<Notes />} />
             <Route path="/emergency" element={<Emergency />} />

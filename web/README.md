@@ -52,3 +52,9 @@ node tests/e2e/smoke.cjs http://localhost:4173/ ../docs/screenshots/web   # Play
 ## 영수증 인식
 
 경비 화면에서 영수증·결제 화면 사진을 고르면 기기 안에서 인식(Tesseract.js, chi_sim)해 금액·상호·일차·분류를 채운다. 인식 파일은 빌드 전에 `scripts/copy-ocr.mjs` 가 `public/ocr` 로 복사하며(리포 제외), 첫 사용 때 약 6MB 를 내려받아 캐시한다. 실제 인식 점검: `node tests/ocr-real.mjs`.
+
+## 문서함
+
+- 더보기 → 문서함(`#/docs`). 사진·캡처·PDF 를 넣으면 이 기기의 IndexedDB 에만 저장한다(서버 전송 없음).
+- PDF 는 넣을 때 쪽마다 그림으로 펼쳐 둔다(pdf.js, 최대 12쪽). 그래서 휴대폰·오프라인에서도 바로 보인다. pdf.js 워커는 처음 쓸 때 받아 캐시한다.
+- 분류·일차 추정 규칙은 `src/domain/docs.ts`, 테스트는 `tests/docs.test.ts`, 브라우저 점검 픽스처는 `tests/fixtures/sample_voucher_1218.pdf`·`C446_ticket_sample.png`(테스트용 가짜 문서)다.

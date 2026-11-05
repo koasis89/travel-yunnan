@@ -13,6 +13,8 @@ import kr.koasis.travelyunnan.data.AppSettings
 import kr.koasis.travelyunnan.data.TripData
 import kr.koasis.travelyunnan.data.db.DiaryEntry
 import kr.koasis.travelyunnan.data.db.Expense
+import kr.koasis.travelyunnan.data.db.TripDoc
+import kr.koasis.travelyunnan.data.DocStore
 import kr.koasis.travelyunnan.data.db.Flag
 import kr.koasis.travelyunnan.notify.TripNotifier
 import kr.koasis.travelyunnan.data.db.PhraseFav
@@ -74,6 +76,17 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     fun deleteDiary(e: DiaryEntry) = viewModelScope.launch(Dispatchers.IO) { dao.deleteDiary(e) }
 
     val secure get() = c.secure
+
+    val docs: StateFlow<List<TripDoc>> = flowOf(Unit).flatMapLatest { dao.docs() }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+
+    /** 고른 파일들을 문서함에 복사한다. 하나만 넣으면 그 문서 id 를 돌려준다(정보 편집 화면으로 이동용) */
+    suspend fun addDocs(uris: List<android.net.Uri>, defaultDay: String?): List<TripDoc> = withContext(Dispatchers.IO) {
+        val days = _data.value?.days.orEmpty()
+        uris.mapNotNull { u -> runCatching { DocStore.import(getApplication(), u, days, defaultDay).also { dao.upsertDoc(it) } }.getOrNull() }
+    }
+    fun updateDoc(d: TripDoc) = viewModelScope.launch(Dispatchers.IO) { dao.upsertDoc(d) }
+    fun deleteDoc(d: TripDoc) = viewModelScope.launch(Dispatchers.IO) { dao.deleteDoc(d.id); DocStore.delete(getApplication(), d.id) }
 
     fun addExpense(e: Expense) = viewModelScope.launch(Dispatchers.IO) { dao.addExpense(e) }
     fun deleteExpense(e: Expense) = viewModelScope.launch(Dispatchers.IO) { dao.deleteExpense(e) }

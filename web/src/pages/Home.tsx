@@ -4,6 +4,7 @@ import { Banner, BrandHeader, Section } from '../components/ui'
 import { useData, useNow, useSettings } from '../store/data'
 import { findNow, focusDay, formatLeft, nextMove, resolvePhase } from '../domain/tripTime'
 import { mealFor, slotFor } from '../domain/cards'
+import { DayDocsLink } from './Docs'
 
 export function Home() {
   const data = useData(); const now = useNow(); const [settings] = useSettings()
@@ -48,6 +49,8 @@ export function Home() {
           {st.next && <><div className="divider" /><div className="small">다음 &nbsp;{st.next.timeLabel} &nbsp;{[st.next.to, st.next.via, st.next.from].find((x) => x && x !== '-') ?? st.next.tip}</div></>}
         </Link>
       </div>
+
+      <div className="pad" style={{ marginTop: 12 }}><DayDocsLink dayId={day.id} /></div>
 
       {move && (<>
         <Section>다음 이동</Section>

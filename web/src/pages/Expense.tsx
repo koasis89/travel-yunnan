@@ -1,10 +1,10 @@
 import { useRef, useState } from 'react'
-import { Camera, Download, Plus, Trash2 } from 'lucide-react'
+import { Camera, Download, Pencil, Plus, Trash2, TriangleAlert } from 'lucide-react'
 import { Banner, Section, TopBar, download, toast } from '../components/ui'
 import { useData, useNow, useSettings } from '../store/data'
 import { useStored } from '../store/local'
 import { resolvePhase } from '../domain/tripTime'
-import { CATEGORIES, METHODS, PAYERS, budgetKey, expensesCsv, krw, type Expense as Ex } from '../domain/expense'
+import { CATEGORIES, METHODS, PAYERS, SUSPICIOUS_CNY, budgetKey, expensesCsv, krw, looksLikeKrw, type Expense as Ex } from '../domain/expense'
 import { parseReceipt, type ReceiptGuess } from '../domain/receipt'
 import { readReceipt } from '../store/ocr'
 
@@ -14,6 +14,8 @@ export function Expense() {
   const data = useData(); const now = useNow(); const [s, setS] = useSettings()
   const [list, setList] = useStored<Ex[]>('expenses', [])
   const [adding, setAdding] = useState(false)
+  const [editing, setEditing] = useState<Ex | null>(null)
+  const odd = list.filter(looksLikeKrw)
   const [prefill, setPrefill] = useState<(ReceiptGuess & { photo: string }) | null>(null)
   const [ocrMsg, setOcrMsg] = useState<string | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
@@ -39,12 +41,17 @@ export function Expense() {
         <div className="bold" style={{ fontSize: '1.3em' }}>지출 {Math.round(total).toLocaleString()}원</div>
         <div className="small">예산 {Math.round(budgetTotal).toLocaleString()}원(항공 제외, 3인) · ¥1 = {rate}원</div>
         <div style={{ margin: '8px 0' }}><Bar v={total} max={budgetTotal} /></div>
+        <div className="tiny muted">{list.length}건 합계 · 지우거나 고치면 바로 다시 계산된다</div>
         {s.cash > 0 && <div className="small">현금 잔액 약 ¥{Math.round(s.cash - cashSpent).toLocaleString()} / ¥{s.cash.toLocaleString()}</div>}
         <div className="row" style={{ marginTop: 8, gap: 8 }}>
           <input className="input" inputMode="numeric" placeholder="환율 ¥1=원" defaultValue={s.cnyRate ?? ''} onBlur={(e) => setS({ ...s, cnyRate: Number(e.target.value) || null })} />
           <input className="input" inputMode="numeric" placeholder="가져온 현금 ¥" defaultValue={s.cash || ''} onBlur={(e) => setS({ ...s, cash: Number(e.target.value) || 0 })} />
         </div>
       </div></div>
+      {odd.length > 0 && <div className="pad" style={{ marginTop: 10 }}><Banner tone="rose" icon={<TriangleAlert size={18} />}>
+        위안(¥)으로 {SUSPICIOUS_CNY.toLocaleString()} 이상인 기록이 {odd.length}건 있다. 원화를 위안으로 잘못 고른 것 같으면 아래 목록의 <b>원화로 고치기</b>를 누른다.
+        <div style={{ marginTop: 6 }}><button className="btn" data-testid="fix-all-krw" onClick={() => setList((l) => l.map((e) => (looksLikeKrw(e) ? { ...e, currency: 'KRW' } : e)))}>{odd.length}건 모두 원화로 고치기</button></div>
+      </Banner></div>}
       <Section>구분별 예산 대비</Section>
       <div className="stack pad">{data.budget.filter((b) => !b.isTotal).map((b) => {
         const spent = list.filter((e) => e.category === budgetKey(b.category)).reduce((a, e) => a + krw(e, rate), 0)
@@ -52,7 +59,9 @@ export function Expense() {
       })}</div>
       <Section>지출 내역 ({list.length}건)</Section>
       <div className="pad">
-        {adding ? <AddForm key={prefill?.photo ?? 'manual'} dayDefault={p.kind === 'on' ? p.day.id : 'D1'} days={data.days.map((d) => d.id)} prefill={prefill}
+        {editing ? <AddForm key={`edit-${editing.id}`} initial={editing} dayDefault={editing.dayId} days={data.days.map((d) => d.id)}
+            onCancel={() => setEditing(null)} onSave={(e) => { setList((l) => l.map((x) => (x.id === editing.id ? { ...e, id: editing.id, at: editing.at } : x))); setEditing(null); toast('고쳤다') }} />
+          : adding ? <AddForm key={prefill?.photo ?? 'manual'} dayDefault={p.kind === 'on' ? p.day.id : 'D1'} days={data.days.map((d) => d.id)} prefill={prefill}
             onCancel={() => { setAdding(false); setPrefill(null) }} onSave={(e) => { setList((l) => [e, ...l]); setAdding(false); setPrefill(null) }} />
           : <div className="row">
               <button className="btn primary block grow" onClick={() => setAdding(true)}><Plus size={18} />지출 추가</button>
@@ -68,7 +77,9 @@ export function Expense() {
               <div className="grow">
                 <div className="bold">{e.currency === 'CNY' ? `¥${e.amount.toLocaleString()}` : `${e.amount.toLocaleString()}원`} &nbsp;{e.memo}</div>
                 <div className="tiny muted">{e.dayId} · {e.category} · {e.method} · {e.payer}{e.currency === 'CNY' ? ` · 약 ${Math.round(krw(e, rate)).toLocaleString()}원` : ''}{e.ocr ? ' · 영수증 인식' : ''}</div>
+                {looksLikeKrw(e) && <button className="chip on" style={{ marginTop: 4 }} onClick={() => setList((l) => l.map((x) => (x.id === e.id ? { ...x, currency: 'KRW' } : x)))}>원화로 고치기 ({e.amount.toLocaleString()}원)</button>}
               </div>
+              <button className="iconbtn" aria-label="고치기" onClick={() => { setAdding(false); setEditing(e) }}><Pencil size={18} /></button>
               <button className="iconbtn" aria-label="삭제" onClick={() => confirm('삭제할까?') && setList((l) => l.filter((x) => x.id !== e.id))}><Trash2 size={18} /></button>
             </div>
           ))}
@@ -79,10 +90,11 @@ export function Expense() {
   )
 }
 
-function AddForm({ dayDefault, days, onSave, onCancel, prefill }: { dayDefault: string; days: string[]; onSave: (e: Ex) => void; onCancel: () => void; prefill?: (ReceiptGuess & { photo: string }) | null }) {
-  const [amount, setAmount] = useState(prefill?.amount != null ? String(prefill.amount) : ''); const [currency, setCurrency] = useState<'CNY' | 'KRW'>('CNY')
-  const [category, setCategory] = useState(prefill?.category ?? CATEGORIES[2]); const [method, setMethod] = useState(METHODS[0]); const [payer, setPayer] = useState(PAYERS[0])
-  const [day, setDay] = useState(prefill?.dayId ?? dayDefault); const [memo, setMemo] = useState(prefill?.merchant ?? '')
+function AddForm({ dayDefault, days, onSave, onCancel, prefill, initial }: { dayDefault: string; days: string[]; onSave: (e: Ex) => void; onCancel: () => void; prefill?: (ReceiptGuess & { photo: string }) | null; initial?: Ex }) {
+  const [amount, setAmount] = useState(initial ? String(initial.amount) : prefill?.amount != null ? String(prefill.amount) : ''); const [currency, setCurrency] = useState<'CNY' | 'KRW'>(initial?.currency ?? 'CNY')
+  const [category, setCategory] = useState(initial?.category ?? prefill?.category ?? CATEGORIES[2]); const [method, setMethod] = useState(initial?.method ?? METHODS[0]); const [payer, setPayer] = useState(initial?.payer ?? PAYERS[0])
+  const [day, setDay] = useState(initial?.dayId ?? prefill?.dayId ?? dayDefault); const [memo, setMemo] = useState(initial?.memo ?? prefill?.merchant ?? '')
+  const big = currency === 'CNY' && Number(amount) >= SUSPICIOUS_CNY
   const pick = (opts: string[], v: string, set: (x: string) => void) => <div className="wrap">{opts.map((o) => <button key={o} type="button" className={`chip ${v === o ? 'on' : ''}`} onClick={() => set(o)}>{o}</button>)}</div>
   return (
     <div className="card stack">
@@ -95,12 +107,13 @@ function AddForm({ dayDefault, days, onSave, onCancel, prefill }: { dayDefault: 
       )}
       <div className="row"><input className="input grow" inputMode="decimal" placeholder="금액" value={amount} onChange={(e) => setAmount(e.target.value.replace(/[^\d.]/g, ''))} autoFocus />
         {pick(['CNY', 'KRW'], currency, (x) => setCurrency(x as 'CNY' | 'KRW'))}</div>
+      {big && <div className="small" style={{ color: 'var(--rose, #b4442e)' }}>¥{Number(amount).toLocaleString()} 은 약 {Math.round(Number(amount) * 200 / 10000).toLocaleString()}만 원이다. 원화라면 오른쪽 KRW 를 고른다.</div>}
       <input className="input" placeholder="메모(가게·항목)" value={memo} onChange={(e) => setMemo(e.target.value)} />
       <div className="small bold">구분</div>{pick(CATEGORIES, category, setCategory)}
       <div className="small bold">결제 · 지불자</div>{pick(METHODS, method, setMethod)}{pick(PAYERS, payer, setPayer)}
       <div className="small bold">일차</div>{pick(days, day, setDay)}
       <div className="row"><button className="btn ghost grow" onClick={onCancel}>취소</button>
-        <button className="btn primary grow" disabled={!Number(amount)} onClick={() => onSave({ id: Date.now(), dayId: day, amount: Number(amount), currency, category, memo: memo.trim(), method, payer, at: Date.now(), ...(prefill ? { photo: prefill.photo, ocr: true } : {}) })}>저장</button></div>
+        <button className="btn primary grow" disabled={!Number(amount)} onClick={() => onSave({ ...(initial ?? {}), id: initial?.id ?? Date.now(), dayId: day, amount: Number(amount), currency, category, memo: memo.trim(), method, payer, at: initial?.at ?? Date.now(), ...(prefill ? { photo: prefill.photo, ocr: true } : {}) })}>저장</button></div>
     </div>
   )
 }

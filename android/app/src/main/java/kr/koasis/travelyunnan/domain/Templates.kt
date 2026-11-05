@@ -65,5 +65,20 @@ object Templates {
             renderKo = { m -> "${v(m, "date", f)} ${v(m, "where", f)} 도착(${v(m, "persons", f)}). 픽업 가능 여부와 고성 밖 하차 지점, 짐 운반을 요청한다." })
     }
 
-    val all = listOf(tigerLeaping, shangrila, delivery, pickup)
+    val guide: Template = run {
+        val f = listOf(
+            TemplateField("date", "투어 날짜", "12月18日"),
+            TemplateField("tour", "투어 이름", "玉龙雪山+蓝月谷一日游（含大索道、印象丽江）"),
+            TemplateField("persons", "인원", "3位成人"),
+            TemplateField("hotel", "숙소", "丽江古城 沐蘭遇の汤宿（黄山上段18号）"),
+        )
+        Template("tpl-guide", "옥룡설산 투어 가이드 연락", f,
+            render = { m ->
+                "您好！我们预订了${v(m, "date", f)}的${v(m, "tour", f)}，${v(m, "persons", f)}。我们住在${v(m, "hotel", f)}。\n" +
+                    "请问：\n1. 那天几点、在四方街哪里集合？\n2. 回来时可以送到离酒店最近的停车点（大水车附近）吗？\n请在微信上联系我们，谢谢！"
+            },
+            renderKo = { m -> "${v(m, "date", f)} 옥룡설산 투어 예약자(${v(m, "persons", f)}), 숙소는 ${v(m, "hotel", f)}. ① 몇 시에 사방가 어디서 만나는지 ② 돌아올 때 호텔에서 가장 가까운 차량 지점(대수차 근처)에 내려 줄 수 있는지 묻고, 위챗으로 연락을 요청한다." })
+    }
+
+    val all = listOf(tigerLeaping, shangrila, delivery, pickup, guide)
 }

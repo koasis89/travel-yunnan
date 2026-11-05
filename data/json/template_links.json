@@ -82,6 +82,14 @@
       "values": {
         "hotel": "格菲酒店(昆明火车站北广场店)"
       }
+    },
+    {
+      "id": "tl-08",
+      "dayId": "D3",
+      "timeStart": "05:00",
+      "templateId": "tpl-guide",
+      "label": "투어 가이드에게 픽업 시각·장소 문의(12/15까지)",
+      "values": {}
     }
   ]
 }

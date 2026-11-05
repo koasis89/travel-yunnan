@@ -26,6 +26,12 @@ const pickF: TemplateField[] = [
   { key: 'where', label: '도착 장소', def: '丽江站' },
   { key: 'persons', label: '인원·짐', def: '3个人，3个行李箱' },
 ]
+const guideF: TemplateField[] = [
+  { key: 'date', label: '투어 날짜', def: '12月18日' },
+  { key: 'tour', label: '투어 이름', def: '玉龙雪山+蓝月谷一日游（含大索道、印象丽江）' },
+  { key: 'persons', label: '인원', def: '3位成人' },
+  { key: 'hotel', label: '숙소', def: '丽江古城 沐蘭遇の汤宿（黄山上段18号）' },
+]
 
 export const TEMPLATES: Template[] = [
   { id: 'tpl-tiger', title: '호도협 전용차 예약 요청', fields: tigerF,
@@ -41,6 +47,9 @@ export const TEMPLATES: Template[] = [
     render: (v) => `你好，我们${val(v, pickF, 'date')}到${val(v, pickF, 'where')}，${val(v, pickF, 'persons')}。请问可以安排接送吗？古城里车进不去的话，请告诉我们在哪里下车，麻烦帮忙运一下行李。谢谢！`,
     renderKo: (v) => `${val(v, pickF, 'date')} ${val(v, pickF, 'where')} 도착(${val(v, pickF, 'persons')}). 픽업 가능 여부와 고성 밖 하차 지점, 짐 운반을 요청한다.` },
 ]
+TEMPLATES.push({ id: 'tpl-guide', title: '옥룡설산 투어 가이드 연락', fields: guideF,
+  render: (v) => `您好！我们预订了${val(v, guideF, 'date')}的${val(v, guideF, 'tour')}，${val(v, guideF, 'persons')}。我们住在${val(v, guideF, 'hotel')}。\n请问：\n1. 那天几点、在四方街哪里集合？\n2. 回来时可以送到离酒店最近的停车点（大水车附近）吗？\n请在微信上联系我们，谢谢！`,
+  renderKo: (v) => `${val(v, guideF, 'date')} 옥룡설산 투어 예약자(${val(v, guideF, 'persons')}), 숙소는 ${val(v, guideF, 'hotel')}. ① 몇 시에 사방가 어디서 만나는지 ② 돌아올 때 호텔에서 가장 가까운 차량 지점(대수차 근처)에 내려 줄 수 있는지 묻고, 위챗으로 연락을 요청한다.` })
 export const templateById = (id?: string | null) => TEMPLATES.find((t) => t.id === id)
 
 export function composeOrder(foodZh: string | null, unit: string, requests: string[]): string {

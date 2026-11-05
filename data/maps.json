@@ -1,187 +1,240 @@
 {
-  "version": "2026-11-04",
-  "items": [
+ "version": "2026-11-05",
+ "items": [
+  {
+   "id": "map01",
+   "file": "maps/map01_overall_route.png",
+   "title": "전체 이동 지도",
+   "caption": "8일 전체 경로와 숙소. 아래 표에 날짜별 한 줄 요약",
+   "dayIds": []
+  },
+  {
+   "id": "map_d1",
+   "file": "maps/map_d1_kunming_arrival.png",
+   "title": "D1 쿤밍 도착",
+   "caption": "창수이 공항 22:00 → 택시 45분 → 쿤밍역 북광장 호텔",
+   "dayIds": [
+    "D1"
+   ]
+  },
+  {
+   "id": "map_d2",
+   "file": "maps/map_d2_lijiang_oldtown_walk.png",
+   "title": "D2 리장고성 도보 동선",
+   "caption": "번호 순서대로 걷는다. 보라색은 저녁 이후 길",
+   "dayIds": [
+    "D2"
+   ]
+  },
+  {
+   "id": "map_d3",
+   "file": "maps/map_d3_yulong_tour.png",
+   "title": "D3 옥룡설산 투어",
+   "caption": "사방가 픽업 05:00~07:00 · 대索道 4,506m · 람월곡 · 인상리장 · 16~17시 복귀",
+   "dayIds": [
+    "D3"
+   ]
+  },
+  {
+   "id": "map_d4",
+   "file": "maps/map_d4_baisha_shuhe.png",
+   "title": "D4 백사·수허",
+   "caption": "고성 체크아웃 → Rishine 빌라 → 백사고진 → 수허고진 → 빌라",
+   "dayIds": [
+    "D4"
+   ]
+  },
+  {
+   "id": "map05",
+   "file": "maps/map05_tigerleaping_route_profile.png",
+   "title": "D5 호도협 경로·고도",
+   "caption": "트레킹은 차마객잔→중도객잔(약 5km, 2시간, 평탄) 구간만",
+   "dayIds": [
+    "D5",
+    "D6"
+   ],
+   "progress": [
+    "차마객잔 출발",
+    "협곡 전망",
+    "중도객잔 도착",
+    "Come Inn 체크인"
+   ]
+  },
+  {
+   "id": "map03",
+   "file": "maps/map03_shangrila.png",
+   "title": "D6·D7 샹그릴라",
+   "caption": "D6 송찬림사·대형 마니차 / D7 06:10 샌딩 → 샹그릴라역 07:22 C644",
+   "dayIds": [
+    "D6",
+    "D7"
+   ]
+  },
+  {
+   "id": "map_d7",
+   "file": "maps/map_d7_kunming_city.png",
+   "title": "D7 쿤밍 오후·야경",
+   "caption": "12:50 쿤밍역 → 호텔 → 남병가·노가 → 저녁 → 동서사탑 야경",
+   "dayIds": [
+    "D7"
+   ]
+  },
+  {
+   "id": "map_d8",
+   "file": "maps/map_d8_kunming_city.png",
+   "title": "D8 쿤밍 시내 → 공항",
+   "caption": "취호 → 강무당 → 원통사 → 박물관·관두고진 → 19:30 공항",
+   "dayIds": [
+    "D8"
+   ]
+  },
+  {
+   "id": "map06",
+   "file": "maps/map06_lijiang_restaurants.png",
+   "title": "리장고성 맛집 지도",
+   "caption": "번호 색 = 분류. 남문·호텔 기준 거리. 목록을 누르면 택시 카드·관련 일정",
+   "dayIds": [
+    "D2",
+    "D3",
+    "D4"
+   ],
+   "pins": [
     {
-      "id": "map01",
-      "file": "maps/map01_overall_route.png",
-      "title": "전체 이동 지도",
-      "caption": "쿤밍→리장→백사→호도협→샹그릴라→쿤밍. 빨간 점 = 확정 숙소",
-      "dayIds": []
+     "no": 1,
+     "nameKo": "석과어",
+     "nameZh": "石锅鱼",
+     "kind": "식사",
+     "distance": "약 150m",
+     "hotelDistance": "약 1,550m",
+     "color": "#c62828"
     },
     {
-      "id": "map02",
-      "file": "maps/map02_lijiang_area_and_oldtown.png",
-      "title": "리장 주변 이동·고성 도보 동선",
-      "caption": "왼쪽: 리장 주변(D2~D5) / 오른쪽: 리장고성 내부 도보 동선(D2 오후)",
-      "dayIds": [
-        "D2",
-        "D3",
-        "D4"
-      ]
+     "no": 2,
+     "nameKo": "운설리 남문점",
+     "nameZh": "云雪丽",
+     "kind": "식사",
+     "distance": "약 150m",
+     "hotelDistance": "약 1,450m",
+     "color": "#c62828"
     },
     {
-      "id": "map06",
-      "file": "maps/map06_lijiang_restaurants.png",
-      "title": "리장고성 맛집 위치도",
-      "caption": "남문 기준 거리. 번호를 누르면 맛집 정보로 이동",
-      "dayIds": [
-        "D2",
-        "D3",
-        "D4"
-      ],
-      "pins": [
-        {
-          "no": 1,
-          "nameKo": "석과어",
-          "nameZh": "石锅鱼",
-          "distance": "약 150m",
-          "kind": "식사"
-        },
-        {
-          "no": 2,
-          "nameKo": "운설리 남문점",
-          "nameZh": "云雪丽",
-          "distance": "약 150m",
-          "kind": "식사"
-        },
-        {
-          "no": 3,
-          "nameKo": "격벽노왕 남문점",
-          "nameZh": "隔壁老王",
-          "distance": "약 300m",
-          "kind": "식사"
-        },
-        {
-          "no": 4,
-          "nameKo": "습전주미 야생버섯훠궈",
-          "nameZh": "拾全酒美",
-          "distance": "약 500m",
-          "kind": "식사"
-        },
-        {
-          "no": 5,
-          "nameKo": "작자미선",
-          "nameZh": "勺子米线",
-          "distance": "약 650m",
-          "kind": "아침·간식"
-        },
-        {
-          "no": 6,
-          "nameKo": "할머니 계두량분",
-          "nameZh": "奶奶鸡豆凉粉",
-          "distance": "약 850m",
-          "kind": "간식"
-        },
-        {
-          "no": 7,
-          "nameKo": "딩딩당당",
-          "nameZh": "丁丁当当",
-          "distance": "약 1,050m",
-          "kind": "간식"
-        },
-        {
-          "no": 8,
-          "nameKo": "아파 납배골훠궈",
-          "nameZh": "阿婆腊排骨火锅",
-          "distance": "약 900m",
-          "kind": "식사"
-        },
-        {
-          "no": 9,
-          "nameKo": "88소흡",
-          "nameZh": "88小吃",
-          "distance": "약 1,000m",
-          "kind": "간식"
-        },
-        {
-          "no": 10,
-          "nameKo": "천천선",
-          "nameZh": "天天鲜",
-          "distance": "약 900m",
-          "kind": "식사"
-        },
-        {
-          "no": 11,
-          "nameKo": "ZEW 운남소흡",
-          "nameZh": "ZEW",
-          "distance": "약 1,000m",
-          "kind": "간식"
-        },
-        {
-          "no": 12,
-          "nameKo": "아마의 납서식당",
-          "nameZh": "阿妈意",
-          "distance": "약 800m",
-          "kind": "식사"
-        },
-        {
-          "no": 13,
-          "nameKo": "이가미선",
-          "nameZh": "二哥米线",
-          "distance": "약 1,000m",
-          "kind": "아침"
-        },
-        {
-          "no": 14,
-          "nameKo": "길상 구운 이과이",
-          "nameZh": "吉祥烤饵块",
-          "distance": "약 700m",
-          "kind": "야식"
-        },
-        {
-          "no": 15,
-          "nameKo": "田村 야크훠궈(대수차점)",
-          "nameZh": "田村",
-          "distance": "약 1,600m",
-          "kind": "식사"
-        }
-      ]
+     "no": 3,
+     "nameKo": "격벽노왕 남문점",
+     "nameZh": "隔壁老王",
+     "kind": "식사",
+     "distance": "약 300m",
+     "hotelDistance": "약 1,400m",
+     "color": "#c62828"
     },
     {
-      "id": "ref_cablecar",
-      "file": "maps/ref_yulong_cablecar_compare.png",
-      "title": "옥룡설산 케이블카 3코스 비교",
-      "caption": "빙천공원(4,506m)·윈산핑(3,240m)·모뉴핑(3,500m)",
-      "dayIds": [
-        "D3"
-      ]
+     "no": 4,
+     "nameKo": "습전주미 야생버섯훠궈",
+     "nameZh": "拾全酒美",
+     "kind": "식사",
+     "distance": "약 500m",
+     "hotelDistance": "약 1,150m",
+     "color": "#c62828"
     },
     {
-      "id": "map05",
-      "file": "maps/map05_tigerleaping_route_profile.png",
-      "title": "호도협 경로·고도 단면",
-      "caption": "D5 트레킹은 차마객잔→중도객잔(약 5km, 2시간, 평탄) 구간만",
-      "dayIds": [
-        "D5",
-        "D6"
-      ],
-      "progress": [
-        "차마객잔 출발",
-        "협곡 전망",
-        "중도객잔 도착",
-        "Come Inn 체크인"
-      ]
+     "no": 5,
+     "nameKo": "작자미선",
+     "nameZh": "勺子米线",
+     "kind": "아침",
+     "distance": "약 650m",
+     "hotelDistance": "약 950m",
+     "color": "#ef6c00"
     },
     {
-      "id": "map03",
-      "file": "maps/map03_shangrila.png",
-      "title": "샹그릴라 이동 지도",
-      "caption": "D6 송찬림사·마니차 / D7 06:10 샌딩 → 샹그릴라역 07:22 C644",
-      "dayIds": [
-        "D6",
-        "D7"
-      ]
+     "no": 6,
+     "nameKo": "할머니 계두량분",
+     "nameZh": "奶奶鸡豆凉粉",
+     "kind": "간식",
+     "distance": "약 850m",
+     "hotelDistance": "약 700m",
+     "color": "#2e7d32"
     },
     {
-      "id": "map04",
-      "file": "maps/map04_kunming_wide_and_city.png",
-      "title": "쿤밍 광역·시내 동선",
-      "caption": "왼쪽: 공항·역·숙소 / 오른쪽: D8 취호→강무당→원통사, 오후 운남성박물관·관두고진(그림 밖)",
-      "dayIds": [
-        "D1",
-        "D7",
-        "D8"
-      ]
+     "no": 7,
+     "nameKo": "딩딩당당",
+     "nameZh": "丁丁当当",
+     "kind": "간식",
+     "distance": "약 1,050m",
+     "hotelDistance": "약 450m",
+     "color": "#2e7d32"
+    },
+    {
+     "no": 8,
+     "nameKo": "아파 납배골훠궈",
+     "nameZh": "阿婆腊排骨火锅",
+     "kind": "식사",
+     "distance": "약 900m",
+     "hotelDistance": "약 1,100m",
+     "color": "#c62828"
+    },
+    {
+     "no": 9,
+     "nameKo": "88소흡",
+     "nameZh": "88小吃",
+     "kind": "간식",
+     "distance": "약 1,000m",
+     "hotelDistance": "약 1,200m",
+     "color": "#2e7d32"
+    },
+    {
+     "no": 10,
+     "nameKo": "천천선",
+     "nameZh": "天天鲜",
+     "kind": "식사",
+     "distance": "약 900m",
+     "hotelDistance": "약 1,400m",
+     "color": "#c62828"
+    },
+    {
+     "no": 11,
+     "nameKo": "ZEW 운남소흡",
+     "nameZh": "ZEW",
+     "kind": "간식",
+     "distance": "약 1,000m",
+     "hotelDistance": "약 1,400m",
+     "color": "#2e7d32"
+    },
+    {
+     "no": 12,
+     "nameKo": "아마의 납서식당",
+     "nameZh": "阿妈意",
+     "kind": "식사",
+     "distance": "약 800m",
+     "hotelDistance": "약 1,300m",
+     "color": "#c62828"
+    },
+    {
+     "no": 13,
+     "nameKo": "이가미선",
+     "nameZh": "二哥米线",
+     "kind": "아침",
+     "distance": "약 1,000m",
+     "hotelDistance": "약 800m",
+     "color": "#ef6c00"
+    },
+    {
+     "no": 14,
+     "nameKo": "길상 구운 이과이",
+     "nameZh": "吉祥烤饵块",
+     "kind": "야식",
+     "distance": "약 700m",
+     "hotelDistance": "약 1,500m",
+     "color": "#5e35b1"
+    },
+    {
+     "no": 15,
+     "nameKo": "田村 야크훠궈(대수차점)",
+     "nameZh": "田村",
+     "kind": "식사",
+     "distance": "약 1,600m",
+     "hotelDistance": "약 500m",
+     "color": "#c62828"
     }
-  ]
+   ]
+  }
+ ]
 }

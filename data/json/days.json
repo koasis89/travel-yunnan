@@ -15,7 +15,7 @@
       "tempNight": "약 3~5℃",
       "outfit": "얇은 패딩 또는 경량 패딩 + 긴팔",
       "mapIds": [
-        "map04"
+        "map_d1"
       ]
     },
     {
@@ -32,7 +32,7 @@
       "tempNight": "약 -2~0℃",
       "outfit": "경량 패딩 + 플리스, 밤 두꺼운 패딩",
       "mapIds": [
-        "map02",
+        "map_d2",
         "map06"
       ]
     },
@@ -41,7 +41,7 @@
       "date": "2026-12-18",
       "dateLabel": "12/18(금)",
       "route": "리장",
-      "summary": "옥룡설산 빙천공원·인상리장(선택)·람월곡·백수하",
+      "summary": "옥룡설산 투어: 甘海子·대索道 빙천공원 4,506m·람월곡·인상리장",
       "lodgingLabel": "물라뉴 탕수 호텔(리장고성)",
       "lodgingId": "mulanyu",
       "region": "옥룡설산",
@@ -50,9 +50,8 @@
       "tempNight": "약 -15℃",
       "outfit": "두꺼운 패딩(투어 방한복 대여 가능) + 내복·장갑·모자",
       "mapIds": [
-        "map02",
-        "map06",
-        "ref_cablecar"
+        "map_d3",
+        "map06"
       ]
     },
     {
@@ -69,7 +68,7 @@
       "tempNight": "약 -2~0℃",
       "outfit": "경량 패딩 + 플리스, 밤 두꺼운 패딩",
       "mapIds": [
-        "map02",
+        "map_d4",
         "map06"
       ]
     },
@@ -104,8 +103,8 @@
       "tempNight": "약 -10~-8℃",
       "outfit": "두꺼운 패딩 + 내복 상하 + 넥워머·장갑",
       "mapIds": [
-        "map05",
-        "map03"
+        "map03",
+        "map05"
       ]
     },
     {
@@ -123,7 +122,7 @@
       "outfit": "얇은 패딩 또는 경량 패딩 + 긴팔",
       "mapIds": [
         "map03",
-        "map04"
+        "map_d7"
       ]
     },
     {
@@ -140,7 +139,7 @@
       "tempNight": "약 3~5℃",
       "outfit": "얇은 패딩 또는 경량 패딩 + 긴팔",
       "mapIds": [
-        "map04"
+        "map_d8"
       ]
     }
   ]

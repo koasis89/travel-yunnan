@@ -37,11 +37,11 @@ import java.time.LocalDateTime
 fun ScheduleScreen(vm: AppViewModel, data: TripData, dayArg: String?) {
     val now by vm.now.collectAsStateWithLifecycle()
     val flags by vm.flags.collectAsStateWithLifecycle()
-    ScheduleContent(data, now, dayArg, flags) { vm.toggleFlag(it) }
+    ScheduleContent(data, now, dayArg, flags, dayHeader = { kr.koasis.travelyunnan.ui.docs.DayDocsCard(vm, it) }) { vm.toggleFlag(it) }
 }
 
 @Composable
-fun ScheduleContent(data: TripData, now: LocalDateTime, dayArg: String?, flags: Set<String>, onToggleDone: (String) -> Unit) {
+fun ScheduleContent(data: TripData, now: LocalDateTime, dayArg: String?, flags: Set<String>, dayHeader: @Composable (String) -> Unit = {}, onToggleDone: (String) -> Unit) {
     val phase = DayResolver.resolve(now, data.days)
     val todayId = (phase as? TripPhase.OnTrip)?.day?.id
     var selected by rememberSaveable(dayArg) { mutableStateOf(dayArg ?: todayId ?: data.days.first().id) }
@@ -63,6 +63,7 @@ fun ScheduleContent(data: TripData, now: LocalDateTime, dayArg: String?, flags: 
                     Text("${day.id} ${day.dateLabel} · ${day.route}", style = MaterialTheme.typography.titleLarge)
                     Text("숙박: ${day.lodgingLabel.ifBlank { "-" }}", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Text("길게 누르면 완료 표시", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
+                    dayHeader(day.id)
                 }
             }
             items(rows, key = { it.id }) { r ->

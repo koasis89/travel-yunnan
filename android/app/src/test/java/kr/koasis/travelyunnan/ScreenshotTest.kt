@@ -93,7 +93,7 @@ class ScreenshotTest {
             }
         }
         rule.waitForIdle()
-        rule.onNode(hasContentDescription("호도협 경로·고도 단면")).assertExists()
+        rule.onNode(hasContentDescription("D5 호도협 경로·고도")).assertExists()
         rule.onRoot().captureRoboImage("build/outputs/roborazzi/09_maps_d5.png")
     }
 

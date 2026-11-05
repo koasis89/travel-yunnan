@@ -35,6 +35,11 @@ export default defineConfig({
           urlPattern: ({ url }) => url.pathname.includes('/ocr/'),
           handler: 'CacheFirst',
           options: { cacheName: 'ocr', expiration: { maxEntries: 12 } },
+        }, {
+          // 문서함 PDF 펼치기용 pdf.js 워커(약 1.4MB)도 처음 쓸 때 받아 캐시한다
+          urlPattern: ({ url }) => /pdf\.worker/.test(url.pathname),
+          handler: 'CacheFirst',
+          options: { cacheName: 'pdfjs', expiration: { maxEntries: 4 } },
         }],
         navigateFallback: 'index.html',
         cleanupOutdatedCaches: true,

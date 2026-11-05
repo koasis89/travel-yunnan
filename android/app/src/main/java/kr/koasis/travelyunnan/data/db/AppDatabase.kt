@@ -42,8 +42,33 @@ data class DiaryEntry(
     val at: Long = System.currentTimeMillis(),
 )
 
+/** 문서함: 바우처·기차표·숙소 예약·영수증 등. 파일은 files/docs/{id}/ (DocStore) */
+@Entity(tableName = "docs")
+data class TripDoc(
+    @PrimaryKey val id: String,
+    val title: String,
+    val kind: String,
+    val dayId: String? = null,
+    val note: String = "",
+    val mime: String,
+    val fileName: String,
+    val size: Long = 0,
+    /** PDF 를 그림으로 펼친 쪽수(사진이면 0) */
+    val pages: Int = 0,
+    val created: Long = System.currentTimeMillis(),
+)
+
 @Dao
 interface UserDao {
+    @Query("SELECT * FROM docs ORDER BY created DESC")
+    fun docs(): Flow<List<TripDoc>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun upsertDoc(d: TripDoc)
+
+    @Query("DELETE FROM docs WHERE id = :id")
+    suspend fun deleteDoc(id: String)
+
     @Query("SELECT * FROM diary ORDER BY at DESC")
     fun diary(): Flow<List<DiaryEntry>>
 
@@ -90,7 +115,7 @@ interface UserDao {
     suspend fun deleteExpense(e: Expense)
 }
 
-@Database(entities = [Flag::class, PhraseFav::class, PhraseRecent::class, Expense::class, DiaryEntry::class], version = 3, exportSchema = true)
+@Database(entities = [Flag::class, PhraseFav::class, PhraseRecent::class, Expense::class, DiaryEntry::class, TripDoc::class], version = 4, exportSchema = true)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
 
@@ -108,7 +133,13 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_3_4 = object : androidx.room.migration.Migration(3, 4) {
+            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+                db.execSQL("CREATE TABLE IF NOT EXISTS `docs` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `kind` TEXT NOT NULL, `dayId` TEXT, `note` TEXT NOT NULL, `mime` TEXT NOT NULL, `fileName` TEXT NOT NULL, `size` INTEGER NOT NULL, `pages` INTEGER NOT NULL, `created` INTEGER NOT NULL, PRIMARY KEY(`id`))")
+            }
+        }
+
         fun create(context: Context): AppDatabase =
-            Room.databaseBuilder(context, AppDatabase::class.java, "travel_yunnan.db").addMigrations(MIGRATION_1_2, MIGRATION_2_3).build()
+            Room.databaseBuilder(context, AppDatabase::class.java, "travel_yunnan.db").addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4).build()
     }
 }
