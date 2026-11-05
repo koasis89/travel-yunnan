@@ -21,7 +21,15 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import kr.koasis.travelyunnan.domain.TargetType
 import kr.koasis.travelyunnan.ui.AppViewModel
+import kr.koasis.travelyunnan.ui.expense.ExpenseScreen
 import kr.koasis.travelyunnan.ui.home.HomeScreen
+import kr.koasis.travelyunnan.ui.lodging.LodgingScreen
+import kr.koasis.travelyunnan.ui.meal.FoodsScreen
+import kr.koasis.travelyunnan.ui.meal.MealsScreen
+import kr.koasis.travelyunnan.ui.meal.MenuPointScreen
+import kr.koasis.travelyunnan.ui.notes.NotesScreen
+import kr.koasis.travelyunnan.ui.packing.PackingScreen
+import kr.koasis.travelyunnan.ui.transport.TransportScreen
 import kr.koasis.travelyunnan.ui.map.MapViewScreen
 import kr.koasis.travelyunnan.ui.map.MapsScreen
 import kr.koasis.travelyunnan.ui.more.CreditsScreen
@@ -66,6 +74,14 @@ fun AppNav(vm: AppViewModel) {
             openMapView = { go(Routes.mapView(it)) },
             openSettings = { go(Routes.SETTINGS) },
             openCredits = { go(Routes.CREDITS) },
+            openLodgings = { go(Routes.lodgings(it)) },
+            openMeals = { go(Routes.meals(it)) },
+            openFoods = { go(Routes.FOODS) },
+            openMenu = { go(Routes.menu(it)) },
+            openTransport = { go(Routes.TRANSPORT) },
+            openExpense = { go(Routes.EXPENSE) },
+            openPacking = { go(Routes.PACKING) },
+            openNotes = { go(Routes.NOTES) },
             back = { nav.popBackStack() },
         )
     }
@@ -112,6 +128,20 @@ fun AppNav(vm: AppViewModel) {
                 composable(Routes.MAPVIEW) { MapViewScreen(d, it.arguments?.getString("id").orEmpty()) }
                 composable(Routes.SETTINGS) { SettingsScreen(vm, d) }
                 composable(Routes.CREDITS) { CreditsScreen(d) }
+                composable(Routes.LODGINGS, arguments = listOf(navArgument("id") { type = NavType.StringType; nullable = true })) {
+                    LodgingScreen(vm, d, it.arguments?.getString("id"))
+                }
+                composable(Routes.MEALS, arguments = listOf(navArgument("day") { type = NavType.StringType; nullable = true })) {
+                    MealsScreen(vm, d, it.arguments?.getString("day"))
+                }
+                composable(Routes.FOODS) { FoodsScreen(d) }
+                composable(Routes.MENU, arguments = listOf(navArgument("food") { type = NavType.StringType; nullable = true })) {
+                    MenuPointScreen(vm, d, it.arguments?.getString("food"))
+                }
+                composable(Routes.TRANSPORT) { TransportScreen(vm, d) }
+                composable(Routes.EXPENSE) { ExpenseScreen(vm, d) }
+                composable(Routes.PACKING) { PackingScreen(vm, d) }
+                composable(Routes.NOTES) { NotesScreen(d) }
             }
         }
     }

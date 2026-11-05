@@ -24,6 +24,16 @@ class TripData(
     val maps: List<MapItem>,
     val places: List<Place>,
     val placeLinks: List<PlaceLink>,
+    val transport: List<TransportItem> = emptyList(),
+    val transportNotes: List<String> = emptyList(),
+    val budget: List<BudgetItem> = emptyList(),
+    val rates: Rates = Rates(),
+    val weather: List<Weather> = emptyList(),
+    val packing: List<PackingItem> = emptyList(),
+    val notifications: List<TripNotification> = emptyList(),
+    val lodgingTodos: List<LodgingTodo> = emptyList(),
+    val lodgingNotes: List<String> = emptyList(),
+    val mealNotes: List<String> = emptyList(),
 ) {
     private val dayById = days.associateBy { it.id }
     private val lodgingById = lodgings.associateBy { it.id }
@@ -42,6 +52,21 @@ class TripData(
     fun mealsOf(dayId: String): List<Meal> = meals.filter { it.dayId == dayId }
     fun mealOption(id: String?): Pair<Meal, MealOption>? = id?.let { mealOptionById[it] }
     fun phrasesIn(category: String): List<Phrase> = phrases.filter { category in it.categories }
+    fun todosOf(lodgingId: String) = lodgingTodos.filter { it.lodgingId == lodgingId }
+    /** 중국어 문자열을 포함하는 회화 문장(유의사항 본문의 인라인 문장 연결용) */
+    fun phraseByZh(zh: String): Phrase? {
+        val key = zh.replace(Regex("""[\s，,。？?！!]"""), "")
+        return phrases.firstOrNull { it.zh.replace(Regex("""[\s，,。？?！!]"""), "") == key }
+            ?: phrases.firstOrNull { key.length >= 6 && it.zh.replace(Regex("""[\s，,。？?！!]"""), "").contains(key.take(10)) }
+    }
+    /** 메뉴 문자열(한국어)로 음식명(중국어) 찾기: "과교미선" → 过桥米线 */
+    fun foodNameFor(menuKo: String): FoodName? {
+        val menu = menuKo.replace(" ", "")
+        return foodNames.filter { it.kind == "food" && it.ko.isNotBlank() }
+            .map { it to it.ko.substringBefore("(").replace(" ", "") }
+            .filter { (_, key) -> key.length >= 2 && menu.contains(key) }
+            .maxByOrNull { (_, key) -> key.length }?.first
+    }
     fun mapsOf(dayId: String?): List<MapItem> =
         if (dayId == null) maps else day(dayId)?.mapIds.orEmpty().mapNotNull { map(it) }
 
@@ -65,12 +90,15 @@ class TripData(
                 json.decodeFromString(ItemsFile.serializer(s), read(name))
             val days = items("days.json", Day.serializer())
             val phrases = json.decodeFromString(PhrasesFile.serializer(), read("phrases.json"))
+            val lodgings = json.decodeFromString(LodgingsFile.serializer(), read("lodgings.json"))
+            val meals = json.decodeFromString(MealsFile.serializer(), read("meals.json"))
+            val transport = json.decodeFromString(TransportFile.serializer(), read("transport.json"))
             return TripData(
                 version = days.version,
                 days = days.items,
                 schedule = items("schedule.json", Schedule.serializer()).items,
-                lodgings = items("lodgings.json", Lodging.serializer()).items,
-                meals = items("meals.json", Meal.serializer()).items,
+                lodgings = lodgings.items,
+                meals = meals.items,
                 foods = items("foods.json", Food.serializer()).items,
                 phraseCategories = phrases.categories,
                 phrases = phrases.items,
@@ -80,6 +108,16 @@ class TripData(
                 maps = items("maps.json", MapItem.serializer()).items,
                 places = items("places.json", Place.serializer()).items,
                 placeLinks = items("place_links.json", PlaceLink.serializer()).items,
+                transport = transport.items,
+                transportNotes = transport.notes,
+                budget = items("budget.json", BudgetItem.serializer()).items,
+                rates = json.decodeFromString(Rates.serializer(), read("rates.json")),
+                weather = items("weather.json", Weather.serializer()).items,
+                packing = items("packing.json", PackingItem.serializer()).items,
+                notifications = items("notifications.json", TripNotification.serializer()).items,
+                lodgingTodos = items("lodging_todos.json", LodgingTodo.serializer()).items,
+                lodgingNotes = lodgings.notes,
+                mealNotes = meals.notes,
             )
         }
     }

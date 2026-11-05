@@ -258,16 +258,23 @@ def conv_meals(wb):
         for i, name in enumerate(opts_raw):
             if not name or name == "-":
                 continue
-            addr = addrs[i] if i < len(addrs) else (addrs[0] if len(addrs) == 1 else "")
-            urls = AMAP_RE.findall(addr)
             zh_in_name = re.search(rf"[{CJK}][^()（）]*", name)
+            # 주소가 하나뿐이면 첫 선택지 또는 중국어 상호가 있는 선택지에만 적용한다
+            # ("숙소 조식"·"역 매점" 같은 일반 선택지가 옆 식당 주소를 받지 않도록)
+            if i < len(addrs):
+                addr = addrs[i]
+            elif len(addrs) == 1 and (i == 0 or zh_in_name):
+                addr = addrs[0]
+            else:
+                addr = ""
+            urls = AMAP_RE.findall(addr)
             options.append({
                 "id": f"{day}-{seq:02d}-{i + 1}",
                 "name": name,
                 "nameZh": zh_in_name.group(0).strip() if zh_in_name else "",
                 "addrZh": AMAP_RE.sub("", addr).strip(" /") if addr else "",
                 "amapUrl": urls[0] if urls else None,
-                "menu": menus[i] if i < len(menus) else (menus[0] if menus else ""),
+                "menu": menus[i] if i < len(menus) else (menus[0] if menus and (i == 0 or zh_in_name) else ""),
             })
         extra = [s(v) for v in row[ci["링크·비고"] + 1:] if s(v)]
         out.append({

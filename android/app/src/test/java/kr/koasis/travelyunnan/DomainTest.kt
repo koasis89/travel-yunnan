@@ -104,4 +104,26 @@ class DomainTest {
         val station = data.scheduleOf("D2").first { it.transport.contains("C118") }
         assertEquals("station", PhraseSuggester.suggest(station))
     }
+
+    @Test fun orderSentence() {
+        assertEquals("我要一份过桥米线，不要辣，不要香菜。", kr.koasis.travelyunnan.ui.meal.composeOrder("过桥米线", "一份", listOf("不要辣", "不要香菜")))
+        assertEquals("这个要一个。", kr.koasis.travelyunnan.ui.meal.composeOrder(null, "一个", emptyList()))
+        assertEquals("过桥米线", data.foodNameFor("과교미선")?.zh)
+        assertEquals("牦牛肉火锅", data.foodNameFor("야크훠궈(토마토·마라탕)")?.zh)
+    }
+
+    @Test fun expenseCsvAndBudget() {
+        val list = listOf(kr.koasis.travelyunnan.data.db.Expense(1, "D2", 100.0, "CNY", "식비", "a,b", "위챗", "공동", 1766000000000))
+        val csv = kr.koasis.travelyunnan.ui.expense.expensesCsv(list, 200.0)
+        assertTrue(csv.lines().size == 2 && csv.contains("20000") && csv.contains("\"a,b\""))
+        assertEquals("식비", kr.koasis.travelyunnan.ui.expense.budgetKey("식비(맛집·식사 계획)"))
+        assertEquals(10, data.notifications.size)
+        assertTrue(data.notifications.all { kr.koasis.travelyunnan.notify.TripNotifier.epochMillis(it.at) > 0 })
+    }
+
+    @Test fun noteInlinePhrasesResolve() {
+        val n = data.notes.first { it.title == "메이투안 요청사항" }
+        val ids = n.phrasesInline.mapNotNull { data.phraseByZh(it)?.id }
+        assertEquals(listOf("px-008", "px-009"), ids)
+    }
 }

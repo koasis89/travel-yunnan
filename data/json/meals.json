@@ -20,7 +20,7 @@
           "id": "D1-01-2",
           "name": "메이투안 배달",
           "nameZh": "",
-          "addrZh": "숙소 인근",
+          "addrZh": "",
           "amapUrl": null,
           "menu": "소과미선"
         }
@@ -48,17 +48,17 @@
           "id": "D2-01-2",
           "name": "숙소 조식",
           "nameZh": "",
-          "addrZh": "昆明市官渡区塘子巷 (铁朋小锅米线 검색)",
+          "addrZh": "",
           "amapUrl": null,
-          "menu": "소과미선"
+          "menu": ""
         },
         {
           "id": "D2-01-3",
           "name": "역 대합실 매점",
           "nameZh": "",
-          "addrZh": "昆明市官渡区塘子巷 (铁朋小锅米线 검색)",
+          "addrZh": "",
           "amapUrl": null,
-          "menu": "소과미선"
+          "menu": ""
         }
       ],
       "budgetCny": 45,
@@ -84,9 +84,9 @@
           "id": "D2-02-2",
           "name": "탑승 전 역 매점",
           "nameZh": "",
-          "addrZh": "C118 열차",
+          "addrZh": "",
           "amapUrl": null,
-          "menu": "과일·음료"
+          "menu": ""
         }
       ],
       "budgetCny": 40,
@@ -212,9 +212,9 @@
           "id": "D3-01-2",
           "name": "편의점 빵",
           "nameZh": "",
-          "addrZh": "전날 충의시장·고성에서 구입",
+          "addrZh": "",
           "amapUrl": null,
-          "menu": "리장 바바"
+          "menu": ""
         }
       ],
       "budgetCny": 30,
@@ -240,9 +240,9 @@
           "id": "D3-02-2",
           "name": "인상리장 공연장 매점",
           "nameZh": "",
-          "addrZh": "玉龙雪山游客中心",
+          "addrZh": "",
           "amapUrl": null,
-          "menu": "운남 정식·면"
+          "menu": ""
         }
       ],
       "budgetCny": 150,
@@ -334,7 +334,7 @@
           "nameZh": "",
           "addrZh": "",
           "amapUrl": null,
-          "menu": "닭육수 미선"
+          "menu": ""
         }
       ],
       "budgetCny": 60,
@@ -398,7 +398,7 @@
           "nameZh": "",
           "addrZh": "束河古镇青龙桥",
           "amapUrl": null,
-          "menu": "커피·디저트"
+          "menu": ""
         },
         {
           "id": "D4-03-3",
@@ -442,7 +442,7 @@
           "nameZh": "",
           "addrZh": "",
           "amapUrl": null,
-          "menu": "삼겹살·볶음밥"
+          "menu": ""
         }
       ],
       "budgetCny": 240,
@@ -468,9 +468,9 @@
           "id": "D5-01-2",
           "name": "전날 구입 빵",
           "nameZh": "",
-          "addrZh": "Rishine 빌라",
+          "addrZh": "",
           "amapUrl": null,
-          "menu": "-"
+          "menu": ""
         }
       ],
       "budgetCny": 60,
@@ -526,7 +526,7 @@
           "nameZh": "",
           "addrZh": "中途客栈",
           "amapUrl": null,
-          "menu": "납서 가정식·볶음요리"
+          "menu": ""
         }
       ],
       "budgetCny": 180,
@@ -552,9 +552,9 @@
           "id": "D6-01-2",
           "name": "중도객잔 식당",
           "nameZh": "",
-          "addrZh": "本地湾",
+          "addrZh": "",
           "amapUrl": null,
-          "menu": "-"
+          "menu": ""
         }
       ],
       "budgetCny": 90,
@@ -692,9 +692,9 @@
           "id": "D7-01-2",
           "name": "숙소 조식",
           "nameZh": "",
-          "addrZh": "独克宗古城一若木廊32号",
+          "addrZh": "",
           "amapUrl": null,
-          "menu": "칭커 바바·수유차"
+          "menu": ""
         }
       ],
       "budgetCny": 60,
@@ -720,9 +720,9 @@
           "id": "D7-02-2",
           "name": "역 매점 간식",
           "nameZh": "",
-          "addrZh": "C640 열차",
+          "addrZh": "",
           "amapUrl": null,
-          "menu": "도시락·과일"
+          "menu": ""
         }
       ],
       "budgetCny": 120,
@@ -792,9 +792,9 @@
           "id": "D8-01-3",
           "name": "숙소 조식",
           "nameZh": "",
-          "addrZh": "翠湖 讲武堂 인근 (文山荷鲜居 翠湖店 검색)",
+          "addrZh": "",
           "amapUrl": null,
-          "menu": "닭육수 미선·삼칠 기과계"
+          "menu": ""
         }
       ],
       "budgetCny": 60,

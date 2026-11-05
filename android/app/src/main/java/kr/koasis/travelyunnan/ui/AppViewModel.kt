@@ -11,7 +11,9 @@ import kotlinx.coroutines.withContext
 import kr.koasis.travelyunnan.TravelApp
 import kr.koasis.travelyunnan.data.AppSettings
 import kr.koasis.travelyunnan.data.TripData
+import kr.koasis.travelyunnan.data.db.Expense
 import kr.koasis.travelyunnan.data.db.Flag
+import kr.koasis.travelyunnan.notify.TripNotifier
 import kr.koasis.travelyunnan.data.db.PhraseFav
 import kr.koasis.travelyunnan.data.db.PhraseRecent
 import kr.koasis.travelyunnan.data.json.Phrase
@@ -41,9 +43,33 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     val recents: StateFlow<List<String>> = flowOf(Unit).flatMapLatest { dao.recentIds() }
         .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
+    val expenses: StateFlow<List<Expense>> = flowOf(Unit).flatMapLatest { dao.expenses() }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+
     init {
-        viewModelScope.launch { _data.value = withContext(Dispatchers.IO) { c.tripData } }
+        viewModelScope.launch {
+            _data.value = withContext(Dispatchers.IO) { c.tripData }
+            registerNotifications()
+        }
     }
+
+    /** 알림 등록(앱 시작·설정 변경 시). 권한이 없으면 등록만 해 두고 표시 시점에 건너뛴다. */
+    fun registerNotifications() = viewModelScope.launch(Dispatchers.IO) {
+        val d = _data.value ?: return@launch
+        runCatching { TripNotifier.registerAll(getApplication(), d.notifications, settings.value.disabledNotifications) }
+        c.settings.setNotificationsRegistered(true)
+    }
+
+    fun toggleNotification(id: String) = viewModelScope.launch {
+        val cur = settings.value.disabledNotifications
+        c.settings.setDisabledNotifications(if (id in cur) cur - id else cur + id)
+        registerNotifications()
+    }
+
+    fun addExpense(e: Expense) = viewModelScope.launch(Dispatchers.IO) { dao.addExpense(e) }
+    fun deleteExpense(e: Expense) = viewModelScope.launch(Dispatchers.IO) { dao.deleteExpense(e) }
+    fun setCnyRate(v: Double?) = viewModelScope.launch { c.settings.setCnyRate(v) }
+    fun setCash(v: Double) = viewModelScope.launch { c.settings.setCash(v) }
 
     fun toggleFlag(key: String) = viewModelScope.launch(Dispatchers.IO) {
         if (key in flags.value) dao.clearFlag(key) else dao.setFlag(Flag(key))

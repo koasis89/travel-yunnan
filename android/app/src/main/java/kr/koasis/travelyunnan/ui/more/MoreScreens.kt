@@ -35,12 +35,13 @@ private data class MoreItem(val icon: ImageVector, val title: String, val sub: S
 fun MoreScreen() {
     val actions = LocalActions.current
     val items = listOf(
-        MoreItem(Icons.Filled.Hotel, "숙소", "6곳 카드·체크인 문장·할 일", false),
-        MoreItem(Icons.Filled.Restaurant, "맛집·음식 도감", "끼니별 선택지, 음식 사진, 메뉴 포인팅", false),
-        MoreItem(Icons.Filled.Train, "교통·열차·알림", "C118·C640 열차, 픽업, 빵차", false),
-        MoreItem(Icons.AutoMirrored.Filled.ReceiptLong, "경비", "예산·지출 기록·정산", false),
-        MoreItem(Icons.Filled.Checklist, "준비물·날씨", "체크리스트와 지역별 옷차림", false),
-        MoreItem(Icons.Filled.Warning, "유의사항", "고산병·열차·빵차·배달", false),
+        MoreItem(Icons.Filled.Hotel, "숙소", "6곳 카드·체크인 문장·할 일", true) { actions.openLodgings(null) },
+        MoreItem(Icons.Filled.Restaurant, "맛집·식사", "끼니별 선택지, 택시 카드, 주문 문장", true) { actions.openMeals(null) },
+        MoreItem(Icons.Filled.MenuBook, "음식 도감·메뉴 포인팅", "음식 사진·설명, 주문 문장 만들기", true, actions.openFoods),
+        MoreItem(Icons.Filled.Train, "교통·열차·알림", "C118·C640 열차, 픽업, 빵차, 일정 알림", true, actions.openTransport),
+        MoreItem(Icons.AutoMirrored.Filled.ReceiptLong, "경비", "예산·지출 기록·정산", true, actions.openExpense),
+        MoreItem(Icons.Filled.Checklist, "준비물·날씨", "체크리스트와 지역별 옷차림", true, actions.openPacking),
+        MoreItem(Icons.Filled.Warning, "유의사항", "고산병·열차·빵차·배달", true, actions.openNotes),
         MoreItem(Icons.Filled.Lock, "긴급·여권", "생체인증 잠금", false),
         MoreItem(Icons.Filled.Settings, "설정", "큰 글씨, 음성, 날짜 지정 모드", true, actions.openSettings),
         MoreItem(Icons.Filled.Info, "데이터·출처", "데이터 버전, 사진 출처", true, actions.openCredits),

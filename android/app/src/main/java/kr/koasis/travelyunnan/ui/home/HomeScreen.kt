@@ -111,7 +111,7 @@ fun HomeContent(data: TripData, now: LocalDateTime, overrideActive: Boolean = fa
                     Modifier.weight(1f), Icons.Filled.Restaurant, "${TaxiCards.slotFor(now.hour)} 식당 카드",
                     meal?.name?.substringBefore("(") ?: "선택지 없음",
                     MaterialTheme.colorScheme.tertiaryContainer,
-                ) { meal?.let { actions.openTaxi(TargetType.meal, it.id) } }
+                ) { if (meal != null) actions.openTaxi(TargetType.meal, meal.id) else actions.openMeals(day.id) }
             }
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 Shortcut(Modifier.weight(1f), Icons.Filled.Translate, "지금 필요한 회화", catTitle,
@@ -120,6 +120,12 @@ fun HomeContent(data: TripData, now: LocalDateTime, overrideActive: Boolean = fa
                     data.mapsOf(day.id).firstOrNull()?.title ?: "전체 지도",
                     MaterialTheme.colorScheme.surfaceVariant) { actions.openMaps(day.id) }
             }
+        }
+
+        Row(Modifier.padding(horizontal = 16.dp, vertical = 8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            TextButton(onClick = { actions.openMeals(day.id) }) { Text("${day.id} 식사 선택지") }
+            TextButton(onClick = { actions.openLodgings(day.lodgingId) }) { Text("숙소 정보") }
+            TextButton(onClick = actions.openTransport) { Text("교통·알림") }
         }
 
         // 오늘의 주의

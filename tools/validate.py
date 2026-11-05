@@ -14,7 +14,7 @@ EXPECT_MIN = {
     "days.json": 8, "schedule.json": 60, "lodgings.json": 6, "meals.json": 25, "foods.json": 30,
     "phrases.json": 57, "words.json": 52, "foodNames.json": 39, "packing.json": 40, "notes.json": 15,
     "transport.json": 10, "budget.json": 5, "weather.json": 6, "maps.json": 7, "places.json": 10,
-    "place_links.json": 20,
+    "place_links.json": 20, "notifications.json": 10, "lodging_todos.json": 10,
 }
 
 
@@ -96,6 +96,12 @@ def main(d):
         for h in x.get("helperIds", []):
             if h not in phrase_ids:
                 errors.append(f"places {x['id']}: helper {h}")
+    for x in items("notifications.json"):
+        if not re.match(r"^2026-12-\d\dT\d\d:\d\d$", x["at"]) or x["dayId"] not in day_ids:
+            errors.append(f"notifications {x['id']}: at/dayId")
+    for x in items("lodging_todos.json"):
+        if x["lodgingId"] not in lodging_ids or (x.get("phraseId") and x["phraseId"] not in phrase_ids):
+            errors.append(f"lodging_todos {x['id']}: 참조")
     for x in items("place_links.json"):
         t, k = x["type"], x["key"]
         ok = (t == "lodging" and k in lodging_ids) or (t == "place" and k in place_ids) or \

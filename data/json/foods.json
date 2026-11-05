@@ -9,7 +9,7 @@
       "nameKo": "납배골 훠궈",
       "description": "염장 후 말린 돼지갈비(납배골)를 푹 끓여 먹는 리장 향토 전골. 짭짤하고 구수하며 나시족 대표 음식으로 꼽힌다.",
       "imageKind": "이미지 없음",
-      "image": "foods/food-05.jpeg",
+      "image": null,
       "source": ""
     },
     {
@@ -20,7 +20,7 @@
       "nameKo": "야크 훠궈",
       "description": "야크 고기를 얇게 썰어 육수에 데쳐 먹는 훠궈. 해발이 높은 지역의 대표 음식으로 담백하고 육향이 진하다.",
       "imageKind": "이미지 없음",
-      "image": "foods/food-06.jpeg",
+      "image": null,
       "source": ""
     },
     {
@@ -86,7 +86,7 @@
       "nameKo": "트러플죽",
       "description": "트러플을 넣어 향을 낸 고소한 죽. 윈난 요리 식당에서 곁들이로 많이 시킨다.",
       "imageKind": "이미지 없음",
-      "image": "foods/food-12.jpeg",
+      "image": null,
       "source": ""
     },
     {
@@ -97,7 +97,7 @@
       "nameKo": "가지튀김",
       "description": "가지 사이에 고기소를 끼워 튀김옷을 입혀 튀긴 요리. 겉은 바삭하고 속은 부드럽다.",
       "imageKind": "이미지 없음",
-      "image": "foods/food-13.jpeg",
+      "image": null,
       "source": ""
     },
     {
@@ -207,7 +207,7 @@
       "nameKo": "야크 훠궈",
       "description": "야크 고기를 넣어 끓이는 훠궈. 고원 지역 대표 음식이다.",
       "imageKind": "이미지 없음",
-      "image": "foods/food-23.jpeg",
+      "image": null,
       "source": ""
     },
     {
@@ -218,7 +218,7 @@
       "nameKo": "야크 소고기",
       "description": "야크 고기를 구워 내거나 볶아 낸 요리. 소고기보다 지방이 적고 향이 진하다.",
       "imageKind": "참고 이미지",
-      "image": null,
+      "image": "foods/food-24.jpeg",
       "source": "Tibetan yak meat dish.jpg (CC0)"
     },
     {
@@ -295,7 +295,7 @@
       "nameKo": "기과계",
       "description": "가운데 증기 구멍이 있는 도자기 냄비에 닭을 넣어 증기로 쪄 낸 맑은 닭탕. 국물이 깔끔하다.",
       "imageKind": "실제 음식",
-      "image": "foods/food-31.jpeg",
+      "image": null,
       "source": "Steam Pot Chicken.jpg (CC BY-SA 4.0)"
     },
     {
@@ -317,7 +317,7 @@
       "nameKo": "소과미선",
       "description": "작은 냄비에 매콤한 고기 소스와 쌀국수를 넣어 끓인 1인용 국수.",
       "imageKind": "실제 음식",
-      "image": "foods/food-33.png",
+      "image": "foods/food-33.jpeg",
       "source": "昆明青和小锅米线.jpg (CC BY-SA 4.0)"
     },
     {

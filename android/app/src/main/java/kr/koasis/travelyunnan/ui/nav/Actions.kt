@@ -13,6 +13,14 @@ data class Actions(
     val openMapView: (String) -> Unit = {},
     val openSettings: () -> Unit = {},
     val openCredits: () -> Unit = {},
+    val openLodgings: (String?) -> Unit = {},
+    val openMeals: (String?) -> Unit = {},
+    val openFoods: () -> Unit = {},
+    val openMenu: (String?) -> Unit = {},
+    val openTransport: () -> Unit = {},
+    val openExpense: () -> Unit = {},
+    val openPacking: () -> Unit = {},
+    val openNotes: () -> Unit = {},
     val back: () -> Unit = {},
 )
 
@@ -29,6 +37,14 @@ object Routes {
     const val MAPVIEW = "mapview/{id}"
     const val SETTINGS = "settings"
     const val CREDITS = "credits"
+    const val LODGINGS = "lodgings?id={id}"
+    const val MEALS = "meals?day={day}"
+    const val FOODS = "foods"
+    const val MENU = "menu?food={food}"
+    const val TRANSPORT = "transport"
+    const val EXPENSE = "expense"
+    const val PACKING = "packing"
+    const val NOTES = "notes"
 
     fun schedule(day: String?) = "schedule" + (day?.let { "?day=$it" } ?: "")
     fun phrases(cat: String?) = "phrases" + (cat?.let { "?cat=$it" } ?: "")
@@ -36,4 +52,7 @@ object Routes {
     fun taxi(type: TargetType, id: String) = "taxi/${type.name}/$id"
     fun show(id: String) = "show/$id"
     fun mapView(id: String) = "mapview/$id"
+    fun lodgings(id: String?) = "lodgings" + (id?.let { "?id=$it" } ?: "")
+    fun meals(day: String?) = "meals" + (day?.let { "?day=$it" } ?: "")
+    fun menu(food: String?) = "menu" + (food?.let { "?food=$it" } ?: "")
 }

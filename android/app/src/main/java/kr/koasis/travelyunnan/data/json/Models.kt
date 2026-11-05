@@ -168,3 +168,46 @@ data class Place(
 
 @Serializable
 data class PlaceLink(val match: String, val type: String, val key: String)
+
+@Serializable
+data class TransportItem(
+    val id: String,
+    val group: String = "",
+    val title: String = "",
+    val unit: String = "",
+    val unitPrice: Double? = null,
+    val currency: String = "",
+    val qty: Double = 0.0,
+    val note: String = "",
+    val totalKrw: Double = 0.0,
+)
+
+@Serializable
+data class TransportFile(val version: String = "", val items: List<TransportItem> = emptyList(), val notes: List<String> = emptyList())
+
+@Serializable
+data class BudgetItem(val category: String, val amountKrw: Double = 0.0, val isTotal: Boolean = false)
+
+@Serializable
+data class Rates(val version: String = "", val USD: Double = 1450.0, val CNY: Double = 200.0, val SGD: Double = 1120.0, val persons: Int = 3)
+
+@Serializable
+data class Weather(
+    val region: String, val dates: String = "", val altitude: String = "",
+    val tempDay: String = "", val tempNight: String = "", val feature: String = "", val outfit: String = "",
+)
+
+@Serializable
+data class PackingItem(val id: String, val group: String = "", val name: String, val qty: String = "", val note: String = "")
+
+@Serializable
+data class TripNotification(val id: String, val at: String, val title: String, val body: String = "", val dayId: String = "", val kind: String = "")
+
+@Serializable
+data class LodgingTodo(val id: String, val lodgingId: String, val text: String, val phraseId: String? = null)
+
+@Serializable
+data class LodgingsFile(val version: String = "", val items: List<Lodging> = emptyList(), val notes: List<String> = emptyList())
+
+@Serializable
+data class MealsFile(val version: String = "", val items: List<Meal> = emptyList(), val notes: List<String> = emptyList())
