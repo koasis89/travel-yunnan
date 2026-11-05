@@ -693,8 +693,24 @@
       "id": "D5-09",
       "dayId": "D5",
       "seq": 9,
-      "timeLabel": "15:15~18:40",
+      "timeLabel": "15:15~15:25",
       "timeStart": "15:15",
+      "timeEnd": "15:25",
+      "from": "Come Inn 프런트",
+      "via": "-",
+      "to": "Come Inn 프런트",
+      "transport": "-",
+      "duration": "약 10분",
+      "tip": "★내일(12/21) 10:30 Come Inn → 샹그릴라 Oura Villa 빵차 직행(짐 함께) 예약 요청. 위챗 장문을 보여주고 요금(약 ¥500/대)·차량번호·기사 위챗 받기. 예약 실패 시 티나객잔 버스 대안",
+      "amapUrl": null,
+      "message": "1. 매니저에게 보여줄 중국어 문장 + 병음\n\n你好，我想预订明天上午10点，从靠山十九度到香格里拉的包车。\n• 병음: Nǐhǎo, wǒ xiǎng yùdìng míngtiān shàngwǔ shí diǎn, cóng Kàoshān shíjiǔ dù dào Xiānggélǐlā de bāochē.\n• 한글 발음: 니하오, 워 시앙 위딩 밍티엔 샹우 쉬 디엔, 쏭 카오샨스치우두 다오 시앙거리라 더 바오처.\n请问一辆车的费用是多少钱？\n• 병음: Qǐngwèn yī liàng chē de fèiyòng shì duōshǎo qián?\n• 한글 발음: 칭원 이 리앙 처 더 페이용 시 도우샤오 치엔?\n\n짚고 넘어갈 핵심 단어 병음\n\n• 明天上午10点 (내일 오전 10시): míngtiān shàngwǔ shí diǎn\n• 靠山十九度 (컴인 숙소 중국어 이름): Kàoshān shíjiǔ dù\n• 香格里拉 (샹그릴라): Xiānggélǐlā\n• 包车 (대절차/빵차): bāochē\n• 费用 (비용): fèiyòng"
+    },
+    {
+      "id": "D5-10",
+      "dayId": "D5",
+      "seq": 10,
+      "timeLabel": "15:25~18:40",
+      "timeStart": "15:25",
       "timeEnd": "18:40",
       "from": "Come Inn",
       "via": "-",
@@ -706,9 +722,9 @@
       "message": null
     },
     {
-      "id": "D5-10",
+      "id": "D5-11",
       "dayId": "D5",
-      "seq": 10,
+      "seq": 11,
       "timeLabel": "18:40~20:00",
       "timeStart": "18:40",
       "timeEnd": "20:00",
@@ -767,7 +783,7 @@
       "duration": "약 3시간",
       "tip": "블로그 기준 ¥500/대, 전날 예약. 앞좌석·멀미약. Oura Villa 픽업 서비스 문의 가능(+86-15398639869)",
       "amapUrl": null,
-      "message": "1. 매니저에게 보여줄 중국어 문장 + 병음\n\n你好，我想预订明天上午10点，从靠山十九度到香格里拉的包车。\n• 병음: Nǐhǎo, wǒ xiǎng yùdìng míngtiān shàngwǔ shí diǎn, cóng Kàoshān shíjiǔ dù dào Xiānggélǐlā de bāochē.\n• 한글 발음: 니하오, 워 시앙 위딩 밍티엔 샹우 쉬 디엔, 쏭 카오샨스치우두 다오 시앙거리라 더 바오처.\n请问一辆车的费用是多少钱？\n• 병음: Qǐngwèn yī liàng chē de fèiyòng shì duōshǎo qián?\n• 한글 발음: 칭원 이 리앙 처 더 페이용 시 도우샤오 치엔?\n\n짚고 넘어갈 핵심 단어 병음\n\n• 明天上午10点 (내일 오전 10시): míngtiān shàngwǔ shí diǎn\n• 靠山十九度 (컴인 숙소 중국어 이름): Kàoshān shíjiǔ dù\n• 香格里拉 (샹그릴라): Xiānggélǐlā\n• 包车 (대절차/빵차): bāochē\n• 费用 (비용): fèiyòng"
+      "message": null
     },
     {
       "id": "D6-04",
