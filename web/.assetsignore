@@ -1,0 +1,16 @@
+# web 폴더가 통째로 자산으로 올라가는 잘못된 배포에서도 원본·설정이 공개되지 않게 한다.
+# (정상 배포는 dist/ 만 올리며, 이 파일은 dist 에 들어가지 않는다)
+src
+scripts
+tests
+node_modules
+public
+data
+*.md
+*.json
+*.jsonc
+*.ts
+*.mjs
+*.cjs
+.env*
+.nvmrc

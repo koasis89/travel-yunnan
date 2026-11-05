@@ -8,7 +8,7 @@ import { readNumber, readYuan } from '../src/domain/chineseNumber'
 import { buildIcs } from '../src/domain/ics'
 import { expensesCsv, budgetKey } from '../src/domain/expense'
 
-const dir = new URL('../data/', import.meta.url)
+const dir = new URL('../../data/web/', import.meta.url)
 const bundle = Object.fromEntries(readdirSync(dir).map((f) => [f, JSON.parse(readFileSync(new URL(f, dir), 'utf8'))]))
 const data = new TripData(bundle)
 const rows = (id: string) => data.scheduleOf(id)

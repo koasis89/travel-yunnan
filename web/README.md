@@ -15,7 +15,7 @@ npm run build        # 암호화 → 타입 검사 → dist/ 생성
 ## 데이터 갱신
 
 엑셀 수정 → `python3 tools/build_data.py` → `python3 tools/export_web.py` → 커밋·푸시 → Cloudflare Pages 자동 배포.
-`web/data/` 는 직접 고치지 않는다.
+`data/web/` 는 직접 고치지 않는다. 평문 데이터는 절대 `web/` 아래에 두지 않는다.
 
 ## Cloudflare 설정 (Workers 정적 자산, `web/wrangler.jsonc`)
 

@@ -44,7 +44,7 @@ jobs:
       - run: pip install openpyxl pillow
       - name: 웹 데이터 내보내기 누락 검사
         working-directory: .
-        run: python3 tools/build_data.py && python3 tools/export_web.py && git diff --exit-code web/data
+        run: python3 tools/build_data.py && python3 tools/export_web.py && git diff --exit-code data/web
       - run: npm ci
       - run: npx vitest run
       - name: 빌드(CI 는 시험용 이메일로 암호화)

@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """웹 버전용 데이터 내보내기 (웹 절차서 W1-1).
 
-    python3 tools/export_web.py            # web/data/ 와 web/public/images/foods/ 갱신
+    python3 tools/export_web.py            # data/web/ 와 web/public/images/foods/ 갱신
     python3 tools/export_web.py --public   # 예약번호·예약자명 제거(공개 사이트용 B안)
 
 data/json 에서 웹에 필요한 파일만 고르고, 회화·지도 관련 데이터는 뺀다.
-web/data 는 빌드 때 암호화되어 data.enc 로만 배포된다(web/scripts/encrypt-data.mjs).
+data/web 은 빌드 때 암호화되어 data.enc 로만 배포된다(web/scripts/encrypt-data.mjs).
+평문은 절대 web/ 아래에 두지 않는다(2026-11-05 배포 사고 재발 방지).
 """
 import json
 import shutil
@@ -14,7 +15,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 SRC = REPO / "data" / "json"
-OUT = REPO / "web" / "data"
+OUT = REPO / "data" / "web"  # web/ 밖에 둔다: web 폴더가 통째로 배포돼도 평문이 나가지 않게
 FOODS_OUT = REPO / "web" / "public" / "images" / "foods"
 
 INCLUDE = [

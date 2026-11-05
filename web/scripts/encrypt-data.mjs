@@ -1,4 +1,4 @@
-// 웹 절차서 W6-2: data/*.json → public/data.enc (AES-256-GCM), 허용 이메일별 키 포장 → public/keys.json
+// 웹 절차서 W6-2: ../data/web/*.json → public/data.enc (AES-256-GCM), 허용 이메일별 키 포장 → public/keys.json
 // 허용 이메일은 환경 변수 ALLOWED_EMAILS(쉼표 구분)로만 받는다. 로컬은 .env.local 에서 읽는다.
 import { webcrypto as c } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
@@ -18,7 +18,7 @@ const ITER = 600000
 const enc = new TextEncoder()
 const b64 = (u8) => Buffer.from(u8).toString('base64')
 
-const dir = 'data'
+const dir = '../data/web' // 평문은 web/ 밖에 있다
 const bundle = Object.fromEntries(readdirSync(dir).filter((f) => f.endsWith('.json')).sort()
   .map((f) => [f, JSON.parse(readFileSync(`${dir}/${f}`, 'utf8'))]))
 
