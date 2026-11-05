@@ -9,6 +9,7 @@
 - `android/` : Android Studio 프로젝트 (Kotlin, Jetpack Compose)
 - `data/source/` : 원본 일정 엑셀(여권정보 시트 제외), 중국어 회화·병음 텍스트
 - `assets/maps/` : 엑셀에서 추출한 일정별 지도 이미지 7장
+- `assets/audio/phrases/` : 회화 음성 mp3 157개(edge-tts, `python3 tools/gen_audio.py`)
 - `assets/foods/` : 엑셀 음식설명 시트에서 추출한 음식 이미지 24장(`food-<엑셀 행번호>`, Wikimedia Commons CC 라이선스)
 
 여권 등 개인 식별 정보는 리포지토리에 올리지 않는다.
@@ -17,6 +18,7 @@
 
 ```bash
 python3 tools/build_data.py        # 데이터 재생성·검증
+python3 tools/gen_audio.py         # 바뀐 문장만 mp3 재생성 (pip install edge-tts)
 cd android && ./gradlew assembleDebug   # APK: android/app/build/outputs/apk/debug/
 cd android && ./gradlew testDebugUnitTest   # 단위 테스트 + 화면 스크린샷(app/build/outputs/roborazzi)
 ```

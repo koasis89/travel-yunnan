@@ -14,8 +14,8 @@ android {
         applicationId = "kr.koasis.travelyunnan"
         minSdk = 26
         targetSdk = 35
-        versionCode = 2
-        versionName = "0.4.0"
+        versionCode = 3
+        versionName = "0.5.0"
     }
 
     buildTypes {
@@ -55,7 +55,7 @@ val syncTripAssets by tasks.registering(Sync::class) {
     from(File(repo, "data/json")) { into("data"); include("*.json") }
     from(File(repo, "assets/maps")) { into("images/maps") }
     from(File(repo, "assets/foods")) { into("images/foods") }
-    from(File(repo, "assets/audio")) { into("audio"); exclude("**/.gitkeep") }
+    from(File(repo, "assets/audio")) { into("audio"); exclude("**/.gitkeep", "**/*.sha") }
 }
 tasks.named("preBuild") { dependsOn(syncTripAssets) }
 

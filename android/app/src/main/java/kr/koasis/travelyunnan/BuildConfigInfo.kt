@@ -1,5 +1,5 @@
 package kr.koasis.travelyunnan
 
 object BuildConfigInfo {
-    const val VERSION = "0.4.0 (S4)"
+    const val VERSION = "0.5.0 (S5)"
 }
