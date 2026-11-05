@@ -88,6 +88,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     fun updateDoc(d: TripDoc) = viewModelScope.launch(Dispatchers.IO) { dao.upsertDoc(d) }
     fun deleteDoc(d: TripDoc) = viewModelScope.launch(Dispatchers.IO) { dao.deleteDoc(d.id); DocStore.delete(getApplication(), d.id) }
 
+    fun updateExpense(e: Expense) = viewModelScope.launch(Dispatchers.IO) { dao.updateExpense(e) }
     fun addExpense(e: Expense) = viewModelScope.launch(Dispatchers.IO) { dao.addExpense(e) }
     fun deleteExpense(e: Expense) = viewModelScope.launch(Dispatchers.IO) { dao.deleteExpense(e) }
     fun setCnyRate(v: Double?) = viewModelScope.launch { c.settings.setCnyRate(v) }

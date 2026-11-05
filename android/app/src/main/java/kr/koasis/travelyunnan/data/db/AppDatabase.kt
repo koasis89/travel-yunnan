@@ -113,6 +113,9 @@ interface UserDao {
 
     @Delete
     suspend fun deleteExpense(e: Expense)
+
+    @Update
+    suspend fun updateExpense(e: Expense)
 }
 
 @Database(entities = [Flag::class, PhraseFav::class, PhraseRecent::class, Expense::class, DiaryEntry::class, TripDoc::class], version = 4, exportSchema = true)

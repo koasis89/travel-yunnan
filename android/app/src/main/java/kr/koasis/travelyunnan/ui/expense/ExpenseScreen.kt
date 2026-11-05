@@ -95,6 +95,7 @@ fun ExpenseScreen(vm: AppViewModel, data: TripData) {
     }
     ExpenseContent(
         data, list, settings, now, vm::addExpense, vm::deleteExpense, vm::setCnyRate, vm::setCash,
+        onFixKrw = { vm.updateExpense(it.copy(currency = "KRW")) },
         reading = reading, prefill = prefill, onClearPrefill = { prefill = null },
         onReceipt = { picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) },
     )
@@ -105,6 +106,7 @@ fun ExpenseScreen(vm: AppViewModel, data: TripData) {
 fun ExpenseContent(
     data: TripData, list: List<Expense>, settings: AppSettings, now: LocalDateTime,
     onAdd: (Expense) -> Unit, onDelete: (Expense) -> Unit, onRate: (Double?) -> Unit, onCash: (Double) -> Unit,
+    onFixKrw: (Expense) -> Unit = {},
     reading: Boolean = false, prefill: Pair<ReceiptGuess, Uri>? = null, onClearPrefill: () -> Unit = {}, onReceipt: () -> Unit = {},
 ) {
     val actions = LocalActions.current
@@ -149,7 +151,7 @@ fun ExpenseContent(
             }
             item { SectionTitle("지출 내역 (${list.size}건)") }
             if (list.isEmpty()) item { EmptyState("아직 기록이 없다. 아래 + 로 추가한다") }
-            items(list, key = { it.id }) { e -> ExpenseRow(e, rate) { onDelete(e) } }
+            items(list, key = { it.id }) { e -> ExpenseRow(e, rate, onFixKrw = { onFixKrw(e) }) { onDelete(e) } }
         }
     }
     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.BottomEnd) {
@@ -177,10 +179,14 @@ private fun BudgetBar(spent: Double, budget: Double) {
 }
 
 @Composable
-private fun ExpenseRow(e: Expense, rate: Double, onDelete: () -> Unit) {
+private fun ExpenseRow(e: Expense, rate: Double, onFixKrw: () -> Unit = {}, onDelete: () -> Unit) {
     val t = LocalDateTime.ofInstant(Instant.ofEpochMilli(e.at), ZoneId.of("Asia/Shanghai"))
     ListItem(
         headlineContent = { Text((if (e.currency == "CNY") "¥%,.0f".format(e.amount) else "%,.0f원".format(e.amount)) + "  " + e.memo, fontWeight = FontWeight.SemiBold) },
+        overlineContent = if (e.currency == "CNY" && e.amount >= 5000) ({
+            // ¥5,000 이상(약 100만 원)은 원화를 위안으로 잘못 고른 경우가 많다
+            AssistChip(onClick = onFixKrw, label = { Text("원화로 고치기 (%,.0f원)".format(e.amount)) })
+        }) else null,
         supportingContent = { Text("${e.dayId} ${t.format(DateTimeFormatter.ofPattern("M/d HH:mm"))} · ${e.category} · ${e.method} · ${e.payer}" + (if (e.currency == "CNY") " · 약 %,d원".format(e.krw(rate).toLong()) else "") + if (e.ocr) " · 영수증 인식" else "") },
         trailingContent = { IconButton(onClick = onDelete) { Icon(Icons.Filled.Delete, "삭제", tint = MaterialTheme.colorScheme.outline) } },
     )
