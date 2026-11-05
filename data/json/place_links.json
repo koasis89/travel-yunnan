@@ -211,6 +211,26 @@
       "match": "정정적마니석",
       "type": "meal",
       "key": "静静的嘛呢石"
+    },
+    {
+      "match": "운남성박물관",
+      "type": "place",
+      "key": "yunnan_museum"
+    },
+    {
+      "match": "관두고진",
+      "type": "place",
+      "key": "guandu"
+    },
+    {
+      "match": "철붕소과미선",
+      "type": "meal",
+      "key": "铁朋小锅米线"
+    },
+    {
+      "match": "好菌道",
+      "type": "meal",
+      "key": "好菌道"
     }
   ]
 }

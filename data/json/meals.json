@@ -705,19 +705,27 @@
       "id": "D7-02",
       "dayId": "D7",
       "seq": 2,
-      "area": "열차",
+      "area": "쿤밍역",
       "slot": "점심",
       "options": [
         {
           "id": "D7-02-1",
-          "name": "열차 도시락",
-          "nameZh": "",
-          "addrZh": "C640 열차",
+          "name": "철붕소과미선(铁朋小锅米线 塘子巷总店)",
+          "nameZh": "铁朋小锅米线 塘子巷总店",
+          "addrZh": "昆明市官渡区塘子巷 (铁朋小锅米线 검색)",
           "amapUrl": null,
-          "menu": "도시락·과일"
+          "menu": "소과미선"
         },
         {
           "id": "D7-02-2",
+          "name": "好菌道·야생버섯훠궈(호텔 인근)",
+          "nameZh": "好菌道·야생버섯훠궈",
+          "addrZh": "好菌道 昆明火车站 검색",
+          "amapUrl": null,
+          "menu": "야생버섯훠궈(쿠폰 12%)"
+        },
+        {
+          "id": "D7-02-3",
           "name": "역 매점 간식",
           "nameZh": "",
           "addrZh": "",
@@ -725,8 +733,8 @@
           "menu": ""
         }
       ],
-      "budgetCny": 120,
-      "note": "6시간 승차",
+      "budgetCny": 150,
+      "note": "12:50 도착 후 호텔 도보 10분",
       "extra": null
     },
     {
@@ -841,24 +849,24 @@
       "id": "D8-03",
       "dayId": "D8",
       "seq": 3,
-      "area": "쿤밍 노가",
+      "area": "관두고진",
       "slot": "간식",
       "options": [
         {
           "id": "D8-03-1",
-          "name": "노가 카페",
-          "nameZh": "",
-          "addrZh": "钱王街·文明街(老街)",
+          "name": "관두 바바(官渡粑粑) 노점",
+          "nameZh": "官渡粑粑",
+          "addrZh": "官渡古镇 金刚塔 인근",
           "amapUrl": null,
-          "menu": "커피"
+          "menu": "관두 바바"
         },
         {
           "id": "D8-03-2",
-          "name": "鲜花饼 상점",
-          "nameZh": "鲜花饼 상점",
-          "addrZh": "钱王街·文明街(老街)",
+          "name": "노가 카페(D7 오후)",
+          "nameZh": "",
+          "addrZh": "钱王街·文明街",
           "amapUrl": null,
-          "menu": "장미 선화병"
+          "menu": "커피·장미 선화병"
         }
       ],
       "budgetCny": 60,
@@ -869,28 +877,36 @@
       "id": "D8-04",
       "dayId": "D8",
       "seq": 4,
-      "area": "쿤밍 남병가",
+      "area": "관두고진·쿤밍역",
       "slot": "저녁",
       "options": [
         {
           "id": "D8-04-1",
+          "name": "관두고진 소흡(官渡古镇)",
+          "nameZh": "官渡古镇",
+          "addrZh": "官渡古镇",
+          "amapUrl": null,
+          "menu": "관두 바바·미선"
+        },
+        {
+          "id": "D8-04-2",
+          "name": "好菌道·야생버섯훠궈(호텔 인근)",
+          "nameZh": "好菌道·야생버섯훠궈",
+          "addrZh": "好菌道 昆明火车站 검색",
+          "amapUrl": null,
+          "menu": "야생버섯훠궈"
+        },
+        {
+          "id": "D8-04-3",
           "name": "福照楼汽锅鸡(火车站锦江店)",
           "nameZh": "福照楼汽锅鸡",
           "addrZh": "昆明站 인근",
           "amapUrl": null,
           "menu": "기과계"
-        },
-        {
-          "id": "D8-04-2",
-          "name": "建新园过桥米线(宝善街店)",
-          "nameZh": "建新园过桥米线",
-          "addrZh": "五华区宝善街",
-          "amapUrl": null,
-          "menu": "과교미선"
         }
       ],
       "budgetCny": 200,
-      "note": "인당 약 ¥79 / ¥32",
+      "note": "18:30 숙소 복귀 전 이른 저녁",
       "extra": null
     }
   ],
