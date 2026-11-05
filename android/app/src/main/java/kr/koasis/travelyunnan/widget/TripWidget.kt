@@ -44,13 +44,13 @@ class TripWidget : GlanceAppWidget() {
             TripPhase.AfterTrip -> "여행 끝"
         }
         val route = if (lodging != null) Routes.taxi(TargetType.lodging, lodging.id) else Routes.taxi(TargetType.place, "kmg_airport")
-        provideContent { WidgetContent(title, move?.let { "${it.day.id} ${it.row.timeLabel} ${it.row.transport} · ${formatLeft(it.minutesLeft)}" }, lodging?.nameZh, lodging?.addrZh?.let { cleanZhAddress(it) }, route) }
+        provideContent { WidgetContent(context.packageName, title, move?.let { "${it.day.id} ${it.row.timeLabel} ${it.row.transport} · ${formatLeft(it.minutesLeft)}" }, lodging?.nameZh, lodging?.addrZh?.let { cleanZhAddress(it) }, route) }
     }
 }
 
 @Composable
-private fun WidgetContent(title: String, move: String?, nameZh: String?, addrZh: String?, route: String) {
-    val intent = Intent(Intent.ACTION_MAIN).setClassName("kr.koasis.travelyunnan", "kr.koasis.travelyunnan.MainActivity")
+private fun WidgetContent(pkg: String, title: String, move: String?, nameZh: String?, addrZh: String?, route: String) {
+    val intent = Intent(Intent.ACTION_MAIN).setClassName(pkg, "kr.koasis.travelyunnan.MainActivity")
         .putExtra(MainActivity.EXTRA_ROUTE, route).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
     GlanceTheme {
         Column(

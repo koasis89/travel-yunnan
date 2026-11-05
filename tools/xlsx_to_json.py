@@ -15,7 +15,12 @@ from pathlib import Path
 import openpyxl
 
 TRIP_YEAR = 2026
-DATA_VERSION = "2026-11-04"
+def _version():
+    f = Path(__file__).resolve().parent.parent / "data" / "version.txt"
+    return f.read_text(encoding="utf-8").strip() if f.exists() else "dev"
+
+
+DATA_VERSION = _version()
 
 # 일차 → 숙소 id (숙소정보 시트 순서와 일치)
 DAY_LODGING = {

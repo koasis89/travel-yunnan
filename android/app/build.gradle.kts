@@ -1,9 +1,17 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
+}
+
+// 서명 정보는 android/keystore.properties (git 제외) 에서 읽는다. 없으면 디버그 서명으로 release 를 만든다.
+val keystoreProps = Properties().apply {
+    val f = rootProject.file("keystore.properties")
+    if (f.exists()) f.inputStream().use { load(it) }
 }
 
 android {
@@ -14,15 +22,30 @@ android {
         applicationId = "kr.koasis.travelyunnan"
         minSdk = 26
         targetSdk = 35
-        versionCode = 4
-        versionName = "0.6.0"
+        versionCode = 10
+        versionName = "1.0.0"
     }
 
+    signingConfigs {
+        create("release") {
+            if (keystoreProps.isNotEmpty()) {
+                storeFile = file(keystoreProps.getProperty("storeFile"))
+                storePassword = keystoreProps.getProperty("storePassword")
+                keyAlias = keystoreProps.getProperty("keyAlias")
+                keyPassword = keystoreProps.getProperty("keyPassword")
+            }
+        }
+    }
     buildTypes {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = if (keystoreProps.isNotEmpty()) signingConfigs.getByName("release") else signingConfigs.getByName("debug")
+        }
+        debug {
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
         }
     }
     compileOptions {

@@ -19,7 +19,12 @@ import re
 import sys
 from pathlib import Path
 
-DATA_VERSION = "2026-11-04"
+def _version():
+    f = Path(__file__).resolve().parent.parent / "data" / "version.txt"
+    return f.read_text(encoding="utf-8").strip() if f.exists() else "dev"
+
+
+DATA_VERSION = _version()
 
 # 범주: 해당 범주가 시작되는 첫 문장(앵커). 파일 순서대로 다음 앵커 전까지 같은 범주다.
 CATEGORY_ANCHORS = [
