@@ -21,7 +21,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import kr.koasis.travelyunnan.domain.TargetType
 import kr.koasis.travelyunnan.ui.AppViewModel
+import kr.koasis.travelyunnan.ui.diary.DiaryScreen
+import kr.koasis.travelyunnan.ui.emergency.EmergencyScreen
 import kr.koasis.travelyunnan.ui.expense.ExpenseScreen
+import kr.koasis.travelyunnan.ui.number.NumberCardScreen
+import kr.koasis.travelyunnan.ui.template.TemplateScreen
 import kr.koasis.travelyunnan.ui.home.HomeScreen
 import kr.koasis.travelyunnan.ui.lodging.LodgingScreen
 import kr.koasis.travelyunnan.ui.meal.FoodsScreen
@@ -51,7 +55,7 @@ private val TABS = listOf(
 )
 
 @Composable
-fun AppNav(vm: AppViewModel) {
+fun AppNav(vm: AppViewModel, initialRoute: String? = null) {
     val nav = rememberNavController()
     val data by vm.data.collectAsStateWithLifecycle()
     val entry by nav.currentBackStackEntryAsState()
@@ -82,6 +86,10 @@ fun AppNav(vm: AppViewModel) {
             openExpense = { go(Routes.EXPENSE) },
             openPacking = { go(Routes.PACKING) },
             openNotes = { go(Routes.NOTES) },
+            openEmergency = { go(Routes.EMERGENCY) },
+            openTemplates = { go(Routes.templates(it)) },
+            openNumber = { go(Routes.NUMBER) },
+            openDiary = { go(Routes.diary(it)) },
             back = { nav.popBackStack() },
         )
     }
@@ -91,6 +99,8 @@ fun AppNav(vm: AppViewModel) {
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
         return
     }
+
+    LaunchedEffect(initialRoute) { initialRoute?.let { r -> runCatching { nav.navigate(r) { launchSingleTop = true } } } }
 
     CompositionLocalProvider(LocalActions provides actions) {
         Scaffold(
@@ -142,6 +152,14 @@ fun AppNav(vm: AppViewModel) {
                 composable(Routes.EXPENSE) { ExpenseScreen(vm, d) }
                 composable(Routes.PACKING) { PackingScreen(vm, d) }
                 composable(Routes.NOTES) { NotesScreen(d) }
+                composable(Routes.EMERGENCY) { EmergencyScreen(vm, d) }
+                composable(Routes.TEMPLATES, arguments = listOf(navArgument("id") { type = NavType.StringType; nullable = true })) {
+                    TemplateScreen(d, it.arguments?.getString("id"))
+                }
+                composable(Routes.NUMBER) { NumberCardScreen(vm) }
+                composable(Routes.DIARY, arguments = listOf(navArgument("day") { type = NavType.StringType; nullable = true })) {
+                    DiaryScreen(vm, d, it.arguments?.getString("day"))
+                }
             }
         }
     }

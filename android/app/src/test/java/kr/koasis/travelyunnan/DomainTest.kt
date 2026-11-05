@@ -127,3 +127,23 @@ class DomainTest {
         assertEquals(listOf("px-008", "px-009"), ids)
     }
 }
+
+class S6Test {
+    @Test fun chineseNumbers() {
+        val r = ChineseNumber::read
+        assertEquals("零", r(0)); assertEquals("八", r(8)); assertEquals("十", r(10)); assertEquals("十五", r(15))
+        assertEquals("二十", r(20)); assertEquals("四十五", r(45)); assertEquals("一百", r(100)); assertEquals("一百零五", r(105))
+        assertEquals("一百五十", r(150)); assertEquals("两百", r(200)); assertEquals("一千零五十", r(1050)); assertEquals("两千三百", r(2300))
+        assertEquals("一万两千", r(12000)); assertEquals("九万九千九百九十九", r(99999))
+        assertEquals("一百五十块五毛", ChineseNumber.yuan(150.5)); assertEquals("八十块", ChineseNumber.yuan(80.0))
+    }
+
+    @Test fun templatesRender() {
+        val t = Templates.shangrila
+        val zh = t.render(mapOf("date" to "12月21日上午10点"))
+        assertTrue(zh.startsWith("你好，我想预订12月21日上午10点，从靠山十九度到"))
+        assertTrue(Templates.delivery.render(mapOf("room" to "305")).contains("房间号305"))
+        assertFalse(Templates.delivery.render(emptyMap()).contains("房间号"))
+        assertEquals(4, Templates.all.size)
+    }
+}

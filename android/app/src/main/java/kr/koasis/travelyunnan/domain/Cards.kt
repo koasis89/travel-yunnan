@@ -107,7 +107,12 @@ object ScheduleLinks {
         for (l in data.placeLinks) {
             if (!text.contains(l.match)) continue
             val t = when (l.type) {
-                "lodging" -> data.lodging(l.key)?.let { LinkTarget(it.nameKo.substringBefore(" (").substringBefore("("), TargetType.lodging, it.id) }
+                "lodging" -> data.lodging(l.key)?.let { base ->
+                    // 같은 호텔을 두 번 묵는 경우(쿤밍) 해당 일자의 예약으로 연결한다
+                    val date = data.day(row.dayId)?.date
+                    val l2 = data.lodgings.firstOrNull { it.nameZh == base.nameZh && date != null && date in it.dates } ?: base
+                    LinkTarget(l2.nameKo.substringBefore(" (").substringBefore("("), TargetType.lodging, l2.id)
+                }
                 "place" -> data.place(l.key)?.let { LinkTarget(it.nameKo, TargetType.place, it.id) }
                 "meal" -> data.findMealOption(l.key)?.let { (_, o) -> LinkTarget(o.name.substringBefore("("), TargetType.meal, o.id) }
                 else -> null

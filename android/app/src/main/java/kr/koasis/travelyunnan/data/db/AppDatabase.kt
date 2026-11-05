@@ -28,8 +28,31 @@ data class Expense(
     val at: Long = System.currentTimeMillis(),
 )
 
+/** 사진 일기(S6-5): 일정 행에 붙인 사진 URI 와 메모 */
+@Entity(tableName = "diary")
+data class DiaryEntry(
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val dayId: String,
+    val scheduleId: String? = null,
+    val uri: String? = null,
+    val memo: String = "",
+    val at: Long = System.currentTimeMillis(),
+)
+
 @Dao
 interface UserDao {
+    @Query("SELECT * FROM diary ORDER BY at DESC")
+    fun diary(): Flow<List<DiaryEntry>>
+
+    @Insert
+    suspend fun addDiary(e: DiaryEntry): Long
+
+    @Update
+    suspend fun updateDiary(e: DiaryEntry)
+
+    @Delete
+    suspend fun deleteDiary(e: DiaryEntry)
+
     @Query("SELECT key FROM flags")
     fun flagKeys(): Flow<List<String>>
 
@@ -64,12 +87,18 @@ interface UserDao {
     suspend fun deleteExpense(e: Expense)
 }
 
-@Database(entities = [Flag::class, PhraseFav::class, PhraseRecent::class, Expense::class], version = 1, exportSchema = true)
+@Database(entities = [Flag::class, PhraseFav::class, PhraseRecent::class, Expense::class, DiaryEntry::class], version = 2, exportSchema = true)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
 
     companion object {
+        private val MIGRATION_1_2 = object : androidx.room.migration.Migration(1, 2) {
+            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+                db.execSQL("CREATE TABLE IF NOT EXISTS `diary` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `dayId` TEXT NOT NULL, `scheduleId` TEXT, `uri` TEXT, `memo` TEXT NOT NULL, `at` INTEGER NOT NULL)")
+            }
+        }
+
         fun create(context: Context): AppDatabase =
-            Room.databaseBuilder(context, AppDatabase::class.java, "travel_yunnan.db").build()
+            Room.databaseBuilder(context, AppDatabase::class.java, "travel_yunnan.db").addMigrations(MIGRATION_1_2).build()
     }
 }

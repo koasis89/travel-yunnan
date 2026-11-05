@@ -14,8 +14,8 @@ android {
         applicationId = "kr.koasis.travelyunnan"
         minSdk = 26
         targetSdk = 35
-        versionCode = 3
-        versionName = "0.5.0"
+        versionCode = 4
+        versionName = "0.6.0"
     }
 
     buildTypes {
@@ -79,6 +79,9 @@ dependencies {
     ksp(libs.room.compiler)
     implementation(libs.datastore.preferences)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.biometric)
+    implementation(libs.glance.appwidget)
+    implementation(libs.glance.material3)
 
     testImplementation(libs.junit)
     testImplementation(libs.robolectric)

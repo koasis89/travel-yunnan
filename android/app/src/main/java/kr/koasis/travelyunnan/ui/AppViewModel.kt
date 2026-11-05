@@ -11,6 +11,7 @@ import kotlinx.coroutines.withContext
 import kr.koasis.travelyunnan.TravelApp
 import kr.koasis.travelyunnan.data.AppSettings
 import kr.koasis.travelyunnan.data.TripData
+import kr.koasis.travelyunnan.data.db.DiaryEntry
 import kr.koasis.travelyunnan.data.db.Expense
 import kr.koasis.travelyunnan.data.db.Flag
 import kr.koasis.travelyunnan.notify.TripNotifier
@@ -65,6 +66,14 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         c.settings.setDisabledNotifications(if (id in cur) cur - id else cur + id)
         registerNotifications()
     }
+
+    val diary: StateFlow<List<DiaryEntry>> = flowOf(Unit).flatMapLatest { dao.diary() }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+    fun addDiary(e: DiaryEntry) = viewModelScope.launch(Dispatchers.IO) { dao.addDiary(e) }
+    fun updateDiary(e: DiaryEntry) = viewModelScope.launch(Dispatchers.IO) { dao.updateDiary(e) }
+    fun deleteDiary(e: DiaryEntry) = viewModelScope.launch(Dispatchers.IO) { dao.deleteDiary(e) }
+
+    val secure get() = c.secure
 
     fun addExpense(e: Expense) = viewModelScope.launch(Dispatchers.IO) { dao.addExpense(e) }
     fun deleteExpense(e: Expense) = viewModelScope.launch(Dispatchers.IO) { dao.deleteExpense(e) }

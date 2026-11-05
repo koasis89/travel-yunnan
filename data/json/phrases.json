@@ -50,6 +50,11 @@
       "id": "message",
       "title": "위챗 장문",
       "icon": "message"
+    },
+    {
+      "id": "emergency",
+      "title": "긴급·병원",
+      "icon": "emergency"
     }
   ],
   "items": [
@@ -884,6 +889,110 @@
       "koRead": "니하오, 워 시앙 위딩 밍티엔 샹우 스디엔, 총 카오샨 스지우두 따오 시앙거리라 더 빠오처. 칭원 이 리앙 처 더 페이용 스 뚜어샤오 치엔?",
       "copyOnly": true,
       "source": "엑셀 상세일정 D6 10:30 (Come Inn 매니저에게)"
+    },
+    {
+      "id": "px-010",
+      "zh": "请帮我叫救护车。",
+      "pinyin": "qǐng bāng wǒ jiào jiù hù chē",
+      "categories": [
+        "emergency"
+      ],
+      "repeat": 1,
+      "ko": "구급차를 불러 주세요",
+      "koRead": "칭 빵 워 지아오 지우후처",
+      "copyOnly": false,
+      "source": "S6 긴급 화면"
+    },
+    {
+      "id": "px-011",
+      "zh": "我有高原反应，头很疼。",
+      "pinyin": "wǒ yǒu gāo yuán fǎn yìng, tóu hěn téng",
+      "categories": [
+        "emergency"
+      ],
+      "repeat": 1,
+      "ko": "고산병 증상이 있어요, 머리가 많이 아파요",
+      "koRead": "워 요우 까오위엔 판잉, 토우 헌 텅",
+      "copyOnly": false,
+      "source": "S6 긴급 화면"
+    },
+    {
+      "id": "px-012",
+      "zh": "我需要去医院。",
+      "pinyin": "wǒ xū yào qù yī yuàn",
+      "categories": [
+        "emergency"
+      ],
+      "repeat": 1,
+      "ko": "병원에 가야 해요",
+      "koRead": "워 쉬야오 취 이위엔",
+      "copyOnly": false,
+      "source": "S6 긴급 화면"
+    },
+    {
+      "id": "px-013",
+      "zh": "请帮我叫警察。",
+      "pinyin": "qǐng bāng wǒ jiào jǐng chá",
+      "categories": [
+        "emergency"
+      ],
+      "repeat": 1,
+      "ko": "경찰을 불러 주세요",
+      "koRead": "칭 빵 워 지아오 징차",
+      "copyOnly": false,
+      "source": "S6 긴급 화면"
+    },
+    {
+      "id": "px-014",
+      "zh": "我的护照丢了。",
+      "pinyin": "wǒ de hù zhào diū le",
+      "categories": [
+        "emergency"
+      ],
+      "repeat": 1,
+      "ko": "여권을 잃어버렸어요",
+      "koRead": "워 더 후짜오 띠우 러",
+      "copyOnly": false,
+      "source": "S6 긴급 화면"
+    },
+    {
+      "id": "px-015",
+      "zh": "请帮我联系韩国领事馆。",
+      "pinyin": "qǐng bāng wǒ lián xì hán guó lǐng shì guǎn",
+      "categories": [
+        "emergency"
+      ],
+      "repeat": 1,
+      "ko": "한국 영사관에 연락해 주세요",
+      "koRead": "칭 빵 워 리엔시 한구어 링스관",
+      "copyOnly": false,
+      "source": "S6 긴급 화면"
+    },
+    {
+      "id": "px-016",
+      "zh": "我是韩国人，不会说中文。",
+      "pinyin": "wǒ shì hán guó rén, bú huì shuō zhōng wén",
+      "categories": [
+        "emergency"
+      ],
+      "repeat": 1,
+      "ko": "저는 한국인이고 중국어를 못해요",
+      "koRead": "워 스 한구어런, 부 후이 슈어 쫑원",
+      "copyOnly": false,
+      "source": "S6 긴급 화면"
+    },
+    {
+      "id": "px-017",
+      "zh": "有卖氧气瓶吗？",
+      "pinyin": "yǒu mài yǎng qì píng ma",
+      "categories": [
+        "emergency"
+      ],
+      "repeat": 1,
+      "ko": "산소캔 파나요?",
+      "koRead": "요우 마이 양치핑 마",
+      "copyOnly": false,
+      "source": "S6 긴급 화면"
     }
   ]
 }

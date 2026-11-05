@@ -21,6 +21,10 @@ data class Actions(
     val openExpense: () -> Unit = {},
     val openPacking: () -> Unit = {},
     val openNotes: () -> Unit = {},
+    val openEmergency: () -> Unit = {},
+    val openTemplates: (String?) -> Unit = {},
+    val openNumber: () -> Unit = {},
+    val openDiary: (String?) -> Unit = {},
     val back: () -> Unit = {},
 )
 
@@ -45,6 +49,10 @@ object Routes {
     const val EXPENSE = "expense"
     const val PACKING = "packing"
     const val NOTES = "notes"
+    const val EMERGENCY = "emergency"
+    const val TEMPLATES = "templates?id={id}"
+    const val NUMBER = "number"
+    const val DIARY = "diary?day={day}"
 
     fun schedule(day: String?) = "schedule" + (day?.let { "?day=$it" } ?: "")
     fun phrases(cat: String?) = "phrases" + (cat?.let { "?cat=$it" } ?: "")
@@ -55,4 +63,6 @@ object Routes {
     fun lodgings(id: String?) = "lodgings" + (id?.let { "?id=$it" } ?: "")
     fun meals(day: String?) = "meals" + (day?.let { "?day=$it" } ?: "")
     fun menu(food: String?) = "menu" + (food?.let { "?food=$it" } ?: "")
+    fun templates(id: String?) = "templates" + (id?.let { "?id=$it" } ?: "")
+    fun diary(day: String?) = "diary" + (day?.let { "?day=$it" } ?: "")
 }

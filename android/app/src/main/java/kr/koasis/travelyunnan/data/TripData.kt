@@ -34,6 +34,7 @@ class TripData(
     val lodgingTodos: List<LodgingTodo> = emptyList(),
     val lodgingNotes: List<String> = emptyList(),
     val mealNotes: List<String> = emptyList(),
+    val emergency: EmergencyFile = EmergencyFile(),
 ) {
     private val dayById = days.associateBy { it.id }
     private val lodgingById = lodgings.associateBy { it.id }
@@ -118,6 +119,7 @@ class TripData(
                 lodgingTodos = items("lodging_todos.json", LodgingTodo.serializer()).items,
                 lodgingNotes = lodgings.notes,
                 mealNotes = meals.notes,
+                emergency = runCatching { json.decodeFromString(EmergencyFile.serializer(), read("emergency.json")) }.getOrDefault(EmergencyFile()),
             )
         }
     }

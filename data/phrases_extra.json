@@ -7,7 +7,9 @@
       "pinyin": "qǐng sòng wǒ men dào zhè ge dì zhǐ",
       "ko": "이 주소로 데려다 주세요",
       "koRead": "칭 쏭 워먼 따오 쩌거 띠즈",
-      "categories": ["car"],
+      "categories": [
+        "car"
+      ],
       "source": "엑셀 숙소정보 하단 안내"
     },
     {
@@ -16,7 +18,9 @@
       "pinyin": "wǒ men yǒu sān gè xíng lǐ xiāng",
       "ko": "캐리어가 3개 있어요",
       "koRead": "워먼 요우 싼거 싱리시앙",
-      "categories": ["car"],
+      "categories": [
+        "car"
+      ],
       "source": "엑셀 상세일정 D1 (짐 3개 사전 고지)"
     },
     {
@@ -25,7 +29,9 @@
       "pinyin": "gǔ chéng lǐ chē kāi bú jìn qù, qǐng sòng wǒ men dào lí zhè ge dì zhǐ zuì jìn de tíng chē diǎn",
       "ko": "고성 안은 차가 못 들어가니, 이 주소에서 가장 가까운 하차 지점까지 가 주세요",
       "koRead": "구청 리 처 카이 부 진취, 칭 쏭 워먼 따오 리 쩌거 띠즈 쭈이진 더 팅처디엔",
-      "categories": ["car"],
+      "categories": [
+        "car"
+      ],
       "source": "엑셀 유의사항 리장 호텔(고성 내 차량 진입 불가)"
     },
     {
@@ -34,7 +40,9 @@
       "pinyin": "qǐng bǎ wǒ men de xíng lǐ sòng dào zhè ge dì zhǐ",
       "ko": "저희 짐을 이 주소로 보내 주세요",
       "koRead": "칭 바 워먼 더 싱리 쏭따오 쩌거 띠즈",
-      "categories": ["car"],
+      "categories": [
+        "car"
+      ],
       "source": "엑셀 유의사항 호도협 짐(Come Inn 전달)"
     },
     {
@@ -43,7 +51,10 @@
       "pinyin": "qǐng xiě zài wēi xìn shàng",
       "ko": "위챗에 글로 적어 주세요",
       "koRead": "칭 시에 짜이 웨이신 샹",
-      "categories": ["car", "delivery"],
+      "categories": [
+        "car",
+        "delivery"
+      ],
       "source": "엑셀 상세일정 D4 17:00"
     },
     {
@@ -52,7 +63,9 @@
       "pinyin": "wǒ men yí gòng sān gè rén, qǐng bāng máng què rèn kě yǐ jiā chuáng ma",
       "ko": "저희는 3명입니다. 엑스트라베드 가능한지 확인 부탁드립니다",
       "koRead": "워먼 이꽁 싼거 런, 칭 빵망 취에런 커이 지아추앙 마",
-      "categories": ["hotel"],
+      "categories": [
+        "hotel"
+      ],
       "source": "엑셀 숙소정보 하단 안내"
     },
     {
@@ -61,7 +74,10 @@
       "pinyin": "má fan bāng wǒ men xiě yí xià sòng dào wǒ men zhù de jiǔ diàn fáng jiān de shōu huò dì zhǐ, yào xiě jiǔ diàn míng zi hé fáng jiān hào",
       "ko": "저희가 묵는 호텔 객실로 배달받을 주소를 적어 주세요. 호텔 이름과 방 번호를 써 주세요",
       "koRead": "마판 빵 워먼 시에 이시아 쏭따오 워먼 쭈 더 지우디엔 팡지엔 더 셔우후어 띠즈, 야오 시에 지우디엔 밍즈 허 팡지엔하오",
-      "categories": ["delivery", "hotel"],
+      "categories": [
+        "delivery",
+        "hotel"
+      ],
       "source": "엑셀 유의사항 메이투안 배달"
     },
     {
@@ -70,7 +86,9 @@
       "pinyin": "wǒ men méi yǒu guó nèi shǒu jī hào, qǐng bié dǎ diàn huà, zhí jiē fàng zài qián tái jiù xíng",
       "ko": "중국 휴대폰 번호가 없어요. 전화하지 말고 프런트에 맡겨 주세요",
       "koRead": "워먼 메이요우 꾸어네이 셔우지하오, 칭 비에 다 띠엔화, 즈지에 팡 짜이 치엔타이 지우 싱",
-      "categories": ["delivery"],
+      "categories": [
+        "delivery"
+      ],
       "source": "엑셀 유의사항 메이투안 요청사항"
     },
     {
@@ -79,7 +97,9 @@
       "pinyin": "zhí jiē ràng jī qì rén sòng shàng lái jiù xíng",
       "ko": "로봇으로 객실까지 보내 주시면 돼요",
       "koRead": "즈지에 랑 지치런 쏭샹라이 지우 싱",
-      "categories": ["delivery"],
+      "categories": [
+        "delivery"
+      ],
       "source": "엑셀 유의사항 메이투안 요청사항"
     },
     {
@@ -88,7 +108,10 @@
       "pinyin": "Nǐhǎo, wǒ xiǎng yùdìng qù Hǔtiàoxiá túbù de bāochē. Xíngchéng lùxiàn rúxià: chūfā Báishā gǔzhèn Lishine Villa; jīngtíng Shànghǔtiàoxiá jǐngqū, tíngliú yī dào yīdiǎnwǔ xiǎoshí; zhōngdiǎn Chámǎ kèzhàn. Qǐngwèn zhèyàng bāoxià yīliàng chē de zǒngfèiyòng shì duōshǎo qián? Lìngwài, wǒmen de xínglǐ dàodá Chámǎ kèzhàn hòu, xūyào tuōyùn dào Zhōngtú kèzhàn fùjìn de Kàoshān shíjiǔ dù kèzhàn.",
       "ko": "안녕하세요 매니저님, 호도협 트레킹용 빵차(대절차) 예약을 부탁드립니다.\n• 출발: 백사고진 리샤인 빌라\n• 경유: 상호도협 관광지, 1~1.5시간 대기\n• 도착: 차마객잔\n상호도협에서 1~1.5시간 기다린 뒤 차마객잔까지 올라가 주는 조건입니다. 차 1대 총비용이 얼마인가요?\n그리고 큰 짐(캐리어)은 차마객잔 도착 후 중도객잔 근처 컴인(靠山十九度)으로 보내야 합니다.\n위챗에 글로 적어 주세요.",
       "koRead": "",
-      "categories": ["message", "car"],
+      "categories": [
+        "message",
+        "car"
+      ],
       "copyOnly": true,
       "source": "엑셀 상세일정 D4 17:00 (Rishine 빌라 매니저에게)"
     },
@@ -98,9 +121,100 @@
       "pinyin": "Nǐhǎo, wǒ xiǎng yùdìng míngtiān shàngwǔ shí diǎn, cóng Kàoshān shíjiǔ dù dào Xiānggélǐlā de bāochē. Qǐngwèn yī liàng chē de fèiyòng shì duōshǎo qián?",
       "ko": "안녕하세요, 내일 오전 10시에 컴인(靠山十九度)에서 샹그릴라까지 가는 대절차를 예약하고 싶어요. 차 1대 비용이 얼마인가요?",
       "koRead": "니하오, 워 시앙 위딩 밍티엔 샹우 스디엔, 총 카오샨 스지우두 따오 시앙거리라 더 빠오처. 칭원 이 리앙 처 더 페이용 스 뚜어샤오 치엔?",
-      "categories": ["message", "car"],
+      "categories": [
+        "message",
+        "car"
+      ],
       "copyOnly": true,
       "source": "엑셀 상세일정 D6 10:30 (Come Inn 매니저에게)"
+    },
+    {
+      "id": "px-010",
+      "zh": "请帮我叫救护车。",
+      "pinyin": "qǐng bāng wǒ jiào jiù hù chē",
+      "ko": "구급차를 불러 주세요",
+      "koRead": "칭 빵 워 지아오 지우후처",
+      "categories": [
+        "emergency"
+      ],
+      "source": "S6 긴급 화면"
+    },
+    {
+      "id": "px-011",
+      "zh": "我有高原反应，头很疼。",
+      "pinyin": "wǒ yǒu gāo yuán fǎn yìng, tóu hěn téng",
+      "ko": "고산병 증상이 있어요, 머리가 많이 아파요",
+      "koRead": "워 요우 까오위엔 판잉, 토우 헌 텅",
+      "categories": [
+        "emergency"
+      ],
+      "source": "S6 긴급 화면"
+    },
+    {
+      "id": "px-012",
+      "zh": "我需要去医院。",
+      "pinyin": "wǒ xū yào qù yī yuàn",
+      "ko": "병원에 가야 해요",
+      "koRead": "워 쉬야오 취 이위엔",
+      "categories": [
+        "emergency"
+      ],
+      "source": "S6 긴급 화면"
+    },
+    {
+      "id": "px-013",
+      "zh": "请帮我叫警察。",
+      "pinyin": "qǐng bāng wǒ jiào jǐng chá",
+      "ko": "경찰을 불러 주세요",
+      "koRead": "칭 빵 워 지아오 징차",
+      "categories": [
+        "emergency"
+      ],
+      "source": "S6 긴급 화면"
+    },
+    {
+      "id": "px-014",
+      "zh": "我的护照丢了。",
+      "pinyin": "wǒ de hù zhào diū le",
+      "ko": "여권을 잃어버렸어요",
+      "koRead": "워 더 후짜오 띠우 러",
+      "categories": [
+        "emergency"
+      ],
+      "source": "S6 긴급 화면"
+    },
+    {
+      "id": "px-015",
+      "zh": "请帮我联系韩国领事馆。",
+      "pinyin": "qǐng bāng wǒ lián xì hán guó lǐng shì guǎn",
+      "ko": "한국 영사관에 연락해 주세요",
+      "koRead": "칭 빵 워 리엔시 한구어 링스관",
+      "categories": [
+        "emergency"
+      ],
+      "source": "S6 긴급 화면"
+    },
+    {
+      "id": "px-016",
+      "zh": "我是韩国人，不会说中文。",
+      "pinyin": "wǒ shì hán guó rén, bú huì shuō zhōng wén",
+      "ko": "저는 한국인이고 중국어를 못해요",
+      "koRead": "워 스 한구어런, 부 후이 슈어 쫑원",
+      "categories": [
+        "emergency"
+      ],
+      "source": "S6 긴급 화면"
+    },
+    {
+      "id": "px-017",
+      "zh": "有卖氧气瓶吗？",
+      "pinyin": "yǒu mài yǎng qì píng ma",
+      "ko": "산소캔 파나요?",
+      "koRead": "요우 마이 양치핑 마",
+      "categories": [
+        "emergency"
+      ],
+      "source": "S6 긴급 화면"
     }
   ]
 }

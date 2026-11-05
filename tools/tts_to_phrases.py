@@ -43,6 +43,7 @@ CATEGORIES = [
     {"id": "order", "title": "음식 주문", "icon": "food"},
     {"id": "delivery", "title": "배달·요청", "icon": "delivery"},
     {"id": "message", "title": "위챗 장문", "icon": "message"},
+    {"id": "emergency", "title": "긴급·병원", "icon": "emergency"},
 ]
 # 음식명 목록 중 식당 이름 블록(마지막 목록 블록)은 kind=restaurant
 RESTAURANT_BLOCK_MARK = "田村"

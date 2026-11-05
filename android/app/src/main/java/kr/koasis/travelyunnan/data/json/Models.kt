@@ -211,3 +211,9 @@ data class LodgingsFile(val version: String = "", val items: List<Lodging> = emp
 
 @Serializable
 data class MealsFile(val version: String = "", val items: List<Meal> = emptyList(), val notes: List<String> = emptyList())
+
+@Serializable
+data class EmergencyContact(val id: String, val group: String = "", val name: String, val phone: String, val note: String = "")
+
+@Serializable
+data class EmergencyFile(val version: String = "", val note: String = "", val contacts: List<EmergencyContact> = emptyList(), val altitude: List<String> = emptyList())

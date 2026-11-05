@@ -11,7 +11,13 @@ import kr.koasis.travelyunnan.data.AppSettings
 import kr.koasis.travelyunnan.data.TripData
 import kr.koasis.travelyunnan.domain.TargetType
 import kr.koasis.travelyunnan.data.db.Expense
+import kr.koasis.travelyunnan.ui.diary.DiaryContent
+import kr.koasis.travelyunnan.ui.emergency.EmergencyContent
+import kr.koasis.travelyunnan.ui.emergency.Passport
+import kr.koasis.travelyunnan.ui.emergency.SecureData
 import kr.koasis.travelyunnan.ui.expense.ExpenseContent
+import kr.koasis.travelyunnan.ui.number.NumberCardContent
+import kr.koasis.travelyunnan.ui.template.TemplateScreen
 import kr.koasis.travelyunnan.ui.home.HomeContent
 import kr.koasis.travelyunnan.ui.lodging.LodgingContent
 import kr.koasis.travelyunnan.ui.meal.FoodsScreen
@@ -122,4 +128,23 @@ class ScreenshotTest {
     @Test fun packing() = shot("17_packing") { PackingContent(data, setOf("pack:pk-01", "pack:pk-02", "pack:pk-13")) {} }
 
     @Test fun notes() = shot("18_notes") { NotesScreen(data) }
+
+    // ---- S6
+    @Test fun emergency_locked() = shot("19_emergency_locked") {
+        EmergencyContent(data, unlocked = false, lockedMessage = null, {}, {}, { SecureData() }, {}, canAuth = true)
+    }
+
+    @Test fun emergency_unlocked() = shot("20_emergency_unlocked") {
+        val sample = SecureData(passports = listOf(Passport("아빠", "홍길동", "HONG", "GIL DONG", "M12345678", "2028-06-19"), Passport("첫째"), Passport("둘째")))
+        EmergencyContent(data, unlocked = true, lockedMessage = null, {}, {}, { sample }, {}, canAuth = true)
+    }
+
+    @Test fun template() = shot("21_template") { TemplateScreen(data, "tpl-shangrila") }
+
+    @Test fun number_card() = shot("22_number_card") { NumberCardContent { true } }
+
+    @Test fun diary() = shot("23_diary") {
+        DiaryContent(data, listOf(kr.koasis.travelyunnan.data.db.DiaryEntry(1, "D2", null, null, "사방가 야경, 충의시장 빵 구입", 1766000000000)),
+            LocalDateTime.parse("2026-12-17T21:00"), "D2", {}, {}, {}, {}, { null })
+    }
 }

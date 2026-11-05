@@ -26,6 +26,8 @@ def main(d):
             data[f.name] = json.loads(f.read_text(encoding="utf-8"))
         except Exception as e:  # noqa: BLE001
             errors.append(f"{f.name}: JSON 파싱 실패 {e}")
+    if "emergency.json" in data and len(data["emergency.json"].get("contacts", [])) < 5:
+        errors.append("emergency.json: 연락처 부족")
     for name, n in EXPECT_MIN.items():
         if name not in data:
             errors.append(f"{name}: 파일 없음"); continue

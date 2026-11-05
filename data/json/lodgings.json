@@ -8,18 +8,21 @@
       ],
       "nights": 1,
       "region": "쿤밍",
-      "nameKo": "미정 (쿤밍역 인근 권장)",
-      "nameZh": "",
-      "addrZh": "昆明站 附近 (예: 全季酒店 昆明火车站店 검색)",
-      "addrEn": "",
-      "phones": [],
-      "room": "패밀리룸 또는 2실",
-      "bookingNo": "",
-      "bookedBy": "",
+      "nameKo": "Gefei VX Hotel (North Square of Kunming Railway Station)",
+      "nameZh": "格菲酒店(昆明火车站北广场店)",
+      "addrZh": "云南省昆明市官渡区永平路7号",
+      "addrEn": "No. 7 Yongping Road, Guandu District, Kunming",
+      "phones": [
+        "+86-871-63557934",
+        "+86-871-63550452"
+      ],
+      "room": "슈페리어 스마트 2침대 룸(더블 침대 2개, 금연, 27~30㎡, 성인 3명)",
+      "bookingNo": "예약 화면 확인",
+      "bookedBy": "KO JONGHOON",
       "priceKrw": 52640,
-      "status": "미정",
-      "note": "22시 도착 → 공항 픽업, 다음 날 09:08 쿤밍역 출발",
-      "confirmed": false
+      "status": "예약 확정",
+      "note": "Trip.com 결제 완료. 체크인 10:00 이후·체크아웃 14:00 이전. 조식 12/17 객실당 2인(3인 투숙 → 1인 추가 여부 확인). 요청사항 기재: 엘리베이터에서 먼 객실, 담배냄새 제거, 23:30 이후 체크인 예정. 픽업·샌딩 서비스 있음. 쿤밍역 360m. 好菌道 야생버섯훠궈 12% 할인 쿠폰 1매",
+      "confirmed": true
     },
     {
       "id": "mulanyu",
@@ -119,23 +122,26 @@
       ],
       "nights": 1,
       "region": "쿤밍",
-      "nameKo": "미정 (취호·남병가 권장)",
-      "nameZh": "",
-      "addrZh": "翠湖 / 南屏街 附近",
-      "addrEn": "",
-      "phones": [],
-      "room": "패밀리룸 또는 2실",
-      "bookingNo": "",
-      "bookedBy": "",
+      "nameKo": "Gefei VX Hotel (North Square of Kunming Railway Station)",
+      "nameZh": "格菲酒店(昆明火车站北广场店)",
+      "addrZh": "云南省昆明市官渡区永平路7号",
+      "addrEn": "No. 7 Yongping Road, Guandu District, Kunming",
+      "phones": [
+        "+86-871-63557934",
+        "+86-871-63550452"
+      ],
+      "room": "슈페리어 스마트 2침대 룸(더블 침대 2개, 금연, 27~30㎡, 성인 3명)",
+      "bookingNo": "예약 화면 확인",
+      "bookedBy": "KO JONGHOON",
       "priceKrw": 48330,
-      "status": "미정",
-      "note": "D8 취호·원통사·노가 도보권, 체크아웃 후 짐 보관 가능 숙소",
-      "confirmed": false
+      "status": "예약 확정",
+      "note": "Trip.com 예약 확정(금액은 예약 화면 확인 필요, 노란 칸 추정치 유지). 체크인 10:00 이후·체크아웃 14:00 이전, 식사 불포함. D8 체크아웃 후 짐 보관 요청. 쿤밍역 360m, 취호공원까지 택시 약 20분",
+      "confirmed": true
     }
   ],
   "notes": [
     "택시·DiDi 기사에게 보여줄 문구: 请送我们到这个地址。(이 주소로 데려다 주세요) + 중국어 주소",
     "체크인 시: 我们一共三个人,请帮忙确认可以加床吗?(저희는 3명입니다. 엑스트라베드 가능한지 확인 부탁드립니다)",
-    "쿤밍 숙소 2박(12/16·12/22) 미정 → 확정 시 이 시트에 추가"
+    "쿤밍 2박(12/16·12/22)은 Gefei VX Hotel(쿤밍역 북광장) 확정. 중국어 주소는 영문 주소(No. 7 Yongping Road)를 옮긴 것이므로 Trip.com 중국어 페이지와 대조 권장"
   ]
 }
