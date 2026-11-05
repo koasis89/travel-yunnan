@@ -1,0 +1,126 @@
+package kr.koasis.travelyunnan.ui.schedule
+
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.automirrored.filled.DirectionsWalk
+import androidx.compose.material.icons.automirrored.filled.Chat
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kr.koasis.travelyunnan.data.TripData
+import kr.koasis.travelyunnan.data.json.Schedule
+import kr.koasis.travelyunnan.domain.*
+import kr.koasis.travelyunnan.ui.AppViewModel
+import kr.koasis.travelyunnan.ui.common.AppTopBar
+import kr.koasis.travelyunnan.ui.common.DayChips
+import kr.koasis.travelyunnan.ui.nav.LocalActions
+import kr.koasis.travelyunnan.util.External
+import java.time.LocalDateTime
+
+@Composable
+fun ScheduleScreen(vm: AppViewModel, data: TripData, dayArg: String?) {
+    val now by vm.now.collectAsStateWithLifecycle()
+    val flags by vm.flags.collectAsStateWithLifecycle()
+    ScheduleContent(data, now, dayArg, flags) { vm.toggleFlag(it) }
+}
+
+@Composable
+fun ScheduleContent(data: TripData, now: LocalDateTime, dayArg: String?, flags: Set<String>, onToggleDone: (String) -> Unit) {
+    val phase = DayResolver.resolve(now, data.days)
+    val todayId = (phase as? TripPhase.OnTrip)?.day?.id
+    var selected by rememberSaveable(dayArg) { mutableStateOf(dayArg ?: todayId ?: data.days.first().id) }
+    val day = data.day(selected) ?: data.days.first()
+    val rows = data.scheduleOf(day.id)
+    val current = if (day.id == todayId) CurrentScheduleFinder.find(rows, now.toLocalTime()).current else null
+    val listState = rememberLazyListState()
+    LaunchedEffect(selected, current?.id) {
+        val i = rows.indexOfFirst { it.id == current?.id }
+        if (i >= 0) listState.scrollToItem(i + 1) else listState.scrollToItem(0)
+    }
+
+    Column(Modifier.fillMaxSize()) {
+        AppTopBar("일정")
+        DayChips(data.days, selected, { if (it != null) selected = it }, todayId = todayId)
+        LazyColumn(state = listState, contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            item {
+                Column(Modifier.padding(bottom = 4.dp)) {
+                    Text("${day.id} ${day.dateLabel} · ${day.route}", style = MaterialTheme.typography.titleLarge)
+                    Text("숙박: ${day.lodgingLabel.ifBlank { "-" }}", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text("길게 누르면 완료 표시", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
+                }
+            }
+            items(rows, key = { it.id }) { r ->
+                ScheduleRow(data, r, isCurrent = r.id == current?.id, done = "done:${r.id}" in flags) { onToggleDone("done:${r.id}") }
+            }
+        }
+    }
+}
+
+fun transportIcon(t: String): ImageVector = when {
+    t.contains("열차") -> Icons.Filled.Train
+    t.contains("셔틀") || t.contains("버스") -> Icons.Filled.DirectionsBus
+    t.contains("케이블카") -> Icons.Filled.Landscape
+    t.contains("도보") -> Icons.AutoMirrored.Filled.DirectionsWalk
+    t.contains("택시") || t.contains("DiDi") || t.contains("DIDI") -> Icons.Filled.LocalTaxi
+    t.contains("차") || t.contains("픽업") -> Icons.Filled.DirectionsCar
+    else -> Icons.Filled.Schedule
+}
+
+@OptIn(ExperimentalFoundationApi::class, ExperimentalLayoutApi::class)
+@Composable
+private fun ScheduleRow(data: TripData, r: Schedule, isCurrent: Boolean, done: Boolean, onLongPress: () -> Unit) {
+    val actions = LocalActions.current
+    val ctx = LocalContext.current
+    val links = remember(r) { ScheduleLinks.find(data, r) }
+    val message = remember(r) { ScheduleLinks.messagePhrase(data, r) }
+    OutlinedCard(
+        Modifier.fillMaxWidth().alpha(if (done) 0.45f else 1f).combinedClickable(onClick = {}, onLongClick = onLongPress),
+        border = if (isCurrent) BorderStroke(2.dp, MaterialTheme.colorScheme.primary) else CardDefaults.outlinedCardBorder(),
+        colors = CardDefaults.outlinedCardColors(containerColor = if (isCurrent) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface),
+    ) {
+        Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+            Row {
+                Text(r.timeLabel, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
+                if (isCurrent) Text("  지금", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.tertiary)
+                Spacer(Modifier.weight(1f))
+                if (done) Icon(Icons.Filled.CheckCircle, "완료", tint = MaterialTheme.colorScheme.primary)
+            }
+            val title = listOf(r.from, r.to).filter { it.isNotBlank() && it != "-" }.joinToString(" → ")
+            if (title.isNotBlank()) Text(title, style = MaterialTheme.typography.titleMedium)
+            if (r.via.isNotBlank() && r.via != "-") Text("경유: ${r.via}", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            if (r.transport.isNotBlank() && r.transport != "-") Row {
+                Icon(transportIcon(r.transport), null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp))
+                Text(listOf(r.transport, r.duration).filter { it.isNotBlank() && it != "-" }.joinToString(" · "), style = MaterialTheme.typography.bodyMedium)
+            }
+            if (r.tip.isNotBlank() && r.tip != "-") Text(r.tip, style = MaterialTheme.typography.bodyMedium)
+            if (links.isNotEmpty() || message != null || r.amapUrl != null) FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                links.forEach { l ->
+                    AssistChip(onClick = { actions.openTaxi(l.type, l.id) }, label = { Text(l.label) },
+                        leadingIcon = { Icon(Icons.Filled.LocalTaxi, null, Modifier.size(18.dp)) })
+                }
+                message?.let { m ->
+                    AssistChip(onClick = { actions.openShow(m.id) }, label = { Text("매니저에게 보여주기") },
+                        leadingIcon = { Icon(Icons.AutoMirrored.Filled.Chat, null, Modifier.size(18.dp)) })
+                }
+                r.amapUrl?.let { u ->
+                    AssistChip(onClick = { External.openUrl(ctx, u) }, label = { Text("고덕지도") },
+                        leadingIcon = { Icon(Icons.Filled.Place, null, Modifier.size(18.dp)) })
+                }
+            }
+        }
+    }
+}

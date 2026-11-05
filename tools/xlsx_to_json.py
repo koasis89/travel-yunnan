@@ -297,8 +297,8 @@ def conv_foods(wb, foods_dir):
         if not zh:
             continue
         ko = s(row[ci["한국어"]])
-        stem = f"{r:02d}_{zh}_{ko}".replace("/", "-").replace(" ", "")
-        img = next((n for n in existing if n.startswith(stem + ".")), None)
+        # 이미지 파일명은 엑셀 행 번호 기준 ASCII 이름(food-05.jpeg). 빌드 도구의 경로 인코딩 문제를 피한다.
+        img = next((n for n in existing if n.startswith(f"food-{r:02d}.")), None)
         out.append({
             "id": f"food-{r:02d}",
             "region": s(row[ci["지역"]]),

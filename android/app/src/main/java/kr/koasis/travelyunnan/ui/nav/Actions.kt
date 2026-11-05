@@ -1,0 +1,39 @@
+package kr.koasis.travelyunnan.ui.nav
+
+import androidx.compose.runtime.staticCompositionLocalOf
+import kr.koasis.travelyunnan.domain.TargetType
+
+/** 화면 이동 동작. 화면 composable 이 NavController 에 직접 의존하지 않도록 분리한다(테스트 용이). */
+data class Actions(
+    val openTaxi: (TargetType, String) -> Unit = { _, _ -> },
+    val openSchedule: (String?) -> Unit = {},
+    val openPhrases: (String?) -> Unit = {},
+    val openShow: (String) -> Unit = {},
+    val openMaps: (String?) -> Unit = {},
+    val openMapView: (String) -> Unit = {},
+    val openSettings: () -> Unit = {},
+    val openCredits: () -> Unit = {},
+    val back: () -> Unit = {},
+)
+
+val LocalActions = staticCompositionLocalOf { Actions() }
+
+object Routes {
+    const val HOME = "home"
+    const val SCHEDULE = "schedule?day={day}"
+    const val PHRASES = "phrases?cat={cat}"
+    const val MAPS = "maps?day={day}"
+    const val MORE = "more"
+    const val TAXI = "taxi/{type}/{id}"
+    const val SHOW = "show/{id}"
+    const val MAPVIEW = "mapview/{id}"
+    const val SETTINGS = "settings"
+    const val CREDITS = "credits"
+
+    fun schedule(day: String?) = "schedule" + (day?.let { "?day=$it" } ?: "")
+    fun phrases(cat: String?) = "phrases" + (cat?.let { "?cat=$it" } ?: "")
+    fun maps(day: String?) = "maps" + (day?.let { "?day=$it" } ?: "")
+    fun taxi(type: TargetType, id: String) = "taxi/${type.name}/$id"
+    fun show(id: String) = "show/$id"
+    fun mapView(id: String) = "mapview/$id"
+}
