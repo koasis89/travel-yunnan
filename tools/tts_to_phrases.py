@@ -38,6 +38,7 @@ CATEGORY_ANCHORS = [
     ("order", "我要一份过桥米线"),
 ]
 CATEGORIES = [
+    {"id": "basic", "title": "기본 회화", "icon": "basic"},
     {"id": "car", "title": "차량 예약·빵차", "icon": "car"},
     {"id": "incar", "title": "차 안에서", "icon": "seat"},
     {"id": "hotel", "title": "숙소", "icon": "hotel"},

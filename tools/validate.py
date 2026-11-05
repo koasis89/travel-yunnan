@@ -14,7 +14,7 @@ EXPECT_MIN = {
     "days.json": 8, "schedule.json": 60, "lodgings.json": 6, "meals.json": 25, "foods.json": 30,
     "phrases.json": 57, "words.json": 52, "foodNames.json": 39, "packing.json": 40, "notes.json": 15,
     "transport.json": 10, "budget.json": 5, "weather.json": 6, "maps.json": 7, "places.json": 10,
-    "place_links.json": 20, "notifications.json": 10, "lodging_todos.json": 10,
+    "place_links.json": 20, "notifications.json": 10, "lodging_todos.json": 10, "map_hotspots.json": 50,
 }
 
 
@@ -104,6 +104,17 @@ def main(d):
     for x in items("lodging_todos.json"):
         if x["lodgingId"] not in lodging_ids or (x.get("phraseId") and x["phraseId"] not in phrase_ids):
             errors.append(f"lodging_todos {x['id']}: 참조")
+    from PIL import Image  # noqa: E402
+    sizes = {m["id"]: Image.open(REPO / "assets" / m["file"]).size for m in items("maps.json")}
+    for x in items("map_hotspots.json"):
+        w, h = sizes.get(x["mapId"], (0, 0))
+        if not (0 <= x["x"] <= w and 0 <= x["y"] <= h):
+            errors.append(f"hotspot {x['id']}: 좌표 범위 밖 ({x['x']},{x['y']}) / {w}x{h}")
+        t, k = x["type"], x.get("key")
+        ok = (t == "poi") or (t == "lodging" and k in lodging_ids) or (t == "place" and k in place_ids) or \
+             (t == "meal" and any(k in n for n in meal_names))
+        if not ok:
+            errors.append(f"hotspot {x['id']}: 대상 없음 {t}:{k}")
     for x in items("place_links.json"):
         t, k = x["type"], x["key"]
         ok = (t == "lodging" and k in lodging_ids) or (t == "place" and k in place_ids) or \

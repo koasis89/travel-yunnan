@@ -217,3 +217,17 @@ data class EmergencyContact(val id: String, val group: String = "", val name: St
 
 @Serializable
 data class EmergencyFile(val version: String = "", val note: String = "", val contacts: List<EmergencyContact> = emptyList(), val altitude: List<String> = emptyList())
+
+@Serializable
+data class Hotspot(
+    val id: String,
+    val mapId: String,
+    val x: Float,
+    val y: Float,
+    val label: String,
+    val type: String = "poi",
+    val key: String? = null,
+    val keywords: List<String> = emptyList(),
+    val zh: String = "",
+    val note: String = "",
+)

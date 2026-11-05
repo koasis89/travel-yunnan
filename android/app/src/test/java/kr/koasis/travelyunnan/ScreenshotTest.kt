@@ -26,7 +26,9 @@ import kr.koasis.travelyunnan.ui.meal.MenuPointContent
 import kr.koasis.travelyunnan.ui.notes.NotesScreen
 import kr.koasis.travelyunnan.ui.packing.PackingContent
 import kr.koasis.travelyunnan.ui.transport.TransportContent
+import kr.koasis.travelyunnan.ui.map.HotspotSheetContent
 import kr.koasis.travelyunnan.ui.map.MapsContent
+import kr.koasis.travelyunnan.domain.HotspotResolver
 import kr.koasis.travelyunnan.ui.nav.Actions
 import kr.koasis.travelyunnan.ui.nav.LocalActions
 import kr.koasis.travelyunnan.ui.phrase.PhraseCallbacks
@@ -146,5 +148,19 @@ class ScreenshotTest {
     @Test fun diary() = shot("23_diary") {
         DiaryContent(data, listOf(kr.koasis.travelyunnan.data.db.DiaryEntry(1, "D2", null, null, "사방가 야경, 충의시장 빵 구입", 1766000000000)),
             LocalDateTime.parse("2026-12-17T21:00"), "D2", {}, {}, {}, {}, { null })
+    }
+
+    @Test fun maps_lijiang_markers() {
+        rule.setContent {
+            TravelTheme(dark = false) { CompositionLocalProvider(LocalActions provides Actions()) {
+                MapsContent(data, LocalDateTime.parse("2026-12-17T15:00"), "D2", emptySet()) {}
+            } }
+        }
+        rule.waitForIdle()
+        rule.onRoot().captureRoboImage("build/outputs/roborazzi/24_maps_d2_markers.png")
+    }
+
+    @Test fun hotspot_sheet() = shot("25_hotspot_sheet") {
+        HotspotSheetContent(HotspotResolver.resolve(data, data.hotspots.first { it.id == "map05-06" }), {})
     }
 }

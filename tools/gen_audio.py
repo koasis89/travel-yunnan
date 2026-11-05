@@ -39,7 +39,8 @@ def load_items():
 
 def text_for_tts(zh: str) -> str:
     # "你好 我要预订包车" 처럼 띄어쓰기로 끊은 문장은 쉼표로 바꿔 자연스러운 휴지를 준다
-    t = zh.strip()
+    t = zh.strip().replace("……", "").replace("…", "")
+    t = t.replace(" / ", "，").replace("/", "，")
     if " " in t and not any(c in t for c in "，。？！"):
         t = t.replace(" ", "，")
     return t

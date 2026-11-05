@@ -146,4 +146,26 @@ class S6Test {
         assertFalse(Templates.delivery.render(emptyMap()).contains("房间号"))
         assertEquals(4, Templates.all.size)
     }
+
+    @Test fun hotspotsResolve() {
+        val d = TripDataHolder.data
+        assertTrue(d.hotspots.size >= 50)
+        val come = d.hotspots.first { it.id == "map05-06" }
+        val info = HotspotResolver.resolve(d, come)
+        assertEquals("comeinn", info.lodging?.id)
+        assertTrue(info.rows.any { it.second.dayId == "D5" })
+        val tian = HotspotResolver.resolve(d, d.hotspots.first { it.id == "map06-15" })
+        assertTrue(tian.meals.any { it.second.name.contains("田村") })
+        assertEquals(TargetType.meal, tian.taxi?.first)
+        val station = HotspotResolver.resolve(d, d.hotspots.first { it.id == "map03-04" }, "D7")
+        assertTrue(station.rows.all { it.first.id == "D7" } && station.rows.isNotEmpty())
+    }
+}
+
+object TripDataHolder {
+    val data: TripData by lazy {
+        val dir = generateSequence(File(System.getProperty("user.dir")).absoluteFile) { it.parentFile }
+            .map { File(it, "data/json") }.first { File(it, "days.json").exists() }
+        TripData.fromJson { File(dir, it).readText() }
+    }
 }

@@ -2,6 +2,11 @@
   "version": "2026-11-05",
   "categories": [
     {
+      "id": "basic",
+      "title": "기본 회화",
+      "icon": "basic"
+    },
+    {
       "id": "car",
       "title": "차량 예약·빵차",
       "icon": "car"
@@ -993,6 +998,656 @@
       "koRead": "요우 마이 양치핑 마",
       "copyOnly": false,
       "source": "S6 긴급 화면"
+    },
+    {
+      "id": "pb-001",
+      "zh": "你好。",
+      "pinyin": "nǐ hǎo",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "안녕하세요",
+      "koRead": "니 하오",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-002",
+      "zh": "谢谢。",
+      "pinyin": "xiè xie",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "감사합니다",
+      "koRead": "시에시에",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-003",
+      "zh": "不客气。",
+      "pinyin": "bú kè qi",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "천만에요",
+      "koRead": "부 커치",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-004",
+      "zh": "对不起。",
+      "pinyin": "duì bu qǐ",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "죄송합니다",
+      "koRead": "뚜이부치",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-005",
+      "zh": "没关系。",
+      "pinyin": "méi guān xi",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "괜찮아요",
+      "koRead": "메이 꽌시",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-006",
+      "zh": "再见。",
+      "pinyin": "zài jiàn",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "안녕히 가세요",
+      "koRead": "짜이지엔",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-007",
+      "zh": "请问。",
+      "pinyin": "qǐng wèn",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "말씀 좀 여쭐게요",
+      "koRead": "칭원",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-008",
+      "zh": "是。/ 不是。",
+      "pinyin": "shì / bú shì",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "네 / 아니요",
+      "koRead": "스 / 부 스",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-009",
+      "zh": "好的。",
+      "pinyin": "hǎo de",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "좋아요, 알겠어요",
+      "koRead": "하오 더",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-010",
+      "zh": "不要。",
+      "pinyin": "bú yào",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "필요 없어요, 괜찮아요",
+      "koRead": "부 야오",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-011",
+      "zh": "我听不懂。",
+      "pinyin": "wǒ tīng bu dǒng",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "못 알아들었어요",
+      "koRead": "워 팅 부 동",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-012",
+      "zh": "请说慢一点。",
+      "pinyin": "qǐng shuō màn yì diǎn",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "천천히 말해 주세요",
+      "koRead": "칭 슈어 만 이디엔",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-013",
+      "zh": "请再说一遍。",
+      "pinyin": "qǐng zài shuō yí biàn",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "다시 한 번 말해 주세요",
+      "koRead": "칭 짜이 슈어 이 비엔",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-014",
+      "zh": "请写一下。",
+      "pinyin": "qǐng xiě yí xià",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "적어 주세요",
+      "koRead": "칭 시에 이시아",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-015",
+      "zh": "你会说英语吗？",
+      "pinyin": "nǐ huì shuō yīng yǔ ma",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "영어 할 줄 아세요?",
+      "koRead": "니 후이 슈어 잉위 마",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-016",
+      "zh": "我是韩国人。",
+      "pinyin": "wǒ shì hán guó rén",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "저는 한국인이에요",
+      "koRead": "워 스 한구어런",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-017",
+      "zh": "我们是三个人。",
+      "pinyin": "wǒ men shì sān gè rén",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "저희는 세 명이에요",
+      "koRead": "워먼 스 싼거 런",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-018",
+      "zh": "这是什么？",
+      "pinyin": "zhè shì shén me",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "이게 뭐예요?",
+      "koRead": "쩌 스 션머",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-019",
+      "zh": "这个多少钱？",
+      "pinyin": "zhè ge duō shǎo qián",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "이거 얼마예요?",
+      "koRead": "쩌거 뚜어샤오 치엔",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-020",
+      "zh": "可以便宜一点吗？",
+      "pinyin": "kě yǐ pián yi yì diǎn ma",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "좀 깎아 줄 수 있어요?",
+      "koRead": "커이 피엔이 이디엔 마",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-021",
+      "zh": "我要这个。",
+      "pinyin": "wǒ yào zhè ge",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "이걸로 할게요",
+      "koRead": "워 야오 쩌거",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-022",
+      "zh": "可以刷卡吗？",
+      "pinyin": "kě yǐ shuā kǎ ma",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "카드 되나요?",
+      "koRead": "커이 슈아 카 마",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-023",
+      "zh": "只收现金吗？",
+      "pinyin": "zhǐ shōu xiàn jīn ma",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "현금만 받나요?",
+      "koRead": "즈 셔우 시엔진 마",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-024",
+      "zh": "洗手间在哪里？",
+      "pinyin": "xǐ shǒu jiān zài nǎ lǐ",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "화장실이 어디예요?",
+      "koRead": "시쇼우지엔 짜이 나리",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-025",
+      "zh": "……在哪里？",
+      "pinyin": "... zài nǎ lǐ",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "…은 어디예요?",
+      "koRead": "… 짜이 나리",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-026",
+      "zh": "怎么走？",
+      "pinyin": "zěn me zǒu",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "어떻게 가요?",
+      "koRead": "쩐머 쪼우",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-027",
+      "zh": "远吗？",
+      "pinyin": "yuǎn ma",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "멀어요?",
+      "koRead": "위엔 마",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-028",
+      "zh": "走路多长时间？",
+      "pinyin": "zǒu lù duō cháng shí jiān",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "걸어서 얼마나 걸려요?",
+      "koRead": "쪼우루 뚜어 창 스지엔",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-029",
+      "zh": "左边 / 右边 / 直走。",
+      "pinyin": "zuǒ biān / yòu biān / zhí zǒu",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "왼쪽 / 오른쪽 / 직진",
+      "koRead": "쭈어비엔 / 요우비엔 / 즈쪼우",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-030",
+      "zh": "请带我去这里。",
+      "pinyin": "qǐng dài wǒ qù zhè lǐ",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "여기로 데려다 주세요(지도를 보이며)",
+      "koRead": "칭 따이 워 취 쩌리",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-031",
+      "zh": "现在几点？",
+      "pinyin": "xiàn zài jǐ diǎn",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "지금 몇 시예요?",
+      "koRead": "시엔짜이 지디엔",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-032",
+      "zh": "几点开门？",
+      "pinyin": "jǐ diǎn kāi mén",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "몇 시에 열어요?",
+      "koRead": "지디엔 카이먼",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-033",
+      "zh": "几点关门？",
+      "pinyin": "jǐ diǎn guān mén",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "몇 시에 닫아요?",
+      "koRead": "지디엔 꽌먼",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-034",
+      "zh": "今天 / 明天 / 昨天。",
+      "pinyin": "jīn tiān / míng tiān / zuó tiān",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "오늘 / 내일 / 어제",
+      "koRead": "진티엔 / 밍티엔 / 쭈어티엔",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-035",
+      "zh": "请等一下。",
+      "pinyin": "qǐng děng yí xià",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "잠깐만 기다려 주세요",
+      "koRead": "칭 덩 이시아",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-036",
+      "zh": "可以帮我拍照吗？",
+      "pinyin": "kě yǐ bāng wǒ pāi zhào ma",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "사진 좀 찍어 주실래요?",
+      "koRead": "커이 빵 워 파이짜오 마",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-037",
+      "zh": "可以拍照吗？",
+      "pinyin": "kě yǐ pāi zhào ma",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "사진 찍어도 되나요?",
+      "koRead": "커이 파이짜오 마",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-038",
+      "zh": "有没有无线网？",
+      "pinyin": "yǒu méi yǒu wú xiàn wǎng",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "와이파이 있어요?",
+      "koRead": "요우 메이요우 우시엔왕",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-039",
+      "zh": "可以充电吗？",
+      "pinyin": "kě yǐ chōng diàn ma",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "충전해도 되나요?",
+      "koRead": "커이 충띠엔 마",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-040",
+      "zh": "请给我热水。",
+      "pinyin": "qǐng gěi wǒ rè shuǐ",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "뜨거운 물 좀 주세요",
+      "koRead": "칭 게이 워 러 쉐이",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-041",
+      "zh": "太辣了。",
+      "pinyin": "tài là le",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "너무 매워요",
+      "koRead": "타이 라 러",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-042",
+      "zh": "好吃！",
+      "pinyin": "hǎo chī",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "맛있어요!",
+      "koRead": "하오 츠",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-043",
+      "zh": "我吃饱了。",
+      "pinyin": "wǒ chī bǎo le",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "배불러요",
+      "koRead": "워 츠 바오 러",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-044",
+      "zh": "请打包。",
+      "pinyin": "qǐng dǎ bāo",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "포장해 주세요",
+      "koRead": "칭 다바오",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-045",
+      "zh": "我不舒服。",
+      "pinyin": "wǒ bù shū fu",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "몸이 안 좋아요",
+      "koRead": "워 부 슈푸",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-046",
+      "zh": "有药店吗？",
+      "pinyin": "yǒu yào diàn ma",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "약국 있어요?",
+      "koRead": "요우 야오디엔 마",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-047",
+      "zh": "我很冷。",
+      "pinyin": "wǒ hěn lěng",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "추워요",
+      "koRead": "워 헌 렁",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-048",
+      "zh": "请帮帮我。",
+      "pinyin": "qǐng bāng bang wǒ",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "도와주세요",
+      "koRead": "칭 빵빵 워",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-049",
+      "zh": "没问题。",
+      "pinyin": "méi wèn tí",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "문제없어요",
+      "koRead": "메이 원티",
+      "copyOnly": false,
+      "source": "기본 회화 50"
+    },
+    {
+      "id": "pb-050",
+      "zh": "辛苦了。",
+      "pinyin": "xīn kǔ le",
+      "categories": [
+        "basic"
+      ],
+      "repeat": 1,
+      "ko": "수고하셨어요",
+      "koRead": "신쿠 러",
+      "copyOnly": false,
+      "source": "기본 회화 50"
     }
   ]
 }

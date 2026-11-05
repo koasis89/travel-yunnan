@@ -1,0 +1,988 @@
+{
+  "version": "2026-11-05",
+  "note": "x,y 는 지도 원본 이미지 픽셀. type: lodging|place|meal|poi. keywords 는 상세일정·식사 행 연결용",
+  "items": [
+    {
+      "id": "map01-01",
+      "mapId": "map01",
+      "x": 122,
+      "y": 90,
+      "label": "샹그릴라 · Oura Villa",
+      "type": "lodging",
+      "key": "oura",
+      "keywords": [
+        "Oura Villa",
+        "샹그릴라"
+      ],
+      "zh": "",
+      "note": "D6 숙박. 3,300m, 가장 춥다"
+    },
+    {
+      "id": "map01-02",
+      "mapId": "map01",
+      "x": 193,
+      "y": 192,
+      "label": "호도협 · Come Inn",
+      "type": "lodging",
+      "key": "comeinn",
+      "keywords": [
+        "Come Inn",
+        "중도객잔"
+      ],
+      "zh": "",
+      "note": "D5 숙박. 트레킹 종점 본지만 마을"
+    },
+    {
+      "id": "map01-03",
+      "mapId": "map01",
+      "x": 208,
+      "y": 232,
+      "label": "백사 · Rishine 빌라",
+      "type": "lodging",
+      "key": "rishine",
+      "keywords": [
+        "Rishine",
+        "백사"
+      ],
+      "zh": "",
+      "note": "D4 숙박. 일조금산 일출·프라이빗 온천"
+    },
+    {
+      "id": "map01-04",
+      "mapId": "map01",
+      "x": 212,
+      "y": 252,
+      "label": "리장고성 · 물라뉴 탕수 호텔",
+      "type": "lodging",
+      "key": "mulanyu",
+      "keywords": [
+        "물라뉴",
+        "리장고성",
+        "고성"
+      ],
+      "zh": "",
+      "note": "D2~D3 숙박. 고성 내 차량 진입 불가"
+    },
+    {
+      "id": "map01-05",
+      "mapId": "map01",
+      "x": 634,
+      "y": 562,
+      "label": "쿤밍 · Gefei VX Hotel",
+      "type": "lodging",
+      "key": "kunming1",
+      "keywords": [
+        "Gefei",
+        "쿤밍역",
+        "쿤밍 숙소"
+      ],
+      "zh": "",
+      "note": "D1·D7 숙박. 쿤밍역 북광장 360m"
+    },
+    {
+      "id": "map01-06",
+      "mapId": "map01",
+      "x": 672,
+      "y": 553,
+      "label": "창수이 국제공항",
+      "type": "place",
+      "key": "kmg_airport",
+      "keywords": [
+        "창수이",
+        "공항"
+      ],
+      "zh": "昆明长水国际机场",
+      "note": "D1 22:00 도착 · D8 23:55 출발"
+    },
+    {
+      "id": "map02-01",
+      "mapId": "map02",
+      "x": 300,
+      "y": 60,
+      "label": "빙천공원 케이블카 4,506m",
+      "type": "place",
+      "key": "yulong_center",
+      "keywords": [
+        "케이블카",
+        "하부역",
+        "빙천공원"
+      ],
+      "zh": "冰川公园大索道",
+      "note": "D3. ★표 사전 구매, 산소통. 강풍·영하"
+    },
+    {
+      "id": "map02-02",
+      "mapId": "map02",
+      "x": 370,
+      "y": 92,
+      "label": "람월곡·백수하",
+      "type": "place",
+      "key": "lanyuegu",
+      "keywords": [
+        "람월곡",
+        "백수하"
+      ],
+      "zh": "蓝月谷·白水河",
+      "note": "D3 오후. 옥빛 계단식 호수"
+    },
+    {
+      "id": "map02-03",
+      "mapId": "map02",
+      "x": 350,
+      "y": 152,
+      "label": "옥룡설산 관광센터·인상리장",
+      "type": "place",
+      "key": "yulong_center",
+      "keywords": [
+        "관광센터",
+        "인상리장",
+        "공연장"
+      ],
+      "zh": "玉龙雪山游客中心·印象丽江",
+      "note": "D3. 매표·셔틀·공연(선택)·점심"
+    },
+    {
+      "id": "map02-04",
+      "mapId": "map02",
+      "x": 290,
+      "y": 254,
+      "label": "향파랍목장(선택)",
+      "type": "poi",
+      "key": null,
+      "keywords": [
+        "향파랍"
+      ],
+      "zh": "香巴拉牧场",
+      "note": "D5 일출 포인트 대안(빌라 인근)"
+    },
+    {
+      "id": "map02-05",
+      "mapId": "map02",
+      "x": 303,
+      "y": 275,
+      "label": "Rishine 빌라",
+      "type": "lodging",
+      "key": "rishine",
+      "keywords": [
+        "Rishine",
+        "빌라"
+      ],
+      "zh": "",
+      "note": "D4 숙박 · D5 09:00 전용차 출발"
+    },
+    {
+      "id": "map02-06",
+      "mapId": "map02",
+      "x": 312,
+      "y": 298,
+      "label": "백사고진",
+      "type": "place",
+      "key": "baisha",
+      "keywords": [
+        "백사고진",
+        "백사"
+      ],
+      "zh": "白沙古镇",
+      "note": "D4 점심 우육면·기와카페·벽화 골목"
+    },
+    {
+      "id": "map02-07",
+      "mapId": "map02",
+      "x": 297,
+      "y": 350,
+      "label": "수허고진 청룡교",
+      "type": "place",
+      "key": "shuhe",
+      "keywords": [
+        "수허고진",
+        "청룡교"
+      ],
+      "zh": "束河古镇 青龙桥",
+      "note": "D4 오후. 사방청→구정용담→청룡교, 이른 저녁"
+    },
+    {
+      "id": "map02-08",
+      "mapId": "map02",
+      "x": 336,
+      "y": 405,
+      "label": "리장고성 · 물라뉴 탕수 호텔",
+      "type": "lodging",
+      "key": "mulanyu",
+      "keywords": [
+        "물라뉴",
+        "호텔",
+        "고성"
+      ],
+      "zh": "",
+      "note": "D2~D4 오전"
+    },
+    {
+      "id": "map02-09",
+      "mapId": "map02",
+      "x": 367,
+      "y": 480,
+      "label": "리장역",
+      "type": "place",
+      "key": "lijiang_station",
+      "keywords": [
+        "리장역"
+      ],
+      "zh": "丽江站",
+      "note": "D2 12:54 C118 도착 → 택시 30분"
+    },
+    {
+      "id": "map02-10",
+      "mapId": "map02",
+      "x": 734,
+      "y": 118,
+      "label": "대수차",
+      "type": "poi",
+      "key": null,
+      "keywords": [
+        "대수차"
+      ],
+      "zh": "大水车",
+      "note": "고성 북쪽 입구 상징. 차량 진입 지점 인근"
+    },
+    {
+      "id": "map02-11",
+      "mapId": "map02",
+      "x": 680,
+      "y": 143,
+      "label": "물라뉴 호텔(黄山上段)",
+      "type": "lodging",
+      "key": "mulanyu",
+      "keywords": [
+        "물라뉴"
+      ],
+      "zh": "",
+      "note": ""
+    },
+    {
+      "id": "map02-12",
+      "mapId": "map02",
+      "x": 773,
+      "y": 141,
+      "label": "田村 야크훠궈(대수차점)",
+      "type": "meal",
+      "key": "田村",
+      "keywords": [
+        "田村"
+      ],
+      "zh": "田村·酸汤牦牛肉火锅",
+      "note": ""
+    },
+    {
+      "id": "map02-13",
+      "mapId": "map02",
+      "x": 737,
+      "y": 185,
+      "label": "대석교",
+      "type": "poi",
+      "key": null,
+      "keywords": [
+        "대석교"
+      ],
+      "zh": "大石桥",
+      "note": "수로 사진 포인트"
+    },
+    {
+      "id": "map02-14",
+      "mapId": "map02",
+      "x": 730,
+      "y": 227,
+      "label": "사방가",
+      "type": "poi",
+      "key": null,
+      "keywords": [
+        "사방가"
+      ],
+      "zh": "四方街",
+      "note": "고성 중심 광장. 야경·간식(딩딩당당·계두량분)"
+    },
+    {
+      "id": "map02-15",
+      "mapId": "map02",
+      "x": 672,
+      "y": 303,
+      "label": "목부",
+      "type": "poi",
+      "key": null,
+      "keywords": [
+        "목부"
+      ],
+      "zh": "木府",
+      "note": "나시족 토사 관저. 입장 ¥40(선택)"
+    },
+    {
+      "id": "map02-16",
+      "mapId": "map02",
+      "x": 708,
+      "y": 321,
+      "label": "광의가",
+      "type": "poi",
+      "key": null,
+      "keywords": [
+        "광의가"
+      ],
+      "zh": "光义街",
+      "note": "습전주미 야생버섯훠궈·계두량분 골목"
+    },
+    {
+      "id": "map02-17",
+      "mapId": "map02",
+      "x": 803,
+      "y": 313,
+      "label": "충의시장",
+      "type": "poi",
+      "key": null,
+      "keywords": [
+        "충의시장"
+      ],
+      "zh": "忠义市场",
+      "note": "D2 저녁 후 아침 빵 구입"
+    },
+    {
+      "id": "map02-18",
+      "mapId": "map02",
+      "x": 750,
+      "y": 357,
+      "label": "석과어",
+      "type": "meal",
+      "key": "石锅鱼",
+      "keywords": [
+        "석과어"
+      ],
+      "zh": "石锅鱼",
+      "note": "D2 저녁 선택①"
+    },
+    {
+      "id": "map02-19",
+      "mapId": "map02",
+      "x": 730,
+      "y": 377,
+      "label": "남문광장",
+      "type": "poi",
+      "key": null,
+      "keywords": [
+        "남문"
+      ],
+      "zh": "南门广场",
+      "note": "맛집 지도 기준점. 운설리·격벽노왕 인근"
+    },
+    {
+      "id": "map03-01",
+      "mapId": "map03",
+      "x": 313,
+      "y": 42,
+      "label": "송찬림사(작은 포탈라궁)",
+      "type": "place",
+      "key": "songzanlin",
+      "keywords": [
+        "송찬림사"
+      ],
+      "zh": "噶丹·松赞林寺",
+      "note": "D6 15:20~17:20. 계단 146개 천천히, 입장 ¥115"
+    },
+    {
+      "id": "map03-02",
+      "mapId": "map03",
+      "x": 323,
+      "y": 212,
+      "label": "Oura Villa (숙소)",
+      "type": "lodging",
+      "key": "oura",
+      "keywords": [
+        "Oura Villa",
+        "숙소"
+      ],
+      "zh": "",
+      "note": "龟山巷3号 · 대불사·대형 마니차 바로 옆"
+    },
+    {
+      "id": "map03-03",
+      "mapId": "map03",
+      "x": 350,
+      "y": 198,
+      "label": "독극종고성 동문·사방가",
+      "type": "place",
+      "key": "dukezong",
+      "keywords": [
+        "사방가",
+        "고성",
+        "동문",
+        "대형 마니차",
+        "대불사"
+      ],
+      "zh": "独克宗古城 四方街",
+      "note": "야크훠궈·고기파이·야크우유 에그타르트(품절 빠름)"
+    },
+    {
+      "id": "map03-04",
+      "mapId": "map03",
+      "x": 386,
+      "y": 388,
+      "label": "샹그릴라역",
+      "type": "place",
+      "key": "shangrila_station",
+      "keywords": [
+        "샹그릴라역"
+      ],
+      "zh": "香格里拉站",
+      "note": "D7 10:05 C640 → 쿤밍 16:03. 09:00 숙소 샌딩"
+    },
+    {
+      "id": "map04-01",
+      "mapId": "map04",
+      "x": 217,
+      "y": 280,
+      "label": "쿤밍역 · Gefei VX Hotel",
+      "type": "lodging",
+      "key": "kunming1",
+      "keywords": [
+        "쿤밍역",
+        "Gefei",
+        "숙소"
+      ],
+      "zh": "昆明站",
+      "note": "D1·D7 숙박. 역 북광장 360m"
+    },
+    {
+      "id": "map04-02",
+      "mapId": "map04",
+      "x": 200,
+      "y": 250,
+      "label": "취호·남병가 일대",
+      "type": "place",
+      "key": "cuihu",
+      "keywords": [
+        "취호",
+        "남병가"
+      ],
+      "zh": "翠湖·南屏街",
+      "note": "D7 저녁 야경 · D8 관광"
+    },
+    {
+      "id": "map04-03",
+      "mapId": "map04",
+      "x": 441,
+      "y": 190,
+      "label": "창수이 국제공항",
+      "type": "place",
+      "key": "kmg_airport",
+      "keywords": [
+        "창수이",
+        "공항"
+      ],
+      "zh": "昆明长水国际机场",
+      "note": "D1 22:00 도착 Klook 픽업 45분 · D8 19:30 숙소 출발"
+    },
+    {
+      "id": "map04-04",
+      "mapId": "map04",
+      "x": 660,
+      "y": 112,
+      "label": "① 취호공원 09:00",
+      "type": "place",
+      "key": "cuihu",
+      "keywords": [
+        "취호공원"
+      ],
+      "zh": "翠湖公园",
+      "note": "12월 붉은부리갈매기 시즌. 翠湖南路67号"
+    },
+    {
+      "id": "map04-05",
+      "mapId": "map04",
+      "x": 615,
+      "y": 88,
+      "label": "② 운남 육군강무당 10:45",
+      "type": "place",
+      "key": "jiangwutang",
+      "keywords": [
+        "강무당"
+      ],
+      "zh": "云南陆军讲武堂旧址",
+      "note": "입장 무료(예약제 확인). 翠湖西路22号"
+    },
+    {
+      "id": "map04-06",
+      "mapId": "map04",
+      "x": 783,
+      "y": 60,
+      "label": "③ 원통사 13:00",
+      "type": "place",
+      "key": "yuantong",
+      "keywords": [
+        "원통사"
+      ],
+      "zh": "圆通寺",
+      "note": "圆通街30号 시내 고찰"
+    },
+    {
+      "id": "map04-07",
+      "mapId": "map04",
+      "x": 738,
+      "y": 187,
+      "label": "④ 노가(钱王街·文明街) 14:00",
+      "type": "place",
+      "key": "laojie",
+      "keywords": [
+        "노가",
+        "문림가"
+      ],
+      "zh": "昆明老街",
+      "note": "카페·기념품(선화병·보이차)"
+    },
+    {
+      "id": "map04-08",
+      "mapId": "map04",
+      "x": 778,
+      "y": 210,
+      "label": "⑤ 남병가 建新园 16:30",
+      "type": "meal",
+      "key": "建新园",
+      "keywords": [
+        "남병가",
+        "건신원"
+      ],
+      "zh": "建新园过桥米线(宝善街店)",
+      "note": "D7·D8 저녁 과교미선"
+    },
+    {
+      "id": "map04-09",
+      "mapId": "map04",
+      "x": 758,
+      "y": 272,
+      "label": "금마벽계방",
+      "type": "place",
+      "key": "jinmabiji",
+      "keywords": [
+        "금마벽계방"
+      ],
+      "zh": "金马碧鸡坊",
+      "note": "야경 산책"
+    },
+    {
+      "id": "map04-10",
+      "mapId": "map04",
+      "x": 778,
+      "y": 318,
+      "label": "동서사탑",
+      "type": "poi",
+      "key": null,
+      "keywords": [
+        "동서사탑"
+      ],
+      "zh": "东西寺塔",
+      "note": "D7 밤 산책"
+    },
+    {
+      "id": "map04-11",
+      "mapId": "map04",
+      "x": 876,
+      "y": 433,
+      "label": "쿤밍역",
+      "type": "place",
+      "key": "kunming_station",
+      "keywords": [
+        "쿤밍역"
+      ],
+      "zh": "昆明站",
+      "note": "D7 16:03 도착 → 택시 20분"
+    },
+    {
+      "id": "map05-01",
+      "mapId": "map05",
+      "x": 97,
+      "y": 268,
+      "label": "교두 검표소",
+      "type": "poi",
+      "key": null,
+      "keywords": [
+        "교두"
+      ],
+      "zh": "桥头 检票口",
+      "note": "호도협 입구. 입장 ¥45"
+    },
+    {
+      "id": "map05-02",
+      "mapId": "map05",
+      "x": 255,
+      "y": 310,
+      "label": "상호도협",
+      "type": "place",
+      "key": "upper_tiger",
+      "keywords": [
+        "상호도협"
+      ],
+      "zh": "上虎跳峡",
+      "note": "D5 10:30~11:30 에스컬레이터 왕복 ¥70, 호도석 전망대, 매점 점심"
+    },
+    {
+      "id": "map05-03",
+      "mapId": "map05",
+      "x": 431,
+      "y": 148,
+      "label": "차마객잔 (트레킹 시작)",
+      "type": "place",
+      "key": "chama",
+      "keywords": [
+        "차마객잔"
+      ],
+      "zh": "茶马客栈",
+      "note": "D5 12:00 출발. 짐은 차량으로 Come Inn 전달"
+    },
+    {
+      "id": "map05-04",
+      "mapId": "map05",
+      "x": 527,
+      "y": 160,
+      "label": "협곡 전망",
+      "type": "poi",
+      "key": null,
+      "keywords": [
+        "하이트레일"
+      ],
+      "zh": "",
+      "note": "등고선길 중간. 절벽길 주의"
+    },
+    {
+      "id": "map05-05",
+      "mapId": "map05",
+      "x": 622,
+      "y": 171,
+      "label": "중도객잔 (트레킹 끝)",
+      "type": "place",
+      "key": "zhongtu",
+      "keywords": [
+        "중도객잔"
+      ],
+      "zh": "中途客栈",
+      "note": "D5 14:00 도착. 2층 카페 타이거벅스 휴식"
+    },
+    {
+      "id": "map05-06",
+      "mapId": "map05",
+      "x": 662,
+      "y": 131,
+      "label": "Come Inn (숙박)",
+      "type": "lodging",
+      "key": "comeinn",
+      "keywords": [
+        "Come Inn",
+        "본지만"
+      ],
+      "zh": "",
+      "note": "본지만 9호. D6 10:30 빵차 출발"
+    },
+    {
+      "id": "map05-07",
+      "mapId": "map05",
+      "x": 690,
+      "y": 198,
+      "label": "관음폭포",
+      "type": "poi",
+      "key": null,
+      "keywords": [
+        "관음폭포"
+      ],
+      "zh": "观音瀑布",
+      "note": "제외 구간(티나객잔 하산 방향)"
+    },
+    {
+      "id": "map05-08",
+      "mapId": "map05",
+      "x": 757,
+      "y": 265,
+      "label": "티나객잔",
+      "type": "poi",
+      "key": null,
+      "keywords": [
+        "티나객잔"
+      ],
+      "zh": "Tina's 客栈",
+      "note": "빵차 대안: 티나객잔 → 샹그릴라 버스 ¥55/인"
+    },
+    {
+      "id": "map05-09",
+      "mapId": "map05",
+      "x": 213,
+      "y": 210,
+      "label": "나시객잔",
+      "type": "poi",
+      "key": null,
+      "keywords": [
+        "나시객잔"
+      ],
+      "zh": "纳西雅阁",
+      "note": "제외 구간(28밴드 급경사 시작점)"
+    },
+    {
+      "id": "map05-10",
+      "mapId": "map05",
+      "x": 315,
+      "y": 108,
+      "label": "28밴드 정상 2,670m",
+      "type": "poi",
+      "key": null,
+      "keywords": [
+        "28밴드"
+      ],
+      "zh": "28道拐",
+      "note": "제외. 고도차 500m 급경사"
+    },
+    {
+      "id": "map05-11",
+      "mapId": "map05",
+      "x": 840,
+      "y": 306,
+      "label": "중호도협",
+      "type": "poi",
+      "key": null,
+      "keywords": [
+        "중호도협"
+      ],
+      "zh": "中虎跳峡",
+      "note": "제외(D6 빵차 이동으로 대체)"
+    },
+    {
+      "id": "map06-01",
+      "mapId": "map06",
+      "x": 231,
+      "y": 380,
+      "label": "① 석과어",
+      "type": "meal",
+      "key": "石锅鱼",
+      "keywords": [
+        "석과어"
+      ],
+      "zh": "石锅鱼",
+      "note": "약 150m"
+    },
+    {
+      "id": "map06-02",
+      "mapId": "map06",
+      "x": 185,
+      "y": 373,
+      "label": "② 운설리 남문점",
+      "type": "meal",
+      "key": "云雪丽·纳西庭院",
+      "keywords": [
+        "운설리"
+      ],
+      "zh": "云雪丽 古城南门店",
+      "note": "약 150m"
+    },
+    {
+      "id": "map06-03",
+      "mapId": "map06",
+      "x": 242,
+      "y": 353,
+      "label": "③ 격벽노왕 남문점",
+      "type": "poi",
+      "key": null,
+      "keywords": [
+        "격벽노왕"
+      ],
+      "zh": "隔壁老王 南门店",
+      "note": "약 300m. 누룽지 탕·돼지고기볶음"
+    },
+    {
+      "id": "map06-04",
+      "mapId": "map06",
+      "x": 158,
+      "y": 320,
+      "label": "④ 습전주미 야생버섯훠궈",
+      "type": "meal",
+      "key": "拾全酒美",
+      "keywords": [
+        "습전주미"
+      ],
+      "zh": "拾全酒美",
+      "note": "약 500m. 光义街忠义巷38号"
+    },
+    {
+      "id": "map06-05",
+      "mapId": "map06",
+      "x": 189,
+      "y": 274,
+      "label": "⑤ 작자미선",
+      "type": "meal",
+      "key": "勺子米线",
+      "keywords": [
+        "작자미선"
+      ],
+      "zh": "勺子米线",
+      "note": "약 650m. 百岁坊8号 아침"
+    },
+    {
+      "id": "map06-06",
+      "mapId": "map06",
+      "x": 170,
+      "y": 240,
+      "label": "⑥ 할머니 계두량분",
+      "type": "meal",
+      "key": "奶奶鸡豆凉粉",
+      "keywords": [
+        "계두량분"
+      ],
+      "zh": "奶奶鸡豆凉粉",
+      "note": "약 850m. 光义街新院巷30号"
+    },
+    {
+      "id": "map06-07",
+      "mapId": "map06",
+      "x": 189,
+      "y": 203,
+      "label": "⑦ 딩딩당당",
+      "type": "meal",
+      "key": "丁丁当当",
+      "keywords": [
+        "딩딩당당"
+      ],
+      "zh": "丁丁当当酸奶店",
+      "note": "약 1,050m. 官门口42号 야크 요거트·번"
+    },
+    {
+      "id": "map06-08",
+      "mapId": "map06",
+      "x": 292,
+      "y": 248,
+      "label": "⑧ 아파 납배골훠궈",
+      "type": "meal",
+      "key": "阿婆腊排骨火锅",
+      "keywords": [
+        "납배골"
+      ],
+      "zh": "阿婆腊排骨火锅(总店)",
+      "note": "약 900m. 五一街兴仁上段38号"
+    },
+    {
+      "id": "map06-09",
+      "mapId": "map06",
+      "x": 319,
+      "y": 252,
+      "label": "⑨ 88소흡",
+      "type": "meal",
+      "key": "88小吃",
+      "keywords": [
+        "88소흡"
+      ],
+      "zh": "88小吃",
+      "note": "약 1,000m. 五一街88号"
+    },
+    {
+      "id": "map06-10",
+      "mapId": "map06",
+      "x": 323,
+      "y": 283,
+      "label": "⑩ 천천선",
+      "type": "meal",
+      "key": "天天鲜",
+      "keywords": [
+        "천천선"
+      ],
+      "zh": "天天鲜(丽江古城店)",
+      "note": "약 900m. 五一街王家庄巷47号"
+    },
+    {
+      "id": "map06-11",
+      "mapId": "map06",
+      "x": 334,
+      "y": 263,
+      "label": "⑪ ZEW 운남소흡",
+      "type": "poi",
+      "key": null,
+      "keywords": [
+        "ZEW"
+      ],
+      "zh": "ZEW",
+      "note": "약 1,000m. 五一街王家庄巷18-19号"
+    },
+    {
+      "id": "map06-12",
+      "mapId": "map06",
+      "x": 303,
+      "y": 285,
+      "label": "⑫ 아마의 납서식당",
+      "type": "poi",
+      "key": null,
+      "keywords": [
+        "아마"
+      ],
+      "zh": "阿妈意纳西饮食院",
+      "note": "약 800m. 五一街"
+    },
+    {
+      "id": "map06-13",
+      "mapId": "map06",
+      "x": 254,
+      "y": 222,
+      "label": "⑬ 이가미선",
+      "type": "meal",
+      "key": "二哥米线",
+      "keywords": [
+        "이가미선"
+      ],
+      "zh": "二哥米线",
+      "note": "약 1,000m. 崇仁巷32号 아침"
+    },
+    {
+      "id": "map06-14",
+      "mapId": "map06",
+      "x": 307,
+      "y": 318,
+      "label": "⑭ 길상 구운 이과이",
+      "type": "poi",
+      "key": null,
+      "keywords": [
+        "이과이"
+      ],
+      "zh": "吉祥烤饵块",
+      "note": "약 700m. 长水路忠义市场夜市 야식"
+    },
+    {
+      "id": "map06-15",
+      "mapId": "map06",
+      "x": 235,
+      "y": 103,
+      "label": "⑮ 田村 야크훠궈(대수차점)",
+      "type": "meal",
+      "key": "田村",
+      "keywords": [
+        "田村"
+      ],
+      "zh": "田村·酸汤牦牛肉火锅(古城大水车店)",
+      "note": "약 1,600m. 玉河走廊A区37号"
+    },
+    {
+      "id": "map06-16",
+      "mapId": "map06",
+      "x": 147,
+      "y": 118,
+      "label": "물라뉴 탕수 호텔",
+      "type": "lodging",
+      "key": "mulanyu",
+      "keywords": [
+        "물라뉴"
+      ],
+      "zh": "",
+      "note": ""
+    },
+    {
+      "id": "map06-17",
+      "mapId": "map06",
+      "x": 208,
+      "y": 391,
+      "label": "★ 남문 (기준점)",
+      "type": "poi",
+      "key": null,
+      "keywords": [
+        "남문"
+      ],
+      "zh": "南门广场",
+      "note": "거리 기준점"
+    }
+  ]
+}
