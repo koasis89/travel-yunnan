@@ -36,6 +36,7 @@ class TripData(
     val mealNotes: List<String> = emptyList(),
     val emergency: EmergencyFile = EmergencyFile(),
     val hotspots: List<Hotspot> = emptyList(),
+    val templateLinks: List<TemplateLink> = emptyList(),
 ) {
     private val dayById = days.associateBy { it.id }
     private val lodgingById = lodgings.associateBy { it.id }
@@ -54,6 +55,8 @@ class TripData(
     fun mealsOf(dayId: String): List<Meal> = meals.filter { it.dayId == dayId }
     fun mealOption(id: String?): Pair<Meal, MealOption>? = id?.let { mealOptionById[it] }
     fun phrasesIn(category: String): List<Phrase> = phrases.filter { category in it.categories }
+    fun templatesFor(row: Schedule) = templateLinks.filter { it.dayId == row.dayId && it.timeStart == row.timeStart }
+    fun templateLink(id: String?) = id?.let { k -> templateLinks.firstOrNull { it.id == k } }
     fun hotspotsOf(mapId: String) = hotspots.filter { it.mapId == mapId }
     fun todosOf(lodgingId: String) = lodgingTodos.filter { it.lodgingId == lodgingId }
     /** 중국어 문자열을 포함하는 회화 문장(유의사항 본문의 인라인 문장 연결용) */
@@ -121,6 +124,7 @@ class TripData(
                 lodgingTodos = items("lodging_todos.json", LodgingTodo.serializer()).items,
                 lodgingNotes = lodgings.notes,
                 mealNotes = meals.notes,
+                templateLinks = runCatching { items("template_links.json", TemplateLink.serializer()).items }.getOrDefault(emptyList()),
                 hotspots = runCatching { items("map_hotspots.json", Hotspot.serializer()).items }.getOrDefault(emptyList()),
                 emergency = runCatching { json.decodeFromString(EmergencyFile.serializer(), read("emergency.json")) }.getOrDefault(EmergencyFile()),
             )

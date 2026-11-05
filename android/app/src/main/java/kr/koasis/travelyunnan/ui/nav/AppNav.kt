@@ -88,7 +88,7 @@ fun AppNav(vm: AppViewModel, initialRoute: String? = null) {
             openPacking = { go(Routes.PACKING) },
             openNotes = { go(Routes.NOTES) },
             openEmergency = { go(Routes.EMERGENCY) },
-            openTemplates = { go(Routes.templates(it)) },
+            openTemplates = { id, link -> go(Routes.templates(id, link)) },
             openNumber = { go(Routes.NUMBER) },
             openDiary = { go(Routes.diary(it)) },
             back = { nav.popBackStack() },
@@ -159,8 +159,11 @@ fun AppNav(vm: AppViewModel, initialRoute: String? = null) {
                 composable(Routes.PACKING) { PackingScreen(vm, d) }
                 composable(Routes.NOTES) { NotesScreen(d) }
                 composable(Routes.EMERGENCY) { EmergencyScreen(vm, d) }
-                composable(Routes.TEMPLATES, arguments = listOf(navArgument("id") { type = NavType.StringType; nullable = true })) {
-                    TemplateScreen(d, it.arguments?.getString("id"))
+                composable(Routes.TEMPLATES, arguments = listOf(
+                    navArgument("id") { type = NavType.StringType; nullable = true },
+                    navArgument("link") { type = NavType.StringType; nullable = true },
+                )) {
+                    TemplateScreen(d, it.arguments?.getString("id"), it.arguments?.getString("link"))
                 }
                 composable(Routes.NUMBER) { NumberCardScreen(vm) }
                 composable(Routes.DIARY, arguments = listOf(navArgument("day") { type = NavType.StringType; nullable = true })) {

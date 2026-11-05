@@ -22,7 +22,7 @@ data class Actions(
     val openPacking: () -> Unit = {},
     val openNotes: () -> Unit = {},
     val openEmergency: () -> Unit = {},
-    val openTemplates: (String?) -> Unit = {},
+    val openTemplates: (String?, String?) -> Unit = { _, _ -> },
     val openNumber: () -> Unit = {},
     val openDiary: (String?) -> Unit = {},
     val back: () -> Unit = {},
@@ -50,7 +50,7 @@ object Routes {
     const val PACKING = "packing"
     const val NOTES = "notes"
     const val EMERGENCY = "emergency"
-    const val TEMPLATES = "templates?id={id}"
+    const val TEMPLATES = "templates?id={id}&link={link}"
     const val NUMBER = "number"
     const val DIARY = "diary?day={day}"
 
@@ -63,6 +63,7 @@ object Routes {
     fun lodgings(id: String?) = "lodgings" + (id?.let { "?id=$it" } ?: "")
     fun meals(day: String?) = "meals" + (day?.let { "?day=$it" } ?: "")
     fun menu(food: String?) = "menu" + (food?.let { "?food=$it" } ?: "")
-    fun templates(id: String?) = "templates" + (id?.let { "?id=$it" } ?: "")
+    fun templates(id: String?, link: String? = null) =
+        "templates" + listOfNotNull(id?.let { "id=$it" }, link?.let { "link=$it" }).joinToString("&").let { if (it.isEmpty()) "" else "?$it" }
     fun diary(day: String?) = "diary" + (day?.let { "?day=$it" } ?: "")
 }

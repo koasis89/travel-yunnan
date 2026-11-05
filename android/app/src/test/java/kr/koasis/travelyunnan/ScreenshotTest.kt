@@ -141,7 +141,7 @@ class ScreenshotTest {
         EmergencyContent(data, unlocked = true, lockedMessage = null, {}, {}, { sample }, {}, canAuth = true)
     }
 
-    @Test fun template() = shot("21_template") { TemplateScreen(data, "tpl-shangrila") }
+    @Test fun template() = shot("21_template") { TemplateScreen(data, null, "tl-06") }
 
     @Test fun number_card() = shot("22_number_card") { NumberCardContent { true } }
 

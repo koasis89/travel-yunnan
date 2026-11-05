@@ -45,7 +45,7 @@ fun MoreScreen() {
         MoreItem(Icons.Filled.Checklist, "준비물·날씨", "체크리스트와 지역별 옷차림", true, actions.openPacking),
         MoreItem(Icons.Filled.Warning, "유의사항", "고산병·열차·빵차·배달", true, actions.openNotes),
         MoreItem(Icons.Filled.Lock, "긴급·여권", "연락처·고산병·여권(생체인증 잠금)", true, actions.openEmergency),
-        MoreItem(Icons.AutoMirrored.Filled.Chat, "위챗 메시지 템플릿", "빵차·픽업·배달 요청문, 변수 치환", true) { actions.openTemplates(null) },
+        MoreItem(Icons.AutoMirrored.Filled.Chat, "위챗 메시지 템플릿", "빵차·픽업·배달 요청문, 변수 치환", true) { actions.openTemplates(null, null) },
         MoreItem(Icons.Filled.Pin, "숫자 카드", "금액을 크게, 중국어 읽기·흥정 문장", true, actions.openNumber),
         MoreItem(Icons.Filled.PhotoCamera, "사진 일기", "일차별 사진·메모", true) { actions.openDiary(null) },
         MoreItem(Icons.Filled.Settings, "설정", "큰 글씨, 음성, 날짜 지정 모드", true, actions.openSettings),

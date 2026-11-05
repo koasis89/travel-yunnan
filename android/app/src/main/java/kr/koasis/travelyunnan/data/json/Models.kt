@@ -231,3 +231,13 @@ data class Hotspot(
     val zh: String = "",
     val note: String = "",
 )
+
+@Serializable
+data class TemplateLink(
+    val id: String,
+    val dayId: String,
+    val timeStart: String,
+    val templateId: String,
+    val label: String = "",
+    val values: Map<String, String> = emptyMap(),
+)

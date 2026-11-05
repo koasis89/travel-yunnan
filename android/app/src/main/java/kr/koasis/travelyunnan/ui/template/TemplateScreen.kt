@@ -1,6 +1,7 @@
 package kr.koasis.travelyunnan.ui.template
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -24,12 +25,14 @@ import kr.koasis.travelyunnan.util.External
 
 /** 위챗 메시지 템플릿(S6-2): 변수 입력 → 중국어 본문 → 복사·위챗·크게 보여주기 */
 @Composable
-fun TemplateScreen(data: TripData, idArg: String?) {
+fun TemplateScreen(data: TripData, idArg: String?, linkArg: String? = null) {
     val actions = LocalActions.current
     val ctx = LocalContext.current
-    var sel by rememberSaveable(idArg) { mutableStateOf(idArg ?: Templates.all.first().id) }
+    val link = remember(linkArg) { data.templateLink(linkArg) }
+    var sel by rememberSaveable(idArg, linkArg) { mutableStateOf(link?.templateId ?: idArg ?: Templates.all.first().id) }
     val t = Templates.all.firstOrNull { it.id == sel } ?: Templates.all.first()
-    var values by rememberSaveable(sel) { mutableStateOf(mapOf<String, String>()) }
+    // 일정에서 열었으면 그 일정에 맞는 값을 미리 채운다
+    var values by rememberSaveable(sel, linkArg) { mutableStateOf(if (link != null && link.templateId == sel) link.values else mapOf()) }
     var showMode by rememberSaveable { mutableStateOf(false) }
     val zh = t.render(values)
     if (showMode) {
@@ -43,6 +46,12 @@ fun TemplateScreen(data: TripData, idArg: String?) {
     }
     Column(Modifier.fillMaxSize()) {
         AppTopBar("위챗 메시지 템플릿", onBack = actions.back)
+        link?.let { l ->
+            val day = data.day(l.dayId)
+            Box(Modifier.padding(horizontal = 16.dp, vertical = 4.dp)) {
+                InfoBanner("${l.dayId} ${day?.dateLabel ?: ""} ${l.timeStart} 일정에 맞춰 값을 채웠다: ${l.label}", Icons.AutoMirrored.Filled.Chat)
+            }
+        }
         LazyRow(contentPadding = PaddingValues(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             items(Templates.all, key = { it.id }) { x -> FilterChip(sel == x.id, onClick = { sel = x.id }, label = { Text(x.title) }) }
         }

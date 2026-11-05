@@ -115,6 +115,12 @@ def main(d):
              (t == "meal" and any(k in n for n in meal_names))
         if not ok:
             errors.append(f"hotspot {x['id']}: 대상 없음 {t}:{k}")
+    sched_keys = {(r["dayId"], r["timeStart"]) for r in items("schedule.json")}
+    for x in data.get("template_links.json", {}).get("items", []):
+        if (x["dayId"], x["timeStart"]) not in sched_keys:
+            errors.append(f"template_links {x['id']}: 일정 행 없음 {x['dayId']} {x['timeStart']}")
+        if x["templateId"] not in {"tpl-tiger", "tpl-shangrila", "tpl-delivery", "tpl-pickup"}:
+            errors.append(f"template_links {x['id']}: 템플릿 {x['templateId']} 없음")
     for x in items("place_links.json"):
         t, k = x["type"], x["key"]
         ok = (t == "lodging" and k in lodging_ids) or (t == "place" and k in place_ids) or \

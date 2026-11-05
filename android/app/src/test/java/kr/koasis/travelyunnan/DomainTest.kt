@@ -150,6 +150,17 @@ class S6Test {
         assertEquals(4, Templates.all.size)
     }
 
+    @Test fun templateLinksAttachToRows() {
+        val d = TripDataHolder.data
+        val d4 = d.scheduleOf("D4").first { it.timeStart == "17:30" }
+        assertEquals(listOf("tpl-tiger"), d.templatesFor(d4).map { it.templateId })
+        val d5 = d.scheduleOf("D5").first { it.timeStart == "15:15" }
+        val sh = d.templatesFor(d5).single()
+        assertTrue(Templates.shangrila.render(sh.values).contains("上午10点半"))
+        val d1 = d.scheduleOf("D1").first { it.timeStart == "23:40" }
+        assertEquals(setOf("tpl-pickup", "tpl-delivery"), d.templatesFor(d1).map { it.templateId }.toSet())
+    }
+
     @Test fun hotspotsResolve() {
         val d = TripDataHolder.data
         assertTrue(d.hotspots.size >= 50)

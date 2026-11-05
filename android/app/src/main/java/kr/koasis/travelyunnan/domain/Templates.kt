@@ -34,7 +34,7 @@ object Templates {
 
     val shangrila: Template = run {
         val f = listOf(
-            TemplateField("date", "출발 시각", "明天上午10点", "예: 12月21日上午10点"),
+            TemplateField("date", "출발 시각", "明天上午10点半", "예: 12月21日上午10点半"),
             TemplateField("from", "출발지", "靠山十九度"),
             TemplateField("to", "도착지", "香格里拉 独克宗古城 龟山巷3号（Oura Villa）"),
             TemplateField("persons", "인원", "3"),
@@ -56,7 +56,7 @@ object Templates {
 
     val pickup: Template = run {
         val f = listOf(
-            TemplateField("date", "도착 시각", "12月17日 12:54", "열차 도착 시각"),
+            TemplateField("date", "도착 시각", "12月17日 12:27", "열차 도착 시각"),
             TemplateField("where", "도착 장소", "丽江站"),
             TemplateField("persons", "인원·짐", "3个人，3个行李箱"),
         )
