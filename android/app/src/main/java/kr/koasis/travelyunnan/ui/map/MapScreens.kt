@@ -29,13 +29,12 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight as TextWeight
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.layout.layout
 import androidx.compose.foundation.layout.offset
 import kotlin.math.roundToInt
 import androidx.compose.ui.unit.dp
@@ -254,20 +253,19 @@ fun MapViewScreen(data: TripData, id: String) {
 }
 
 
-/** 지도 위 마커: 숙소 빨강, 식당 주황, 장소 청록, 기타 회색 */
+/** 지도 위 마커: 숙소 빨강, 식당 주황, 장소 청록, 기타 회색. 부모 Box 의 좌상단 기준 픽셀 위치에 놓는다. */
 @Composable
-private fun HotspotMarker(h: Hotspot, cx: Int, cy: Int, small: Boolean = false, onClick: () -> Unit) {
+private fun BoxScope.HotspotMarker(h: Hotspot, cx: Int, cy: Int, small: Boolean = false, onClick: () -> Unit) {
     val color = when (h.type) { "lodging" -> Color(0xFFB4442E); "meal" -> Color(0xFFE09A2B); "place" -> Color(0xFF1F6F6B); else -> Color(0xFF6E6A64) }
-    val d = if (small) 18.dp else 22.dp
+    val d = if (small) 14.dp else 16.dp
+    val half = with(LocalDensity.current) { (d / 2).roundToPx() }
     Box(
-        Modifier.layout { m, c ->
-            val p = m.measure(c)
-            layout(0, 0) { p.place(cx - p.width / 2, cy - p.height / 2) }
-        }.size(d).background(color.copy(alpha = 0.92f), androidx.compose.foundation.shape.CircleShape)
+        Modifier.align(Alignment.TopStart).offset { IntOffset(cx - half, cy - half) }
+            .size(d).background(color.copy(alpha = 0.92f), androidx.compose.foundation.shape.CircleShape)
             .clickable(onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
-        Box(Modifier.size(if (small) 6.dp else 8.dp).background(Color.White, androidx.compose.foundation.shape.CircleShape))
+        Box(Modifier.size(if (small) 5.dp else 6.dp).background(Color.White, androidx.compose.foundation.shape.CircleShape))
     }
 }
 
