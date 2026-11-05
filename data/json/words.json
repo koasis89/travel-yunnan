@@ -1,0 +1,421 @@
+{
+  "version": "2026-11-04",
+  "items": [
+    {
+      "id": "w-001",
+      "zh": "包车",
+      "pinyin": "bāo chē",
+      "ko": "차량 대절(빵차)",
+      "koRead": "빠오처",
+      "copyOnly": false
+    },
+    {
+      "id": "w-002",
+      "zh": "预订",
+      "pinyin": "yù dìng",
+      "ko": "예약",
+      "koRead": "위딩",
+      "copyOnly": false
+    },
+    {
+      "id": "w-003",
+      "zh": "虎跳峡",
+      "pinyin": "hǔ tiào xiá",
+      "ko": "호도협",
+      "koRead": "후티아오시아",
+      "copyOnly": false
+    },
+    {
+      "id": "w-004",
+      "zh": "茶马客栈",
+      "pinyin": "chá mǎ kè zhàn",
+      "ko": "차마객잔",
+      "koRead": "차마 커짠",
+      "copyOnly": false
+    },
+    {
+      "id": "w-005",
+      "zh": "中途客栈",
+      "pinyin": "zhōng tú kè zhàn",
+      "ko": "중도객잔",
+      "koRead": "쫑투 커짠",
+      "copyOnly": false
+    },
+    {
+      "id": "w-006",
+      "zh": "靠山十九度",
+      "pinyin": "kào shān shí jiǔ dù",
+      "ko": "컴인 숙소의 중국어 이름",
+      "koRead": "카오샨 스지우두",
+      "copyOnly": false
+    },
+    {
+      "id": "w-007",
+      "zh": "香格里拉",
+      "pinyin": "xiāng gé lǐ lā",
+      "ko": "샹그릴라",
+      "koRead": "시앙거리라",
+      "copyOnly": false
+    },
+    {
+      "id": "w-008",
+      "zh": "丽江古城",
+      "pinyin": "lì jiāng gǔ chéng",
+      "ko": "리장고성",
+      "koRead": "리지앙 구청",
+      "copyOnly": false
+    },
+    {
+      "id": "w-009",
+      "zh": "昆明",
+      "pinyin": "kūn míng",
+      "ko": "쿤밍",
+      "koRead": "쿤밍",
+      "copyOnly": false
+    },
+    {
+      "id": "w-010",
+      "zh": "等",
+      "pinyin": "děng",
+      "ko": "기다리다",
+      "koRead": "덩",
+      "copyOnly": false
+    },
+    {
+      "id": "w-011",
+      "zh": "小时",
+      "pinyin": "xiǎo shí",
+      "ko": "시간",
+      "koRead": "시아오스",
+      "copyOnly": false
+    },
+    {
+      "id": "w-012",
+      "zh": "行李",
+      "pinyin": "xíng lǐ",
+      "ko": "짐",
+      "koRead": "싱리",
+      "copyOnly": false
+    },
+    {
+      "id": "w-013",
+      "zh": "托运",
+      "pinyin": "tuō yùn",
+      "ko": "(짐을) 부치다",
+      "koRead": "투어윈",
+      "copyOnly": false
+    },
+    {
+      "id": "w-014",
+      "zh": "明天上午",
+      "pinyin": "míng tiān shàng wǔ",
+      "ko": "내일 오전",
+      "koRead": "밍티엔 샹우",
+      "copyOnly": false
+    },
+    {
+      "id": "w-015",
+      "zh": "车牌号",
+      "pinyin": "chē pái hào",
+      "ko": "차량 번호",
+      "koRead": "처파이하오",
+      "copyOnly": false
+    },
+    {
+      "id": "w-016",
+      "zh": "司机师傅",
+      "pinyin": "sī jī shī fù",
+      "ko": "기사님",
+      "koRead": "쓰지 스푸",
+      "copyOnly": false
+    },
+    {
+      "id": "w-017",
+      "zh": "联系方式",
+      "pinyin": "lián xì fāng shì",
+      "ko": "연락처",
+      "koRead": "리엔시 팡스",
+      "copyOnly": false
+    },
+    {
+      "id": "w-018",
+      "zh": "空调",
+      "pinyin": "kōng tiáo",
+      "ko": "에어컨·히터",
+      "koRead": "콩티아오",
+      "copyOnly": false
+    },
+    {
+      "id": "w-019",
+      "zh": "开",
+      "pinyin": "kāi",
+      "ko": "켜다",
+      "koRead": "카이",
+      "copyOnly": false
+    },
+    {
+      "id": "w-020",
+      "zh": "关",
+      "pinyin": "guān",
+      "ko": "끄다",
+      "koRead": "꽌",
+      "copyOnly": false
+    },
+    {
+      "id": "w-021",
+      "zh": "洗手间",
+      "pinyin": "xǐ shǒu jiān",
+      "ko": "화장실",
+      "koRead": "시쇼우지엔",
+      "copyOnly": false
+    },
+    {
+      "id": "w-022",
+      "zh": "不好意思",
+      "pinyin": "bù hǎo yì sī",
+      "ko": "죄송합니다",
+      "koRead": "뿌하오이쓰",
+      "copyOnly": false
+    },
+    {
+      "id": "w-023",
+      "zh": "多少钱",
+      "pinyin": "duō shǎo qián",
+      "ko": "얼마예요",
+      "koRead": "뚜어샤오 치엔",
+      "copyOnly": false
+    },
+    {
+      "id": "w-024",
+      "zh": "总费用",
+      "pinyin": "zǒng fèi yòng",
+      "ko": "총비용",
+      "koRead": "쫑페이용",
+      "copyOnly": false
+    },
+    {
+      "id": "w-025",
+      "zh": "护照",
+      "pinyin": "hù zhào",
+      "ko": "여권",
+      "koRead": "후짜오",
+      "copyOnly": false
+    },
+    {
+      "id": "w-026",
+      "zh": "入住",
+      "pinyin": "rù zhù",
+      "ko": "체크인",
+      "koRead": "루쭈",
+      "copyOnly": false
+    },
+    {
+      "id": "w-027",
+      "zh": "押金",
+      "pinyin": "yā jīn",
+      "ko": "보증금",
+      "koRead": "야진",
+      "copyOnly": false
+    },
+    {
+      "id": "w-028",
+      "zh": "早餐",
+      "pinyin": "zǎo cān",
+      "ko": "아침 식사",
+      "koRead": "짜오찬",
+      "copyOnly": false
+    },
+    {
+      "id": "w-029",
+      "zh": "无线网密码",
+      "pinyin": "wú xiàn wǎng mì mǎ",
+      "ko": "와이파이 비밀번호",
+      "koRead": "우시엔왕 미마",
+      "copyOnly": false
+    },
+    {
+      "id": "w-030",
+      "zh": "服务员",
+      "pinyin": "fú wù yuán",
+      "ko": "종업원",
+      "koRead": "푸우위엔",
+      "copyOnly": false
+    },
+    {
+      "id": "w-031",
+      "zh": "菜单",
+      "pinyin": "cài dān",
+      "ko": "메뉴판",
+      "koRead": "차이딴",
+      "copyOnly": false
+    },
+    {
+      "id": "w-032",
+      "zh": "推荐菜",
+      "pinyin": "tuī jiàn cài",
+      "ko": "추천 메뉴",
+      "koRead": "투이지엔차이",
+      "copyOnly": false
+    },
+    {
+      "id": "w-033",
+      "zh": "香菜",
+      "pinyin": "xiāng cài",
+      "ko": "고수",
+      "koRead": "시앙차이",
+      "copyOnly": false
+    },
+    {
+      "id": "w-034",
+      "zh": "冰啤酒",
+      "pinyin": "bīng pí jiǔ",
+      "ko": "차가운 맥주",
+      "koRead": "삥 피지우",
+      "copyOnly": false
+    },
+    {
+      "id": "w-035",
+      "zh": "矿泉水",
+      "pinyin": "kuàng quán shuǐ",
+      "ko": "생수",
+      "koRead": "쾅취엔쉐이",
+      "copyOnly": false
+    },
+    {
+      "id": "w-036",
+      "zh": "结账",
+      "pinyin": "jié zhàng",
+      "ko": "계산",
+      "koRead": "지에짱",
+      "copyOnly": false
+    },
+    {
+      "id": "w-037",
+      "zh": "微信支付",
+      "pinyin": "wēi xìn zhī fù",
+      "ko": "위챗페이",
+      "koRead": "웨이신 즈푸",
+      "copyOnly": false
+    },
+    {
+      "id": "w-038",
+      "zh": "支付宝",
+      "pinyin": "zhī fù bǎo",
+      "ko": "알리페이",
+      "koRead": "즈푸바오",
+      "copyOnly": false
+    },
+    {
+      "id": "w-039",
+      "zh": "扫码",
+      "pinyin": "sǎo mǎ",
+      "ko": "QR코드 스캔",
+      "koRead": "싸오마",
+      "copyOnly": false
+    },
+    {
+      "id": "w-040",
+      "zh": "发票",
+      "pinyin": "fā piào",
+      "ko": "영수증",
+      "koRead": "파피아오",
+      "copyOnly": false
+    },
+    {
+      "id": "w-041",
+      "zh": "成人票",
+      "pinyin": "chéng rén piào",
+      "ko": "성인 표",
+      "koRead": "청런피아오",
+      "copyOnly": false
+    },
+    {
+      "id": "w-042",
+      "zh": "往返索道",
+      "pinyin": "wǎng fǎn suǒ dào",
+      "ko": "왕복 케이블카",
+      "koRead": "왕판 쑤어따오",
+      "copyOnly": false
+    },
+    {
+      "id": "w-043",
+      "zh": "便宜",
+      "pinyin": "pián yi",
+      "ko": "싸다",
+      "koRead": "피엔이",
+      "copyOnly": false
+    },
+    {
+      "id": "w-044",
+      "zh": "太贵了",
+      "pinyin": "tài guì le",
+      "ko": "너무 비싸요",
+      "koRead": "타이 꾸이 러",
+      "copyOnly": false
+    },
+    {
+      "id": "w-045",
+      "zh": "尝",
+      "pinyin": "cháng",
+      "ko": "맛보다",
+      "koRead": "창",
+      "copyOnly": false
+    },
+    {
+      "id": "w-046",
+      "zh": "一斤",
+      "pinyin": "yī jīn",
+      "ko": "한 근(500g)",
+      "koRead": "이 진",
+      "copyOnly": false
+    },
+    {
+      "id": "w-047",
+      "zh": "新包装",
+      "pinyin": "xīn bāo zhuāng",
+      "ko": "새 포장",
+      "koRead": "신 빠오쫭",
+      "copyOnly": false
+    },
+    {
+      "id": "w-048",
+      "zh": "充电宝",
+      "pinyin": "chōng diàn bǎo",
+      "ko": "보조배터리",
+      "koRead": "충띠엔바오",
+      "copyOnly": false
+    },
+    {
+      "id": "w-049",
+      "zh": "违禁品",
+      "pinyin": "wéi jìn pǐn",
+      "ko": "금지 물품",
+      "koRead": "웨이진핀",
+      "copyOnly": false
+    },
+    {
+      "id": "w-050",
+      "zh": "安检",
+      "pinyin": "ān jiǎn",
+      "ko": "보안검색",
+      "koRead": "안지엔",
+      "copyOnly": false
+    },
+    {
+      "id": "w-051",
+      "zh": "检票口",
+      "pinyin": "jiǎn piào kǒu",
+      "ko": "개찰구",
+      "koRead": "지엔피아오코우",
+      "copyOnly": false
+    },
+    {
+      "id": "w-052",
+      "zh": "火车站",
+      "pinyin": "huǒ chē zhàn",
+      "ko": "기차역",
+      "koRead": "후어처짠",
+      "copyOnly": false
+    }
+  ]
+}

@@ -1,0 +1,356 @@
+{
+  "version": "2026-11-04",
+  "items": [
+    {
+      "id": "fn-001",
+      "zh": "腊排骨火锅",
+      "pinyin": "là pái gǔ huǒ guō",
+      "kind": "food",
+      "ko": "납배골 훠궈",
+      "koRead": "라파이구 후어꾸어",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-002",
+      "zh": "牦牛肉火锅",
+      "pinyin": "máo niú ròu huǒ guō",
+      "kind": "food",
+      "ko": "야크 훠궈",
+      "koRead": "마오니우러우 후어꾸어",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-003",
+      "zh": "酸汤牦牛肉火锅",
+      "pinyin": "suān tāng máo niú ròu huǒ guō",
+      "kind": "food",
+      "ko": "새콤한 육수 야크 훠궈",
+      "koRead": "쑤안탕 마오니우러우 후어꾸어",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-004",
+      "zh": "野生菌火锅",
+      "pinyin": "yě shēng jūn huǒ guō",
+      "kind": "food",
+      "ko": "야생버섯 훠궈",
+      "koRead": "예셩쥔 후어꾸어",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-005",
+      "zh": "石锅鱼",
+      "pinyin": "shí guō yú",
+      "kind": "food",
+      "ko": "돌솥 생선",
+      "koRead": "스꾸어위",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-006",
+      "zh": "鸡豆凉粉",
+      "pinyin": "jī dòu liáng fěn",
+      "kind": "food",
+      "ko": "계두량분",
+      "koRead": "지또우 리앙펀",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-007",
+      "zh": "丽江粑粑",
+      "pinyin": "lì jiāng bā ba",
+      "kind": "food",
+      "ko": "리장 바바",
+      "koRead": "리지앙 빠바",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-008",
+      "zh": "松露粥",
+      "pinyin": "sōng lù zhōu",
+      "kind": "food",
+      "ko": "트러플죽",
+      "koRead": "쏭루저우",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-009",
+      "zh": "炸茄盒",
+      "pinyin": "zhá qié hé",
+      "kind": "food",
+      "ko": "가지튀김",
+      "koRead": "자치에허",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-010",
+      "zh": "拉子鸡",
+      "pinyin": "lā zi jī",
+      "kind": "food",
+      "ko": "라즈지",
+      "koRead": "라즈지",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-011",
+      "zh": "牦牛汉堡",
+      "pinyin": "máo niú hàn bǎo",
+      "kind": "food",
+      "ko": "야크 버거",
+      "koRead": "마오니우 한바오",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-012",
+      "zh": "牦牛披萨",
+      "pinyin": "máo niú pī sà",
+      "kind": "food",
+      "ko": "야크 피자",
+      "koRead": "마오니우 피싸",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-013",
+      "zh": "牛肉面",
+      "pinyin": "niú ròu miàn",
+      "kind": "food",
+      "ko": "우육면",
+      "koRead": "니우러우미엔",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-014",
+      "zh": "五花肉",
+      "pinyin": "wǔ huā ròu",
+      "kind": "food",
+      "ko": "삼겹살",
+      "koRead": "우화러우",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-015",
+      "zh": "炒饭",
+      "pinyin": "chǎo fàn",
+      "kind": "food",
+      "ko": "볶음밥",
+      "koRead": "차오판",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-016",
+      "zh": "普洱猪肉小锅饭",
+      "pinyin": "pǔ ěr zhū ròu xiǎo guō fàn",
+      "kind": "food",
+      "ko": "보이차 돼지고기 소과반",
+      "koRead": "푸얼 주러우 시아오꾸어판",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-017",
+      "zh": "云南菜",
+      "pinyin": "yún nán cài",
+      "kind": "food",
+      "ko": "윈난 요리",
+      "koRead": "윈난차이",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-018",
+      "zh": "纳西家常菜",
+      "pinyin": "nà xī jiā cháng cài",
+      "kind": "food",
+      "ko": "나시족 가정식",
+      "koRead": "나시 지아창차이",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-019",
+      "zh": "牦牛火锅",
+      "pinyin": "máo niú huǒ guō",
+      "kind": "food",
+      "ko": "야크 훠궈",
+      "koRead": "마오니우 후어꾸어",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-020",
+      "zh": "牦牛肉",
+      "pinyin": "máo niú ròu",
+      "kind": "food",
+      "ko": "야크 고기",
+      "koRead": "마오니우러우",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-021",
+      "zh": "青稞粑粑",
+      "pinyin": "qīng kē bā ba",
+      "kind": "food",
+      "ko": "칭커 바바",
+      "koRead": "칭커 빠바",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-022",
+      "zh": "酥油茶",
+      "pinyin": "sū yóu chá",
+      "kind": "food",
+      "ko": "수유차(버터차)",
+      "koRead": "쑤요우차",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-023",
+      "zh": "藏式肉饼",
+      "pinyin": "zàng shì ròu bǐng",
+      "kind": "food",
+      "ko": "티베트식 고기파이",
+      "koRead": "짱스 러우빙",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-024",
+      "zh": "烤土豆",
+      "pinyin": "kǎo tǔ dòu",
+      "kind": "food",
+      "ko": "구운 감자",
+      "koRead": "카오 투또우",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-025",
+      "zh": "牦牛奶蛋挞",
+      "pinyin": "máo niú nǎi dàn tà",
+      "kind": "food",
+      "ko": "야크우유 에그타르트",
+      "koRead": "마오니우나이 딴타",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-026",
+      "zh": "过桥米线",
+      "pinyin": "guò qiáo mǐ xiàn",
+      "kind": "food",
+      "ko": "과교미선",
+      "koRead": "꾸어치아오 미시엔",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-027",
+      "zh": "汽锅鸡",
+      "pinyin": "qì guō jī",
+      "kind": "food",
+      "ko": "기과계",
+      "koRead": "치꾸어지",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-028",
+      "zh": "小锅米线",
+      "pinyin": "xiǎo guō mǐ xiàn",
+      "kind": "food",
+      "ko": "소과미선",
+      "koRead": "시아오꾸어 미시엔",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-029",
+      "zh": "烧饵块",
+      "pinyin": "shāo ěr kuài",
+      "kind": "food",
+      "ko": "샤오얼콰이(구운 떡)",
+      "koRead": "샤오얼콰이",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-030",
+      "zh": "鲜花饼",
+      "pinyin": "xiān huā bǐng",
+      "kind": "food",
+      "ko": "선화병(꽃빵)",
+      "koRead": "시엔화빙",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-031",
+      "zh": "田村",
+      "pinyin": "tián cūn",
+      "kind": "restaurant",
+      "ko": "티엔춘(야크 훠궈집)",
+      "koRead": "티엔춘",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-032",
+      "zh": "云雪丽",
+      "pinyin": "yún xuě lì",
+      "kind": "restaurant",
+      "ko": "윈쉐리(윈난 요리집)",
+      "koRead": "윈쉬에리",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-033",
+      "zh": "天天鲜",
+      "pinyin": "tiān tiān xiān",
+      "kind": "restaurant",
+      "ko": "티엔티엔시엔(나시 가정식)",
+      "koRead": "티엔티엔시엔",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-034",
+      "zh": "阿婆腊排骨火锅",
+      "pinyin": "ā pó là pái gǔ huǒ guō",
+      "kind": "restaurant",
+      "ko": "아포 납배골 훠궈",
+      "koRead": "아포 라파이구 후어꾸어",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-035",
+      "zh": "拾全酒美野生菌火锅",
+      "pinyin": "shí quán jiǔ měi yě shēng jūn huǒ guō",
+      "kind": "restaurant",
+      "ko": "스취엔지우메이 야생버섯 훠궈",
+      "koRead": "스취엔지우메이 예셩쥔 후어꾸어",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-036",
+      "zh": "建新园过桥米线",
+      "pinyin": "jiàn xīn yuán guò qiáo mǐ xiàn",
+      "kind": "restaurant",
+      "ko": "건신원 과교미선",
+      "koRead": "지엔신위엔 꾸어치아오 미시엔",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-037",
+      "zh": "福照楼汽锅鸡",
+      "pinyin": "fú zhào lóu qì guō jī",
+      "kind": "restaurant",
+      "ko": "복조루 기과계",
+      "koRead": "푸짜오러우 치꾸어지",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-038",
+      "zh": "一朵菌",
+      "pinyin": "yī duǒ jūn",
+      "kind": "restaurant",
+      "ko": "이뚜어쥔(야생버섯 훠궈)",
+      "koRead": "이뚜어쥔",
+      "copyOnly": false
+    },
+    {
+      "id": "fn-039",
+      "zh": "菌故",
+      "pinyin": "jūn gù",
+      "kind": "restaurant",
+      "ko": "쥔구(야생버섯 훠궈)",
+      "koRead": "쥔구",
+      "copyOnly": false
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "version": "2026-11-04",
+  "items": [
+    {
+      "category": "교통·투어·입장료",
+      "amountKrw": 1150936.5,
+      "isTotal": false
+    },
+    {
+      "category": "숙박(7박)",
+      "amountKrw": 542234,
+      "isTotal": false
+    },
+    {
+      "category": "식비(맛집·식사 계획)",
+      "amountKrw": 757000,
+      "isTotal": false
+    },
+    {
+      "category": "쇼핑·기념품·예비비",
+      "amountKrw": 300000,
+      "isTotal": false
+    },
+    {
+      "category": "합계",
+      "amountKrw": 2750170.5,
+      "isTotal": true
+    }
+  ]
+}

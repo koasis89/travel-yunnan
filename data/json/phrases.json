@@ -1,0 +1,889 @@
+{
+  "version": "2026-11-04",
+  "categories": [
+    {
+      "id": "car",
+      "title": "차량 예약·빵차",
+      "icon": "car"
+    },
+    {
+      "id": "incar",
+      "title": "차 안에서",
+      "icon": "seat"
+    },
+    {
+      "id": "hotel",
+      "title": "숙소",
+      "icon": "hotel"
+    },
+    {
+      "id": "restaurant",
+      "title": "식당",
+      "icon": "restaurant"
+    },
+    {
+      "id": "ticket",
+      "title": "매표·관광지",
+      "icon": "ticket"
+    },
+    {
+      "id": "market",
+      "title": "시장·쇼핑",
+      "icon": "shop"
+    },
+    {
+      "id": "station",
+      "title": "역·보안검색",
+      "icon": "train"
+    },
+    {
+      "id": "order",
+      "title": "음식 주문",
+      "icon": "food"
+    },
+    {
+      "id": "delivery",
+      "title": "배달·요청",
+      "icon": "delivery"
+    },
+    {
+      "id": "message",
+      "title": "위챗 장문",
+      "icon": "message"
+    }
+  ],
+  "items": [
+    {
+      "id": "ph-001",
+      "zh": "你好 我要预订包车",
+      "pinyin": "nǐ hǎo wǒ yào yù dìng bāo chē",
+      "categories": [
+        "car"
+      ],
+      "repeat": 3,
+      "ko": "안녕하세요, 차량 대절(빵차)을 예약하고 싶어요",
+      "koRead": "니하오, 워 야오 위딩 빠오처",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-002",
+      "zh": "我要去虎跳峡",
+      "pinyin": "wǒ yào qù hǔ tiào xiá",
+      "categories": [
+        "car"
+      ],
+      "repeat": 3,
+      "ko": "호도협에 가려고 해요",
+      "koRead": "워 야오 취 후티아오시아",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-003",
+      "zh": "在景区等一个半小时",
+      "pinyin": "zài jǐng qū děng yí gè bàn xiǎo shí",
+      "categories": [
+        "car"
+      ],
+      "repeat": 3,
+      "ko": "관광지에서 한 시간 반 기다려 주세요",
+      "koRead": "짜이 징취 덩 이거 빤 시아오스",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-004",
+      "zh": "然后送我们到茶马客栈",
+      "pinyin": "rán hòu sòng wǒ men dào chá mǎ kè zhàn",
+      "categories": [
+        "car"
+      ],
+      "repeat": 3,
+      "ko": "그다음 차마객잔까지 데려다주세요",
+      "koRead": "란허우 쏭 워먼 따오 차마 커짠",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-005",
+      "zh": "这辆车一共多少钱",
+      "pinyin": "zhè liàng chē yī gòng duō shǎo qián",
+      "categories": [
+        "car"
+      ],
+      "repeat": 3,
+      "ko": "이 차 전부 얼마예요?",
+      "koRead": "쩌 리앙 처 이꽁 뚜어샤오 치엔",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-006",
+      "zh": "行李送到靠山十九度",
+      "pinyin": "xíng lǐ sòng dào kào shān shí jiǔ dù",
+      "categories": [
+        "car"
+      ],
+      "repeat": 3,
+      "ko": "짐을 컴인(靠山十九度)으로 보내 주세요",
+      "koRead": "싱리 쏭따오 카오샨 스지우두",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-007",
+      "zh": "明天上午十点",
+      "pinyin": "míng tiān shàng wǔ shí diǎn",
+      "categories": [
+        "car"
+      ],
+      "repeat": 3,
+      "ko": "내일 오전 10시",
+      "koRead": "밍티엔 샹우 스디엔",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-008",
+      "zh": "去香格里拉",
+      "pinyin": "qù xiāng gé lǐ lā",
+      "categories": [
+        "car"
+      ],
+      "repeat": 3,
+      "ko": "샹그릴라로 가요",
+      "koRead": "취 시앙거리라",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-009",
+      "zh": "请告诉我车牌号",
+      "pinyin": "qǐng gào sù wǒ chē pái hào",
+      "categories": [
+        "car"
+      ],
+      "repeat": 3,
+      "ko": "차량 번호를 알려 주세요",
+      "koRead": "칭 까오쑤 워 처파이하오",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-010",
+      "zh": "请给我师傅的电话",
+      "pinyin": "qǐng gěi wǒ shī fù de diàn huà",
+      "categories": [
+        "car"
+      ],
+      "repeat": 3,
+      "ko": "기사님 전화번호를 주세요",
+      "koRead": "칭 게이 워 스푸 더 띠엔화",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-011",
+      "zh": "师傅 请开空调",
+      "pinyin": "shī fù qǐng kāi kōng tiáo",
+      "categories": [
+        "incar"
+      ],
+      "repeat": 3,
+      "ko": "기사님, 에어컨(히터) 켜 주세요",
+      "koRead": "스푸, 칭 카이 콩티아오",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-012",
+      "zh": "师傅 请关空调",
+      "pinyin": "shī fù qǐng guān kōng tiáo",
+      "categories": [
+        "incar"
+      ],
+      "repeat": 3,
+      "ko": "기사님, 에어컨(히터) 꺼 주세요",
+      "koRead": "스푸, 칭 꽌 콩티아오",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-013",
+      "zh": "师傅 不好意思",
+      "pinyin": "shī fù bù hǎo yì sī",
+      "categories": [
+        "incar"
+      ],
+      "repeat": 3,
+      "ko": "기사님, 죄송한데요",
+      "koRead": "스푸, 뿌하오이쓰",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-014",
+      "zh": "我要去洗手间",
+      "pinyin": "wǒ yào qù xǐ shǒu jiān",
+      "categories": [
+        "incar"
+      ],
+      "repeat": 3,
+      "ko": "화장실에 가고 싶어요",
+      "koRead": "워 야오 취 시쇼우지엔",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-015",
+      "zh": "请停一下",
+      "pinyin": "qǐng tíng yī xià",
+      "categories": [
+        "incar"
+      ],
+      "repeat": 3,
+      "ko": "잠깐 세워 주세요",
+      "koRead": "칭 팅 이시아",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-016",
+      "zh": "你好 我要入住",
+      "pinyin": "nǐ hǎo wǒ yào rù zhù",
+      "categories": [
+        "hotel"
+      ],
+      "repeat": 3,
+      "ko": "안녕하세요, 체크인하려고요",
+      "koRead": "니하오, 워 야오 루쭈",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-017",
+      "zh": "这是我的护照",
+      "pinyin": "zhè shì wǒ de hù zhào",
+      "categories": [
+        "hotel",
+        "station"
+      ],
+      "repeat": 3,
+      "ko": "제 여권입니다",
+      "koRead": "쩌 스 워 더 후짜오",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-018",
+      "zh": "有押金吗",
+      "pinyin": "yǒu yā jīn ma",
+      "categories": [
+        "hotel"
+      ],
+      "repeat": 3,
+      "ko": "보증금이 있나요?",
+      "koRead": "요우 야진 마",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-019",
+      "zh": "可以微信支付吗",
+      "pinyin": "kě yǐ wēi xìn zhī fù ma",
+      "categories": [
+        "hotel"
+      ],
+      "repeat": 3,
+      "ko": "위챗페이 되나요?",
+      "koRead": "커이 웨이신 즈푸 마",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-020",
+      "zh": "早餐几点到几点",
+      "pinyin": "zǎo cān jǐ diǎn dào jǐ diǎn",
+      "categories": [
+        "hotel"
+      ],
+      "repeat": 3,
+      "ko": "조식은 몇 시부터 몇 시까지예요?",
+      "koRead": "짜오찬 지디엔 따오 지디엔",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-021",
+      "zh": "无线网密码是多少",
+      "pinyin": "wú xiàn wǎng mì mǎ shì duō shǎo",
+      "categories": [
+        "hotel"
+      ],
+      "repeat": 3,
+      "ko": "와이파이 비밀번호가 뭐예요?",
+      "koRead": "우시엔왕 미마 스 뚜어샤오",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-022",
+      "zh": "服务员 点单",
+      "pinyin": "fú wù yuán diǎn dān",
+      "categories": [
+        "restaurant"
+      ],
+      "repeat": 3,
+      "ko": "저기요, 주문할게요",
+      "koRead": "푸우위엔, 디엔딴",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-023",
+      "zh": "请给我菜单",
+      "pinyin": "qǐng gěi wǒ cài dān",
+      "categories": [
+        "restaurant"
+      ],
+      "repeat": 3,
+      "ko": "메뉴판 주세요",
+      "koRead": "칭 게이 워 차이딴",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-024",
+      "zh": "有什么推荐菜",
+      "pinyin": "yǒu shén me tuī jiàn cài",
+      "categories": [
+        "restaurant"
+      ],
+      "repeat": 3,
+      "ko": "추천 메뉴가 뭐예요?",
+      "koRead": "요우 션머 투이지엔차이",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-025",
+      "zh": "这个要一个",
+      "pinyin": "zhè ge yào yí gè",
+      "categories": [
+        "restaurant"
+      ],
+      "repeat": 3,
+      "ko": "이거 하나 주세요",
+      "koRead": "쩌거 야오 이거",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-026",
+      "zh": "那个要一个",
+      "pinyin": "nà ge yào yí gè",
+      "categories": [
+        "restaurant"
+      ],
+      "repeat": 3,
+      "ko": "저거 하나 주세요",
+      "koRead": "나거 야오 이거",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-027",
+      "zh": "所有的菜都不要香菜",
+      "pinyin": "suǒ yǒu de cài dōu bú yào xiāng cài",
+      "categories": [
+        "restaurant"
+      ],
+      "repeat": 3,
+      "ko": "모든 요리에 고수 빼 주세요",
+      "koRead": "쑤어요우 더 차이 또우 부야오 시앙차이",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-028",
+      "zh": "要一瓶冰啤酒",
+      "pinyin": "yào yī píng bīng pí jiǔ",
+      "categories": [
+        "restaurant"
+      ],
+      "repeat": 3,
+      "ko": "차가운 맥주 한 병 주세요",
+      "koRead": "야오 이 핑 삥 피지우",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-029",
+      "zh": "要一瓶矿泉水",
+      "pinyin": "yào yī píng kuàng quán shuǐ",
+      "categories": [
+        "restaurant"
+      ],
+      "repeat": 3,
+      "ko": "생수 한 병 주세요",
+      "koRead": "야오 이 핑 쾅취엔쉐이",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-030",
+      "zh": "服务员 结账",
+      "pinyin": "fú wù yuán jié zhàng",
+      "categories": [
+        "restaurant"
+      ],
+      "repeat": 3,
+      "ko": "저기요, 계산할게요",
+      "koRead": "푸우위엔, 지에짱",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-031",
+      "zh": "一共多少钱",
+      "pinyin": "yī gòng duō shǎo qián",
+      "categories": [
+        "restaurant"
+      ],
+      "repeat": 3,
+      "ko": "전부 얼마예요?",
+      "koRead": "이꽁 뚜어샤오 치엔",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-032",
+      "zh": "我用微信支付",
+      "pinyin": "wǒ yòng wēi xìn zhī fù",
+      "categories": [
+        "restaurant"
+      ],
+      "repeat": 3,
+      "ko": "위챗페이로 낼게요",
+      "koRead": "워 용 웨이신 즈푸",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-033",
+      "zh": "请扫我的码",
+      "pinyin": "qǐng sǎo wǒ de mǎ",
+      "categories": [
+        "restaurant"
+      ],
+      "repeat": 3,
+      "ko": "제 QR코드를 스캔해 주세요",
+      "koRead": "칭 싸오 워 더 마",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-034",
+      "zh": "可以用支付宝吗",
+      "pinyin": "kě yǐ yòng zhī fù bǎo ma",
+      "categories": [
+        "restaurant"
+      ],
+      "repeat": 3,
+      "ko": "알리페이 되나요?",
+      "koRead": "커이 용 즈푸바오 마",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-035",
+      "zh": "请给我发票",
+      "pinyin": "qǐng gěi wǒ fā piào",
+      "categories": [
+        "restaurant"
+      ],
+      "repeat": 3,
+      "ko": "영수증(발표) 주세요",
+      "koRead": "칭 게이 워 파피아오",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-036",
+      "zh": "你好 我要两张成人票",
+      "pinyin": "nǐ hǎo wǒ yào liǎng zhāng chéng rén piào",
+      "categories": [
+        "ticket"
+      ],
+      "repeat": 3,
+      "ko": "안녕하세요, 성인 표 두 장 주세요",
+      "koRead": "니하오, 워 야오 리앙 짱 청런피아오",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-037",
+      "zh": "包含往返索道吗",
+      "pinyin": "bāo hán wǎng fǎn suǒ dào ma",
+      "categories": [
+        "ticket"
+      ],
+      "repeat": 3,
+      "ko": "왕복 케이블카 포함인가요?",
+      "koRead": "빠오한 왕판 쑤어따오 마",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-038",
+      "zh": "可以刷护照进去吗",
+      "pinyin": "kě yǐ shuā hù zhào jìn qù ma",
+      "categories": [
+        "ticket"
+      ],
+      "repeat": 3,
+      "ko": "여권으로 입장할 수 있나요?",
+      "koRead": "커이 쑤아 후짜오 진취 마",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-039",
+      "zh": "这个一斤多少钱",
+      "pinyin": "zhè ge yī jīn duō shǎo qián",
+      "categories": [
+        "market"
+      ],
+      "repeat": 3,
+      "ko": "이거 한 근(500g)에 얼마예요?",
+      "koRead": "쩌거 이 진 뚜어샤오 치엔",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-040",
+      "zh": "可以先尝尝吗",
+      "pinyin": "kě yǐ xiān cháng cháng ma",
+      "categories": [
+        "market"
+      ],
+      "repeat": 3,
+      "ko": "먼저 맛봐도 되나요?",
+      "koRead": "커이 시엔 창창 마",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-041",
+      "zh": "太贵了",
+      "pinyin": "tài guì le",
+      "categories": [
+        "market"
+      ],
+      "repeat": 3,
+      "ko": "너무 비싸요",
+      "koRead": "타이 꾸이 러",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-042",
+      "zh": "便宜一点",
+      "pinyin": "pián yi yì diǎn",
+      "categories": [
+        "market"
+      ],
+      "repeat": 3,
+      "ko": "좀 깎아 주세요",
+      "koRead": "피엔이 이디엔",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-043",
+      "zh": "我多买 送几个",
+      "pinyin": "wǒ duō mǎi sòng jǐ gè",
+      "categories": [
+        "market"
+      ],
+      "repeat": 3,
+      "ko": "많이 살 테니, 몇 개 더 주세요",
+      "koRead": "워 뚜어 마이, 쏭 지거",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-044",
+      "zh": "请给我新包装",
+      "pinyin": "qǐng gěi wǒ xīn bāo zhuāng",
+      "categories": [
+        "market"
+      ],
+      "repeat": 3,
+      "ko": "새 포장으로 주세요",
+      "koRead": "칭 게이 워 신 빠오쫭",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-045",
+      "zh": "你好 我要核对车票",
+      "pinyin": "nǐ hǎo wǒ yào hé duì chē piào",
+      "categories": [
+        "station"
+      ],
+      "repeat": 3,
+      "ko": "안녕하세요, 차표를 확인하려고요",
+      "koRead": "니하오, 워 야오 허뚜이 처피아오",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-046",
+      "zh": "行李放在这里",
+      "pinyin": "xíng lǐ fàng zài zhè lǐ",
+      "categories": [
+        "station"
+      ],
+      "repeat": 3,
+      "ko": "짐을 여기 둘게요",
+      "koRead": "싱리 팡 짜이 쩌리",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-047",
+      "zh": "我没有违禁品",
+      "pinyin": "wǒ méi yǒu wéi jìn pǐn",
+      "categories": [
+        "station"
+      ],
+      "repeat": 3,
+      "ko": "금지 물품 없어요",
+      "koRead": "워 메이요우 웨이진핀",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-048",
+      "zh": "这是合规的充电宝",
+      "pinyin": "zhè shì hé guī de chōng diàn bǎo",
+      "categories": [
+        "station"
+      ],
+      "repeat": 3,
+      "ko": "규정에 맞는 보조배터리예요",
+      "koRead": "쩌 스 허꾸이 더 충띠엔바오",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-049",
+      "zh": "检票口在哪里",
+      "pinyin": "jiǎn piào kǒu zài nǎ lǐ",
+      "categories": [
+        "station"
+      ],
+      "repeat": 3,
+      "ko": "개찰구가 어디예요?",
+      "koRead": "지엔피아오코우 짜이 나리",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-050",
+      "zh": "我要一份过桥米线",
+      "pinyin": "wǒ yào yī fèn guò qiáo mǐ xiàn",
+      "categories": [
+        "order"
+      ],
+      "repeat": 3,
+      "ko": "과교미선 하나 주세요",
+      "koRead": "워 야오 이 펀 꾸어치아오 미시엔",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-051",
+      "zh": "我要一份汽锅鸡",
+      "pinyin": "wǒ yào yī fèn qì guō jī",
+      "categories": [
+        "order"
+      ],
+      "repeat": 3,
+      "ko": "기과계 하나 주세요",
+      "koRead": "워 야오 이 펀 치꾸어지",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-052",
+      "zh": "我要一个野生菌火锅",
+      "pinyin": "wǒ yào yí gè yě shēng jūn huǒ guō",
+      "categories": [
+        "order"
+      ],
+      "repeat": 3,
+      "ko": "야생버섯 훠궈 하나 주세요",
+      "koRead": "워 야오 이거 예셩쥔 후어꾸어",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-053",
+      "zh": "我要一份牦牛肉火锅",
+      "pinyin": "wǒ yào yī fèn máo niú ròu huǒ guō",
+      "categories": [
+        "order"
+      ],
+      "repeat": 3,
+      "ko": "야크 훠궈 하나 주세요",
+      "koRead": "워 야오 이 펀 마오니우러우 후어꾸어",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-054",
+      "zh": "我要一个丽江粑粑",
+      "pinyin": "wǒ yào yí gè lì jiāng bā ba",
+      "categories": [
+        "order"
+      ],
+      "repeat": 3,
+      "ko": "리장 바바 하나 주세요",
+      "koRead": "워 야오 이거 리지앙 빠바",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-055",
+      "zh": "我要一杯酥油茶",
+      "pinyin": "wǒ yào yī bēi sū yóu chá",
+      "categories": [
+        "order"
+      ],
+      "repeat": 3,
+      "ko": "수유차 한 잔 주세요",
+      "koRead": "워 야오 이 뻬이 쑤요우차",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-056",
+      "zh": "不要辣",
+      "pinyin": "bú yào là",
+      "categories": [
+        "order"
+      ],
+      "repeat": 3,
+      "ko": "맵지 않게 해 주세요",
+      "koRead": "부야오 라",
+      "copyOnly": false
+    },
+    {
+      "id": "ph-057",
+      "zh": "不要香菜",
+      "pinyin": "bú yào xiāng cài",
+      "categories": [
+        "order"
+      ],
+      "repeat": 3,
+      "ko": "고수 빼 주세요",
+      "koRead": "부야오 시앙차이",
+      "copyOnly": false
+    },
+    {
+      "id": "px-001",
+      "zh": "请送我们到这个地址。",
+      "pinyin": "qǐng sòng wǒ men dào zhè ge dì zhǐ",
+      "categories": [
+        "car"
+      ],
+      "repeat": 1,
+      "ko": "이 주소로 데려다 주세요",
+      "koRead": "칭 쏭 워먼 따오 쩌거 띠즈",
+      "copyOnly": false,
+      "source": "엑셀 숙소정보 하단 안내"
+    },
+    {
+      "id": "px-002",
+      "zh": "我们有三个行李箱。",
+      "pinyin": "wǒ men yǒu sān gè xíng lǐ xiāng",
+      "categories": [
+        "car"
+      ],
+      "repeat": 1,
+      "ko": "캐리어가 3개 있어요",
+      "koRead": "워먼 요우 싼거 싱리시앙",
+      "copyOnly": false,
+      "source": "엑셀 상세일정 D1 (짐 3개 사전 고지)"
+    },
+    {
+      "id": "px-003",
+      "zh": "古城里车开不进去，请送我们到离这个地址最近的停车点。",
+      "pinyin": "gǔ chéng lǐ chē kāi bú jìn qù, qǐng sòng wǒ men dào lí zhè ge dì zhǐ zuì jìn de tíng chē diǎn",
+      "categories": [
+        "car"
+      ],
+      "repeat": 1,
+      "ko": "고성 안은 차가 못 들어가니, 이 주소에서 가장 가까운 하차 지점까지 가 주세요",
+      "koRead": "구청 리 처 카이 부 진취, 칭 쏭 워먼 따오 리 쩌거 띠즈 쭈이진 더 팅처디엔",
+      "copyOnly": false,
+      "source": "엑셀 유의사항 리장 호텔(고성 내 차량 진입 불가)"
+    },
+    {
+      "id": "px-004",
+      "zh": "请把我们的行李送到这个地址。",
+      "pinyin": "qǐng bǎ wǒ men de xíng lǐ sòng dào zhè ge dì zhǐ",
+      "categories": [
+        "car"
+      ],
+      "repeat": 1,
+      "ko": "저희 짐을 이 주소로 보내 주세요",
+      "koRead": "칭 바 워먼 더 싱리 쏭따오 쩌거 띠즈",
+      "copyOnly": false,
+      "source": "엑셀 유의사항 호도협 짐(Come Inn 전달)"
+    },
+    {
+      "id": "px-005",
+      "zh": "请写在微信上。",
+      "pinyin": "qǐng xiě zài wēi xìn shàng",
+      "categories": [
+        "car",
+        "delivery"
+      ],
+      "repeat": 1,
+      "ko": "위챗에 글로 적어 주세요",
+      "koRead": "칭 시에 짜이 웨이신 샹",
+      "copyOnly": false,
+      "source": "엑셀 상세일정 D4 17:00"
+    },
+    {
+      "id": "px-006",
+      "zh": "我们一共三个人，请帮忙确认可以加床吗？",
+      "pinyin": "wǒ men yí gòng sān gè rén, qǐng bāng máng què rèn kě yǐ jiā chuáng ma",
+      "categories": [
+        "hotel"
+      ],
+      "repeat": 1,
+      "ko": "저희는 3명입니다. 엑스트라베드 가능한지 확인 부탁드립니다",
+      "koRead": "워먼 이꽁 싼거 런, 칭 빵망 취에런 커이 지아추앙 마",
+      "copyOnly": false,
+      "source": "엑셀 숙소정보 하단 안내"
+    },
+    {
+      "id": "px-007",
+      "zh": "麻烦帮我们写一下送到我们住的酒店房间的收货地址，要写酒店名字和房间号。",
+      "pinyin": "má fan bāng wǒ men xiě yí xià sòng dào wǒ men zhù de jiǔ diàn fáng jiān de shōu huò dì zhǐ, yào xiě jiǔ diàn míng zi hé fáng jiān hào",
+      "categories": [
+        "delivery",
+        "hotel"
+      ],
+      "repeat": 1,
+      "ko": "저희가 묵는 호텔 객실로 배달받을 주소를 적어 주세요. 호텔 이름과 방 번호를 써 주세요",
+      "koRead": "마판 빵 워먼 시에 이시아 쏭따오 워먼 쭈 더 지우디엔 팡지엔 더 셔우후어 띠즈, 야오 시에 지우디엔 밍즈 허 팡지엔하오",
+      "copyOnly": false,
+      "source": "엑셀 유의사항 메이투안 배달"
+    },
+    {
+      "id": "px-008",
+      "zh": "我们没有国内手机号，请别打电话，直接放在前台就行。",
+      "pinyin": "wǒ men méi yǒu guó nèi shǒu jī hào, qǐng bié dǎ diàn huà, zhí jiē fàng zài qián tái jiù xíng",
+      "categories": [
+        "delivery"
+      ],
+      "repeat": 1,
+      "ko": "중국 휴대폰 번호가 없어요. 전화하지 말고 프런트에 맡겨 주세요",
+      "koRead": "워먼 메이요우 꾸어네이 셔우지하오, 칭 비에 다 띠엔화, 즈지에 팡 짜이 치엔타이 지우 싱",
+      "copyOnly": false,
+      "source": "엑셀 유의사항 메이투안 요청사항"
+    },
+    {
+      "id": "px-009",
+      "zh": "直接让机器人送上来就行。",
+      "pinyin": "zhí jiē ràng jī qì rén sòng shàng lái jiù xíng",
+      "categories": [
+        "delivery"
+      ],
+      "repeat": 1,
+      "ko": "로봇으로 객실까지 보내 주시면 돼요",
+      "koRead": "즈지에 랑 지치런 쏭샹라이 지우 싱",
+      "copyOnly": false,
+      "source": "엑셀 유의사항 메이투안 요청사항"
+    },
+    {
+      "id": "msg-001",
+      "zh": "你好，我想预订去虎跳峡徒步的包车。行程路线如下：\n• 出发：白沙古镇 Lishine Villa（日沐山Rishine）\n• 经停：上虎跳峡景区，停留1到1.5小时\n• 终点：茶马客栈\n在上虎跳峡景区等我们1到1.5小时，然后再载我们上山到茶马客栈。请问这样包下一辆车的总费用是多少钱？\n另外，我们的行李（行李箱）到达茶马客栈后，需要托运到中途客栈附近的“靠山十九度 (COME INN) 客栈”。\n请写在微信上，谢谢！",
+      "pinyin": "Nǐhǎo, wǒ xiǎng yùdìng qù Hǔtiàoxiá túbù de bāochē. Xíngchéng lùxiàn rúxià: chūfā Báishā gǔzhèn Lishine Villa; jīngtíng Shànghǔtiàoxiá jǐngqū, tíngliú yī dào yīdiǎnwǔ xiǎoshí; zhōngdiǎn Chámǎ kèzhàn. Qǐngwèn zhèyàng bāoxià yīliàng chē de zǒngfèiyòng shì duōshǎo qián? Lìngwài, wǒmen de xínglǐ dàodá Chámǎ kèzhàn hòu, xūyào tuōyùn dào Zhōngtú kèzhàn fùjìn de Kàoshān shíjiǔ dù kèzhàn.",
+      "categories": [
+        "message",
+        "car"
+      ],
+      "repeat": 1,
+      "ko": "안녕하세요 매니저님, 호도협 트레킹용 빵차(대절차) 예약을 부탁드립니다.\n• 출발: 백사고진 리샤인 빌라\n• 경유: 상호도협 관광지, 1~1.5시간 대기\n• 도착: 차마객잔\n상호도협에서 1~1.5시간 기다린 뒤 차마객잔까지 올라가 주는 조건입니다. 차 1대 총비용이 얼마인가요?\n그리고 큰 짐(캐리어)은 차마객잔 도착 후 중도객잔 근처 컴인(靠山十九度)으로 보내야 합니다.\n위챗에 글로 적어 주세요.",
+      "koRead": "",
+      "copyOnly": true,
+      "source": "엑셀 상세일정 D4 17:00 (Rishine 빌라 매니저에게)"
+    },
+    {
+      "id": "msg-002",
+      "zh": "你好，我想预订明天上午10点，从靠山十九度到香格里拉的包车。请问一辆车的费用是多少钱？",
+      "pinyin": "Nǐhǎo, wǒ xiǎng yùdìng míngtiān shàngwǔ shí diǎn, cóng Kàoshān shíjiǔ dù dào Xiānggélǐlā de bāochē. Qǐngwèn yī liàng chē de fèiyòng shì duōshǎo qián?",
+      "categories": [
+        "message",
+        "car"
+      ],
+      "repeat": 1,
+      "ko": "안녕하세요, 내일 오전 10시에 컴인(靠山十九度)에서 샹그릴라까지 가는 대절차를 예약하고 싶어요. 차 1대 비용이 얼마인가요?",
+      "koRead": "니하오, 워 시앙 위딩 밍티엔 샹우 스디엔, 총 카오샨 스지우두 따오 시앙거리라 더 빠오처. 칭원 이 리앙 처 더 페이용 스 뚜어샤오 치엔?",
+      "copyOnly": true,
+      "source": "엑셀 상세일정 D6 10:30 (Come Inn 매니저에게)"
+    }
+  ]
+}

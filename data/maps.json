@@ -1,0 +1,187 @@
+{
+  "version": "2026-11-04",
+  "items": [
+    {
+      "id": "map01",
+      "file": "maps/map01_overall_route.png",
+      "title": "전체 이동 지도",
+      "caption": "쿤밍→리장→백사→호도협→샹그릴라→쿤밍. 빨간 점 = 확정 숙소",
+      "dayIds": []
+    },
+    {
+      "id": "map02",
+      "file": "maps/map02_lijiang_area_and_oldtown.png",
+      "title": "리장 주변 이동·고성 도보 동선",
+      "caption": "왼쪽: 리장 주변(D2~D5) / 오른쪽: 리장고성 내부 도보 동선(D2 오후)",
+      "dayIds": [
+        "D2",
+        "D3",
+        "D4"
+      ]
+    },
+    {
+      "id": "map06",
+      "file": "maps/map06_lijiang_restaurants.png",
+      "title": "리장고성 맛집 위치도",
+      "caption": "남문 기준 거리. 번호를 누르면 맛집 정보로 이동",
+      "dayIds": [
+        "D2",
+        "D3",
+        "D4"
+      ],
+      "pins": [
+        {
+          "no": 1,
+          "nameKo": "석과어",
+          "nameZh": "石锅鱼",
+          "distance": "약 150m",
+          "kind": "식사"
+        },
+        {
+          "no": 2,
+          "nameKo": "운설리 남문점",
+          "nameZh": "云雪丽",
+          "distance": "약 150m",
+          "kind": "식사"
+        },
+        {
+          "no": 3,
+          "nameKo": "격벽노왕 남문점",
+          "nameZh": "隔壁老王",
+          "distance": "약 300m",
+          "kind": "식사"
+        },
+        {
+          "no": 4,
+          "nameKo": "습전주미 야생버섯훠궈",
+          "nameZh": "拾全酒美",
+          "distance": "약 500m",
+          "kind": "식사"
+        },
+        {
+          "no": 5,
+          "nameKo": "작자미선",
+          "nameZh": "勺子米线",
+          "distance": "약 650m",
+          "kind": "아침·간식"
+        },
+        {
+          "no": 6,
+          "nameKo": "할머니 계두량분",
+          "nameZh": "奶奶鸡豆凉粉",
+          "distance": "약 850m",
+          "kind": "간식"
+        },
+        {
+          "no": 7,
+          "nameKo": "딩딩당당",
+          "nameZh": "丁丁当当",
+          "distance": "약 1,050m",
+          "kind": "간식"
+        },
+        {
+          "no": 8,
+          "nameKo": "아파 납배골훠궈",
+          "nameZh": "阿婆腊排骨火锅",
+          "distance": "약 900m",
+          "kind": "식사"
+        },
+        {
+          "no": 9,
+          "nameKo": "88소흡",
+          "nameZh": "88小吃",
+          "distance": "약 1,000m",
+          "kind": "간식"
+        },
+        {
+          "no": 10,
+          "nameKo": "천천선",
+          "nameZh": "天天鲜",
+          "distance": "약 900m",
+          "kind": "식사"
+        },
+        {
+          "no": 11,
+          "nameKo": "ZEW 운남소흡",
+          "nameZh": "ZEW",
+          "distance": "약 1,000m",
+          "kind": "간식"
+        },
+        {
+          "no": 12,
+          "nameKo": "아마의 납서식당",
+          "nameZh": "阿妈意",
+          "distance": "약 800m",
+          "kind": "식사"
+        },
+        {
+          "no": 13,
+          "nameKo": "이가미선",
+          "nameZh": "二哥米线",
+          "distance": "약 1,000m",
+          "kind": "아침"
+        },
+        {
+          "no": 14,
+          "nameKo": "길상 구운 이과이",
+          "nameZh": "吉祥烤饵块",
+          "distance": "약 700m",
+          "kind": "야식"
+        },
+        {
+          "no": 15,
+          "nameKo": "田村 야크훠궈(대수차점)",
+          "nameZh": "田村",
+          "distance": "약 1,600m",
+          "kind": "식사"
+        }
+      ]
+    },
+    {
+      "id": "ref_cablecar",
+      "file": "maps/ref_yulong_cablecar_compare.png",
+      "title": "옥룡설산 케이블카 3코스 비교",
+      "caption": "빙천공원(4,506m)·윈산핑(3,240m)·모뉴핑(3,500m)",
+      "dayIds": [
+        "D3"
+      ]
+    },
+    {
+      "id": "map05",
+      "file": "maps/map05_tigerleaping_route_profile.png",
+      "title": "호도협 경로·고도 단면",
+      "caption": "D5 트레킹은 차마객잔→중도객잔(약 5km, 2시간, 평탄) 구간만",
+      "dayIds": [
+        "D5",
+        "D6"
+      ],
+      "progress": [
+        "차마객잔 출발",
+        "협곡 전망",
+        "중도객잔 도착",
+        "Come Inn 체크인"
+      ]
+    },
+    {
+      "id": "map03",
+      "file": "maps/map03_shangrila.png",
+      "title": "샹그릴라 이동 지도",
+      "caption": "D6 송찬림사·마니차 / D7 샹그릴라역 10:05 C640",
+      "dayIds": [
+        "D6",
+        "D7"
+      ]
+    },
+    {
+      "id": "map04",
+      "file": "maps/map04_kunming_wide_and_city.png",
+      "title": "쿤밍 광역·시내 동선",
+      "caption": "왼쪽: 공항·역·숙소 / 오른쪽: D8 취호→원통사→노가→남병가",
+      "dayIds": [
+        "D1",
+        "D7",
+        "D8"
+      ]
+    }
+  ]
+}

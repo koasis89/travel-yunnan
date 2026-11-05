@@ -1,0 +1,19 @@
+# Android
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/.idea/
+android/.kotlin/
+android/app/src/main/assets/data/
+android/app/src/main/assets/images/
+android/app/src/main/assets/audio/
+*.keystore
+*.jks
+keystore.properties
+# Python
+tools/__pycache__/
+# Private data (passport etc.)
+data/private/
+# misc
+.DS_Store
