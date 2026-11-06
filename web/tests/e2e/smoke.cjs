@@ -51,7 +51,7 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
     ['#/sights', 'w26_sights', 'text=송찬림사'],
     ['#/amap', 'w29_amap_links', 'text=一瓦堂咖啡店'],
     ['#/eats', 'w32_eats', 'text=건신원 과교미선(宝善街점)'],
-    ['#/eats/jianxinyuan', 'w33_eat_jianxinyuan', 'text=메뉴판 (대표 메뉴)'],
+    ['#/eats/jianxinyuan', 'w33_eat_jianxinyuan', '[data-testid=make-order]'],
     ['#/sights/songzanlin', 'w27_sight_songzanlin', 'text=噶丹·松赞林寺'],
     ['#/schedule?day=D6', 'w28_schedule_d6_sight', '.linkchip:has-text("송찬림사")'],
     ['#/schedule?day=D3', 'w22_schedule_d3', 'text=위챗: 가이드 첫 연락: 픽업 시각·장소 문의(12/15까지)'],
@@ -140,8 +140,13 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   ok('식사 → 식당 정보', await page.waitForSelector('[data-testid=menu-item]', { timeout: 5000 }).then(() => true).catch(() => false))
   await page.goto(base + '#/eats/tiancun'); await page.waitForSelector('[data-testid=menu-item]')
   ok('메뉴 사진 표시', await page.evaluate(() => [...document.querySelectorAll('[data-testid=menu-item] img')].some((i) => i.complete && i.naturalWidth > 50)))
-  await page.click('[data-testid=menu-item] >> nth=0 >> text=주문 문장')
-  ok('메뉴 → 주문 문장', await page.waitForSelector('text=我要一份酸汤牦牛肉火锅。', { timeout: 5000 }).then(() => true).catch(() => false))
+  await page.click('[data-testid=menu-item] >> nth=0'); await page.click('[data-testid=menu-item] >> nth=1'); await page.click('[data-testid=menu-item] >> nth=1')
+  await page.screenshot({ path: `${out}/w34_eat_pick.png` })
+  await page.click('[data-testid=make-order]')
+  ok('메뉴 여러 개 → 주문 문장', await page.waitForSelector('text=我要一份酸汤牦牛肉火锅、两份牦牛肉。', { timeout: 5000 }).then(() => true).catch(() => false))
+  await page.click('[data-testid=drink]:has-text("冰啤酒")')
+  ok('여러 음식 + 음료', await page.isVisible('text=我要一份酸汤牦牛肉火锅、两份牦牛肉，再要一瓶冰啤酒。'))
+  await page.screenshot({ path: `${out}/w35_menu_multi.png` })
   await page.goto(base + '#/schedule?day=D3')
   ok('일정 식당 칩(천천선)', await page.isVisible('.linkchip:has-text("천천선")'))
 

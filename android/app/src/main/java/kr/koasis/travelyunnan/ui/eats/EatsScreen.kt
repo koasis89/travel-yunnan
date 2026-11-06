@@ -78,6 +78,7 @@ fun EatScreen(data: TripData, id: String) {
     val ctx = LocalContext.current
     val r = data.restaurant(id)
     var board by remember { mutableStateOf(false) }
+    val sel = remember(id) { mutableStateMapOf<String, Int>() }
     if (r == null) { Column { AppTopBar("맛집", onBack = actions.back); Text("찾을 수 없다", Modifier.padding(16.dp)) }; return }
     val taxiOpt = r.optionIds.mapNotNull { data.mealOption(it)?.second }.firstOrNull { TaxiCards.isTaxiable(it) }
     if (board) {
@@ -87,9 +88,10 @@ fun EatScreen(data: TripData, id: String) {
         ) {}
         return
     }
+    val pickedList = r.menu.mapNotNull { m -> sel[m.zh]?.takeIf { it > 0 }?.let { m.zh to it } }
     Column(Modifier.fillMaxSize()) {
         AppTopBar(r.nameKo, onBack = actions.back)
-        LazyColumn(contentPadding = PaddingValues(bottom = 24.dp)) {
+        LazyColumn(Modifier.weight(1f), contentPadding = PaddingValues(bottom = 24.dp)) {
             item {
                 val img = r.image?.let { rememberAssetImage(it) }
                 if (img != null) Image(img, r.nameKo, Modifier.fillMaxWidth().height(220.dp), contentScale = ContentScale.Crop)
@@ -106,17 +108,20 @@ fun EatScreen(data: TripData, id: String) {
                         SmallAction(Icons.Filled.Fullscreen, "메뉴판 크게") { board = true }
                     }
                 }
-                SectionTitle("메뉴판 (대표 메뉴)")
+                SectionTitle("메뉴판 (누를 때마다 1→2→3→빼기, 여러 개 선택)")
             }
             items(r.menu, key = { it.zh }) { m ->
-                Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 6.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                val n = sel[m.zh] ?: 0
+                Row(Modifier.fillMaxWidth().clickable { sel[m.zh] = (n + 1) % 4 }
+                    .background(if (n > 0) MaterialTheme.colorScheme.primaryContainer else androidx.compose.ui.graphics.Color.Transparent)
+                    .padding(horizontal = 16.dp, vertical = 6.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     Thumb(m.image, 72)
                     Column(Modifier.weight(1f)) {
                         Text(m.zh, fontSize = 20.sp, fontWeight = FontWeight.Bold)
                         Text(m.ko, style = MaterialTheme.typography.bodyMedium)
                         if (m.desc.isNotBlank()) Text(m.desc, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
-                    TextButton(onClick = { actions.openMenu(m.zh) }) { Text("주문 문장") }
+                    FilterChip(n > 0, onClick = { sel[m.zh] = (n + 1) % 4 }, label = { Text(if (n > 0) "×$n" else "담기") })
                 }
             }
             if (r.tips.isNotEmpty()) {
@@ -132,6 +137,11 @@ fun EatScreen(data: TripData, id: String) {
                 Text("메뉴는 대표 메뉴 예시이며 매장 메뉴판과 다를 수 있다. 실제 메뉴판은 사진을 찍어 문서함에 넣어 두면 다시 볼 수 있다.",
                     style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline, modifier = Modifier.padding(16.dp))
             }
+        }
+        Button(onClick = { actions.openMenu(if (pickedList.isEmpty()) null else kr.koasis.travelyunnan.ui.meal.encodeFoods(pickedList)) },
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)) {
+            Icon(Icons.Filled.Chat, null); Spacer(Modifier.width(6.dp))
+            Text(if (pickedList.isEmpty()) "주문 문장 만들기(음료·가리키기)" else "고른 ${pickedList.sumOf { it.second }}개로 주문 문장 만들기")
         }
     }
 }

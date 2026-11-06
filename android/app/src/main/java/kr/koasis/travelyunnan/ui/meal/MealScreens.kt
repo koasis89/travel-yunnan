@@ -169,6 +169,22 @@ val DRINKS = listOf(
 private val DRINK_REQUESTS = listOf("饮料要冰的" to "음료 차갑게", "饮料要常温的" to "음료 상온", "请帮忙开瓶" to "병 따 주세요", "请给我们三个杯子" to "컵 3개 주세요")
 private val NUM = listOf("", "一", "两", "三", "四", "五", "六")
 
+/** 여러 음식(각 수량) + 음료 + 요청 → 주문 문장(웹 composeMultiOrder 와 같다). 음식이 없으면 pointUnit 으로 '이거', null 이면 음료만 */
+fun composeMultiOrder(foods: List<Pair<String, Int>>, pointUnit: String?, drinks: List<Pair<Drink, Int>>, requests: List<String>): String {
+    val parts = mutableListOf<String>()
+    val fs = foods.filter { it.second > 0 }
+    if (fs.isNotEmpty()) parts += "我要" + fs.joinToString("、") { (z, n) -> "${NUM.getOrElse(n) { n.toString() }}份$z" }
+    else if (pointUnit != null) parts += "这个要$pointUnit"
+    val ds = drinks.filter { it.second > 0 }.map { (d, n) -> "${NUM.getOrElse(n) { n.toString() }}${d.measure}${d.zh}" }
+    if (ds.isNotEmpty()) parts += (if (parts.isNotEmpty()) "再" else "我") + "要" + ds.joinToString("、")
+    if (parts.isEmpty()) parts += "你好，我要点菜"
+    return (parts + requests).joinToString("，") + "。"
+}
+
+fun encodeFoods(l: List<Pair<String, Int>>) = l.filter { it.second > 0 }.joinToString("|") { "${it.first}*${it.second}" }
+fun decodeFoods(s: String): List<Pair<String, Int>> = s.split('|').map { it.trim() }.filter { it.isNotEmpty() }
+    .map { x -> x.substringBefore('*') to (x.substringAfter('*', "1").toIntOrNull() ?: 1).coerceIn(1, 9) }
+
 /** 음식(빈 문자열 = 이거, null = 음료만) + 음료 + 요청 → 주문 문장. 웹 composeFullOrder 와 같다 */
 fun composeFullOrder(food: String?, unit: String, drinks: List<Pair<Drink, Int>>, requests: List<String>): String {
     val parts = mutableListOf<String>()
@@ -191,19 +207,34 @@ fun MenuPointContent(data: TripData, foodArg: String?, onSpeak: (String) -> Unit
     val actions = LocalActions.current
     val ctx = LocalContext.current
     val foods = remember(data) { data.foodNames.filter { it.kind == "food" } }
-    var foodId by rememberSaveable(foodArg) { mutableStateOf(foodArg) }
+    // 고른 음식(중국어 이름 → 수량). foodArg: 음식 id, 중국어 이름, 또는 "A*1|B*2"(맛집 메뉴판에서 여러 개)
+    val picked = remember(foodArg) {
+        mutableStateListOf<Pair<String, Int>>().apply {
+            when {
+                foodArg == null -> {}
+                foodArg.contains('*') || foodArg.contains('|') -> addAll(decodeFoods(foodArg))
+                else -> (foods.firstOrNull { it.id == foodArg }?.zh ?: foodArg.takeIf { Regex("[\u4e00-\u9fff]").containsMatchIn(it) })?.let { add(it to 1) }
+            }
+        }
+    }
     var unit by rememberSaveable { mutableStateOf("一份") }
     var requests by rememberSaveable { mutableStateOf(listOf<String>()) }
     var showMode by rememberSaveable { mutableStateOf(false) }
     var drinksOnly by rememberSaveable { mutableStateOf(false) }
     val drinkCount = remember { mutableStateMapOf<String, Int>() }
-    val food = foods.firstOrNull { it.id == foodId }
-    // 맛집 메뉴판에서 넘어온 중국어 메뉴 이름(음식 이름 목록에 없는 것)
-    val customZh = foodId?.takeIf { food == null && Regex("[\u4e00-\u9fff]").containsMatchIn(it) }
+    fun count(zh: String) = picked.firstOrNull { it.first == zh }?.second ?: 0
+    fun cycle(zh: String) {
+        drinksOnly = false
+        val n = (count(zh) + 1) % 4
+        val i = picked.indexOfFirst { it.first == zh }
+        if (n == 0) { if (i >= 0) picked.removeAt(i) } else if (i >= 0) picked[i] = zh to n else picked.add(zh to n)
+    }
     val chosen = DRINKS.mapNotNull { d -> drinkCount[d.zh]?.takeIf { it > 0 }?.let { d to it } }
-    val sentence = composeFullOrder(if (drinksOnly) null else food?.zh ?: customZh ?: "", unit, chosen, requests)
-    val koLine = (listOf(if (drinksOnly) "" else food?.let { "${it.ko} · ${UNITS.firstOrNull { u -> u.first == unit }?.second ?: unit}" } ?: customZh ?: "이거(메뉴를 가리키며)") +
-        chosen.map { (d, n) -> "${d.ko} $n" }).filter { it.isNotBlank() }.joinToString(" / ")
+    val sentence = composeMultiOrder(picked.toList(), if (drinksOnly) null else unit, chosen, requests)
+    val koName = { zh: String -> foods.firstOrNull { it.zh == zh }?.ko?.substringBefore("(") ?: zh }
+    val koLine = ((if (picked.isNotEmpty()) picked.map { (z, n) -> "${koName(z)} ${n}인분" } else if (drinksOnly) emptyList()
+        else listOf("이거(메뉴를 가리키며) · ${UNITS.firstOrNull { u -> u.first == unit }?.second ?: unit}")) +
+        chosen.map { (d, n) -> "${d.ko} $n" }).joinToString(" / ")
 
     if (showMode) {
         ShowCardScreen(
@@ -230,9 +261,11 @@ fun MenuPointContent(data: TripData, foodArg: String?, onSpeak: (String) -> Unit
                 }
             }
         }
-        SectionTitle("수량")
-        FlowRow(Modifier.padding(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            UNITS.forEach { (zh, ko) -> FilterChip(unit == zh, onClick = { unit = zh }, label = { Text("$zh $ko") }) }
+        if (picked.isEmpty() && !drinksOnly) {
+            SectionTitle("가리키기 수량")
+            FlowRow(Modifier.padding(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                UNITS.forEach { (zh, ko) -> FilterChip(unit == zh, onClick = { unit = zh }, label = { Text("$zh $ko") }) }
+            }
         }
         SectionTitle("요청")
         FlowRow(Modifier.padding(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -255,11 +288,12 @@ fun MenuPointContent(data: TripData, foodArg: String?, onSpeak: (String) -> Unit
                 FilterChip(zh in requests, onClick = { requests = if (zh in requests) requests - zh else requests + zh }, label = { Text("$zh $ko") })
             }
         }
-        SectionTitle("음식 ('이거'는 메뉴판을 가리키며, '음료만'은 음식 없이)")
+        SectionTitle("음식 (여러 개 선택 · 누를 때마다 1→2→3→빼기)")
         FlowRow(Modifier.padding(horizontal = 16.dp, vertical = 4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            FilterChip(!drinksOnly && foodId == null, onClick = { foodId = null; drinksOnly = false }, label = { Text("이거(가리키기)") })
-            FilterChip(drinksOnly, onClick = { drinksOnly = true; foodId = null }, label = { Text("음료만") })
-            foods.forEach { f -> FilterChip(!drinksOnly && foodId == f.id, onClick = { foodId = f.id; drinksOnly = false }, label = { Text("${f.zh} ${f.ko.substringBefore("(")}") }) }
+            FilterChip(!drinksOnly && picked.isEmpty(), onClick = { picked.clear(); drinksOnly = false }, label = { Text("이거(가리키기)") })
+            FilterChip(drinksOnly, onClick = { picked.clear(); drinksOnly = true }, label = { Text("음료만") })
+            picked.filter { p -> foods.none { it.zh == p.first } }.forEach { (z, n) -> FilterChip(true, onClick = { cycle(z) }, label = { Text("$z ×$n") }) }
+            foods.forEach { f -> val n = count(f.zh); FilterChip(n > 0, onClick = { cycle(f.zh) }, label = { Text("${f.zh} ${f.ko.substringBefore("(")}" + if (n > 0) " ×$n" else "") }) }
         }
         Spacer(Modifier.height(24.dp))
     }

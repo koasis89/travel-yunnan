@@ -6,7 +6,7 @@ import { useData, useNow } from '../store/data'
 import { useStored } from '../store/local'
 import { resolvePhase } from '../domain/tripTime'
 import { isTaxiable } from '../domain/cards'
-import { DRINKS, DRINK_REQUESTS, composeFullOrder, type Drink } from '../domain/drinks'
+import { DRINKS, DRINK_REQUESTS, composeMultiOrder, decodeFoods, type Drink } from '../domain/drinks'
 
 /** 하단 탭 "숙소·식사": 숙소 / 식사 / 음식 도감 */
 export function Stay() {
@@ -135,16 +135,21 @@ export function Menu() {
   const data = useData(); const nav = useNavigate()
   const [sp] = useSearchParams()
   const foods = useMemo(() => [...new Map(data.foods.map((f) => [f.nameZh, f])).values()], [data])
-  // food: 문자열 = 음식, '' = 이거(가리키기), null = 음료만
-  const [food, setFood] = useState<string | null>(sp.get('food') ?? '')
+  // 고른 음식(수량). ?food=단일 또는 ?foods=A*1|B*2 (맛집 메뉴판에서 여러 개)
+  const [picked, setPicked] = useState<[string, number][]>(() => sp.get('foods') ? decodeFoods(sp.get('foods')) : sp.get('food') ? [[sp.get('food')!, 1]] : [])
+  const [drinksOnly, setDrinksOnly] = useState(false)
   const [drinks, setDrinks] = useState<Record<string, number>>({})
   const [unit, setUnit] = useState('一份')
   const [req, setReq] = useState<string[]>([])
   const [show, setShow] = useState(false)
+  const count = (z: string) => picked.find(([x]) => x === z)?.[1] ?? 0
+  const cycle = (z: string) => { setDrinksOnly(false); setPicked((l) => { const n = (count(z) + 1) % 4; const rest = l.filter(([x]) => x !== z); return n ? (l.some(([x]) => x === z) ? l.map(([x, c]) => [x, x === z ? n : c] as [string, number]) : [...rest, [z, n]]) : rest }) }
   const dsel = DRINKS.map((d) => [d, drinks[d.zh] ?? 0] as [Drink, number]).filter(([, n]) => n > 0)
-  const sentence = composeFullOrder(food, unit, dsel, req)
-  const ko = [food === null ? '' : food ? `${foods.find((f) => f.nameZh === food)?.nameKo ?? food} · ${UNITS.find((u) => u[0] === unit)?.[1]}` : '이거(메뉴를 가리키며)',
-    ...dsel.map(([d, n]) => `${d.ko} ${n}`)].filter(Boolean).join(' / ')
+  const sentence = composeMultiOrder(picked, drinksOnly ? null : unit, dsel, req)
+  const koName = (z: string) => foods.find((f) => f.nameZh === z)?.nameKo.split('(')[0] ?? z
+  const ko = [...(picked.length ? picked.map(([z, n]) => `${koName(z)} ${n}인분`) : drinksOnly ? [] : [`이거(메뉴를 가리키며) · ${UNITS.find((u) => u[0] === unit)?.[1]}`]),
+    ...dsel.map(([d, n]) => `${d.ko} ${n}`)].join(' / ')
+  const extra = picked.filter(([z]) => !foods.some((f) => f.nameZh === z))
   if (show) return (
     <ShowCard header="종업원에게 보여주세요" onClose={() => setShow(false)} actions={<button className="btn" onClick={() => copyText(sentence)}><Copy size={16} />복사</button>}>
       <div className="phrase zh">{sentence}</div>
@@ -155,15 +160,24 @@ export function Menu() {
     <div className="page">
       <TopBar title="주문 문장 만들기" />
       <div className="pad"><div className="card mint">
-        <div className="zh bold" style={{ fontSize: '1.6em', lineHeight: 1.35 }}>{sentence}</div>
+        <div className="zh bold" data-testid="order-sentence" style={{ fontSize: '1.6em', lineHeight: 1.35 }}>{sentence}</div>
+        <div className="small" style={{ marginTop: 6 }}>{ko}</div>
         <div className="wrap" style={{ marginTop: 10 }}>
           <button className="btn" onClick={() => setShow(true)}><Maximize2 size={16} />크게 보여주기</button>
           <button className="btn" onClick={() => copyText(sentence)}><Copy size={16} />복사</button>
+          {(picked.length > 0 || dsel.length > 0) && <button className="btn ghost" onClick={() => { setPicked([]); setDrinks({}); setDrinksOnly(false) }}>모두 지우기</button>}
           <button className="btn ghost" onClick={() => nav(-1)}>닫기</button>
         </div>
       </div></div>
-      <div className="section">수량</div>
-      <div className="wrap pad">{UNITS.map(([z, k]) => <button key={z} className={`chip ${unit === z ? 'on' : ''}`} onClick={() => setUnit(z)}><span className="zh">{z}</span> {k}</button>)}</div>
+      <div className="section">음식 (여러 개 선택 · 누를 때마다 1→2→3→빼기)</div>
+      <div className="wrap pad">
+        <button className={`chip ${!picked.length && !drinksOnly ? 'on' : ''}`} onClick={() => { setPicked([]); setDrinksOnly(false) }}>이거(가리키기)</button>
+        <button className={`chip ${drinksOnly ? 'on' : ''}`} onClick={() => { setPicked([]); setDrinksOnly(true) }}>음료만</button>
+        {extra.map(([z, n]) => <button key={z} data-testid="food" className="chip on" onClick={() => cycle(z)}><span className="zh">{z}</span> ×{n}</button>)}
+        {foods.map((f) => { const n = count(f.nameZh); return <button key={f.id} data-testid="food" className={`chip ${n ? 'on' : ''}`} onClick={() => cycle(f.nameZh)}><span className="zh">{f.nameZh}</span> {f.nameKo.split('(')[0]}{n ? ` ×${n}` : ''}</button> })}
+      </div>
+      {!picked.length && !drinksOnly && <><div className="section">가리키기 수량</div>
+        <div className="wrap pad">{UNITS.map(([z, k]) => <button key={z} className={`chip ${unit === z ? 'on' : ''}`} onClick={() => setUnit(z)}><span className="zh">{z}</span> {k}</button>)}</div></>}
       <div className="section">요청</div>
       <div className="wrap pad">{REQUESTS.map(([z, k]) => <button key={z} className={`chip ${req.includes(z) ? 'on' : ''}`} onClick={() => setReq((r) => (r.includes(z) ? r.filter((x) => x !== z) : [...r, z]))}><span className="zh">{z}</span> {k}</button>)}</div>
       <div className="section">음료 (누를 때마다 1→2→3→빼기)</div>
@@ -179,11 +193,11 @@ export function Menu() {
       ))}
       <div className="wrap pad">{DRINK_REQUESTS.map(([z, k]) => <button key={z} className={`chip ${req.includes(z) ? 'on' : ''}`} onClick={() => setReq((r) => (r.includes(z) ? r.filter((x) => x !== z) : [...r, z]))}><span className="zh">{z}</span> {k}</button>)}</div>
       <p className="pad tiny faint">고량주(백주)는 도수가 40도 이상이라 작은 병(小瓶)으로 고르게 했다. 酥油茶·牦牛酸奶는 샹그릴라, 酸角汁·木瓜水는 윈난 식당 어디서나 흔하다.</p>
-      <div className="section">음식 ("이거"는 메뉴판을 가리키며, "음료만"은 음식 없이)</div>
-      <div className="wrap pad">
-        <button className={`chip ${food === '' ? 'on' : ''}`} onClick={() => setFood('')}>이거(가리키기)</button>
-        <button className={`chip ${food === null ? 'on' : ''}`} onClick={() => setFood(null)}>음료만</button>
-        {foods.map((f) => <button key={f.id} className={`chip ${food === f.nameZh ? 'on' : ''}`} onClick={() => setFood(f.nameZh)}><span className="zh">{f.nameZh}</span> {f.nameKo.split('(')[0]}</button>)}
+      {/* 아래로 내려가 음식·음료를 골라도 문장이 보이게 */}
+      <div className="pad" style={{ position: 'sticky', bottom: 72, zIndex: 5 }}>
+        <button className="card mint row" data-testid="sticky-order" onClick={() => setShow(true)} style={{ width: '100%', textAlign: 'left', border: 0, gap: 10 }}>
+          <span className="zh bold grow" style={{ fontSize: '1.05em' }}>{sentence}</span><Maximize2 size={18} />
+        </button>
       </div>
     </div>
   )

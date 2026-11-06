@@ -154,3 +154,14 @@ describe('맛집 안내', () => {
     expect(data.restaurants.every((x) => x.amapUrl && x.menu.length > 0)).toBe(true)
   })
 })
+
+import { composeMultiOrder, decodeFoods, encodeFoods } from '../src/domain/drinks'
+describe('주문 문장: 여러 음식', () => {
+  it('여러 음식·수량·음료, 쿼리 왕복', () => {
+    const beer = DRINKS.find((x) => x.zh === '冰啤酒')!
+    expect(composeMultiOrder([['汽锅鸡', 1], ['三七汽锅鸡', 2]], '一份', [[beer, 3]], ['不要辣'])).toBe('我要一份汽锅鸡、两份三七汽锅鸡，再要三瓶冰啤酒，不要辣。')
+    expect(composeMultiOrder([], '两份', [], [])).toBe('这个要两份。')
+    expect(composeMultiOrder([], null, [], [])).toBe('你好，我要点菜。')
+    expect(decodeFoods(encodeFoods([['汽锅鸡', 1], ['野生菌', 2]]))).toEqual([['汽锅鸡', 1], ['野生菌', 2]])
+  })
+})

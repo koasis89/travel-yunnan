@@ -77,7 +77,7 @@ object Routes {
     fun mapView(id: String) = "mapview/$id"
     fun lodgings(id: String?) = "lodgings" + (id?.let { "?id=$it" } ?: "")
     fun meals(day: String?) = "meals" + (day?.let { "?day=$it" } ?: "")
-    fun menu(food: String?) = "menu" + (food?.let { "?food=$it" } ?: "")
+    fun menu(food: String?) = "menu" + (food?.let { "?food=" + android.net.Uri.encode(it) } ?: "")
     fun templates(id: String?, link: String? = null) =
         "templates" + listOfNotNull(id?.let { "id=$it" }, link?.let { "link=$it" }).joinToString("&").let { if (it.isEmpty()) "" else "?$it" }
     fun diary(day: String?) = "diary" + (day?.let { "?day=$it" } ?: "")

@@ -192,6 +192,15 @@ class S6Test {
         assertEquals("这个要一份。", kr.koasis.travelyunnan.ui.meal.composeFullOrder("", "一份", emptyList(), emptyList()))
     }
 
+    @Test fun orderMultiFoods() {
+        val beer = kr.koasis.travelyunnan.ui.meal.DRINKS.first { it.zh == "冰啤酒" }
+        assertEquals("我要一份汽锅鸡、两份三七汽锅鸡，再要三瓶冰啤酒，不要辣。",
+            kr.koasis.travelyunnan.ui.meal.composeMultiOrder(listOf("汽锅鸡" to 1, "三七汽锅鸡" to 2), "一份", listOf(beer to 3), listOf("不要辣")))
+        assertEquals("这个要两份。", kr.koasis.travelyunnan.ui.meal.composeMultiOrder(emptyList(), "两份", emptyList(), emptyList()))
+        val enc = kr.koasis.travelyunnan.ui.meal.encodeFoods(listOf("汽锅鸡" to 1, "野生菌" to 2))
+        assertEquals(listOf("汽锅鸡" to 1, "野生菌" to 2), kr.koasis.travelyunnan.ui.meal.decodeFoods(enc))
+    }
+
     @Test fun restaurantsLinked() {
         val d = TripDataHolder.data
         assertTrue(d.restaurants.size >= 20)

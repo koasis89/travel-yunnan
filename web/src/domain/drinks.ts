@@ -32,6 +32,24 @@ export const DRINK_REQUESTS: [string, string][] = [['饮料要冰的', '음료 �
 const NUM = ['', '一', '两', '三', '四', '五', '六']
 export const drinkPhrase = (d: Drink, n: number) => `${NUM[n] ?? n}${d.measure}${d.zh}`
 
+/** 여러 음식(각 수량) + 음료 + 요청 → 주문 문장. 음식이 없으면 pointUnit('一份' 등)으로 '이거' 주문, null 이면 음료만.
+ *  "我要一份汽锅鸡、两份三七汽锅鸡，再要一瓶矿泉水，不要辣。" */
+export function composeMultiOrder(foods: [string, number][], pointUnit: string | null, drinks: [Drink, number][], requests: string[]): string {
+  const parts: string[] = []
+  const fs = foods.filter(([, n]) => n > 0)
+  if (fs.length) parts.push(`我要${fs.map(([z, n]) => `${NUM[n] ?? n}份${z}`).join('、')}`)
+  else if (pointUnit) parts.push(`这个要${pointUnit}`)
+  const ds = drinks.filter(([, n]) => n > 0).map(([d, n]) => drinkPhrase(d, n))
+  if (ds.length) parts.push(`${parts.length ? '再' : '我'}要${ds.join('、')}`)
+  if (!parts.length) parts.push('你好，我要点菜')
+  return [...parts, ...requests].join('，') + '。'
+}
+
+/** 주소 쿼리 ?foods=汽锅鸡*1|三七汽锅鸡*2 ↔ 목록 */
+export const encodeFoods = (l: [string, number][]) => l.filter(([, n]) => n > 0).map(([z, n]) => `${z}*${n}`).join('|')
+export const decodeFoods = (s: string | null): [string, number][] =>
+  (s ?? '').split('|').map((x) => x.trim()).filter(Boolean).map((x) => { const [z, n] = x.split('*'); return [z, Math.max(1, Math.min(9, Number(n) || 1))] as [string, number] })
+
 /** 음식(없으면 '이거', null 이면 음료만) + 음료 + 요청 → 주문 문장.
  *  "我要一份过桥米线，再要两瓶冰啤酒、一瓶矿泉水，不要辣。" */
 export function composeFullOrder(food: string | null | undefined, unit: string, drinks: [Drink, number][], requests: string[]): string {
