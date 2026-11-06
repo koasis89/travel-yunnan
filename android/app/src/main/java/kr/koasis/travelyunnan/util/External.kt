@@ -30,6 +30,17 @@ object External {
     fun openUrl(ctx: Context, url: String) = start(ctx, Intent(Intent.ACTION_VIEW, Uri.parse(url)))
 
     /** 고덕지도에서 키워드 검색. 주소는 클립보드에도 복사한다. */
+    /** 고덕지도 웹 검색 링크(앱이 없을 때). 도시는 주소에서 짐작한다(웹 amapSearchUrl 과 같음) */
+    fun amapSearchUrl(keyword: String): String {
+        val city = when {
+            Regex("丽江|白沙|束河|玉龙|古城区").containsMatchIn(keyword) -> "丽江"
+            Regex("香格里拉|迪庆|虎跳峡|独克宗|松赞").containsMatchIn(keyword) -> "迪庆藏族自治州"
+            Regex("昆明|官渡|五华|盘龙|西山").containsMatchIn(keyword) -> "昆明"
+            else -> ""
+        }
+        return "https://uri.amap.com/search?keyword=" + Uri.encode(keyword) + (if (city.isNotEmpty()) "&city=" + Uri.encode(city) else "") + "&src=travelyunnan&callnative=1"
+    }
+
     fun openAmapSearch(ctx: Context, keyword: String) {
         copy(ctx, keyword, "주소를 복사했다")
         val uri = Uri.parse("androidamap://poi?sourceApplication=travelyunnan&keywords=" + Uri.encode(keyword) + "&dev=0")

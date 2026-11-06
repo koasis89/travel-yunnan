@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { BookOpen, CarTaxiFront, Copy, MapPin, MessageSquareText, Maximize2, Users } from 'lucide-react'
-import { Banner, DayChips, PhoneLinks, ShowCard, TopBar, copyText } from '../components/ui'
+import { Banner, DayChips, ShowCard, TopBar, copyText } from '../components/ui'
 import { useData, useNow } from '../store/data'
 import { useStored } from '../store/local'
 import { resolvePhase } from '../domain/tripTime'
@@ -47,7 +47,6 @@ function Lodgings({ focus }: { focus: string | null }) {
             {l.amapUrl && <a className="btn" href={l.amapUrl} target="_blank" rel="noreferrer"><MapPin size={16} />지도</a>}
             <button className="btn" onClick={() => copyText(`${l.nameZh} ${l.addrZh}`.trim(), '주소를 복사했다')}><Copy size={16} />주소 복사</button>
             <Link className="btn" to="/show/px-006"><Users size={16} />3인 확인 문장</Link>
-            <PhoneLinks phones={l.phones} />
           </div>
           {data.todosOf(l.id).length > 0 && <>
             <div className="divider" /><div className="small bold">할 일</div>

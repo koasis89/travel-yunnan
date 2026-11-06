@@ -125,6 +125,14 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   ok('공유받은 링크(일와당) 사용', (await page.getAttribute('[data-testid=amap-row]:has-text("一瓦堂") a', 'href')) === 'https://surl.amap.com/1ZGvMhI4fh')
   ok('숙소 지도 링크', ((await page.getAttribute('[data-testid=amap-row]:has-text("丽江沐蘭遇") a', 'href')) || '').startsWith('https://uri.amap.com/search'))
 
+  // 택시 카드 '지도' 버튼 = 만든 고덕지도 링크
+  await page.goto(base + '#/taxi/lodging/mulanyu'); await page.waitForSelector('text=丽江沐蘭遇の汤宿')
+  ok('택시 카드(숙소) 지도 = 고덕지도 링크', ((await page.getAttribute('a.btn:has-text("지도")', 'href')) || '').startsWith('https://uri.amap.com/search'))
+  ok('택시 카드 지도 검색 버튼', ((await page.getAttribute('a.btn:has-text("지도 검색")', 'href')) || '').includes('keyword='))
+  ok('택시 카드 전화 버튼 없음', (await page.locator('a[href^="tel:"]').count()) === 0)
+  await page.goto(base + '#/taxi/place/yiwatang'); await page.waitForSelector('text=一瓦堂咖啡店')
+  ok('택시 카드(장소) 지도 = 공유받은 링크', (await page.getAttribute('a.btn:has-text("지도")', 'href')) === 'https://surl.amap.com/1ZGvMhI4fh')
+
   // 문서함: PDF 바우처 → 쪽 그림 펼침·분류/일차 추정, 기차표 사진, 거르기, 일정 화면 바로가기
   await page.goto(base + '#/docs'); await page.waitForSelector('text=아직 문서가 없다')
   await page.setInputFiles('[data-testid=doc-input]', `${fx}/sample_voucher_1218.pdf`)

@@ -47,9 +47,9 @@ fun TaxiScreen(data: TripData, type: TargetType?, id: String, appInstalled: (Str
             SmallAction(Icons.Filled.ContentCopy, "주소 복사") { External.copy(ctx, target, "주소를 복사했다") }
             // 지도: 고덕지도 링크(공유받은 위치·검색)가 있으면 그것을, 없으면 고덕지도 앱 검색
             if (card.amapUrl != null) SmallAction(Icons.Filled.Map, "지도") { External.openUrl(ctx, card.amapUrl) }
-            else if (hasAmap) SmallAction(Icons.Filled.Map, "지도") { External.openAmapSearch(ctx, target) }
+            // 지도 검색: 주소로 고덕지도 검색(앱이 있으면 앱, 없으면 웹)
+            SmallAction(Icons.Filled.Search, "지도 검색") { if (hasAmap) External.openAmapSearch(ctx, target) else External.openUrl(ctx, External.amapSearchUrl(target)) }
             if (hasDidi) SmallAction(Icons.Filled.LocalTaxi, "디디") { External.openDidi(ctx, target) }
-            PhoneButtons(card.phones)
         }
         if (card.siblings.isNotEmpty()) {
             Text("다른 선택지", style = MaterialTheme.typography.labelLarge, modifier = Modifier.padding(top = 10.dp, bottom = 4.dp))

@@ -1,14 +1,16 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Copy, MapPin } from 'lucide-react'
-import { PhoneLinks, ShowCard, TopBar, copyText } from '../components/ui'
+import { Copy, MapPin, Search } from 'lucide-react'
+import { ShowCard, TopBar, copyText } from '../components/ui'
 import { useData } from '../store/data'
-import { buildTaxiCard, type TargetType } from '../domain/cards'
+import { amapSearchUrl, buildTaxiCard, type TargetType } from '../domain/cards'
 
 export function Taxi() {
   const data = useData(); const nav = useNavigate()
   const { type, id } = useParams()
   const [cur, setCur] = useState(id ?? '')
+  // 택시 카드에서 다른 카드로 바로 이동하면(주소만 바뀜) 새 대상으로 바꾼다
+  useEffect(() => { setCur(id ?? '') }, [type, id])
   const card = buildTaxiCard(data, type as TargetType, cur)
   if (!card) return <div className="page"><TopBar title="택시 카드" /><p className="pad muted">대상을 찾지 못했다</p></div>
   const head = data.phrase('px-001')
@@ -17,7 +19,7 @@ export function Taxi() {
     <ShowCard header="기사님께 보여주세요" onClose={() => nav(-1)} actions={<>
       <button className="btn" onClick={() => copyText(target, '주소를 복사했다')}><Copy size={16} />주소 복사</button>
       {card.amapUrl && <a className="btn" href={card.amapUrl} target="_blank" rel="noreferrer"><MapPin size={16} />지도</a>}
-      <PhoneLinks phones={card.phones} />
+      <a className="btn" href={amapSearchUrl(target)} target="_blank" rel="noreferrer"><Search size={16} />지도 검색</a>
       {card.siblings.length > 0 && <div style={{ width: '100%' }} className="small bold">다른 선택지</div>}
       {card.siblings.map((o) => <button key={o.id} className="chip zh" onClick={() => setCur(o.id)}>{o.name.split('(')[0]}</button>)}
     </>}>

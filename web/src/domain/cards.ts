@@ -103,3 +103,10 @@ export function amapRows(data: TripData): AmapRow[] {
 /** 붙여넣기용 글: 📍이름 / 중국어 이름 / 고덕지도 주소 / 링크 */
 export const amapText = (r: AmapRow) =>
   [`📍${r.nameKo}`, `중국어 이름 : ${r.nameZh}`, ...(hasChinese(r.addrZh) ? [`고덕지도 주소 : ${r.addrZh}`] : []), `고덕지도 주소 링크 : ${r.url}`].join('\n')
+
+/** 주소(또는 이름)로 고덕지도 검색. 도시는 주소에서 짐작한다(tools/amap_links.py 와 같은 규칙) */
+export function amapSearchUrl(keyword: string): string {
+  const t = keyword
+  const city = /丽江|白沙|束河|玉龙|古城区/.test(t) ? '丽江' : /香格里拉|迪庆|虎跳峡|独克宗|松赞/.test(t) ? '迪庆藏族自治州' : /昆明|官渡|五华|盘龙|西山/.test(t) ? '昆明' : ''
+  return `https://uri.amap.com/search?keyword=${encodeURIComponent(keyword)}${city ? `&city=${encodeURIComponent(city)}` : ''}&src=travelyunnan&callnative=1`
+}

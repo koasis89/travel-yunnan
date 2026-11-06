@@ -81,7 +81,6 @@ private fun LodgingCard(data: TripData, l: Lodging, flags: Set<String>, onToggle
                 if (l.addrZh.isNotBlank()) SmallAction(Icons.Filled.ContentCopy, "주소 복사") { External.copy(ctx, l.nameZh.ifBlank { "" } + " " + l.addrZh, "주소를 복사했다") }
                 SmallAction(Icons.Filled.Login, "체크인 문장") { actions.openPhrases("hotel") }
                 data.phrase("px-006")?.let { p -> SmallAction(Icons.Filled.People, "3인 확인") { actions.openShow(p.id) } }
-                PhoneButtons(l.phones)
             }
             if (todos.isNotEmpty()) {
                 Text("할 일", style = MaterialTheme.typography.labelLarge, modifier = Modifier.padding(top = 8.dp))

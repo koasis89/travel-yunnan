@@ -53,7 +53,6 @@ import kr.koasis.travelyunnan.ui.common.AppTopBar
 import kr.koasis.travelyunnan.ui.common.DayChips
 import kr.koasis.travelyunnan.ui.common.SectionTitle
 import kr.koasis.travelyunnan.ui.common.SmallAction
-import kr.koasis.travelyunnan.ui.common.PhoneButtons
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Hotel
 import kr.koasis.travelyunnan.ui.nav.LocalActions
@@ -317,7 +316,6 @@ fun HotspotSheetContent(info: HotspotInfo, onDismiss: () -> Unit) {
                 if (info.addrZh.isNotBlank()) SmallAction(Icons.Filled.ContentCopy, "주소 복사") { External.copy(ctx, (info.zh + " " + info.addrZh).trim(), "주소를 복사했다") }
                 info.amapUrl?.let { u -> SmallAction(Icons.Filled.Place, "지도") { External.openUrl(ctx, u) } }
                 info.lodging?.let { l -> SmallAction(Icons.Filled.Hotel, "숙소 정보") { onDismiss(); actions.openLodgings(l.id) } }
-                PhoneButtons(info.phones)
             }
         }
         if (info.rows.isNotEmpty()) {
