@@ -52,7 +52,7 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
     ['#/amap', 'w29_amap_links', 'text=一瓦堂咖啡店'],
     ['#/sights/songzanlin', 'w27_sight_songzanlin', 'text=噶丹·松赞林寺'],
     ['#/schedule?day=D6', 'w28_schedule_d6_sight', '.linkchip:has-text("송찬림사")'],
-    ['#/schedule?day=D3', 'w22_schedule_d3', 'text=위챗: 투어 가이드에게 픽업 시각·장소 문의(12/15까지)'],
+    ['#/schedule?day=D3', 'w22_schedule_d3', 'text=위챗: 가이드 첫 연락: 픽업 시각·장소 문의(12/15까지)'],
     ['#/templates?link=tl-08', 'w23_template_guide', 'text=在四方街哪里集合'],
     ['#/show/msg-001', 'w17_show_msg', 'text=매니저에게 보여주세요'],
   ]
@@ -124,6 +124,14 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   ok('지도 링크 80곳 이상', (await page.locator('[data-testid=amap-row]').count()) >= 80)
   ok('공유받은 링크(일와당) 사용', (await page.getAttribute('[data-testid=amap-row]:has-text("一瓦堂") a', 'href')) === 'https://surl.amap.com/1ZGvMhI4fh')
   ok('숙소 지도 링크', ((await page.getAttribute('[data-testid=amap-row]:has-text("丽江沐蘭遇") a', 'href')) || '').startsWith('https://uri.amap.com/search'))
+
+  // 옥룡설산 가이드 위챗: 일정 칩 → 템플릿 + 위챗 ID 카드
+  await page.goto(base + '#/schedule?day=D2'); await page.click('text=위챗: 가이드에게 내일 집합 시각·장소 확인')
+  ok('가이드 전날 확인 문장', await page.waitForSelector('text=我们会提前10分钟到', { timeout: 5000 }).then(() => true).catch(() => false))
+  ok('가이드 위챗 ID 카드', (await page.textContent('[data-testid=contact-card]')).includes('18088479095'))
+  await page.screenshot({ path: `${out}/w31_guide_template.png` })
+  await page.goto(base + '#/schedule?day=D3')
+  ok('D3 가이드 메시지 칩 4개', (await page.locator('.linkchip.tpl:has-text("가이드"), .linkchip.tpl:has-text("기사에게")').count()) === 4)
 
   // 주문 문장: 음료
   await page.goto(base + '#/menu?food=过桥米线'); await page.waitForSelector('[data-testid=drink]')

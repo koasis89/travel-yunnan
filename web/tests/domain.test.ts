@@ -135,3 +135,12 @@ describe('주문 문장: 음료', () => {
     expect(composeFullOrder(null, '一份', [[d('鹤庆乾酒'), 1]], ['请帮忙开瓶'])).toBe('我要一小瓶鹤庆乾酒，请帮忙开瓶。')
   })
 })
+
+describe('옥룡설산 가이드 위챗', () => {
+  it('일정 연결과 문장', () => {
+    const d3 = data.scheduleOf('D3').find((r) => r.timeStart === '05:00')!
+    expect(data.templatesFor(d3).map((t) => t.templateId).sort()).toEqual(['tpl-guide', 'tpl-guide-arrive', 'tpl-guide-late'])
+    expect(templateById('tpl-guide-dropoff')!.render({})).toContain('古城大水车附近的停车场')
+    expect(templateById('tpl-guide-confirm')!.contact?.wechat).toBe('18088479095')
+  })
+})

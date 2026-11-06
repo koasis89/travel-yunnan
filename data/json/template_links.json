@@ -88,7 +88,39 @@
       "dayId": "D3",
       "timeStart": "05:00",
       "templateId": "tpl-guide",
-      "label": "투어 가이드에게 픽업 시각·장소 문의(12/15까지)",
+      "label": "가이드 첫 연락: 픽업 시각·장소 문의(12/15까지)",
+      "values": {}
+    },
+    {
+      "id": "tl-09",
+      "dayId": "D2",
+      "timeStart": "20:00",
+      "templateId": "tpl-guide-confirm",
+      "label": "가이드에게 내일 집합 시각·장소 확인",
+      "values": {}
+    },
+    {
+      "id": "tl-10",
+      "dayId": "D3",
+      "timeStart": "05:00",
+      "templateId": "tpl-guide-arrive",
+      "label": "가이드에게 픽업 장소 도착 알림",
+      "values": {}
+    },
+    {
+      "id": "tl-11",
+      "dayId": "D3",
+      "timeStart": "05:00",
+      "templateId": "tpl-guide-late",
+      "label": "가이드에게 늦는다고 알림",
+      "values": {}
+    },
+    {
+      "id": "tl-12",
+      "dayId": "D3",
+      "timeStart": "15:00",
+      "templateId": "tpl-guide-dropoff",
+      "label": "기사에게 복귀 하차 지점 요청(대수차 주차장)",
       "values": {}
     }
   ]

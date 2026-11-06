@@ -33,6 +33,22 @@ export function Templates() {
             <button className="btn" onClick={() => setShow(true)}><Maximize2 size={16} />크게</button>
           </div>
         </div>
+        {t.contact && (
+          <div className="card stack" data-testid="contact-card" style={{ gap: 6 }}>
+            <div className="bold">{t.contact.name}</div>
+            <div className="row" style={{ gap: 8, flexWrap: 'wrap' }}>
+              <span>위챗 ID <b>{t.contact.wechat}</b></span>
+              <button className="btn" onClick={() => copyText(t.contact!.wechat, '위챗 ID를 복사했다. 위챗 친구 추가 검색창에 붙여넣는다')}><Copy size={16} />위챗 ID 복사</button>
+              <a className="btn" href="weixin://">위챗 열기</a>
+            </div>
+            <div className="small muted">친구 추가: 위챗 → 오른쪽 위 ⊕ → 친구 추가(添加朋友) → 검색창에 ID 붙여넣기 → 요청 메시지에 아래 문장을 붙인다.</div>
+            <div className="row" style={{ gap: 8, flexWrap: 'wrap' }}>
+              <span className="zh small">{t.contact.friendNote}</span>
+              <button className="btn ghost" onClick={() => copyText(t.contact!.friendNote, '친구 요청 문장을 복사했다')}><Copy size={16} />요청 문장 복사</button>
+            </div>
+            {t.contact.email && <div className="tiny faint">이메일(참고): {t.contact.email} · 연락은 위챗으로 한다. 바우처의 '+86 3180884…' 긴 번호는 깨진 값이다.</div>}
+          </div>
+        )}
         <div className="section" style={{ padding: '8px 0' }}>바꿀 값</div>
         {t.fields.map((f) => (
           <div key={f.key} className="field"><label>{f.label}{f.hint ? ` · ${f.hint}` : ''}</label>

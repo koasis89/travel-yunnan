@@ -147,7 +147,7 @@ class S6Test {
         assertTrue(zh.startsWith("你好，我想预订12月21日上午10点，从靠山十九度到"))
         assertTrue(Templates.delivery.render(mapOf("room" to "305")).contains("房间号305"))
         assertFalse(Templates.delivery.render(emptyMap()).contains("房间号"))
-        assertEquals(5, Templates.all.size)
+        assertEquals(9, Templates.all.size)
     }
 
     @Test fun templateLinksAttachToRows() {
@@ -160,8 +160,10 @@ class S6Test {
         val d1 = d.scheduleOf("D1").first { it.timeStart == "23:40" }
         assertEquals(setOf("tpl-pickup", "tpl-delivery"), d.templatesFor(d1).map { it.templateId }.toSet())
         val d3 = d.scheduleOf("D3").first { it.timeStart == "05:00" }
-        val g = d.templatesFor(d3).single()
-        assertEquals("tpl-guide", g.templateId)
+        assertEquals(setOf("tpl-guide", "tpl-guide-arrive", "tpl-guide-late"), d.templatesFor(d3).map { it.templateId }.toSet())
+        assertEquals("tpl-guide-confirm", d.templatesFor(d.scheduleOf("D2").first { it.timeStart == "20:00" }).single().templateId)
+        assertEquals("tpl-guide-dropoff", d.templatesFor(d.scheduleOf("D3").first { it.timeStart == "15:00" }).single().templateId)
+        assertTrue(Templates.all.filter { it.id.startsWith("tpl-guide") }.all { it.contact?.wechat == "18088479095" })
         assertTrue(Templates.all.first { it.id == "tpl-guide" }.render(emptyMap()).contains("四方街"))
     }
 

@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Fullscreen
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -64,6 +65,25 @@ fun TemplateScreen(data: TripData, idArg: String?, linkArg: String? = null) {
                         SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, zh, "문장을 복사했다") }
                         SmallAction(Icons.AutoMirrored.Filled.Chat, "위챗으로") { External.openWechat(ctx, zh) }
                         SmallAction(Icons.Filled.Fullscreen, "크게") { showMode = true }
+                    }
+                }
+            }
+            t.contact?.let { c ->
+                Card {
+                    Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Text(c.name, fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold)
+                        Text("위챗 ID  ${c.wechat}", style = MaterialTheme.typography.titleMedium)
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            SmallAction(Icons.Filled.ContentCopy, "위챗 ID 복사") { External.copy(ctx, c.wechat, "위챗 ID를 복사했다. 친구 추가 검색창에 붙여넣는다") }
+                            SmallAction(Icons.AutoMirrored.Filled.Chat, "위챗 열기") { External.openWechat(ctx, c.wechat) }
+                        }
+                        Text("친구 추가: 위챗 → 오른쪽 위 ⊕ → 친구 추가(添加朋友) → 검색창에 ID 붙여넣기 → 요청 메시지에 아래 문장", style = MaterialTheme.typography.bodySmall)
+                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Text(c.friendNote, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
+                            SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, c.friendNote, "친구 요청 문장을 복사했다") }
+                        }
+                        if (c.email.isNotBlank()) Text("이메일(참고): ${c.email} · 연락은 위챗으로 한다. 바우처의 '+86 3180884…' 긴 번호는 깨진 값이다.",
+                            style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
                     }
                 }
             }
