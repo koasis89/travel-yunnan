@@ -78,7 +78,7 @@ fun transportIcon(t: String): ImageVector = when {
     t.contains("셔틀") || t.contains("버스") -> Icons.Filled.DirectionsBus
     t.contains("케이블카") -> Icons.Filled.Landscape
     t.contains("도보") -> Icons.AutoMirrored.Filled.DirectionsWalk
-    t.contains("택시") || t.contains("DiDi") || t.contains("DIDI") -> Icons.Filled.LocalTaxi
+    t.contains("택시") || t.contains("DiDi") || t.contains("DIDI") || t.contains("디디") -> Icons.Filled.LocalTaxi
     t.contains("차") || t.contains("픽업") -> Icons.Filled.DirectionsCar
     else -> Icons.Filled.Schedule
 }
@@ -91,6 +91,7 @@ private fun ScheduleRow(data: TripData, r: Schedule, isCurrent: Boolean, done: B
     val links = remember(r) { ScheduleLinks.find(data, r) }
     val message = remember(r) { ScheduleLinks.messagePhrase(data, r) }
     val templates = remember(r) { data.templatesFor(r) }
+    val sights = remember(r) { data.sightsFor(r) }
     Row(Modifier.fillMaxWidth().height(IntrinsicSize.Min)) {
         // 타임라인 축
         Column(Modifier.width(22.dp).fillMaxHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -99,13 +100,13 @@ private fun ScheduleRow(data: TripData, r: Schedule, isCurrent: Boolean, done: B
             Box(Modifier.width(2.dp).weight(1f).background(MaterialTheme.colorScheme.outlineVariant))
         }
         Spacer(Modifier.width(8.dp))
-        ScheduleCard(r, isCurrent, done, onLongPress, links, message, templates, ctx)
+        ScheduleCard(r, isCurrent, done, onLongPress, links, message, templates, ctx, sights)
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalLayoutApi::class)
 @Composable
-private fun ScheduleCard(r: Schedule, isCurrent: Boolean, done: Boolean, onLongPress: () -> Unit, links: List<LinkTarget>, message: kr.koasis.travelyunnan.data.json.Phrase?, templates: List<kr.koasis.travelyunnan.data.json.TemplateLink>, ctx: android.content.Context) {
+private fun ScheduleCard(r: Schedule, isCurrent: Boolean, done: Boolean, onLongPress: () -> Unit, links: List<LinkTarget>, message: kr.koasis.travelyunnan.data.json.Phrase?, templates: List<kr.koasis.travelyunnan.data.json.TemplateLink>, ctx: android.content.Context, sights: List<kr.koasis.travelyunnan.data.json.Sight> = emptyList()) {
     val actions = LocalActions.current
     OutlinedCard(
         Modifier.fillMaxWidth().alpha(if (done) 0.45f else 1f).combinedClickable(onClick = {}, onLongClick = onLongPress),
@@ -127,10 +128,14 @@ private fun ScheduleCard(r: Schedule, isCurrent: Boolean, done: Boolean, onLongP
                 Text(listOf(r.transport, r.duration).filter { it.isNotBlank() && it != "-" }.joinToString(" · "), style = MaterialTheme.typography.bodyMedium)
             }
             if (r.tip.isNotBlank() && r.tip != "-") Text(r.tip, style = MaterialTheme.typography.bodyMedium)
-            if (links.isNotEmpty() || message != null || r.amapUrl != null || templates.isNotEmpty()) FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            if (links.isNotEmpty() || message != null || r.amapUrl != null || templates.isNotEmpty() || sights.isNotEmpty()) FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 links.forEach { l ->
                     AssistChip(onClick = { actions.openTaxi(l.type, l.id) }, label = { Text(l.label) },
                         leadingIcon = { Icon(Icons.Filled.LocalTaxi, null, Modifier.size(18.dp)) })
+                }
+                sights.forEach { sg ->
+                    AssistChip(onClick = { actions.openSight(sg.id) }, label = { Text(sg.nameKo) },
+                        leadingIcon = { Icon(Icons.Filled.Landscape, null, Modifier.size(18.dp)) })
                 }
                 templates.forEach { tl ->
                     AssistChip(onClick = { actions.openTemplates(tl.templateId, tl.id) }, label = { Text("위챗: ${tl.label}") },
@@ -142,7 +147,7 @@ private fun ScheduleCard(r: Schedule, isCurrent: Boolean, done: Boolean, onLongP
                         leadingIcon = { Icon(Icons.AutoMirrored.Filled.Chat, null, Modifier.size(18.dp)) })
                 }
                 r.amapUrl?.let { u ->
-                    AssistChip(onClick = { External.openUrl(ctx, u) }, label = { Text("고덕지도") },
+                    AssistChip(onClick = { External.openUrl(ctx, u) }, label = { Text("지도") },
                         leadingIcon = { Icon(Icons.Filled.Place, null, Modifier.size(18.dp)) })
                 }
             }

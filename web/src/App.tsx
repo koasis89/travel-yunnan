@@ -16,6 +16,7 @@ import { Emergency, Notes, Packing } from './pages/Info'
 import { NumberCard, Templates } from './pages/Tools'
 import { More, Settings } from './pages/More'
 import { DocView, Docs } from './pages/Docs'
+import { SightView, Sights } from './pages/Sights'
 
 const TABS = [
   { to: '/', label: '오늘', icon: House, end: true },
@@ -85,6 +86,8 @@ export default function App() {
             <Route path="/transport" element={<Transport />} />
             <Route path="/expense" element={<Expense />} />
             <Route path="/docs" element={<Docs />} />
+            <Route path="/sights" element={<Sights />} />
+            <Route path="/sights/:id" element={<SightView />} />
             <Route path="/docs/:id" element={<DocView />} />
             <Route path="/packing" element={<Packing />} />
             <Route path="/notes" element={<Notes />} />

@@ -165,6 +165,14 @@ class S6Test {
         assertTrue(Templates.all.first { it.id == "tpl-guide" }.render(emptyMap()).contains("四方街"))
     }
 
+    @Test fun sightsLinked() {
+        val d = TripDataHolder.data
+        assertTrue(d.sights.size >= 20)
+        val r = d.scheduleOf("D6").first { it.to.contains("송찬림사") }
+        assertTrue(d.sightsFor(r).any { it.id == "songzanlin" })
+        assertTrue(d.sights.filter { it.image != null }.all { !it.credit?.license.isNullOrBlank() && java.io.File(dataDir().parentFile.parentFile, "assets/${it.image}").exists() })
+    }
+
     @Test fun mapsOnePerDay() {
         val d = TripDataHolder.data
         assertEquals(listOf("map_d3", "map06"), d.day("D3")!!.mapIds)
@@ -190,6 +198,9 @@ class S6Test {
         assertTrue(station.rows.all { it.first.id == "D7" } && station.rows.isNotEmpty())
     }
 }
+
+private fun dataDir() = generateSequence(File(System.getProperty("user.dir")).absoluteFile) { it.parentFile }
+    .map { File(it, "data/json") }.first { File(it, "days.json").exists() }
 
 object TripDataHolder {
     val data: TripData by lazy {

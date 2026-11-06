@@ -9,7 +9,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['icons/*.png', 'images/foods/*'],
+      includeAssets: ['icons/*.png', 'images/foods/*', 'images/sights/*'],
       manifest: {
         name: '윈난 7박 8일 · 딸들과 함께 여행을',
         short_name: '윈난 여행',

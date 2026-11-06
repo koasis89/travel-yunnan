@@ -93,6 +93,8 @@ fun HomeContent(data: TripData, now: LocalDateTime, overrideActive: Boolean = fa
             }
         }
 
+        kr.koasis.travelyunnan.ui.sights.DaySightsRow(data, day.id)
+
         // 바로가기
         SectionTitle("바로가기")
         Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {

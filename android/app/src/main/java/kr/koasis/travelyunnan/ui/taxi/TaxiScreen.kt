@@ -46,8 +46,8 @@ fun TaxiScreen(data: TripData, type: TargetType?, id: String, appInstalled: (Str
         FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             SmallAction(Icons.Filled.ContentCopy, "주소 복사") { External.copy(ctx, target, "주소를 복사했다") }
             card.amapUrl?.let { u -> SmallAction(Icons.Filled.Place, "고덕지도 링크") { External.openUrl(ctx, u) } }
-            if (hasAmap) SmallAction(Icons.Filled.Map, "고덕지도 검색") { External.openAmapSearch(ctx, target) }
-            if (hasDidi) SmallAction(Icons.Filled.LocalTaxi, "DiDi") { External.openDidi(ctx, target) }
+            if (hasAmap) SmallAction(Icons.Filled.Map, "지도") { External.openAmapSearch(ctx, target) }
+            if (hasDidi) SmallAction(Icons.Filled.LocalTaxi, "디디") { External.openDidi(ctx, target) }
             PhoneButtons(card.phones)
         }
         if (card.siblings.isNotEmpty()) {

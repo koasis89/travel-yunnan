@@ -104,3 +104,13 @@ describe('경비: 원화를 위안으로 잘못 고른 기록', () => {
     expect(looksLikeKrw(e(55000, 'KRW'))).toBe(false)
   })
 })
+
+describe('관광지', () => {
+  it('23곳, 일정 행 연결, 사진 출처', () => {
+    expect(data.sights.length).toBeGreaterThanOrEqual(20)
+    const r = data.scheduleOf('D6').find((x) => x.to.includes('송찬림사'))!
+    expect(data.sightsFor(r).map((s) => s.id)).toContain('songzanlin')
+    expect(data.sights.filter((s) => s.image).every((s) => s.credit?.license)).toBe(true)
+    expect(data.sightsOf('D3').map((s) => s.id)).toEqual(expect.arrayContaining(['glacier', 'lanyuegu', 'impression']))
+  })
+})

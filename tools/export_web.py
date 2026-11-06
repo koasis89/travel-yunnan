@@ -17,11 +17,12 @@ REPO = Path(__file__).resolve().parent.parent
 SRC = REPO / "data" / "json"
 OUT = REPO / "data" / "web"  # web/ 밖에 둔다: web 폴더가 통째로 배포돼도 평문이 나가지 않게
 FOODS_OUT = REPO / "web" / "public" / "images" / "foods"
+SIGHTS_OUT = REPO / "web" / "public" / "images" / "sights"
 
 INCLUDE = [
     "days.json", "schedule.json", "lodgings.json", "lodging_todos.json", "meals.json", "foods.json",
     "transport.json", "budget.json", "rates.json", "weather.json", "packing.json", "notes.json",
-    "places.json", "place_links.json", "template_links.json", "notifications.json", "emergency.json",
+    "places.json", "place_links.json", "template_links.json", "notifications.json", "emergency.json", "sights.json",
 ]
 # 회화 중 택시 카드·숙소 할 일·일정 장문에 쓰이는 문장만 남긴다
 PHRASE_KEEP_PREFIX = ("px-001", "px-002", "px-003", "px-004", "px-005", "px-006", "px-007", "px-008", "px-009", "msg-")
@@ -52,6 +53,12 @@ def main(public: bool):
         old.unlink()
     for f in (REPO / "assets" / "foods").glob("food-*"):
         shutil.copy(f, FOODS_OUT / f.name)
+
+    SIGHTS_OUT.mkdir(parents=True, exist_ok=True)
+    for old in SIGHTS_OUT.glob("*"):
+        old.unlink()
+    for f in (REPO / "assets" / "sights").glob("sight-*"):
+        shutil.copy(f, SIGHTS_OUT / f.name)
 
     files = sorted(OUT.glob("*.json"))
     size = sum(f.stat().st_size for f in files)

@@ -5,6 +5,7 @@ import { useData, useNow, useSettings } from '../store/data'
 import { findNow, focusDay, formatLeft, nextMove, resolvePhase } from '../domain/tripTime'
 import { mealFor, slotFor } from '../domain/cards'
 import { DayDocsLink } from './Docs'
+import { DaySights } from './Sights'
 
 export function Home() {
   const data = useData(); const now = useNow(); const [settings] = useSettings()
@@ -51,6 +52,7 @@ export function Home() {
       </div>
 
       <div className="pad" style={{ marginTop: 12 }}><DayDocsLink dayId={day.id} /></div>
+      <DaySights dayId={day.id} />
 
       {move && (<>
         <Section>다음 이동</Section>

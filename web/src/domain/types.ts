@@ -17,6 +17,8 @@ export interface PackingItem { id: string; group: string; name: string; qty: str
 export interface Note { id: string; title: string; body: string; dayIds: string[]; phrasesInline: string[] }
 export interface TripNotification { id: string; at: string; title: string; body: string; dayId: string; kind: string }
 export interface LodgingTodo { id: string; lodgingId: string; text: string; phraseId: string | null }
+export interface SightCredit { title: string; author: string; license: string; url: string }
+export interface Sight { id: string; region: string; nameKo: string; nameZh: string; dayIds: string[]; placeId: string | null; keywords: string[]; summary: string; highlights: string[]; tips: string[]; hours: string; fee: string; duration: string; image: string | null; credit: SightCredit | null }
 export interface EmergencyContact { id: string; group: string; name: string; phone: string; note: string }
 
 type Items<T> = { items: T[] };
@@ -29,6 +31,7 @@ export class TripData {
   transport: TransportItem[]; transportNotes: string[]; budget: BudgetItem[]; rates: Rates; weather: Weather[]
   packing: PackingItem[]; notes: Note[]; notifications: TripNotification[]; todos: LodgingTodo[]
   emergency: { note: string; contacts: EmergencyContact[]; altitude: string[] }
+  sights: Sight[]
   version: string
 
   constructor(b: RawBundle) {
@@ -44,6 +47,7 @@ export class TripData {
     this.notifications = it<TripNotification>('notifications.json'); this.todos = it<LodgingTodo>('lodging_todos.json')
     const em = b['emergency.json'] as { note?: string; contacts?: EmergencyContact[]; altitude?: string[] } | undefined
     this.emergency = { note: em?.note ?? '', contacts: em?.contacts ?? [], altitude: em?.altitude ?? [] }
+    this.sights = it<Sight>('sights.json')
     this.version = (b['version.json'] as { data?: string })?.data ?? ''
   }
   day = (id?: string | null) => this.days.find((d) => d.id === id)
@@ -61,4 +65,8 @@ export class TripData {
   todosOf = (lodgingId: string) => this.todos.filter((t) => t.lodgingId === lodgingId)
   templatesFor = (r: Schedule) => this.templateLinks.filter((t) => t.dayId === r.dayId && t.timeStart === r.timeStart)
   templateLink = (id?: string | null) => this.templateLinks.find((t) => t.id === id)
+  sight = (id?: string | null) => this.sights.find((s) => s.id === id)
+  sightsOf = (dayId: string) => this.sights.filter((s) => s.dayIds.includes(dayId))
+  /** 일정 행에 관련된 관광지: 그 일차 관광지 중 키워드가 행 글에 들어 있는 것 */
+  sightsFor = (r: Schedule) => this.sightsOf(r.dayId).filter((s) => s.keywords.some((k) => `${r.from} ${r.via} ${r.to} ${r.tip}`.includes(k)))
 }

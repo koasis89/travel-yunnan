@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { BookOpen, ChevronRight, FolderOpen, Hash, Info, ListChecks, LogOut, MessageSquareText, Receipt, Settings as SettingsIcon, Siren, TrainFront, TriangleAlert, Download } from 'lucide-react'
+import { BookOpen, ChevronRight, FolderOpen, Landmark, Hash, Info, ListChecks, LogOut, MessageSquareText, Receipt, Settings as SettingsIcon, Siren, TrainFront, TriangleAlert, Download } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { DayChips, TopBar } from '../components/ui'
 import { useData, useNow, useSettings } from '../store/data'
@@ -7,6 +7,7 @@ import { shiftHours, tripNow } from '../domain/tripTime'
 
 const items: [string, string, string, ReactNode][] = [
   ['/transport', '교통·열차·알림', 'C446·C644, 비용, 캘린더 파일', <TrainFront size={20} />],
+  ['/sights', '관광지 안내', '리장고성·옥룡설산·호도협·샹그릴라·쿤밍 사진과 설명', <Landmark size={20} />],
   ['/docs', '문서함', '바우처·기차표·숙소 예약·영수증 보관', <FolderOpen size={20} />],
   ['/expense', '경비', '예산 대비 지출, CSV', <Receipt size={20} />],
   ['/packing', '준비물·날씨', '체크리스트, 지역별 옷차림', <ListChecks size={20} />],

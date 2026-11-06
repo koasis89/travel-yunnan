@@ -36,7 +36,7 @@ C = {  # 이동 수단 색
     "tour": "#6f42c1", "flight": "#6b7280", "night": "#7b5cc4",
 }
 KIND = {"lodging": "#d32f2f", "place": "#1f6f6b", "meal": "#e09a2b", "poi": "#4b5563"}
-MODE_NAME = {"train": "열차", "car": "전용차·빵차", "taxi": "택시·DiDi", "walk": "도보", "tour": "투어 차량",
+MODE_NAME = {"train": "열차", "car": "전용차·빵차", "taxi": "택시·디디", "walk": "도보", "tour": "투어 차량",
              "flight": "항공", "night": "도보(밤)"}
 
 HOTSPOTS = []
@@ -247,7 +247,7 @@ KM_HOTEL, KM_ST = K(102.7232, 25.0205), K(102.7225, 25.0160)
 
 def map_d1():
     x0, _ = K(102.60, 0); x1, _ = K(102.97, 0)
-    f = Fig("map_d1", "D1 쿤밍 도착 (12/16 밤)", "창수이 공항 22:00 도착 → 택시·DiDi 약 45분 → 쿤밍역 북광장 Gefei VX 호텔",
+    f = Fig("map_d1", "D1 쿤밍 도착 (12/16 밤)", "창수이 공항 22:00 도착 → 택시·디디 약 45분 → 쿤밍역 북광장 Gefei VX 호텔",
             (x0, x1), (24.97, 25.135), panels=[("note", 150)])
     ax = f.ax
     dian = [K(*q) for q in [(102.62, 24.995), (102.675, 24.985), (102.70, 24.97), (102.62, 24.96)]]
@@ -264,11 +264,11 @@ def map_d1():
     f.dot(cu, "poi", 9)
     f.label(cu, "취호·남병가(시내 중심)", "l", size=14, box=False, color=MUTED)
     f.seg(ap, KM_HOTEL, "taxi", rad=0.18, lw=4.4)
-    f.tag(K(102.83, 25.09), "택시·DiDi 약 45분\n22:50 → 23:40", "taxi", size=16)
+    f.tag(K(102.83, 25.09), "택시·디디 약 45분\n22:50 → 23:40", "taxi", size=16)
     f.legend(["taxi"], "upper left")
     pa = f.panels[0]
     pa.text(34, 16, "도착 후 할 일", fontsize=18, fontweight="bold", color=INK, va="top")
-    pa.text(34, 54, "• 도착 로비에서 위챗페이·알리페이·유심 작동 확인 → DiDi 호출(짐 3개 고지)\n"
+    pa.text(34, 54, "• 도착 로비에서 위챗페이·알리페이·유심 작동 확인 → 디디 호출(짐 3개 고지)\n"
                     "• 23:30 이후 늦은 체크인은 호텔에 미리 알림 · D2 아침 07:30 체크아웃 → 역까지 도보 5분",
             fontsize=15.5, color=INK, va="top", linespacing=1.5)
     f.save("map_d1_kunming_arrival.png")
@@ -516,7 +516,7 @@ def map_d4():
     pa = f.panels[0]
     pa.text(34, 14, "오전 고성 산책 (09:00~11:30)", fontsize=18, fontweight="bold", color=C["walk"], va="top")
     pa.text(34, 52, "호텔 → 대수차 → 대석교 → 사방가 → 딩딩당당(官门口42号, 야크 요거트) → 호텔\n"
-                    "체크아웃 때 미리 부탁한 짐 운반으로 차량 진입 지점까지 이동 → 택시·DiDi\n"
+                    "체크아웃 때 미리 부탁한 짐 운반으로 차량 진입 지점까지 이동 → 택시·디디\n"
                     "빌라 도착 후 짐만 맡기고(얼리 체크인 위챗 확인) 백사고진으로\n"
                     "17:30 빌라 프런트에 내일 09:00 상호도협 전용차 예약 요청",
             fontsize=15.5, color=INK, va="top", linespacing=1.55)

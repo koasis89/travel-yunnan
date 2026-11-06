@@ -1,0 +1,778 @@
+{
+ "version": "2026-11-06",
+ "note": "관광지 안내. 사진은 Openverse 로 찾은 Flickr CC 사진(credit 에 촬영자·라이선스·원본 주소). 요금·시간은 참고용이며 변동될 수 있다.",
+ "items": [
+  {
+   "id": "lijiang_oldtown",
+   "region": "리장고성",
+   "nameKo": "리장고성",
+   "nameZh": "丽江古城",
+   "dayIds": [
+    "D2",
+    "D3",
+    "D4"
+   ],
+   "placeId": "sifang",
+   "keywords": [
+    "리장고성",
+    "대수차",
+    "대석교"
+   ],
+   "summary": "800여 년 된 나시족(纳西族) 마을로, 1997년 유네스코 세계문화유산에 올랐다. 성벽이 없고, 옥룡설산에서 내려온 옥하(玉河) 물길이 골목마다 흐른다. 해발 약 2,400m.",
+   "highlights": [
+    "대수차(大水车): 고성 북쪽 입구의 물레방아, 기념사진 장소",
+    "수로를 따라 이어진 돌다리와 골목(신의가·신화가)",
+    "사방가 광장과 저녁 야경",
+    "만고루(万古楼, 사자산): 고성 지붕과 설산을 한눈에 보는 전망대"
+   ],
+   "tips": [
+    "고성 유지비(古城维护费, 약 ¥50)를 목부·흑룡담 등 입구에서 확인할 수 있다. 영수증·전자 확인서를 보관한다",
+    "고성 안은 차가 못 들어간다. 짐은 호텔 운반을 미리 부탁한다",
+    "골목이 미로 같아 지도 앱을 켜고 다닌다. 밤 술집 거리는 시끄럽다"
+   ],
+   "hours": "상시 개방",
+   "fee": "고성 유지비 약 ¥50(변동 가능)",
+   "duration": "반나절~하루",
+   "image": "sights/sight-lijiang_oldtown.jpg",
+   "credit": {
+    "title": "Lijiang Old Town from the Tower",
+    "author": "Ray Devlin",
+    "license": "CC BY 2.0",
+    "url": "https://www.flickr.com/photos/21061651@N08/3053666335"
+   }
+  },
+  {
+   "id": "sifang",
+   "region": "리장고성",
+   "nameKo": "사방가(四方街)",
+   "nameZh": "四方街",
+   "dayIds": [
+    "D2",
+    "D3",
+    "D4"
+   ],
+   "placeId": "sifang",
+   "keywords": [
+    "사방가",
+    "Sifang"
+   ],
+   "summary": "리장고성 한가운데 광장. 차마고도 시절 상인들이 모여 장이 서던 곳이고, 지금도 길이 사방으로 뻗어 나가는 고성의 기준점이다.",
+   "highlights": [
+    "저녁 무렵 나시족 주민들이 둥글게 추는 전통 춤(打跳)에 함께 끼어 볼 수 있다",
+    "광장 주변 간식: 계두량분·딩딩당당 야크 요거트"
+   ],
+   "tips": [
+    "D3 옥룡설산 투어 픽업 장소(05:00~07:00, 가이드 안내 시각)",
+    "사람이 많아 아이와 만날 장소를 미리 정해 둔다"
+   ],
+   "hours": "상시",
+   "fee": "무료",
+   "duration": "30분~1시간",
+   "image": "sights/sight-sifang.jpg",
+   "credit": {
+    "title": "Lijiang Square",
+    "author": "bsterling",
+    "license": "CC BY-SA 2.0",
+    "url": "https://www.flickr.com/photos/49304919@N00/4881627240"
+   }
+  },
+  {
+   "id": "mufu",
+   "region": "리장고성",
+   "nameKo": "목부(木府)",
+   "nameZh": "木府",
+   "dayIds": [
+    "D2"
+   ],
+   "placeId": "mufu",
+   "keywords": [
+    "목부"
+   ],
+   "summary": "나시족을 다스리던 목씨(木氏) 토사(지방 세습 관리) 가문의 관저. 1996년 지진 뒤 명나라 양식으로 다시 지었다. 고성 남서쪽, 사자산 아래에 있다.",
+   "highlights": [
+    "붉은 기둥의 의사청(议事厅)과 정원",
+    "뒤편 언덕에 오르면 고성 지붕 풍경"
+   ],
+   "tips": [
+    "입장 약 ¥40(선택). 관람 50분~1시간",
+    "고성 유지비 확인을 요구할 수 있다"
+   ],
+   "hours": "대략 08:30~17:30(현장 확인)",
+   "fee": "약 ¥40",
+   "duration": "1시간",
+   "image": "sights/sight-mufu.jpg",
+   "credit": {
+    "title": "Mu Family Mansion / 木府",
+    "author": "caitriana",
+    "license": "CC BY-SA 2.0",
+    "url": "https://www.flickr.com/photos/93221896@N00/29617601308"
+   }
+  },
+  {
+   "id": "heilongtan",
+   "region": "리장고성",
+   "nameKo": "흑룡담 공원(선택)",
+   "nameZh": "黑龙潭公园",
+   "dayIds": [
+    "D2",
+    "D4"
+   ],
+   "placeId": "heilongtan",
+   "keywords": [
+    "흑룡담"
+   ],
+   "summary": "고성 북쪽 끝에서 걸어서 15~20분. 맑은 날 연못 너머로 옥룡설산과 오공교(五孔桥)·득월루(得月楼)가 한 화면에 들어오는 리장 대표 사진 장소다. 일정에는 없지만 아침 시간이 남으면 들를 만하다.",
+   "highlights": [
+    "맑은 아침 설산 반영 사진",
+    "공원 안 동파문화연구원(나시족 동파 문자)"
+   ],
+   "tips": [
+    "바람 없는 이른 아침에 반영이 가장 선명하다",
+    "고성 유지비 영수증을 보여 달라고 할 수 있다"
+   ],
+   "hours": "대략 07:00~20:00",
+   "fee": "고성 유지비로 입장(변동 가능)",
+   "duration": "1시간",
+   "image": "sights/sight-heilongtan.jpg",
+   "credit": {
+    "title": "Black Dragon Pool, Lijiang",
+    "author": "Andrew and Annemarie",
+    "license": "CC BY-SA 2.0",
+    "url": "https://www.flickr.com/photos/13818951@N08/11024671836"
+   }
+  },
+  {
+   "id": "baisha",
+   "region": "백사·수허",
+   "nameKo": "백사고진",
+   "nameZh": "白沙古镇",
+   "dayIds": [
+    "D4"
+   ],
+   "placeId": "baisha",
+   "keywords": [
+    "백사고진",
+    "백사벽화"
+   ],
+   "summary": "리장고성 북쪽 약 10km. 목씨 토사 가문이 처음 터를 잡은 나시족의 옛 중심지로, 리장고성보다 훨씬 조용하고 옥룡설산이 가깝게 보인다.",
+   "highlights": [
+    "백사벽화(白沙壁画): 명나라 때 그린 벽화로 도교·불교·티베트 불교 양식이 섞여 있다",
+    "나시족 자수 공방·은 세공 가게",
+    "설산이 보이는 옥상 카페"
+   ],
+   "tips": [
+    "마을 입장은 무료, 벽화 관람은 유료(현장 확인)",
+    "오후 햇살에 설산 사진이 잘 나온다"
+   ],
+   "hours": "상시(벽화관 낮 시간)",
+   "fee": "무료(벽화 별도)",
+   "duration": "2시간",
+   "image": "sights/sight-baisha.jpg",
+   "credit": {
+    "title": "Lijiang - Baisha Old Village",
+    "author": "Mulligan Stu",
+    "license": "CC BY 2.0",
+    "url": "https://www.flickr.com/photos/15492105@N06/8236869842"
+   }
+  },
+  {
+   "id": "shuhe",
+   "region": "백사·수허",
+   "nameKo": "수허고진(청룡교)",
+   "nameZh": "束河古镇",
+   "dayIds": [
+    "D4"
+   ],
+   "placeId": "shuhe",
+   "keywords": [
+    "수허고진",
+    "청룡교",
+    "구정용담",
+    "사방청"
+   ],
+   "summary": "리장고성 북서쪽 약 4km에 있는 차마고도의 옛 마을. 리장고성과 분위기가 비슷하지만 덜 붐비고 물이 더 맑다.",
+   "highlights": [
+    "청룡교(青龙桥): 명나라 때 놓은 돌다리, 대표 사진 장소",
+    "구정용담(九鼎龙潭): 마을 물길이 시작되는 맑은 샘",
+    "사방청(四方听音) 광장과 물가 카페"
+   ],
+   "tips": [
+    "리장고성 유지비와 별도로 입구에서 요금을 받을 수 있다(현장 확인)",
+    "이른 저녁을 여기서 먹고 빌라로 돌아가는 일정"
+   ],
+   "hours": "상시",
+   "fee": "현장 확인",
+   "duration": "2시간",
+   "image": "sights/sight-shuhe.jpg",
+   "credit": {
+    "title": "Shuhe Lijiang（丽江 束河古镇）",
+    "author": "lwtt93",
+    "license": "CC BY 2.0",
+    "url": "https://www.flickr.com/photos/37195641@N03/30616320031"
+   }
+  },
+  {
+   "id": "yulong",
+   "region": "옥룡설산",
+   "nameKo": "옥룡설산",
+   "nameZh": "玉龙雪山",
+   "dayIds": [
+    "D3",
+    "D4",
+    "D5"
+   ],
+   "placeId": "yulong_center",
+   "keywords": [
+    "옥룡설산"
+   ],
+   "summary": "리장 북쪽에 13개 봉우리가 약 35km 이어진 설산. 주봉 선자두(扇子陡)는 5,596m다. 빙하가 남아 있는 산 가운데 적도와 가까운 편이라 맑은 날 은빛 봉우리가 리장 어디서나 보인다.",
+   "highlights": [
+    "D3 투어: 甘海子 초원 → 대索道(빙천공원 4,506m) → 람월곡 → 인상리장",
+    "D5 아침: Rishine 빌라에서 해 뜰 때 봉우리가 금빛으로 물드는 일조금산(日照金山)"
+   ],
+   "tips": [
+    "고산병: 천천히 걷고 뛰지 않는다. 산소통은 관광센터·매점에서 산다",
+    "한겨울 정상부는 영하 15℃ 안팎, 강풍. 패딩·장갑·모자·선글라스",
+    "케이블카는 실명제라 여권이 필요하다"
+   ],
+   "hours": "투어 일정에 따름",
+   "fee": "투어 포함",
+   "duration": "하루",
+   "image": "sights/sight-yulong.jpg",
+   "credit": {
+    "title": "Jade Dragon Snow Mountain",
+    "author": "Raini4",
+    "license": "Public Domain Mark 1.0",
+    "url": "https://www.flickr.com/photos/53106173@N05/11860816974"
+   }
+  },
+  {
+   "id": "glacier",
+   "region": "옥룡설산",
+   "nameKo": "대索道·빙천공원 4,506m",
+   "nameZh": "玉龙雪山大索道 冰川公园",
+   "dayIds": [
+    "D3"
+   ],
+   "placeId": "yulong_cableway",
+   "keywords": [
+    "대索道",
+    "빙천공원",
+    "케이블카"
+   ],
+   "summary": "해발 3,356m 하부역에서 케이블카로 4,506m 상부역까지 오른다. 내리면 빙하 계곡 위로 나무 데크가 이어지고, 계단 끝 4,680m 표지석까지 갈 수 있다.",
+   "highlights": [
+    "눈앞의 빙하와 바위 봉우리",
+    "4,680m 표지석(계단이 가팔라 무리하지 않는다)"
+   ],
+   "tips": [
+    "하루 탑승 인원 제한이 있다. 투어에 표가 포함돼 있고 대기는 가이드를 따른다",
+    "숨이 차면 바로 멈추고 산소를 마신다. 아이·어른 모두 데크 산책만 해도 충분하다",
+    "바람이 세서 체감 온도가 매우 낮다"
+   ],
+   "hours": "투어 시간에 따름(기상 악화 시 운휴)",
+   "fee": "투어 포함",
+   "duration": "약 1시간(대기 별도)",
+   "image": "sights/sight-glacier.jpg",
+   "credit": {
+    "title": "Jade Dragon Snow Mountain",
+    "author": "kevinpoh",
+    "license": "CC BY 2.0",
+    "url": "https://www.flickr.com/photos/7679455@N03/8968770191"
+   }
+  },
+  {
+   "id": "lanyuegu",
+   "region": "옥룡설산",
+   "nameKo": "람월곡(블루문밸리)",
+   "nameZh": "蓝月谷",
+   "dayIds": [
+    "D3"
+   ],
+   "placeId": "lanyuegu",
+   "keywords": [
+    "람월곡",
+    "블루문"
+   ],
+   "summary": "설산의 눈 녹은 물이 계단식 호수를 이루는 계곡. 물속 석회 성분 때문에 맑은 날 옥빛·하늘빛으로 보인다. 원래 이름은 백수하(白水河)다.",
+   "highlights": [
+    "계단식 폭포와 옥빛 호수",
+    "물가 데크 산책로"
+   ],
+   "tips": [
+    "전동차로 호수 사이를 이동한다(투어 포함 여부는 가이드에게 확인)",
+    "흐린 날은 물빛이 덜 선명하다"
+   ],
+   "hours": "투어 시간에 따름",
+   "fee": "투어 포함",
+   "duration": "1~2시간",
+   "image": "sights/sight-lanyuegu.jpg",
+   "credit": {
+    "title": "Blue Moon Valley / 蓝月谷",
+    "author": "caitriana",
+    "license": "CC BY-SA 2.0",
+    "url": "https://www.flickr.com/photos/93221896@N00/42584061675"
+   }
+  },
+  {
+   "id": "ganhaizi",
+   "region": "옥룡설산",
+   "nameKo": "감해자(甘海子) 초원",
+   "nameZh": "甘海子",
+   "dayIds": [
+    "D3"
+   ],
+   "placeId": "ganhaizi",
+   "keywords": [
+    "甘海子",
+    "감해자"
+   ],
+   "summary": "옥룡설산 동쪽 기슭, 해발 약 3,000m의 넓은 고원 초원. 설산을 정면에서 볼 수 있는 사진 장소이고, 인상리장 공연장도 여기 있다.",
+   "highlights": [
+    "설산을 배경으로 한 단체 사진"
+   ],
+   "tips": [
+    "사진은 참고용으로, 옥룡설산 아래 고원 풍경이다"
+   ],
+   "hours": "투어 시간에 따름",
+   "fee": "투어 포함",
+   "duration": "30분",
+   "image": "sights/sight-ganhaizi.jpg",
+   "credit": {
+    "title": "Jade Dragon Snow Mountain",
+    "author": "Kain Kalju",
+    "license": "CC BY 2.0",
+    "url": "https://www.flickr.com/photos/37508546@N07/4588998912"
+   }
+  },
+  {
+   "id": "impression",
+   "region": "옥룡설산",
+   "nameKo": "인상리장(印象丽江) 공연",
+   "nameZh": "印象丽江",
+   "dayIds": [
+    "D3"
+   ],
+   "placeId": "impression",
+   "keywords": [
+    "인상리장",
+    "印象丽江"
+   ],
+   "summary": "장이머우 감독 팀이 연출한 야외 실경 공연. 설산을 배경으로 해발 약 3,000m 붉은 벽돌 무대에서 이 지역 소수민족 출연자 수백 명이 노래와 말 타기, 춤을 보여 준다.",
+   "highlights": [
+    "마지막에 출연자와 관객이 함께 설산을 향해 기원하는 장면"
+   ],
+   "tips": [
+    "야외 공연이라 매우 춥다. 담요·핫팩을 챙긴다",
+    "좌석 지정은 표를 따른다. 약 1시간"
+   ],
+   "hours": "투어 시간에 따름",
+   "fee": "투어 포함",
+   "duration": "약 1시간",
+   "image": "sights/sight-impression.jpg",
+   "credit": {
+    "title": "impression Lijiang",
+    "author": "Kelly Hau Photography",
+    "license": "CC BY 2.0",
+    "url": "https://www.flickr.com/photos/67574009@N00/5449260771"
+   }
+  },
+  {
+   "id": "tiger_gorge",
+   "region": "호도협",
+   "nameKo": "호도협",
+   "nameZh": "虎跳峡",
+   "dayIds": [
+    "D5",
+    "D6"
+   ],
+   "placeId": "upper_tiger",
+   "keywords": [
+    "호도협"
+   ],
+   "summary": "진사강(金沙江, 금사강)이 합파설산(5,396m)과 옥룡설산(5,596m) 사이를 깎아 만든 협곡. 길이 약 16km로, 강에서 봉우리까지 높이 차가 3,000m를 넘는 세계에서 손꼽히게 깊은 협곡이다. 호랑이가 강 가운데 바위를 딛고 건넜다는 전설에서 이름이 나왔다.",
+   "highlights": [
+    "상호도협: 협곡이 가장 좁고 물살이 가장 센 곳",
+    "하이트레일: 협곡 위 산허리 길(우리는 평탄 구간만)"
+   ],
+   "tips": [
+    "입장권(약 ¥45)은 교두 검표소에서 산다",
+    "낙석 주의 구간이 있다. 비 온 다음 날은 더 조심한다"
+   ],
+   "hours": "낮 시간",
+   "fee": "약 ¥45",
+   "duration": "하루",
+   "image": "sights/sight-tiger_gorge.jpg",
+   "credit": {
+    "title": "Tiger Leaping Gorge",
+    "author": "Arian Zwegers",
+    "license": "CC BY 2.0",
+    "url": "https://www.flickr.com/photos/67769030@N07/6189779664"
+   }
+  },
+  {
+   "id": "upper_tiger",
+   "region": "호도협",
+   "nameKo": "상호도협·호도석",
+   "nameZh": "上虎跳峡",
+   "dayIds": [
+    "D5"
+   ],
+   "placeId": "upper_tiger",
+   "keywords": [
+    "상호도협",
+    "호도석"
+   ],
+   "summary": "협곡 폭이 가장 좁은 곳(약 30m). 강 한가운데 호도석(虎跳石) 바위가 있고, 전망대에서 바로 앞으로 거센 물살을 볼 수 있다.",
+   "highlights": [
+    "호도석과 굉음을 내는 급류",
+    "계곡 아래 전망대"
+   ],
+   "tips": [
+    "계단이 많다. 에스컬레이터 왕복 약 ¥70/인(블로그 기준)",
+    "물보라에 젖을 수 있어 휴대폰·카메라 주의",
+    "매점 점심(햄버거·소시지)"
+   ],
+   "hours": "낮 시간",
+   "fee": "입장 약 ¥45 + 에스컬레이터 약 ¥70",
+   "duration": "1시간",
+   "image": "sights/sight-upper_tiger.jpg",
+   "credit": {
+    "title": "Jinsha River",
+    "author": "D-Stanley",
+    "license": "CC BY 2.0",
+    "url": "https://www.flickr.com/photos/79721788@N00/48380470752"
+   }
+  },
+  {
+   "id": "high_trail",
+   "region": "호도협",
+   "nameKo": "하이트레일(차마객잔→중도객잔)",
+   "nameZh": "虎跳峡高路 茶马客栈→中途客栈",
+   "dayIds": [
+    "D5"
+   ],
+   "placeId": "chama",
+   "keywords": [
+    "차마객잔",
+    "중도객잔",
+    "하이트레일"
+   ],
+   "summary": "호도협 북쪽 산허리를 따라가는 트레킹 길. 우리는 28밴드 급경사를 빼고 차마객잔에서 중도객잔까지 고도 차가 거의 없는 약 5km(2시간) 구간만 걷는다. 건너편 옥룡설산과 발아래 협곡이 계속 보인다.",
+   "highlights": [
+    "협곡 건너 옥룡설산 파노라마",
+    "중도객잔 2층 카페 전망"
+   ],
+   "tips": [
+    "일부 절벽 길은 바깥쪽으로 걷지 않는다. 아이 손을 잡는다",
+    "큰 짐은 차량으로 Come Inn에 보낸다",
+    "물·간식·선크림. 겨울에도 낮에는 햇볕이 강하다"
+   ],
+   "hours": "낮 시간(일몰 약 18:40 전 도착)",
+   "fee": "호도협 입장권에 포함",
+   "duration": "약 2시간",
+   "image": "sights/sight-high_trail.jpg",
+   "credit": {
+    "title": "Tiger Leaping Gorge",
+    "author": "Mulligan Stu",
+    "license": "CC BY 2.0",
+    "url": "https://www.flickr.com/photos/15492105@N06/8241545674"
+   }
+  },
+  {
+   "id": "dukezong",
+   "region": "샹그릴라",
+   "nameKo": "독극종고성",
+   "nameZh": "独克宗古城",
+   "dayIds": [
+    "D6",
+    "D7"
+   ],
+   "placeId": "dukezong",
+   "keywords": [
+    "독극종고성",
+    "월광광장"
+   ],
+   "summary": "1,300년 넘게 차마고도의 요충지였던 티베트족 고성. 해발 약 3,300m. 2014년 큰불로 일부가 탔다가 다시 지어졌다. 숙소 Oura Villa가 고성 안에 있다.",
+   "highlights": [
+    "사방가와 월광광장(月光广场) 야경",
+    "야크훠궈·고기파이·야크우유 에그타르트"
+   ],
+   "tips": [
+    "해발이 높아 첫날은 천천히 걷고 샤워는 짧게 한다",
+    "밤에는 영하로 떨어진다"
+   ],
+   "hours": "상시",
+   "fee": "무료",
+   "duration": "반나절",
+   "image": "sights/sight-dukezong.jpg",
+   "credit": {
+    "title": "Shangri-la Old Town",
+    "author": "zomya.co",
+    "license": "CC BY-SA 2.0",
+    "url": "https://www.flickr.com/photos/161891711@N07/46936316045"
+   }
+  },
+  {
+   "id": "prayer_wheel",
+   "region": "샹그릴라",
+   "nameKo": "대불사 대형 마니차(구산공원)",
+   "nameZh": "大佛寺 转经筒",
+   "dayIds": [
+    "D6"
+   ],
+   "placeId": "dukezong",
+   "keywords": [
+    "대형 마니차",
+    "대불사",
+    "마니차",
+    "구산공원"
+   ],
+   "summary": "고성 뒤 구산공원 언덕 위의 높이 약 21m짜리 거대한 마니차(经筒). 여러 사람이 손잡이를 함께 잡고 시계 방향으로 돌리며 복을 빈다. 숙소 바로 옆이다.",
+   "highlights": [
+    "일몰·야경(조명이 켜진 마니차와 고성 지붕)",
+    "셋이 함께 마니차 돌리기"
+   ],
+   "tips": [
+    "계단이 가팔라 숨이 차다. 천천히 오른다",
+    "반드시 시계 방향으로 돈다"
+   ],
+   "hours": "상시(야간 조명)",
+   "fee": "무료",
+   "duration": "30분~1시간",
+   "image": "sights/sight-prayer_wheel.jpg",
+   "credit": {
+    "title": "Shangri-la, prayer wheel",
+    "author": "zomya.co",
+    "license": "CC BY-SA 2.0",
+    "url": "https://www.flickr.com/photos/161891711@N07/45225619934"
+   }
+  },
+  {
+   "id": "songzanlin",
+   "region": "샹그릴라",
+   "nameKo": "송찬림사",
+   "nameZh": "噶丹·松赞林寺",
+   "dayIds": [
+    "D6"
+   ],
+   "placeId": "songzanlin",
+   "keywords": [
+    "송찬림사",
+    "라무양호"
+   ],
+   "summary": "1679년에 세운 운남 최대의 티베트 불교 사원. 언덕을 따라 금빛 지붕이 층층이 올라가 '작은 포탈라궁'이라 불린다. 앞에 라무양호(拉姆央措) 호수가 있다.",
+   "highlights": [
+    "호수 건너편에서 본 사원 전경",
+    "본전까지 이어진 146개 계단",
+    "승려들의 예불 소리"
+   ],
+   "tips": [
+    "입장 약 ¥115, 입구에서 셔틀을 탄다",
+    "법당 안 사진 촬영은 금지된 곳이 많다. 시계 방향으로 돈다",
+    "고도 3,300m 계단이라 쉬면서 오른다"
+   ],
+   "hours": "대략 08:00~18:00(현장 확인)",
+   "fee": "약 ¥115",
+   "duration": "2시간",
+   "image": "sights/sight-songzanlin.jpg",
+   "credit": {
+    "title": "Songzanlin Monastery, Shangri-La",
+    "author": "strudelt",
+    "license": "CC BY 2.0",
+    "url": "https://www.flickr.com/photos/27647890@N03/7056088323"
+   }
+  },
+  {
+   "id": "cuihu",
+   "region": "쿤밍",
+   "nameKo": "취호공원",
+   "nameZh": "翠湖公园",
+   "dayIds": [
+    "D8"
+   ],
+   "placeId": "cuihu",
+   "keywords": [
+    "취호"
+   ],
+   "summary": "쿤밍 도심의 호수 공원. 11월부터 이듬해 3월까지 시베리아에서 날아온 붉은부리갈매기(红嘴鸥) 수천 마리가 호수 위를 난다. 아침 산책과 갈매기 먹이 주기가 쿤밍 겨울의 명물이다.",
+   "highlights": [
+    "갈매기 떼(먹이는 공원 안에서 판다)",
+    "호수 위 정자와 다리",
+    "아침 체조·춤을 즐기는 시민들"
+   ],
+   "tips": [
+    "입장 무료",
+    "아침 9~10시쯤 갈매기가 많다"
+   ],
+   "hours": "대략 06:30~22:00",
+   "fee": "무료",
+   "duration": "1시간 15분",
+   "image": "sights/sight-cuihu.jpg",
+   "credit": {
+    "title": "Fish Watching Pavilion",
+    "author": "D-Stanley",
+    "license": "CC BY 2.0",
+    "url": "https://www.flickr.com/photos/79721788@N00/48591923062"
+   }
+  },
+  {
+   "id": "jiangwutang",
+   "region": "쿤밍",
+   "nameKo": "운남육군강무당 옛터",
+   "nameZh": "云南陆军讲武堂旧址",
+   "dayIds": [
+    "D8"
+   ],
+   "placeId": "jiangwutang",
+   "keywords": [
+    "강무당"
+   ],
+   "summary": "1909년에 세운 중국 근대 군사학교. 노란 벽의 ㅁ자 건물이 남아 있다. 주더(朱德) 등 중국 군인뿐 아니라 이범석 장군을 비롯한 한국 독립운동가들도 이곳에서 공부해, 한국인에게 뜻깊은 곳이다.",
+   "highlights": [
+    "한국 독립운동가 관련 전시",
+    "중정(가운데 마당)과 옛 강의실"
+   ],
+   "tips": [
+    "입장 무료이며 예약·여권 확인이 있을 수 있다",
+    "월요일 휴관일 수 있다(12/23은 수요일)"
+   ],
+   "hours": "대략 09:00~17:00",
+   "fee": "무료",
+   "duration": "1시간",
+   "image": null,
+   "credit": null
+  },
+  {
+   "id": "yuantong",
+   "region": "쿤밍",
+   "nameKo": "원통사",
+   "nameZh": "圆通寺",
+   "dayIds": [
+    "D8"
+   ],
+   "placeId": "yuantong",
+   "keywords": [
+    "원통사"
+   ],
+   "summary": "1,200여 년 전 남조(南诏) 시대에 처음 세운 쿤밍의 대표 불교 사원. 일반 절과 달리 입구에서 아래로 내려가는 구조이고, 연못 한가운데 팔각정이 있다.",
+   "highlights": [
+    "연못 위 팔각정과 돌다리",
+    "뒤편 태국식 동불전"
+   ],
+   "tips": [
+    "입장 소액(약 ¥6)",
+    "향 연기가 많다"
+   ],
+   "hours": "대략 08:00~17:00",
+   "fee": "약 ¥6",
+   "duration": "1시간",
+   "image": "sights/sight-yuantong.jpg",
+   "credit": {
+    "title": "Yuantong Temple (Kunming, China) 🏯 圆通禅寺 (昆明市)",
+    "author": "Sasha India",
+    "license": "CC BY 2.0",
+    "url": "https://www.flickr.com/photos/35385832@N05/29262413835"
+   }
+  },
+  {
+   "id": "museum",
+   "region": "쿤밍",
+   "nameKo": "운남성박물관",
+   "nameZh": "云南省博物馆",
+   "dayIds": [
+    "D8"
+   ],
+   "placeId": "yunnan_museum",
+   "keywords": [
+    "운남성박물관",
+    "박물관"
+   ],
+   "summary": "관두구에 있는 신관. 붉은 갈색 상자 모양 건물에 고대 전국(滇国)의 청동기, 남조·대리국 불교 유물, 윈난 소수민족 생활 전시가 있다.",
+   "highlights": [
+    "전(滇) 문화 청동기: 소·호랑이 장식 저패기(贮贝器)",
+    "소수민족 복식 전시"
+   ],
+   "tips": [
+    "입장 무료, 여권 지참(예약제일 수 있음)",
+    "월요일 휴관(12/23은 수요일). 관두고진과 이웃"
+   ],
+   "hours": "09:00~17:00",
+   "fee": "무료",
+   "duration": "2시간",
+   "image": "sights/sight-museum.jpg",
+   "credit": {
+    "title": "Yunnan Provincial Museum",
+    "author": "D-Stanley",
+    "license": "CC BY 2.0",
+    "url": "https://www.flickr.com/photos/79721788@N00/48601459036"
+   }
+  },
+  {
+   "id": "guandu",
+   "region": "쿤밍",
+   "nameKo": "관두고진",
+   "nameZh": "官渡古镇",
+   "dayIds": [
+    "D8"
+   ],
+   "placeId": "guandu",
+   "keywords": [
+    "관두고진",
+    "금강탑"
+   ],
+   "summary": "쿤밍 남동쪽의 옛 나루 마을. 명나라 때(15세기) 세운 금강탑(金刚塔)과 묘담사(妙湛寺) 쌍탑 같은 옛 건축이 남아 있고, 먹자골목이 붐빈다.",
+   "highlights": [
+    "금강탑: 아래로 길이 뚫린 라마식 탑",
+    "관두 바바(官渡粑粑) 등 길거리 간식"
+   ],
+   "tips": [
+    "박물관에서 택시·도보 10분",
+    "귀국 전 남은 위안화를 기념품·간식에 쓴다"
+   ],
+   "hours": "상시",
+   "fee": "무료",
+   "duration": "1시간",
+   "image": "sights/sight-guandu.jpg",
+   "credit": {
+    "title": "Vajra Pagoda",
+    "author": "D-Stanley",
+    "license": "CC BY 2.0",
+    "url": "https://www.flickr.com/photos/79721788@N00/48611994437"
+   }
+  },
+  {
+   "id": "jinmabiji",
+   "region": "쿤밍",
+   "nameKo": "금마벽계방",
+   "nameZh": "金马碧鸡坊",
+   "dayIds": [
+    "D7",
+    "D8"
+   ],
+   "placeId": "jinmabiji",
+   "keywords": [
+    "금마벽계방",
+    "남병가"
+   ],
+   "summary": "쿤밍 도심 남병가 옆에 마주 선 두 개의 패방(牌坊). 60년에 한 번 해와 달의 그림자가 두 패방 사이에서 겹친다는 '금벽교휘(金碧交辉)' 전설이 있다.",
+   "highlights": [
+    "밤 조명이 켜진 패방",
+    "주변 남병가 보행가·노가(钱王街·文明街) 카페"
+   ],
+   "tips": [
+    "D7 오후 산책과 밤 야경 코스에 들어 있다"
+   ],
+   "hours": "상시",
+   "fee": "무료",
+   "duration": "30분",
+   "image": "sights/sight-jinmabiji.jpg",
+   "credit": {
+    "title": "昆明金碧广场 Kunming Jinbi Square",
+    "author": "avlxyz",
+    "license": "CC BY-SA 2.0",
+    "url": "https://www.flickr.com/photos/10559879@N00/2821523290"
+   }
+  }
+ ]
+}

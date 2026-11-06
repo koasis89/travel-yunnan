@@ -93,7 +93,7 @@ object PhraseSuggester {
             listOf("체크인", "입주").any { all.contains(it) } -> "hotel"
             listOf("점심", "저녁", "아침", "식당", "야식").any { all.contains(it) } -> "restaurant"
             listOf("매표", "입장", "케이블카").any { all.contains(it) } -> "ticket"
-            listOf("택시", "DiDi", "DIDI", "빵차", "차량", "전용").any { all.contains(it) } -> "car"
+            listOf("택시", "DiDi", "DIDI", "디디", "빵차", "차량", "전용").any { all.contains(it) } -> "car"
             else -> "car"
         }
     }

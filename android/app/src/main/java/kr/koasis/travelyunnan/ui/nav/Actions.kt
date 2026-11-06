@@ -26,6 +26,8 @@ data class Actions(
     val openNumber: () -> Unit = {},
     val openDiary: (String?) -> Unit = {},
     val openDocs: (String?) -> Unit = {},
+    val openSights: (String?) -> Unit = {},
+    val openSight: (String) -> Unit = {},
     /** 문서 보기. edit=true 면 정보 편집을 펼친 채로 연다(추가 직후) */
     val openDoc: (String, Boolean) -> Unit = { _, _ -> },
     val back: () -> Unit = {},
@@ -57,6 +59,8 @@ object Routes {
     const val NUMBER = "number"
     const val DIARY = "diary?day={day}"
     const val DOCS = "docs?day={day}"
+    const val SIGHTS = "sights?day={day}"
+    const val SIGHT = "sight/{id}"
     const val DOC = "doc/{id}?edit={edit}"
 
     fun schedule(day: String?) = "schedule" + (day?.let { "?day=$it" } ?: "")
@@ -72,5 +76,7 @@ object Routes {
         "templates" + listOfNotNull(id?.let { "id=$it" }, link?.let { "link=$it" }).joinToString("&").let { if (it.isEmpty()) "" else "?$it" }
     fun diary(day: String?) = "diary" + (day?.let { "?day=$it" } ?: "")
     fun docs(day: String?) = "docs" + (day?.let { "?day=$it" } ?: "")
+    fun sights(day: String?) = "sights" + (day?.let { "?day=$it" } ?: "")
+    fun sight(id: String) = "sight/$id"
     fun doc(id: String, edit: Boolean) = "doc/$id?edit=$edit"
 }

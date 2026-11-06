@@ -37,6 +37,7 @@ class TripData(
     val emergency: EmergencyFile = EmergencyFile(),
     val hotspots: List<Hotspot> = emptyList(),
     val templateLinks: List<TemplateLink> = emptyList(),
+    val sights: List<Sight> = emptyList(),
 ) {
     private val dayById = days.associateBy { it.id }
     private val lodgingById = lodgings.associateBy { it.id }
@@ -58,6 +59,10 @@ class TripData(
     fun templatesFor(row: Schedule) = templateLinks.filter { it.dayId == row.dayId && it.timeStart == row.timeStart }
     fun templateLink(id: String?) = id?.let { k -> templateLinks.firstOrNull { it.id == k } }
     fun hotspotsOf(mapId: String) = hotspots.filter { it.mapId == mapId }
+    fun sight(id: String?) = id?.let { k -> sights.firstOrNull { it.id == k } }
+    fun sightsOf(dayId: String) = sights.filter { dayId in it.dayIds }
+    /** 일정 행에 관련된 관광지: 그 일차 관광지 중 키워드가 행 글에 들어 있는 것(웹 sightsFor 와 같음) */
+    fun sightsFor(r: Schedule) = sightsOf(r.dayId).filter { s -> s.keywords.any { k -> "${r.from} ${r.via} ${r.to} ${r.tip}".contains(k) } }
     fun todosOf(lodgingId: String) = lodgingTodos.filter { it.lodgingId == lodgingId }
     /** 중국어 문자열을 포함하는 회화 문장(유의사항 본문의 인라인 문장 연결용) */
     fun phraseByZh(zh: String): Phrase? {
@@ -125,6 +130,7 @@ class TripData(
                 lodgingNotes = lodgings.notes,
                 mealNotes = meals.notes,
                 templateLinks = runCatching { items("template_links.json", TemplateLink.serializer()).items }.getOrDefault(emptyList()),
+                sights = runCatching { items("sights.json", Sight.serializer()).items }.getOrDefault(emptyList()),
                 hotspots = runCatching { items("map_hotspots.json", Hotspot.serializer()).items }.getOrDefault(emptyList()),
                 emergency = runCatching { json.decodeFromString(EmergencyFile.serializer(), read("emergency.json")) }.getOrDefault(EmergencyFile()),
             )

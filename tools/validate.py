@@ -14,7 +14,7 @@ EXPECT_MIN = {
     "days.json": 8, "schedule.json": 60, "lodgings.json": 6, "meals.json": 25, "foods.json": 30,
     "phrases.json": 57, "words.json": 52, "foodNames.json": 39, "packing.json": 40, "notes.json": 15,
     "transport.json": 10, "budget.json": 5, "weather.json": 6, "maps.json": 10, "places.json": 10,
-    "place_links.json": 20, "notifications.json": 13, "lodging_todos.json": 10, "map_hotspots.json": 50,
+    "place_links.json": 20, "notifications.json": 13, "lodging_todos.json": 10, "map_hotspots.json": 50, "sights.json": 20,
 }
 
 
@@ -127,6 +127,16 @@ def main(d):
              (t == "meal" and any(k in n for n in meal_names))
         if not ok:
             errors.append(f"place_links '{x['match']}': 대상 없음 {t}:{k}")
+    for x in items("sights.json"):
+        if x.get("placeId") and x["placeId"] not in place_ids:
+            errors.append(f"sights {x['id']}: placeId {x['placeId']}")
+        if x.get("image") and not (REPO / "assets" / x["image"]).exists():
+            errors.append(f"sights {x['id']}: 이미지 없음 {x['image']}")
+        if x.get("image") and not (x.get("credit") or {}).get("license"):
+            errors.append(f"sights {x['id']}: 사진 출처 누락")
+        for d in x["dayIds"]:
+            if d not in day_ids:
+                errors.append(f"sights {x['id']}: dayId {d}")
     return report(errors)
 
 

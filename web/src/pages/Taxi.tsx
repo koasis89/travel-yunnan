@@ -16,7 +16,7 @@ export function Taxi() {
   return (
     <ShowCard header="기사님께 보여주세요" onClose={() => nav(-1)} actions={<>
       <button className="btn" onClick={() => copyText(target, '주소를 복사했다')}><Copy size={16} />주소 복사</button>
-      {card.amapUrl && <a className="btn" href={card.amapUrl} target="_blank" rel="noreferrer"><MapPin size={16} />고덕지도</a>}
+      {card.amapUrl && <a className="btn" href={card.amapUrl} target="_blank" rel="noreferrer"><MapPin size={16} />지도</a>}
       <PhoneLinks phones={card.phones} />
       {card.siblings.length > 0 && <div style={{ width: '100%' }} className="small bold">다른 선택지</div>}
       {card.siblings.map((o) => <button key={o.id} className="chip zh" onClick={() => setCur(o.id)}>{o.name.split('(')[0]}</button>)}

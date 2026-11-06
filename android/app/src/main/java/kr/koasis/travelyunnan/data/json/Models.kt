@@ -163,6 +163,29 @@ data class MapPin(
 )
 
 @Serializable
+data class SightCredit(val title: String = "", val author: String = "", val license: String = "", val url: String = "")
+
+/** 관광지 안내(data/sights.json). image 는 assets/images/ 기준 경로 */
+@Serializable
+data class Sight(
+    val id: String,
+    val region: String = "",
+    val nameKo: String = "",
+    val nameZh: String = "",
+    val dayIds: List<String> = emptyList(),
+    val placeId: String? = null,
+    val keywords: List<String> = emptyList(),
+    val summary: String = "",
+    val highlights: List<String> = emptyList(),
+    val tips: List<String> = emptyList(),
+    val hours: String = "",
+    val fee: String = "",
+    val duration: String = "",
+    val image: String? = null,
+    val credit: SightCredit? = null,
+)
+
+@Serializable
 data class Place(
     val id: String,
     val nameKo: String = "",

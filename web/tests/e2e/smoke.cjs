@@ -48,6 +48,9 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
     ['#/templates?link=tl-06', 'w14_template_d5', 'text=上午10点半'],
     ['#/number', 'w15_number', 'text=一百五十块'],
     ['#/more', 'w16_more', 'text=문서함'],
+    ['#/sights', 'w26_sights', 'text=송찬림사'],
+    ['#/sights/songzanlin', 'w27_sight_songzanlin', 'text=噶丹·松赞林寺'],
+    ['#/schedule?day=D6', 'w28_schedule_d6_sight', '.linkchip:has-text("송찬림사")'],
     ['#/schedule?day=D3', 'w22_schedule_d3', 'text=위챗: 투어 가이드에게 픽업 시각·장소 문의(12/15까지)'],
     ['#/templates?link=tl-08', 'w23_template_guide', 'text=在四方街哪里集合'],
     ['#/show/msg-001', 'w17_show_msg', 'text=매니저에게 보여주세요'],
@@ -108,6 +111,12 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   ok('지출 삭제 → 총액 즉시 반영', Number(await total()) === before)
   await page.reload(); await page.waitForSelector('.card.mint')
   ok('삭제 새로고침 후 유지', Number(await total()) === before)
+
+  // 관광지: 사진·출처·택시 카드
+  await page.goto(base + '#/sights/glacier'); await page.waitForSelector('figcaption')
+  ok('관광지 사진 표시', await page.evaluate(() => { const i = document.querySelector('figure img'); return !!i && i.complete && i.naturalWidth > 100 }))
+  ok('관광지 사진 출처(라이선스)', (await page.textContent('figcaption')).includes('CC BY'))
+  await page.click('text=택시 카드'); ok('관광지 → 택시 카드', await page.waitForSelector('text=玉龙雪山大索道', { timeout: 5000 }).then(() => true).catch(() => false))
 
   // 문서함: PDF 바우처 → 쪽 그림 펼침·분류/일차 추정, 기차표 사진, 거르기, 일정 화면 바로가기
   await page.goto(base + '#/docs'); await page.waitForSelector('text=아직 문서가 없다')
