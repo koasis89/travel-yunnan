@@ -1,7 +1,7 @@
 // data/json 구조(앱 Models.kt 와 동일)
 export interface Day { id: string; date: string; dateLabel: string; route: string; summary: string; lodgingLabel: string; lodgingId: string | null; region: string | null; altitude: string | null; tempDay: string | null; tempNight: string | null; outfit: string | null; mapIds: string[] }
 export interface Schedule { id: string; dayId: string; seq: number; timeLabel: string; timeStart: string | null; timeEnd: string | null; from: string; via: string; to: string; transport: string; duration: string; tip: string; amapUrl: string | null; message: string | null }
-export interface Lodging { id: string; dates: string[]; nights: number | null; region: string; nameKo: string; nameZh: string; addrZh: string; addrEn: string; phones: string[]; room: string; bookingNo: string; bookedBy: string; priceKrw: number | null; status: string; note: string; confirmed: boolean }
+export interface Lodging { id: string; dates: string[]; nights: number | null; region: string; nameKo: string; nameZh: string; addrZh: string; addrEn: string; phones: string[]; room: string; bookingNo: string; bookedBy: string; priceKrw: number | null; status: string; note: string; confirmed: boolean; amapUrl?: string | null }
 export interface MealOption { id: string; name: string; nameZh: string; addrZh: string; amapUrl: string | null; menu: string }
 export interface Meal { id: string; dayId: string; seq: number; area: string; slot: string; options: MealOption[]; budgetCny: number | null; note: string; extra: string | null }
 export interface Food { id: string; region: string; no: number | null; nameZh: string; nameKo: string; description: string; imageKind: string; image: string | null; source: string }
@@ -18,7 +18,7 @@ export interface Note { id: string; title: string; body: string; dayIds: string[
 export interface TripNotification { id: string; at: string; title: string; body: string; dayId: string; kind: string }
 export interface LodgingTodo { id: string; lodgingId: string; text: string; phraseId: string | null }
 export interface SightCredit { title: string; author: string; license: string; url: string }
-export interface Sight { id: string; region: string; nameKo: string; nameZh: string; dayIds: string[]; placeId: string | null; keywords: string[]; summary: string; highlights: string[]; tips: string[]; hours: string; fee: string; duration: string; image: string | null; credit: SightCredit | null }
+export interface Sight { id: string; region: string; nameKo: string; nameZh: string; dayIds: string[]; placeId: string | null; keywords: string[]; summary: string; highlights: string[]; tips: string[]; hours: string; fee: string; duration: string; image: string | null; credit: SightCredit | null; amapUrl?: string | null }
 export interface EmergencyContact { id: string; group: string; name: string; phone: string; note: string }
 
 type Items<T> = { items: T[] };

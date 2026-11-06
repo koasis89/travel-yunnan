@@ -93,6 +93,7 @@ fun AppNav(vm: AppViewModel, initialRoute: String? = null) {
             openDiary = { go(Routes.diary(it)) },
             openDocs = { go(Routes.docs(it)) },
             openSights = { go(Routes.sights(it)) },
+            openAmapLinks = { go(Routes.AMAP) },
             openSight = { go(Routes.sight(it)) },
             openDoc = { id, edit -> go(Routes.doc(id, edit)) },
             back = { nav.popBackStack() },
@@ -176,6 +177,7 @@ fun AppNav(vm: AppViewModel, initialRoute: String? = null) {
                 composable(Routes.SIGHTS, arguments = listOf(navArgument("day") { type = NavType.StringType; nullable = true })) {
                     kr.koasis.travelyunnan.ui.sights.SightsScreen(vm, d, it.arguments?.getString("day"))
                 }
+                composable(Routes.AMAP) { kr.koasis.travelyunnan.ui.sights.AmapLinksScreen(d) }
                 composable(Routes.SIGHT) { kr.koasis.travelyunnan.ui.sights.SightScreen(d, it.arguments?.getString("id").orEmpty()) }
                 composable(Routes.DOCS, arguments = listOf(navArgument("day") { type = NavType.StringType; nullable = true })) {
                     kr.koasis.travelyunnan.ui.docs.DocsScreen(vm, d, it.arguments?.getString("day"))

@@ -25,7 +25,7 @@ object HotspotResolver {
         var lodging: Lodging? = null; var amap: String? = null; var todos = emptyList<LodgingTodo>()
         when (h.type) {
             "lodging" -> data.lodging(h.key)?.let { l ->
-                lodging = l; zh = l.nameZh; addr = cleanZhAddress(l.addrZh); phones = l.phones
+                lodging = l; zh = l.nameZh; addr = cleanZhAddress(l.addrZh); phones = l.phones; amap = l.amapUrl
                 taxi = TargetType.lodging to l.id; todos = data.todosOf(l.id)
             }
             "place" -> data.place(h.key)?.let { p -> zh = zh.ifBlank { p.nameZh }; addr = p.addrZh; amap = p.amapUrl; taxi = TargetType.place to p.id }

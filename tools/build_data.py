@@ -3,7 +3,7 @@
 
     python3 tools/build_data.py
 
-1) 엑셀 → JSON  2) 회화 텍스트 → JSON  3) 수동 데이터 복사  4) 검증
+1) 엑셀 → JSON  2) 회화 텍스트 → JSON  3) 수동 데이터 복사  4) 고덕지도 링크  5) 검증
 """
 import shutil
 import subprocess
@@ -27,6 +27,7 @@ def main():
     for name in MANUAL:
         shutil.copy(REPO / "data" / name, OUT / name)
         print(f"copy {name}")
+    run(REPO / "tools" / "amap_links.py", OUT)
     run(REPO / "tools" / "validate.py", OUT)
 
 

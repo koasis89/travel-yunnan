@@ -49,6 +49,7 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
     ['#/number', 'w15_number', 'text=一百五十块'],
     ['#/more', 'w16_more', 'text=문서함'],
     ['#/sights', 'w26_sights', 'text=송찬림사'],
+    ['#/amap', 'w29_amap_links', 'text=一瓦堂咖啡店'],
     ['#/sights/songzanlin', 'w27_sight_songzanlin', 'text=噶丹·松赞林寺'],
     ['#/schedule?day=D6', 'w28_schedule_d6_sight', '.linkchip:has-text("송찬림사")'],
     ['#/schedule?day=D3', 'w22_schedule_d3', 'text=위챗: 투어 가이드에게 픽업 시각·장소 문의(12/15까지)'],
@@ -117,6 +118,12 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   ok('관광지 사진 표시', await page.evaluate(() => { const i = document.querySelector('figure img'); return !!i && i.complete && i.naturalWidth > 100 }))
   ok('관광지 사진 출처(라이선스)', (await page.textContent('figcaption')).includes('CC BY'))
   await page.click('text=택시 카드'); ok('관광지 → 택시 카드', await page.waitForSelector('text=玉龙雪山大索道', { timeout: 5000 }).then(() => true).catch(() => false))
+
+  // 지도 링크 모음: 숙소·관광지·식당, 공유받은 정확 링크
+  await page.goto(base + '#/amap'); await page.waitForSelector('[data-testid=amap-row]')
+  ok('지도 링크 80곳 이상', (await page.locator('[data-testid=amap-row]').count()) >= 80)
+  ok('공유받은 링크(일와당) 사용', (await page.getAttribute('[data-testid=amap-row]:has-text("一瓦堂") a', 'href')) === 'https://surl.amap.com/1ZGvMhI4fh')
+  ok('숙소 지도 링크', ((await page.getAttribute('[data-testid=amap-row]:has-text("丽江沐蘭遇") a', 'href')) || '').startsWith('https://uri.amap.com/search'))
 
   // 문서함: PDF 바우처 → 쪽 그림 펼침·분류/일차 추정, 기차표 사진, 거르기, 일정 화면 바로가기
   await page.goto(base + '#/docs'); await page.waitForSelector('text=아직 문서가 없다')

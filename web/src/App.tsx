@@ -17,6 +17,7 @@ import { NumberCard, Templates } from './pages/Tools'
 import { More, Settings } from './pages/More'
 import { DocView, Docs } from './pages/Docs'
 import { SightView, Sights } from './pages/Sights'
+import { AmapLinks } from './pages/AmapLinks'
 
 const TABS = [
   { to: '/', label: '오늘', icon: House, end: true },
@@ -87,6 +88,7 @@ export default function App() {
             <Route path="/expense" element={<Expense />} />
             <Route path="/docs" element={<Docs />} />
             <Route path="/sights" element={<Sights />} />
+            <Route path="/amap" element={<AmapLinks />} />
             <Route path="/sights/:id" element={<SightView />} />
             <Route path="/docs/:id" element={<DocView />} />
             <Route path="/packing" element={<Packing />} />

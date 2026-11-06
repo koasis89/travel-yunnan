@@ -54,6 +54,7 @@ object TaxiCards {
                 nameKo = l.nameKo,
                 phones = l.phones,
                 bookingInfo = listOf(l.bookingNo, l.bookedBy).filter { it.isNotBlank() }.joinToString(" · "),
+                amapUrl = l.amapUrl,
                 helpers = LODGING_HELPERS[id].orEmpty().mapNotNull { data.phrase(it) },
                 warning = if (!l.confirmed) "숙소 미정: ${l.note}" else null,
             )

@@ -27,6 +27,7 @@ data class Actions(
     val openDiary: (String?) -> Unit = {},
     val openDocs: (String?) -> Unit = {},
     val openSights: (String?) -> Unit = {},
+    val openAmapLinks: () -> Unit = {},
     val openSight: (String) -> Unit = {},
     /** 문서 보기. edit=true 면 정보 편집을 펼친 채로 연다(추가 직후) */
     val openDoc: (String, Boolean) -> Unit = { _, _ -> },
@@ -60,6 +61,7 @@ object Routes {
     const val DIARY = "diary?day={day}"
     const val DOCS = "docs?day={day}"
     const val SIGHTS = "sights?day={day}"
+    const val AMAP = "amap"
     const val SIGHT = "sight/{id}"
     const val DOC = "doc/{id}?edit={edit}"
 

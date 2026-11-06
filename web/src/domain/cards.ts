@@ -23,7 +23,7 @@ export function buildTaxiCard(data: TripData, type: TargetType, id: string): Tax
   if (type === 'lodging') {
     const l = data.lodging(id); if (!l) return null
     return { type, id, nameZh: l.nameZh || '昆明 酒店(待定)', addrZh: cleanZhAddress(l.addrZh), nameKo: l.nameKo, phones: l.phones,
-      bookingInfo: [l.bookingNo, l.bookedBy].filter(Boolean).join(' · '), amapUrl: null,
+      bookingInfo: [l.bookingNo, l.bookedBy].filter(Boolean).join(' · '), amapUrl: l.amapUrl ?? null,
       helpers: (LODGING_HELPERS[id] ?? []).map((p) => data.phrase(p)).filter(Boolean) as Phrase[],
       warning: l.confirmed ? null : `숙소 미정: ${l.note}`, siblings: [] }
   }
@@ -82,3 +82,24 @@ export function messagePhrase(data: TripData, row: Schedule): Phrase | null {
 }
 
 export const mealOf = (data: TripData, optionId: string): Meal | undefined => data.mealOption(optionId)?.[0]
+
+export interface AmapRow { group: '숙소' | '관광지·장소' | '식당'; nameKo: string; nameZh: string; addrZh: string; url: string; exact: boolean }
+
+/** 지도 링크 모음: 숙소 → 관광지 → 식당(일차 순). exact = 고덕지도에서 공유받은 단축 링크 */
+export function amapRows(data: TripData): AmapRow[] {
+  const out: AmapRow[] = []; const seen = new Set<string>()
+  const push = (r: AmapRow) => { if (!r.url || seen.has(r.url)) return; seen.add(r.url); out.push(r) }
+  for (const l of data.lodgings) if (l.amapUrl) push({ group: '숙소', nameKo: l.nameKo, nameZh: l.nameZh, addrZh: cleanZhAddress(l.addrZh), url: l.amapUrl, exact: l.amapUrl.includes('surl.amap') })
+  for (const s of data.sights) {
+    const p = data.place(s.placeId); const url = s.amapUrl ?? p?.amapUrl
+    if (url) push({ group: '관광지·장소', nameKo: s.nameKo, nameZh: p?.nameZh ?? s.nameZh, addrZh: p?.addrZh ?? '', url, exact: url.includes('surl.amap') })
+  }
+  for (const p of data.places) if (p.amapUrl) push({ group: '관광지·장소', nameKo: p.nameKo, nameZh: p.nameZh, addrZh: p.addrZh, url: p.amapUrl, exact: p.amapUrl.includes('surl.amap') })
+  for (const m of [...data.meals].sort((a, b) => a.dayId.localeCompare(b.dayId) || a.seq - b.seq))
+    for (const o of m.options) if (o.amapUrl) push({ group: '식당', nameKo: `${m.dayId} ${m.slot} · ${o.name}`, nameZh: o.nameZh || o.name, addrZh: cleanZhAddress(o.addrZh), url: o.amapUrl, exact: o.amapUrl.includes('surl.amap') })
+  return out
+}
+
+/** 붙여넣기용 글: 📍이름 / 중국어 이름 / 고덕지도 주소 / 링크 */
+export const amapText = (r: AmapRow) =>
+  [`📍${r.nameKo}`, `중국어 이름 : ${r.nameZh}`, ...(hasChinese(r.addrZh) ? [`고덕지도 주소 : ${r.addrZh}`] : []), `고덕지도 주소 링크 : ${r.url}`].join('\n')

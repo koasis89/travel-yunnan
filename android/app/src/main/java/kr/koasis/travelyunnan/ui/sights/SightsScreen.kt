@@ -114,6 +114,11 @@ fun SightScreen(data: TripData, id: String) {
                     if (place != null) Button(onClick = { actions.openTaxi(TargetType.place, place.id) }, modifier = Modifier.fillMaxWidth()) {
                         Icon(Icons.Filled.LocalTaxi, null); Spacer(Modifier.width(6.dp)); Text("택시 카드 · ${place.nameZh}")
                     }
+                    (s.amapUrl ?: place?.amapUrl)?.let { u ->
+                        OutlinedButton(onClick = { External.openUrl(ctx, u) }, modifier = Modifier.fillMaxWidth()) {
+                            Icon(Icons.Filled.Map, null); Spacer(Modifier.width(6.dp)); Text("지도에서 보기(고덕지도)")
+                        }
+                    }
                 }
             }
             if (s.highlights.isNotEmpty()) {
@@ -162,5 +167,38 @@ fun DaySightsRow(data: TripData, dayId: String) {
     }
     LazyRow(contentPadding = PaddingValues(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
         items(list, key = { it.id }) { s -> SightCard(s, compact = true) { actions.openSight(s.id) } }
+    }
+}
+
+
+/** 지도 링크 모음: 숙소·관광지·식당 고덕지도 링크(웹 #/amap 과 같은 목록). 누르면 열고, 길게 누르면 붙여넣기용 글을 복사 */
+@Composable
+fun AmapLinksScreen(data: TripData) {
+    val actions = LocalActions.current
+    val ctx = LocalContext.current
+    val rows = remember { kr.koasis.travelyunnan.domain.AmapLinks.rows(data) }
+    Column(Modifier.fillMaxSize()) {
+        AppTopBar("지도 링크 모음", onBack = actions.back) {
+            IconButton(onClick = { External.copy(ctx, rows.joinToString("\n\n") { kr.koasis.travelyunnan.domain.AmapLinks.text(it) }, "${rows.size}곳을 복사했다") }) {
+                Icon(Icons.Filled.ContentCopy, "전체 복사")
+            }
+        }
+        LazyColumn(contentPadding = PaddingValues(bottom = 24.dp)) {
+            item {
+                Text("고덕지도(Amap) 앱을 깔고 누른다. '정확'은 고덕지도에서 공유받은 위치, 나머지는 이름·주소 검색 링크다. 복사 버튼은 이름·주소·링크를 붙여넣기용 글로 복사한다.",
+                    style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(16.dp))
+            }
+            rows.map { it.group }.distinct().forEach { g ->
+                item(key = "g-$g") { SectionTitle("$g (${rows.count { it.group == g }})") }
+                items(rows.filter { it.group == g }, key = { it.url }) { r ->
+                    ListItem(
+                        headlineContent = { Text(r.nameKo + if (r.exact) "  · 정확" else "") },
+                        supportingContent = { Text(listOf(r.nameZh, r.addrZh).filter { it.isNotBlank() }.joinToString("\n")) },
+                        trailingContent = { IconButton(onClick = { External.copy(ctx, kr.koasis.travelyunnan.domain.AmapLinks.text(r), "이름·주소·링크를 복사했다") }) { Icon(Icons.Filled.ContentCopy, "복사") } },
+                        modifier = Modifier.clickable { External.openUrl(ctx, r.url) },
+                    )
+                }
+            }
+        }
     }
 }

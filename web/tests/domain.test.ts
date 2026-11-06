@@ -114,3 +114,13 @@ describe('관광지', () => {
     expect(data.sightsOf('D3').map((s) => s.id)).toEqual(expect.arrayContaining(['glacier', 'lanyuegu', 'impression']))
   })
 })
+
+import { amapRows, amapText } from '../src/domain/cards'
+describe('고덕지도 링크', () => {
+  it('숙소 전부·공유 링크 우선·붙여넣기 형식', () => {
+    expect(data.lodgings.filter((l) => l.nameZh).every((l) => l.amapUrl?.startsWith('https://'))).toBe(true)
+    const rows = amapRows(data)
+    expect(rows.find((r) => r.nameZh === '一瓦堂咖啡店')?.url).toBe('https://surl.amap.com/1ZGvMhI4fh')
+    expect(amapText(rows[0])).toMatch(/^📍.+\n중국어 이름 : .+\n.*고덕지도 주소 링크 : https:/s)
+  })
+})

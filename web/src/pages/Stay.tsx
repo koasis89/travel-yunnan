@@ -44,6 +44,7 @@ function Lodgings({ focus }: { focus: string | null }) {
           {l.note && <div className="small muted" style={{ marginTop: 4 }}>{l.note}</div>}
           <div className="wrap" style={{ marginTop: 10 }}>
             <Link className="btn" to={`/taxi/lodging/${l.id}`}><CarTaxiFront size={16} />택시 카드</Link>
+            {l.amapUrl && <a className="btn" href={l.amapUrl} target="_blank" rel="noreferrer"><MapPin size={16} />지도</a>}
             <button className="btn" onClick={() => copyText(`${l.nameZh} ${l.addrZh}`.trim(), '주소를 복사했다')}><Copy size={16} />주소 복사</button>
             <Link className="btn" to="/show/px-006"><Users size={16} />3인 확인 문장</Link>
             <PhoneLinks phones={l.phones} />

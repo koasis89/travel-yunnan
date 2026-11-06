@@ -14,9 +14,7 @@
    ],
    "placeId": "sifang",
    "keywords": [
-    "리장고성",
-    "대수차",
-    "대석교"
+    "리장고성"
    ],
    "summary": "800여 년 된 나시족(纳西族) 마을로, 1997년 유네스코 세계문화유산에 올랐다. 성벽이 없고, 옥룡설산에서 내려온 옥하(玉河) 물길이 골목마다 흐른다. 해발 약 2,400m.",
    "highlights": [
@@ -142,6 +140,144 @@
    }
   },
   {
+   "id": "dashuiche",
+   "region": "리장고성 사진 스팟",
+   "nameKo": "대수차(大水车)",
+   "nameZh": "丽江古城-古城大水车",
+   "dayIds": [
+    "D2",
+    "D4"
+   ],
+   "placeId": "dashuiche",
+   "keywords": [
+    "대수차"
+   ],
+   "summary": "고성 북쪽 입구 옥하광장의 커다란 물레방아 두 개. 리장고성 여행의 출발점이자 첫 기념사진 장소다.",
+   "highlights": [
+    "물레방아와 수로, 뒤편 옥하 물길"
+   ],
+   "tips": [
+    "낮에는 단체 관광객이 많다. 아침 일찍이나 저녁이 한산하다"
+   ],
+   "hours": "상시",
+   "fee": "무료",
+   "duration": "15분",
+   "image": "sights/sight-dashuiche.jpg",
+   "credit": {
+    "title": "Lijiang | sissepääs vanalinna",
+    "author": "toehk",
+    "license": "CC BY 2.0",
+    "url": "https://www.flickr.com/photos/23090954@N03/3328724408"
+   }
+  },
+  {
+   "id": "dashiqiao",
+   "region": "리장고성 사진 스팟",
+   "nameKo": "대석교",
+   "nameZh": "大石桥",
+   "dayIds": [
+    "D2",
+    "D4"
+   ],
+   "placeId": "dashiqiao",
+   "keywords": [
+    "대석교"
+   ],
+   "summary": "옥하 물길 위의 오래된 돌다리. 맑은 날 다리에서 옥룡설산이 물에 비친다고 해서 영설교(映雪桥)라고도 부른다.",
+   "highlights": [
+    "다리 위에서 보는 수로와 버드나무 골목"
+   ],
+   "tips": [
+    "다리 주변이 좁고 붐빈다. 아이 손을 잡는다"
+   ],
+   "hours": "상시",
+   "fee": "무료",
+   "duration": "15분",
+   "image": null,
+   "credit": null
+  },
+  {
+   "id": "zhisanxiang",
+   "region": "리장고성 사진 스팟",
+   "nameKo": "우산골목(纸伞巷)",
+   "nameZh": "纸伞巷",
+   "dayIds": [
+    "D2",
+    "D4"
+   ],
+   "placeId": "zhisanxiang",
+   "keywords": [
+    "우산골목"
+   ],
+   "summary": "광의가 근처, 하늘을 덮은 알록달록한 종이우산 아래로 걷는 골목. 리장에서 손꼽히는 인생사진 장소다.",
+   "highlights": [
+    "우산 지붕 아래 인물 사진"
+   ],
+   "tips": [
+    "광의가(목부 가는 길) 동선과 가깝다. 사람이 적은 오전이 좋다"
+   ],
+   "hours": "상시",
+   "fee": "무료",
+   "duration": "20분",
+   "image": null,
+   "credit": null
+  },
+  {
+   "id": "wenchanggong",
+   "region": "리장고성 사진 스팟",
+   "nameKo": "문창궁(文昌宫) 전망대",
+   "nameZh": "丽江古城-文昌宫观景台",
+   "dayIds": [
+    "D2",
+    "D4"
+   ],
+   "placeId": "wenchanggong",
+   "keywords": [
+    "문창궁"
+   ],
+   "summary": "고성 서쪽 사자산(狮子山) 자락의 문창궁 앞 전망대. 끝없이 이어진 고성 기와지붕과 멀리 옥룡설산을 내려다본다.",
+   "highlights": [
+    "고성 지붕 파노라마",
+    "해 질 무렵 노을"
+   ],
+   "tips": [
+    "계단 오르막이 있다",
+    "고성 유지비 확인이 있을 수 있다"
+   ],
+   "hours": "낮 시간(현장 확인)",
+   "fee": "현장 확인",
+   "duration": "30분",
+   "image": null,
+   "credit": null
+  },
+  {
+   "id": "dayanhuaxiang",
+   "region": "리장고성 사진 스팟",
+   "nameKo": "대연화항(大研花巷) 전망대",
+   "nameZh": "丽江古城-大研花巷观景台",
+   "dayIds": [
+    "D2",
+    "D4"
+   ],
+   "placeId": "dayanhuaxiang",
+   "keywords": [
+    "대연화항"
+   ],
+   "summary": "고성 북쪽 골목 안의 전망 테라스. 기와지붕과 설산을 배경으로 '리장 배경' 사진을 찍는 인기 스팟이다.",
+   "highlights": [
+    "지붕 너머 설산 배경 사진"
+   ],
+   "tips": [
+    "입장료나 음료 주문이 필요할 수 있다(현장 확인)",
+    "맑은 오전에 설산이 잘 보인다"
+   ],
+   "hours": "현장 확인",
+   "fee": "현장 확인",
+   "duration": "30분",
+   "image": null,
+   "credit": null
+  },
+  {
    "id": "baisha",
    "region": "백사·수허",
    "nameKo": "백사고진",
@@ -210,6 +346,59 @@
     "license": "CC BY 2.0",
     "url": "https://www.flickr.com/photos/37195641@N03/30616320031"
    }
+  },
+  {
+   "id": "yiwatang",
+   "region": "백사 카페",
+   "nameKo": "일와당 지붕카페(一瓦堂)",
+   "nameZh": "一瓦堂咖啡店",
+   "dayIds": [
+    "D4"
+   ],
+   "placeId": "yiwatang",
+   "keywords": [
+    "기와카페",
+    "一瓦堂"
+   ],
+   "summary": "백사고진 끝자락(街尾村) 기와지붕 위에 앉아 옥룡설산을 정면으로 보는 카페. 일정의 '기와카페'가 이곳이다.",
+   "highlights": [
+    "지붕 위 좌석에서 설산 사진"
+   ],
+   "tips": [
+    "지붕 위는 바람이 차다. 겉옷을 챙긴다",
+    "오후 햇살에 설산이 잘 나온다"
+   ],
+   "hours": "현장 확인",
+   "fee": "음료 주문",
+   "duration": "1시간",
+   "image": null,
+   "credit": null
+  },
+  {
+   "id": "yuntian",
+   "region": "백사 카페",
+   "nameKo": "운티안 카페(云堤岸)",
+   "nameZh": "云堤岸",
+   "dayIds": [
+    "D4"
+   ],
+   "placeId": "yuntian",
+   "keywords": [
+    "云堤岸",
+    "운티안"
+   ],
+   "summary": "백사 나시 부락 옆, 관광 순환도로 변의 설산 전망 카페. 백사고진에서 일와당 대신 가 볼 만한 대안이다.",
+   "highlights": [
+    "통창 너머 옥룡설산"
+   ],
+   "tips": [
+    "백사고진에서 택시로 이동한다(지도 링크로 위치 확인)"
+   ],
+   "hours": "현장 확인",
+   "fee": "음료 주문",
+   "duration": "1시간",
+   "image": null,
+   "credit": null
   },
   {
    "id": "yulong",

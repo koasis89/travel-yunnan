@@ -77,6 +77,7 @@ private fun LodgingCard(data: TripData, l: Lodging, flags: Set<String>, onToggle
 
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(6.dp), modifier = Modifier.padding(top = 6.dp)) {
                 SmallAction(Icons.Filled.LocalTaxi, "택시 카드") { actions.openTaxi(TargetType.lodging, l.id) }
+                l.amapUrl?.let { u -> SmallAction(Icons.Filled.Map, "지도") { kr.koasis.travelyunnan.util.External.openUrl(ctx, u) } }
                 if (l.addrZh.isNotBlank()) SmallAction(Icons.Filled.ContentCopy, "주소 복사") { External.copy(ctx, l.nameZh.ifBlank { "" } + " " + l.addrZh, "주소를 복사했다") }
                 SmallAction(Icons.Filled.Login, "체크인 문장") { actions.openPhrases("hotel") }
                 data.phrase("px-006")?.let { p -> SmallAction(Icons.Filled.People, "3인 확인") { actions.openShow(p.id) } }

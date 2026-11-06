@@ -173,6 +173,15 @@ class S6Test {
         assertTrue(d.sights.filter { it.image != null }.all { !it.credit?.license.isNullOrBlank() && java.io.File(dataDir().parentFile.parentFile, "assets/${it.image}").exists() })
     }
 
+    @Test fun amapLinks() {
+        val d = TripDataHolder.data
+        assertTrue(d.lodgings.filter { it.nameZh.isNotBlank() }.all { it.amapUrl?.startsWith("https://") == true })
+        val rows = kr.koasis.travelyunnan.domain.AmapLinks.rows(d)
+        assertEquals("https://surl.amap.com/1ZGvMhI4fh", rows.first { it.nameZh == "一瓦堂咖啡店" }.url)
+        assertTrue(kr.koasis.travelyunnan.domain.AmapLinks.text(rows.first()).startsWith("📍"))
+        assertEquals(TargetType.place, ScheduleLinks.find(d, d.scheduleOf("D4").first { it.via.contains("기와카페") }).firstOrNull { it.id == "yiwatang" }?.type)
+    }
+
     @Test fun mapsOnePerDay() {
         val d = TripDataHolder.data
         assertEquals(listOf("map_d3", "map06"), d.day("D3")!!.mapIds)

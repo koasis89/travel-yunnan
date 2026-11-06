@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-04",
+  "version": "2026-11-06",
   "items": [
     {
       "id": "kmg_airport",
@@ -151,7 +151,8 @@
       "id": "sifang",
       "nameKo": "리장고성 사방가(투어 픽업)",
       "nameZh": "四方街",
-      "addrZh": "云南省丽江市古城区 丽江古城 四方街"
+      "addrZh": "云南省丽江市古城区丽江古城五一路下段 四方街",
+      "amapUrl": "https://surl.amap.com/2GES7fob4EB"
     },
     {
       "id": "ganhaizi",
@@ -176,6 +177,55 @@
       "nameKo": "흑룡담 공원",
       "nameZh": "黑龙潭公园",
       "addrZh": "云南省丽江市古城区 黑龙潭公园"
+    },
+    {
+      "id": "zhisanxiang",
+      "nameKo": "우산골목(종이우산 골목)",
+      "nameZh": "纸伞巷",
+      "addrZh": "云南省丽江市古城区光义街忠义巷与长水路交叉口北480米",
+      "amapUrl": "https://surl.amap.com/fStxeK2P5Ur"
+    },
+    {
+      "id": "dashuiche",
+      "nameKo": "대수차(大水车)",
+      "nameZh": "丽江古城-古城大水车",
+      "addrZh": "云南省丽江市古城区东大街1号丽江古城内(北侧)",
+      "amapUrl": "https://surl.amap.com/3VlddAqqfVt"
+    },
+    {
+      "id": "wenchanggong",
+      "nameKo": "문창궁 전망대",
+      "nameZh": "丽江古城-文昌宫观景台",
+      "addrZh": "云南省丽江市古城区狮山路29号",
+      "amapUrl": "https://surl.amap.com/YGwvY1taBo"
+    },
+    {
+      "id": "dashiqiao",
+      "nameKo": "대석교",
+      "nameZh": "大石桥",
+      "addrZh": "云南省丽江市古城区 丽江古城 大石桥",
+      "amapUrl": "https://surl.amap.com/7wbVuHAl5Ki"
+    },
+    {
+      "id": "dayanhuaxiang",
+      "nameKo": "대연화항 전망대",
+      "nameZh": "丽江古城-大研花巷观景台",
+      "addrZh": "云南省丽江市古城区大研街道新义街密士巷48号丽江古城内(北侧)",
+      "amapUrl": "https://surl.amap.com/69FSlMKQcvI"
+    },
+    {
+      "id": "yuntian",
+      "nameKo": "운티안 카페(云堤岸)",
+      "nameZh": "云堤岸",
+      "addrZh": "云南省丽江市玉龙纳西族自治县旅游环线白沙纳西部落旁边",
+      "amapUrl": "https://surl.amap.com/1dKfjeKD0XG"
+    },
+    {
+      "id": "yiwatang",
+      "nameKo": "일와당 지붕카페(백사)",
+      "nameZh": "一瓦堂咖啡店",
+      "addrZh": "云南省丽江市玉龙纳西族自治县白沙古镇街尾村",
+      "amapUrl": "https://surl.amap.com/1ZGvMhI4fh"
     }
   ]
 }

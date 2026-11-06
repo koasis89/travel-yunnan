@@ -66,6 +66,8 @@ data class Lodging(
     val status: String = "",
     val note: String = "",
     val confirmed: Boolean = false,
+    /** 고덕지도 링크(tools/amap_links.py: 공유받은 단축 링크 또는 검색 링크) */
+    val amapUrl: String? = null,
 )
 
 @Serializable
@@ -183,6 +185,7 @@ data class Sight(
     val duration: String = "",
     val image: String? = null,
     val credit: SightCredit? = null,
+    val amapUrl: String? = null,
 )
 
 @Serializable

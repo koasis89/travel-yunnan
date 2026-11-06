@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
-import { CarTaxiFront, Clock, Landmark, Lightbulb, Sparkles, Ticket, Timer } from 'lucide-react'
+import { CarTaxiFront, Clock, Landmark, Lightbulb, MapPin, Sparkles, Ticket, Timer } from 'lucide-react'
 import { DayChips, TopBar } from '../components/ui'
 import { useData, useNow } from '../store/data'
 import { resolvePhase } from '../domain/tripTime'
@@ -68,6 +68,7 @@ export function SightView() {
           <div className="row small"><Timer size={16} />머무는 시간 {s.duration}</div>
         </div>
         {place && <Link className="btn primary block" to={`/taxi/place/${place.id}`}><CarTaxiFront size={18} />택시 카드 · {place.nameZh}</Link>}
+        {(s.amapUrl ?? place?.amapUrl) && <a className="btn block" href={(s.amapUrl ?? place?.amapUrl)!} target="_blank" rel="noreferrer"><MapPin size={18} />지도에서 보기(고덕지도)</a>}
       </div>
       {s.highlights.length > 0 && <><div className="section">볼거리</div>
         <div className="pad stack" style={{ gap: 6 }}>{s.highlights.map((h) => <div key={h} className="row small" style={{ alignItems: 'flex-start' }}><Sparkles size={16} style={{ flex: 'none', marginTop: 2 }} />{h}</div>)}</div></>}

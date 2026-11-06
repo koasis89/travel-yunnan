@@ -276,6 +276,21 @@
       "match": "甘海子",
       "type": "place",
       "key": "ganhaizi"
+    },
+    {
+      "match": "기와카페",
+      "type": "place",
+      "key": "yiwatang"
+    },
+    {
+      "match": "대수차",
+      "type": "place",
+      "key": "dashuiche"
+    },
+    {
+      "match": "대석교",
+      "type": "place",
+      "key": "dashiqiao"
     }
   ]
 }
