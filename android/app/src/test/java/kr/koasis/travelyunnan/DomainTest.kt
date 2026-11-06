@@ -182,6 +182,14 @@ class S6Test {
         assertEquals(TargetType.place, ScheduleLinks.find(d, d.scheduleOf("D4").first { it.via.contains("기와카페") }).firstOrNull { it.id == "yiwatang" }?.type)
     }
 
+    @Test fun orderWithDrinks() {
+        val d = { zh: String -> kr.koasis.travelyunnan.ui.meal.DRINKS.first { it.zh == zh } }
+        assertEquals("我要一份过桥米线，再要两瓶冰啤酒、一瓶矿泉水，不要辣。",
+            kr.koasis.travelyunnan.ui.meal.composeFullOrder("过桥米线", "一份", listOf(d("冰啤酒") to 2, d("矿泉水") to 1), listOf("不要辣")))
+        assertEquals("我要三杯云南小粒咖啡。", kr.koasis.travelyunnan.ui.meal.composeFullOrder(null, "一份", listOf(d("云南小粒咖啡") to 3), emptyList()))
+        assertEquals("这个要一份。", kr.koasis.travelyunnan.ui.meal.composeFullOrder("", "一份", emptyList(), emptyList()))
+    }
+
     @Test fun mapsOnePerDay() {
         val d = TripDataHolder.data
         assertEquals(listOf("map_d3", "map06"), d.day("D3")!!.mapIds)

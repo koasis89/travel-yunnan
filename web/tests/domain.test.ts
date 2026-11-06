@@ -124,3 +124,14 @@ describe('고덕지도 링크', () => {
     expect(amapText(rows[0])).toMatch(/^📍.+\n중국어 이름 : .+\n.*고덕지도 주소 링크 : https:/s)
   })
 })
+
+import { DRINKS, composeFullOrder } from '../src/domain/drinks'
+describe('주문 문장: 음료', () => {
+  const d = (zh: string) => DRINKS.find((x) => x.zh === zh)!
+  it('음식+음료+요청, 음료만', () => {
+    expect(composeFullOrder('过桥米线', '一份', [[d('冰啤酒'), 2], [d('矿泉水'), 1]], ['不要辣'])).toBe('我要一份过桥米线，再要两瓶冰啤酒、一瓶矿泉水，不要辣。')
+    expect(composeFullOrder(null, '一份', [[d('云南小粒咖啡'), 3]], [])).toBe('我要三杯云南小粒咖啡。')
+    expect(composeFullOrder('', '一份', [], [])).toBe('这个要一份。')
+    expect(composeFullOrder(null, '一份', [[d('鹤庆乾酒'), 1]], ['请帮忙开瓶'])).toBe('我要一小瓶鹤庆乾酒，请帮忙开瓶。')
+  })
+})

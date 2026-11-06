@@ -125,6 +125,14 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   ok('공유받은 링크(일와당) 사용', (await page.getAttribute('[data-testid=amap-row]:has-text("一瓦堂") a', 'href')) === 'https://surl.amap.com/1ZGvMhI4fh')
   ok('숙소 지도 링크', ((await page.getAttribute('[data-testid=amap-row]:has-text("丽江沐蘭遇") a', 'href')) || '').startsWith('https://uri.amap.com/search'))
 
+  // 주문 문장: 음료
+  await page.goto(base + '#/menu?food=过桥米线'); await page.waitForSelector('[data-testid=drink]')
+  await page.click('[data-testid=drink]:has-text("冰啤酒")'); await page.click('[data-testid=drink]:has-text("冰啤酒")'); await page.click('[data-testid=drink]:has-text("矿泉水")')
+  ok('주문 문장 음료(맥주 2·생수 1)', await page.isVisible('text=我要一份过桥米线，再要一瓶矿泉水、两瓶冰啤酒。'))
+  await page.click('.chip:has-text("음료만")')
+  ok('음료만 주문', await page.isVisible('text=我要一瓶矿泉水、两瓶冰啤酒。'))
+  await page.screenshot({ path: `${out}/w30_menu_drinks.png` })
+
   // 택시 카드 '지도' 버튼 = 만든 고덕지도 링크
   await page.goto(base + '#/taxi/lodging/mulanyu'); await page.waitForSelector('text=丽江沐蘭遇の汤宿')
   ok('택시 카드(숙소) 지도 = 고덕지도 링크', ((await page.getAttribute('a.btn:has-text("지도")', 'href')) || '').startsWith('https://uri.amap.com/search'))
