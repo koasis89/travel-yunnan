@@ -18,6 +18,7 @@ import { More, Settings } from './pages/More'
 import { DocView, Docs } from './pages/Docs'
 import { SightView, Sights } from './pages/Sights'
 import { AmapLinks } from './pages/AmapLinks'
+import { EatView, Eats } from './pages/Eats'
 
 const TABS = [
   { to: '/', label: '오늘', icon: House, end: true },
@@ -89,6 +90,8 @@ export default function App() {
             <Route path="/docs" element={<Docs />} />
             <Route path="/sights" element={<Sights />} />
             <Route path="/amap" element={<AmapLinks />} />
+            <Route path="/eats" element={<Eats />} />
+            <Route path="/eats/:id" element={<EatView />} />
             <Route path="/sights/:id" element={<SightView />} />
             <Route path="/docs/:id" element={<DocView />} />
             <Route path="/packing" element={<Packing />} />

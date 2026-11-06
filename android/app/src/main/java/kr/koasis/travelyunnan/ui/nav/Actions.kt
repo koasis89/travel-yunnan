@@ -28,6 +28,8 @@ data class Actions(
     val openDocs: (String?) -> Unit = {},
     val openSights: (String?) -> Unit = {},
     val openAmapLinks: () -> Unit = {},
+    val openEats: (String?) -> Unit = {},
+    val openEat: (String) -> Unit = {},
     val openSight: (String) -> Unit = {},
     /** 문서 보기. edit=true 면 정보 편집을 펼친 채로 연다(추가 직후) */
     val openDoc: (String, Boolean) -> Unit = { _, _ -> },
@@ -62,6 +64,8 @@ object Routes {
     const val DOCS = "docs?day={day}"
     const val SIGHTS = "sights?day={day}"
     const val AMAP = "amap"
+    const val EATS = "eats?day={day}"
+    const val EAT = "eat/{id}"
     const val SIGHT = "sight/{id}"
     const val DOC = "doc/{id}?edit={edit}"
 
@@ -80,5 +84,7 @@ object Routes {
     fun docs(day: String?) = "docs" + (day?.let { "?day=$it" } ?: "")
     fun sights(day: String?) = "sights" + (day?.let { "?day=$it" } ?: "")
     fun sight(id: String) = "sight/$id"
+    fun eats(day: String?) = "eats" + (day?.let { "?day=$it" } ?: "")
+    fun eat(id: String) = "eat/$id"
     fun doc(id: String, edit: Boolean) = "doc/$id?edit=$edit"
 }

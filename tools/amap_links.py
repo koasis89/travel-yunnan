@@ -87,6 +87,12 @@ def main(d: Path):
         rows["관광지·장소"].append((s["id"], s["nameKo"], p["nameZh"] if p else s["nameZh"], p["addrZh"] if p else "", s["amapUrl"]))
     save("sights.json", sights)
 
+    rest = load("restaurants.json")
+    mo = {o["id"]: o for m in meals["items"] for o in m["options"]}
+    for r in rest["items"]:
+        r["amapUrl"] = next((mo[i]["amapUrl"] for i in r["optionIds"] if mo.get(i, {}).get("amapUrl")), None) or search_url(r["nameZh"].split("/")[0].strip(), city_of(r["nameZh"], r["region"]))
+    save("restaurants.json", rest)
+
     out = ["# 고덕지도(Amap) 링크 모음", "",
            "> `tools/amap_links.py` 가 만든다(손으로 고치지 않는다). 고덕지도 앱을 깔고 링크를 누르거나 복사해 붙여넣는다.",
            "> `surl.amap.com` 은 고덕지도에서 공유받은 정확한 위치, `uri.amap.com/search` 는 이름·주소 검색 링크다(검색 결과에서 맞는 곳을 고른다).", ""]

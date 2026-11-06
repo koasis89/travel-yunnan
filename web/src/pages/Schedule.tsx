@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { Bus, Car, CarTaxiFront, CheckCircle2, Clock, Footprints, Landmark, MapPin, MessageSquareText, Mountain, PenLine, TrainFront } from 'lucide-react'
+import { Bus, Car, CarTaxiFront, CheckCircle2, Clock, Footprints, Landmark, MapPin, UtensilsCrossed, MessageSquareText, Mountain, PenLine, TrainFront } from 'lucide-react'
 import { DayChips, TopBar } from '../components/ui'
 import { DayDocsLink } from './Docs'
 import { useData, useNow } from '../store/data'
@@ -60,6 +60,7 @@ function RowCard({ r, isCurrent, isDone, toggle }: { r: Row; isCurrent: boolean;
   const msg = useMemo(() => messagePhrase(data, r), [data, r])
   const tpls = data.templatesFor(r)
   const sights = data.sightsFor(r)
+  const eats = data.restaurantsFor(r)
   const press = useRef<number | undefined>(undefined)
   const start = () => { press.current = window.setTimeout(() => { toggle(); navigator.vibrate?.(20) }, 550) }
   const cancel = () => window.clearTimeout(press.current)
@@ -78,9 +79,10 @@ function RowCard({ r, isCurrent, isDone, toggle }: { r: Row; isCurrent: boolean;
         {r.via && r.via !== '-' && <div className="small muted">경유: {r.via}</div>}
         {r.transport && r.transport !== '-' && <div className="row small" style={{ marginTop: 2 }}>{transportIcon(r.transport)}{[r.transport, r.duration].filter((x) => x && x !== '-').join(' · ')}</div>}
         {r.tip && r.tip !== '-' && <div className="small" style={{ marginTop: 4 }}>{r.tip}</div>}
-        {(links.length > 0 || msg || tpls.length > 0 || r.amapUrl || sights.length > 0) && (
+        {(links.length > 0 || msg || tpls.length > 0 || r.amapUrl || sights.length > 0 || eats.length > 0) && (
           <div className="wrap" style={{ marginTop: 10 }}>
             {links.map((l) => <Link key={l.type + l.id} className="linkchip" to={`/taxi/${l.type}/${l.id}`}><CarTaxiFront size={15} />{l.label}</Link>)}
+            {eats.map((x) => <Link key={x.id} className="linkchip" to={`/eats/${x.id}`}><UtensilsCrossed size={15} />{x.nameKo.split('(')[0]}</Link>)}
             {sights.map((x) => <Link key={x.id} className="linkchip" to={`/sights/${x.id}`}><Landmark size={15} />{x.nameKo}</Link>)}
             {tpls.map((t) => <Link key={t.id} className="linkchip tpl" to={`/templates?link=${t.id}`}><PenLine size={15} />위챗: {t.label}</Link>)}
             {msg && <Link className="linkchip" to={`/show/${msg.id}`}><MessageSquareText size={15} />매니저에게 보여주기</Link>}

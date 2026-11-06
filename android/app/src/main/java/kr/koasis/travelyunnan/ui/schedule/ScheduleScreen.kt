@@ -92,6 +92,7 @@ private fun ScheduleRow(data: TripData, r: Schedule, isCurrent: Boolean, done: B
     val message = remember(r) { ScheduleLinks.messagePhrase(data, r) }
     val templates = remember(r) { data.templatesFor(r) }
     val sights = remember(r) { data.sightsFor(r) }
+    val eats = remember(r) { data.restaurantsFor(r) }
     Row(Modifier.fillMaxWidth().height(IntrinsicSize.Min)) {
         // 타임라인 축
         Column(Modifier.width(22.dp).fillMaxHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -100,13 +101,13 @@ private fun ScheduleRow(data: TripData, r: Schedule, isCurrent: Boolean, done: B
             Box(Modifier.width(2.dp).weight(1f).background(MaterialTheme.colorScheme.outlineVariant))
         }
         Spacer(Modifier.width(8.dp))
-        ScheduleCard(r, isCurrent, done, onLongPress, links, message, templates, ctx, sights)
+        ScheduleCard(r, isCurrent, done, onLongPress, links, message, templates, ctx, sights, eats)
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalLayoutApi::class)
 @Composable
-private fun ScheduleCard(r: Schedule, isCurrent: Boolean, done: Boolean, onLongPress: () -> Unit, links: List<LinkTarget>, message: kr.koasis.travelyunnan.data.json.Phrase?, templates: List<kr.koasis.travelyunnan.data.json.TemplateLink>, ctx: android.content.Context, sights: List<kr.koasis.travelyunnan.data.json.Sight> = emptyList()) {
+private fun ScheduleCard(r: Schedule, isCurrent: Boolean, done: Boolean, onLongPress: () -> Unit, links: List<LinkTarget>, message: kr.koasis.travelyunnan.data.json.Phrase?, templates: List<kr.koasis.travelyunnan.data.json.TemplateLink>, ctx: android.content.Context, sights: List<kr.koasis.travelyunnan.data.json.Sight> = emptyList(), eats: List<kr.koasis.travelyunnan.data.json.Restaurant> = emptyList()) {
     val actions = LocalActions.current
     OutlinedCard(
         Modifier.fillMaxWidth().alpha(if (done) 0.45f else 1f).combinedClickable(onClick = {}, onLongClick = onLongPress),
@@ -128,10 +129,14 @@ private fun ScheduleCard(r: Schedule, isCurrent: Boolean, done: Boolean, onLongP
                 Text(listOf(r.transport, r.duration).filter { it.isNotBlank() && it != "-" }.joinToString(" · "), style = MaterialTheme.typography.bodyMedium)
             }
             if (r.tip.isNotBlank() && r.tip != "-") Text(r.tip, style = MaterialTheme.typography.bodyMedium)
-            if (links.isNotEmpty() || message != null || r.amapUrl != null || templates.isNotEmpty() || sights.isNotEmpty()) FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            if (links.isNotEmpty() || message != null || r.amapUrl != null || templates.isNotEmpty() || sights.isNotEmpty() || eats.isNotEmpty()) FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 links.forEach { l ->
                     AssistChip(onClick = { actions.openTaxi(l.type, l.id) }, label = { Text(l.label) },
                         leadingIcon = { Icon(Icons.Filled.LocalTaxi, null, Modifier.size(18.dp)) })
+                }
+                eats.forEach { e ->
+                    AssistChip(onClick = { actions.openEat(e.id) }, label = { Text(e.nameKo.substringBefore("(")) },
+                        leadingIcon = { Icon(Icons.Filled.Restaurant, null, Modifier.size(18.dp)) })
                 }
                 sights.forEach { sg ->
                     AssistChip(onClick = { actions.openSight(sg.id) }, label = { Text(sg.nameKo) },

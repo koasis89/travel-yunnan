@@ -144,3 +144,13 @@ describe('옥룡설산 가이드 위챗', () => {
     expect(templateById('tpl-guide-confirm')!.contact?.wechat).toBe('18088479095')
   })
 })
+
+describe('맛집 안내', () => {
+  it('식사 선택지·일정 행 연결', () => {
+    expect(data.restaurants.length).toBeGreaterThanOrEqual(20)
+    expect(data.restaurantOfOption('D7-03-1')?.id).toBe('jianxinyuan')
+    const r = data.scheduleOf('D3').find((x) => x.to.includes('천천선'))!
+    expect(data.restaurantsFor(r).map((x) => x.id)).toEqual(expect.arrayContaining(['tiantianxian', 'apo']))
+    expect(data.restaurants.every((x) => x.amapUrl && x.menu.length > 0)).toBe(true)
+  })
+})

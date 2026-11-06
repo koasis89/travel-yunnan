@@ -14,7 +14,7 @@ EXPECT_MIN = {
     "days.json": 8, "schedule.json": 60, "lodgings.json": 6, "meals.json": 25, "foods.json": 30,
     "phrases.json": 57, "words.json": 52, "foodNames.json": 39, "packing.json": 40, "notes.json": 15,
     "transport.json": 10, "budget.json": 5, "weather.json": 6, "maps.json": 10, "places.json": 10,
-    "place_links.json": 20, "notifications.json": 13, "lodging_todos.json": 10, "map_hotspots.json": 50, "sights.json": 20,
+    "place_links.json": 20, "notifications.json": 13, "lodging_todos.json": 10, "map_hotspots.json": 50, "sights.json": 20, "restaurants.json": 20,
 }
 
 
@@ -127,6 +127,16 @@ def main(d):
              (t == "meal" and any(k in n for n in meal_names))
         if not ok:
             errors.append(f"place_links '{x['match']}': 대상 없음 {t}:{k}")
+    opt_ids = {o["id"] for m in items("meals.json") for o in m["options"]}
+    for x in items("restaurants.json"):
+        for i in x["optionIds"]:
+            if i not in opt_ids:
+                errors.append(f"restaurants {x['id']}: optionId {i}")
+        for img in [x.get("image")] + [m.get("image") for m in x["menu"]]:
+            if img and not (REPO / "assets" / img).exists():
+                errors.append(f"restaurants {x['id']}: 이미지 없음 {img}")
+        if not x.get("amapUrl"):
+            errors.append(f"restaurants {x['id']}: 지도 링크 없음")
     for x in items("sights.json"):
         if x.get("placeId") and x["placeId"] not in place_ids:
             errors.append(f"sights {x['id']}: placeId {x['placeId']}")

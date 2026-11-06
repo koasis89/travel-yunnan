@@ -89,6 +89,7 @@ function Meals({ dayArg }: { dayArg: string | null }) {
                 {o.addrZh && <div className="small zh">{o.addrZh}</div>}
                 {o.menu && <div className="small muted">추천: {o.menu}</div>}
                 <div className="wrap" style={{ marginTop: 8 }}>
+                  {data.restaurantOfOption(o.id) && <Link className="btn" data-testid="eat-link" to={`/eats/${data.restaurantOfOption(o.id)!.id}`}><BookOpen size={16} />식당 정보·메뉴판</Link>}
                   {isTaxiable(o) && <Link className="btn" to={`/taxi/meal/${o.id}`}><CarTaxiFront size={16} />택시 카드</Link>}
                   {o.addrZh && <button className="btn" onClick={() => copyText(o.addrZh, '주소를 복사했다')}><Copy size={16} />주소</button>}
                   {o.amapUrl && <a className="btn" href={o.amapUrl} target="_blank" rel="noreferrer"><MapPin size={16} />지도</a>}

@@ -189,6 +189,31 @@ data class Sight(
 )
 
 @Serializable
+data class MenuItem(val zh: String, val ko: String = "", val desc: String = "", val image: String? = null)
+
+/** 맛집 안내(data/restaurants.json). optionIds = meals.json 선택지 */
+@Serializable
+data class Restaurant(
+    val id: String,
+    val region: String = "",
+    val nameKo: String = "",
+    val nameZh: String = "",
+    val optionIds: List<String> = emptyList(),
+    val dayIds: List<String> = emptyList(),
+    val slots: List<String> = emptyList(),
+    val kind: String = "",
+    val summary: String = "",
+    val menu: List<MenuItem> = emptyList(),
+    val tips: List<String> = emptyList(),
+    val perPerson: String = "",
+    val image: String? = null,
+    val credit: SightCredit? = null,
+    val imageNote: String = "",
+    val keywords: List<String> = emptyList(),
+    val amapUrl: String? = null,
+)
+
+@Serializable
 data class Place(
     val id: String,
     val nameKo: String = "",

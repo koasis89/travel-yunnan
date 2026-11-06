@@ -19,6 +19,8 @@ export interface TripNotification { id: string; at: string; title: string; body:
 export interface LodgingTodo { id: string; lodgingId: string; text: string; phraseId: string | null }
 export interface SightCredit { title: string; author: string; license: string; url: string }
 export interface Sight { id: string; region: string; nameKo: string; nameZh: string; dayIds: string[]; placeId: string | null; keywords: string[]; summary: string; highlights: string[]; tips: string[]; hours: string; fee: string; duration: string; image: string | null; credit: SightCredit | null; amapUrl?: string | null }
+export interface MenuItem { zh: string; ko: string; desc: string; image?: string }
+export interface Restaurant { id: string; region: string; nameKo: string; nameZh: string; optionIds: string[]; dayIds: string[]; slots: string[]; kind: string; summary: string; menu: MenuItem[]; tips: string[]; perPerson: string; hours: string; image: string | null; credit: SightCredit | null; imageNote: string; keywords: string[]; amapUrl?: string | null }
 export interface EmergencyContact { id: string; group: string; name: string; phone: string; note: string }
 
 type Items<T> = { items: T[] };
@@ -32,6 +34,7 @@ export class TripData {
   packing: PackingItem[]; notes: Note[]; notifications: TripNotification[]; todos: LodgingTodo[]
   emergency: { note: string; contacts: EmergencyContact[]; altitude: string[] }
   sights: Sight[]
+  restaurants: Restaurant[]
   version: string
 
   constructor(b: RawBundle) {
@@ -48,6 +51,7 @@ export class TripData {
     const em = b['emergency.json'] as { note?: string; contacts?: EmergencyContact[]; altitude?: string[] } | undefined
     this.emergency = { note: em?.note ?? '', contacts: em?.contacts ?? [], altitude: em?.altitude ?? [] }
     this.sights = it<Sight>('sights.json')
+    this.restaurants = it<Restaurant>('restaurants.json')
     this.version = (b['version.json'] as { data?: string })?.data ?? ''
   }
   day = (id?: string | null) => this.days.find((d) => d.id === id)
@@ -66,6 +70,10 @@ export class TripData {
   templatesFor = (r: Schedule) => this.templateLinks.filter((t) => t.dayId === r.dayId && t.timeStart === r.timeStart)
   templateLink = (id?: string | null) => this.templateLinks.find((t) => t.id === id)
   sight = (id?: string | null) => this.sights.find((s) => s.id === id)
+  restaurant = (id?: string | null) => this.restaurants.find((r) => r.id === id)
+  restaurantOfOption = (optionId: string) => this.restaurants.find((r) => r.optionIds.includes(optionId))
+  /** 일정 행에 나오는 식당(그 일차 식당 중 이름 키워드가 행 글에 있는 것) */
+  restaurantsFor = (r: Schedule) => this.restaurants.filter((x) => x.dayIds.includes(r.dayId) && x.keywords.some((k) => `${r.from} ${r.via} ${r.to} ${r.tip}`.includes(k)))
   sightsOf = (dayId: string) => this.sights.filter((s) => s.dayIds.includes(dayId))
   /** 일정 행에 관련된 관광지: 그 일차 관광지 중 키워드가 행 글에 들어 있는 것 */
   sightsFor = (r: Schedule) => this.sightsOf(r.dayId).filter((s) => s.keywords.some((k) => `${r.from} ${r.via} ${r.to} ${r.tip}`.includes(k)))

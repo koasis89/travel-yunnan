@@ -87,6 +87,7 @@ private fun MealCard(data: TripData, m: Meal) {
                     if (o.addrZh.isNotBlank()) Text(o.addrZh, style = MaterialTheme.typography.bodyMedium)
                     if (o.menu.isNotBlank()) Text("추천: ${o.menu}", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        data.restaurantOfOption(o.id)?.let { r -> SmallAction(Icons.Filled.MenuBook, "식당 정보·메뉴판") { actions.openEat(r.id) } }
                         if (TaxiCards.isTaxiable(o)) SmallAction(Icons.Filled.LocalTaxi, "택시 카드") { actions.openTaxi(TargetType.meal, o.id) }
                         if (o.addrZh.isNotBlank()) SmallAction(Icons.Filled.ContentCopy, "주소") { External.copy(ctx, o.addrZh, "주소를 복사했다") }
                         o.amapUrl?.let { u -> SmallAction(Icons.Filled.Place, "지도") { External.openUrl(ctx, u) } }
@@ -197,9 +198,11 @@ fun MenuPointContent(data: TripData, foodArg: String?, onSpeak: (String) -> Unit
     var drinksOnly by rememberSaveable { mutableStateOf(false) }
     val drinkCount = remember { mutableStateMapOf<String, Int>() }
     val food = foods.firstOrNull { it.id == foodId }
+    // 맛집 메뉴판에서 넘어온 중국어 메뉴 이름(음식 이름 목록에 없는 것)
+    val customZh = foodId?.takeIf { food == null && Regex("[\u4e00-\u9fff]").containsMatchIn(it) }
     val chosen = DRINKS.mapNotNull { d -> drinkCount[d.zh]?.takeIf { it > 0 }?.let { d to it } }
-    val sentence = composeFullOrder(if (drinksOnly) null else food?.zh ?: "", unit, chosen, requests)
-    val koLine = (listOf(if (drinksOnly) "" else food?.let { "${it.ko} · ${UNITS.firstOrNull { u -> u.first == unit }?.second ?: unit}" } ?: "이거(메뉴를 가리키며)") +
+    val sentence = composeFullOrder(if (drinksOnly) null else food?.zh ?: customZh ?: "", unit, chosen, requests)
+    val koLine = (listOf(if (drinksOnly) "" else food?.let { "${it.ko} · ${UNITS.firstOrNull { u -> u.first == unit }?.second ?: unit}" } ?: customZh ?: "이거(메뉴를 가리키며)") +
         chosen.map { (d, n) -> "${d.ko} $n" }).filter { it.isNotBlank() }.joinToString(" / ")
 
     if (showMode) {

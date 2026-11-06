@@ -192,6 +192,16 @@ class S6Test {
         assertEquals("这个要一份。", kr.koasis.travelyunnan.ui.meal.composeFullOrder("", "一份", emptyList(), emptyList()))
     }
 
+    @Test fun restaurantsLinked() {
+        val d = TripDataHolder.data
+        assertTrue(d.restaurants.size >= 20)
+        assertEquals("jianxinyuan", d.restaurantOfOption("D7-03-1")?.id)
+        val r = d.scheduleOf("D3").first { it.to.contains("천천선") }
+        assertTrue(d.restaurantsFor(r).map { it.id }.containsAll(listOf("tiantianxian", "apo")))
+        val root = dataDir().parentFile.parentFile
+        assertTrue(d.restaurants.all { x -> x.amapUrl != null && x.menu.isNotEmpty() && (listOfNotNull(x.image) + x.menu.mapNotNull { it.image }).all { File(root, "assets/$it").exists() } })
+    }
+
     @Test fun mapsOnePerDay() {
         val d = TripDataHolder.data
         assertEquals(listOf("map_d3", "map06"), d.day("D3")!!.mapIds)

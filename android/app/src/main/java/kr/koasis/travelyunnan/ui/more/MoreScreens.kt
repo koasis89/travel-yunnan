@@ -42,6 +42,7 @@ fun MoreScreen() {
         MoreItem(Icons.Filled.MenuBook, "음식 도감·메뉴 포인팅", "음식 사진·설명, 주문 문장 만들기", true, actions.openFoods),
         MoreItem(Icons.Filled.Train, "교통·열차·알림", "C446·C644 열차, 픽업, 빵차, 일정 알림", true, actions.openTransport),
         MoreItem(Icons.Filled.Landscape, "관광지 안내", "리장고성·옥룡설산·호도협·샹그릴라·쿤밍 사진과 설명", true) { actions.openSights(null) },
+        MoreItem(Icons.Filled.Restaurant, "맛집 안내", "식당 24곳 대표 메뉴판·사진·주문 문장", true) { actions.openEats(null) },
         MoreItem(Icons.Filled.Map, "지도 링크 모음", "숙소·관광지·식당 고덕지도 링크, 복사해서 공유", true, actions.openAmapLinks),
         MoreItem(Icons.Filled.FolderOpen, "문서함", "바우처·기차표·숙소 예약·영수증 보관", true) { actions.openDocs(null) },
         MoreItem(Icons.AutoMirrored.Filled.ReceiptLong, "경비", "예산·지출 기록·정산", true, actions.openExpense),

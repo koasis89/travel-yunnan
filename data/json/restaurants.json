@@ -1,0 +1,1266 @@
+{
+  "version": "2026-11-06",
+  "note": "맛집 안내. 사진은 대표 음식 참고 사진(음식 도감·Openverse CC). 메뉴는 대표 메뉴 예시이며 가격·구성은 매장마다 다르다. optionIds 는 meals.json 선택지 id",
+  "items": [
+    {
+      "id": "tiepeng",
+      "region": "쿤밍",
+      "nameKo": "철붕소과미선(塘子巷 본점)",
+      "nameZh": "铁朋小锅米线（塘子巷总店）",
+      "optionIds": [
+        "D2-01-1",
+        "D7-02-1",
+        "D8-01-2"
+      ],
+      "kind": "미선(쌀국수)",
+      "summary": "쿤밍역에서 가까운 소과미선 집. 작은 구리 냄비에 한 그릇씩 바로 끓여 주는 쿤밍식 쌀국수로, 아침·점심을 빠르게 해결하기 좋다.",
+      "menu": [
+        {
+          "zh": "小锅米线",
+          "ko": "소과미선",
+          "desc": "작은 냄비에 고기 소스·부추·절인 채소를 넣고 끓인 쌀국수",
+          "image": "foods/food-33.jpeg"
+        },
+        {
+          "zh": "肠旺米线",
+          "ko": "장왕미선",
+          "desc": "돼지 곱창·선지를 올린 쿤밍식 미선(호불호)",
+          "image": "foods/food-33.jpeg"
+        },
+        {
+          "zh": "凉米线",
+          "ko": "량미선(차가운 미선)",
+          "desc": "새콤달콤한 소스에 비벼 먹는 차가운 미선",
+          "image": "foods/food-33.jpeg"
+        }
+      ],
+      "tips": [
+        "맵기 조절: 不要辣(안 맵게) / 微辣(조금 맵게)",
+        "아침 손님이 많다. 자리가 나면 먼저 앉고 주문은 카운터에서"
+      ],
+      "perPerson": "약 ¥15~25",
+      "dayIds": [
+        "D2",
+        "D7",
+        "D8"
+      ],
+      "slots": [
+        "D2 아침",
+        "D7 점심",
+        "D8 아침"
+      ],
+      "image": "foods/food-33.jpeg",
+      "credit": {
+        "title": "소과미선",
+        "author": "",
+        "license": "昆明青和小锅米线.jpg (CC BY-SA 4.0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "hours": "현장 확인",
+      "keywords": [
+        "철붕",
+        "铁朋"
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E9%93%81%E6%9C%8B%E5%B0%8F%E9%94%85%E7%B1%B3%E7%BA%BF%20%E5%A1%98%E5%AD%90%E5%B7%B7%E6%80%BB%E5%BA%97&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "jianxinyuan",
+      "region": "쿤밍",
+      "nameKo": "건신원 과교미선(宝善街점)",
+      "nameZh": "建新园过桥米线（宝善街店）",
+      "optionIds": [
+        "D7-03-1"
+      ],
+      "kind": "과교미선",
+      "summary": "1900년대 초부터 이어 온 쿤밍의 대표 과교미선 노포. 아주 뜨거운 닭 육수에 얇은 고기·메추리알·채소·미선을 차례로 넣어 익혀 먹는다.",
+      "menu": [
+        {
+          "zh": "过桥米线",
+          "ko": "과교미선",
+          "desc": "뜨거운 육수 + 날고기·채소·미선을 직접 넣어 익힘",
+          "image": "eats/eat-guoqiao.jpg"
+        },
+        {
+          "zh": "小锅米线",
+          "ko": "소과미선",
+          "desc": "한 그릇씩 끓인 쿤밍식 미선",
+          "image": "foods/food-33.jpeg"
+        },
+        {
+          "zh": "豆花米线",
+          "ko": "두부꽃 미선",
+          "desc": "부드러운 순두부를 올린 쿤밍 스타일",
+          "image": "foods/food-33.jpeg"
+        }
+      ],
+      "tips": [
+        "육수가 100℃ 가까이 뜨겁다. 고기 → 채소 → 미선 순서로 넣고, 국물을 바로 떠먹지 않는다(아이 화상 주의)",
+        "기본·고급 등 재료 단계별 가격이 다르다"
+      ],
+      "perPerson": "약 ¥30~60",
+      "dayIds": [
+        "D7"
+      ],
+      "slots": [
+        "D7 저녁"
+      ],
+      "image": "eats/eat-guoqiao.jpg",
+      "credit": {
+        "title": "Day 1- 过桥米线 Yunnan Rice Thread Noodles and Yoghurt - Western Breakfast Buffet - Kunming Hotel",
+        "author": "avlxyz",
+        "license": "CC BY-SA 2.0",
+        "url": "https://www.flickr.com/photos/10559879@N00/2783230777"
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "hours": "현장 확인",
+      "keywords": [
+        "건신원",
+        "建新园"
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E5%BB%BA%E6%96%B0%E5%9B%AD%E8%BF%87%E6%A1%A5%E7%B1%B3%E7%BA%BF&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "fuzhaolou",
+      "region": "쿤밍",
+      "nameKo": "복조루 기과계",
+      "nameZh": "福照楼汽锅鸡",
+      "optionIds": [
+        "D8-02-1",
+        "D8-04-3"
+      ],
+      "kind": "기과계(닭 찜 국물)",
+      "summary": "윈난 전통 기과계(汽锅鸡) 전문점. 가운데 증기 구멍이 난 젠수이(建水) 토기 냄비에 닭을 넣고 증기로만 익혀 맑고 진한 국물을 낸다.",
+      "menu": [
+        {
+          "zh": "汽锅鸡",
+          "ko": "기과계",
+          "desc": "증기로 쪄 낸 맑은 닭 국물(1인 1그릇 또는 냄비)"
+        },
+        {
+          "zh": "三七汽锅鸡",
+          "ko": "삼칠 기과계",
+          "desc": "윈난 약재 삼칠(三七)을 넣은 기과계"
+        },
+        {
+          "zh": "野生菌",
+          "ko": "야생버섯 볶음",
+          "desc": "윈난 버섯 요리",
+          "image": "foods/food-32.jpeg"
+        }
+      ],
+      "tips": [
+        "국물이 담백해 아이도 먹기 좋다",
+        "점심 피크(12시 전후)를 피하면 덜 기다린다"
+      ],
+      "perPerson": "약 ¥60~100",
+      "dayIds": [
+        "D8"
+      ],
+      "slots": [
+        "D8 저녁",
+        "D8 점심"
+      ],
+      "image": "foods/food-32.jpeg",
+      "credit": {
+        "title": "야생버섯 훠궈",
+        "author": "",
+        "license": "野生菌火锅-1813888.jpg (CC0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "hours": "현장 확인",
+      "keywords": [
+        "福照楼",
+        "복조루"
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E7%A6%8F%E7%85%A7%E6%A5%BC%E6%B1%BD%E9%94%85%E9%B8%A1&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "yunping",
+      "region": "쿤밍",
+      "nameKo": "운평풍미원(护国路점)",
+      "nameZh": "云平风味园（护国路店）",
+      "optionIds": [
+        "D8-02-2"
+      ],
+      "kind": "운남 소흡(분식)",
+      "summary": "쿤밍 현지인이 찾는 운남 분식·가정식 집. 미선·이과이 같은 간단한 메뉴를 여러 개 시켜 나눠 먹기 좋다.",
+      "menu": [
+        {
+          "zh": "烧饵块",
+          "ko": "구운 이과이",
+          "desc": "쌀떡을 구워 소스를 바른 길거리 간식",
+          "image": "foods/food-34.jpeg"
+        },
+        {
+          "zh": "小锅米线",
+          "ko": "소과미선",
+          "desc": "쿤밍식 쌀국수",
+          "image": "foods/food-33.jpeg"
+        },
+        {
+          "zh": "云南菜",
+          "ko": "운남 가정식",
+          "desc": "볶음 요리 몇 가지를 나눠 먹는다",
+          "image": "foods/food-36.jpeg"
+        }
+      ],
+      "tips": [
+        "메뉴판 사진을 가리키며 주문하는 게 빠르다"
+      ],
+      "perPerson": "약 ¥30~60",
+      "dayIds": [
+        "D8"
+      ],
+      "slots": [
+        "D8 점심"
+      ],
+      "image": "foods/food-34.jpeg",
+      "credit": {
+        "title": "샤오얼콰이 구운 떡",
+        "author": "",
+        "license": "烧饵块-云南昆明 01.jpg (CC BY-SA 2.0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "hours": "현장 확인",
+      "keywords": [
+        "云平"
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E4%BA%91%E5%B9%B3%E9%A3%8E%E5%91%B3%E5%9B%AD&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "duoge",
+      "region": "쿤밍",
+      "nameKo": "다거수 다이족 요리(司马巷점)",
+      "nameZh": "多哥水傣味餐厅（司马巷店）",
+      "optionIds": [
+        "D8-02-3"
+      ],
+      "kind": "다이족(傣族) 요리",
+      "summary": "윈난 남부 시솽반나 다이족 요리. 레몬그라스·고수·라임으로 새콤하고 매콤하며, 파인애플밥처럼 아이도 좋아할 메뉴가 있다.",
+      "menu": [
+        {
+          "zh": "香茅草烤鱼",
+          "ko": "레몬그라스 생선구이",
+          "desc": "레몬그라스로 묶어 구운 생선",
+          "image": "foods/food-36.jpeg"
+        },
+        {
+          "zh": "菠萝饭",
+          "ko": "파인애플밥",
+          "desc": "파인애플 속을 파서 지은 달콤한 찹쌀밥",
+          "image": "foods/food-19.jpeg"
+        },
+        {
+          "zh": "舂鸡脚",
+          "ko": "춘지자오",
+          "desc": "닭발을 절구에 빻아 새콤·매콤하게 무친 요리(매움)",
+          "image": "foods/food-36.jpeg"
+        }
+      ],
+      "tips": [
+        "다이족 요리는 대체로 맵고 고수가 많다. 不要香菜(고수 빼고)·不要辣(안 맵게)를 미리 말한다"
+      ],
+      "perPerson": "약 ¥60~90",
+      "dayIds": [
+        "D8"
+      ],
+      "slots": [
+        "D8 점심"
+      ],
+      "image": "foods/food-36.jpeg",
+      "credit": {
+        "title": "운남 요리",
+        "author": "",
+        "license": "Nuodeng ham with Dali dried cheese at Hong 0871 Yunnan Cuisine, Beijing (20211030132843).jpg (CC BY-SA 4.0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "hours": "현장 확인",
+      "keywords": [
+        "多哥水"
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E5%A4%9A%E5%93%A5%E6%B0%B4%E5%82%A3%E5%91%B3%E9%A4%90%E5%8E%85&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "wenshan",
+      "region": "쿤밍",
+      "nameKo": "문산하선거(翠湖점)",
+      "nameZh": "文山荷鲜居（翠湖店）",
+      "optionIds": [
+        "D8-01-1"
+      ],
+      "kind": "미선·기과계",
+      "summary": "취호 근처 아침 식당. 닭 육수 미선과 윈난 문산 지방의 삼칠 기과계를 낸다. D8 취호 산책 전에 먹기 좋다.",
+      "menu": [
+        {
+          "zh": "鸡汤米线",
+          "ko": "닭육수 미선",
+          "desc": "맑은 닭 국물 쌀국수",
+          "image": "foods/food-33.jpeg"
+        },
+        {
+          "zh": "三七汽锅鸡",
+          "ko": "삼칠 기과계",
+          "desc": "삼칠(약재)을 넣은 닭 찜 국물"
+        }
+      ],
+      "tips": [
+        "지점 위치가 바뀔 수 있다. 지도 링크로 영업 여부를 확인한다"
+      ],
+      "perPerson": "약 ¥20~40",
+      "dayIds": [
+        "D8"
+      ],
+      "slots": [
+        "D8 아침"
+      ],
+      "image": "foods/food-33.jpeg",
+      "credit": {
+        "title": "소과미선",
+        "author": "",
+        "license": "昆明青和小锅米线.jpg (CC BY-SA 4.0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "hours": "현장 확인",
+      "keywords": [
+        "文山荷鲜居"
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E6%96%87%E5%B1%B1%E8%8D%B7%E9%B2%9C%E5%B1%85&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "haojundao",
+      "region": "쿤밍",
+      "nameKo": "호균도 야생버섯 훠궈(쿤밍역 근처)",
+      "nameZh": "好菌道·野生菌火锅",
+      "optionIds": [
+        "D7-02-2",
+        "D8-04-2"
+      ],
+      "kind": "야생버섯 훠궈",
+      "summary": "숙소 Gefei 호텔 근처의 야생버섯 훠궈 집. 호텔에서 받은 12% 할인 쿠폰(1박당 1매)을 쓸 수 있다.",
+      "menu": [
+        {
+          "zh": "野生菌火锅",
+          "ko": "야생버섯 훠궈",
+          "desc": "닭 육수에 여러 버섯을 넣고 끓인다",
+          "image": "foods/food-32.jpeg"
+        },
+        {
+          "zh": "菌子拼盘",
+          "ko": "버섯 모둠",
+          "desc": "버섯 추가",
+          "image": "foods/food-32.jpeg"
+        }
+      ],
+      "tips": [
+        "★버섯은 충분히 끓여야 안전하다. 종업원이 타이머를 맞추고 먹어도 된다고 할 때까지 기다린다",
+        "12월은 버섯 제철(6~10월)이 아니라 냉동·건조 버섯일 수 있다",
+        "쿠폰은 결제 전에 보여 준다"
+      ],
+      "perPerson": "약 ¥80~120",
+      "dayIds": [
+        "D7",
+        "D8"
+      ],
+      "slots": [
+        "D7 점심",
+        "D8 저녁"
+      ],
+      "image": "foods/food-32.jpeg",
+      "credit": {
+        "title": "야생버섯 훠궈",
+        "author": "",
+        "license": "野生菌火锅-1813888.jpg (CC0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "hours": "현장 확인",
+      "keywords": [
+        "好菌道"
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E5%A5%BD%E8%8F%8C%E9%81%93%C2%B7&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "nanping_jun",
+      "region": "쿤밍",
+      "nameKo": "남병가 야생버섯 훠궈(一朵菌·菌故)",
+      "nameZh": "一朵菌·野生菌探索家火锅 / 菌故·云南野生菌火锅",
+      "optionIds": [
+        "D7-03-2",
+        "D7-03-3"
+      ],
+      "kind": "야생버섯 훠궈",
+      "summary": "남병가·금마벽계방 일대의 야생버섯 훠궈 체인. D7 저녁 과교미선 대신 고를 수 있다.",
+      "menu": [
+        {
+          "zh": "野生菌火锅",
+          "ko": "야생버섯 훠궈",
+          "desc": "버섯 모둠 훠궈",
+          "image": "foods/food-32.jpeg"
+        },
+        {
+          "zh": "过桥米线",
+          "ko": "과교미선",
+          "desc": "곁들여 주문 가능한 곳이 많다",
+          "image": "eats/eat-guoqiao.jpg"
+        }
+      ],
+      "tips": [
+        "★버섯은 종업원이 먹어도 된다고 할 때까지 기다린다(보통 15~20분)",
+        "지점마다 위치가 다르다. 지도 검색으로 가까운 곳을 고른다"
+      ],
+      "perPerson": "약 ¥80~130",
+      "dayIds": [
+        "D7"
+      ],
+      "slots": [
+        "D7 저녁"
+      ],
+      "image": "foods/food-32.jpeg",
+      "credit": {
+        "title": "야생버섯 훠궈",
+        "author": "",
+        "license": "野生菌火锅-1813888.jpg (CC0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "hours": "현장 확인",
+      "keywords": [
+        "일타균",
+        "一朵菌",
+        "菌故"
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E4%B8%80%E6%9C%B5%E8%8F%8C%C2%B7%E9%87%8E%E7%94%9F%E8%8F%8C%E6%8E%A2%E7%B4%A2%E5%AE%B6%E7%81%AB%E9%94%85&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "guandu_baba",
+      "region": "쿤밍",
+      "nameKo": "관두 바바·관두고진 소흡",
+      "nameZh": "官渡粑粑 · 官渡古镇小吃",
+      "optionIds": [
+        "D8-03-1",
+        "D8-04-1"
+      ],
+      "kind": "길거리 간식",
+      "summary": "관두고진 금강탑 근처의 명물 간식 관두 바바(쌀가루 반죽을 구운 떡). 달콤한 것과 짭짤한 것이 있다. 고진 골목에서 미선·꼬치도 먹을 수 있다.",
+      "menu": [
+        {
+          "zh": "官渡粑粑",
+          "ko": "관두 바바",
+          "desc": "구운 쌀가루 떡(달콤/짭짤)",
+          "image": "foods/food-34.jpeg"
+        },
+        {
+          "zh": "鲜花饼",
+          "ko": "장미 꽃빵(셴화빙)",
+          "desc": "장미 잼이 든 윈난 대표 과자 — 기념품으로도 좋다",
+          "image": "foods/food-35.jpeg"
+        },
+        {
+          "zh": "米线",
+          "ko": "미선",
+          "desc": "고진 안 분식집",
+          "image": "foods/food-33.jpeg"
+        }
+      ],
+      "tips": [
+        "귀국 전 남은 위안화를 간식·기념품에 쓴다"
+      ],
+      "perPerson": "약 ¥10~40",
+      "dayIds": [
+        "D8"
+      ],
+      "slots": [
+        "D8 간식",
+        "D8 저녁"
+      ],
+      "image": "foods/food-34.jpeg",
+      "credit": {
+        "title": "샤오얼콰이 구운 떡",
+        "author": "",
+        "license": "烧饵块-云南昆明 01.jpg (CC BY-SA 2.0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "hours": "현장 확인",
+      "keywords": [
+        "관두 바바",
+        "官渡粑粑"
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E5%AE%98%E6%B8%A1%E7%B2%91%E7%B2%91&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "tiancun",
+      "region": "리장",
+      "nameKo": "田村 야크훠궈(대수차점)",
+      "nameZh": "田村·酸汤牦牛肉火锅（古城大水车店）",
+      "optionIds": [
+        "D2-03-1"
+      ],
+      "kind": "야크고기 훠궈",
+      "summary": "대수차 옆 옥하 회랑에 있는 야크고기 훠궈 집. 토마토 산탕(새콤한 국물)과 마라 국물을 고를 수 있어 아이와 함께 먹기 좋다.",
+      "menu": [
+        {
+          "zh": "酸汤牦牛肉火锅",
+          "ko": "토마토 산탕 야크 훠궈",
+          "desc": "새콤한 토마토 국물(안 매움)",
+          "image": "foods/food-24.jpeg"
+        },
+        {
+          "zh": "牦牛肉",
+          "ko": "야크고기",
+          "desc": "얇게 썬 야크고기 추가",
+          "image": "foods/food-24.jpeg"
+        },
+        {
+          "zh": "菌子拼盘",
+          "ko": "버섯 모둠",
+          "desc": "훠궈 재료 추가",
+          "image": "foods/food-32.jpeg"
+        }
+      ],
+      "tips": [
+        "D2 늦은 점심 후보. 리장 도착 첫 끼로 따뜻한 국물이 좋다",
+        "반반(鸳鸯锅) 냄비가 되는지 물어본다: 可以要鸳鸯锅吗？"
+      ],
+      "perPerson": "약 ¥70~100",
+      "dayIds": [
+        "D2"
+      ],
+      "slots": [
+        "D2 점심"
+      ],
+      "image": "foods/food-24.jpeg",
+      "credit": {
+        "title": "야크 소고기",
+        "author": "",
+        "license": "Tibetan yak meat dish.jpg (CC0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "hours": "현장 확인",
+      "keywords": [
+        "田村"
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E7%94%B0%E6%9D%91%C2%B7%E9%85%B8%E6%B1%A4%E7%89%A6%E7%89%9B%E8%82%89%E7%81%AB%E9%94%85&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "yunxueli",
+      "region": "리장",
+      "nameKo": "운설리 즉석 운남요리(대수차·남문·백사점)",
+      "nameZh": "云雪丽·现炒云南菜",
+      "optionIds": [
+        "D2-03-2",
+        "D2-05-3",
+        "D4-03-3"
+      ],
+      "kind": "윈난 가정 요리",
+      "summary": "리장 곳곳에 지점이 있는 인기 운남 요리 집. 주문하면 바로 볶아 내는 '현초(现炒)' 요리로, 트러플죽·가지튀김이 유명하다. 백사점은 마을 안 정원 식당이다.",
+      "menu": [
+        {
+          "zh": "松露粥",
+          "ko": "트러플죽",
+          "desc": "윈난 송로버섯 향 죽",
+          "image": "foods/food-36.jpeg"
+        },
+        {
+          "zh": "炸茄盒",
+          "ko": "가지튀김",
+          "desc": "고기소를 끼운 가지 튀김",
+          "image": "foods/food-36.jpeg"
+        },
+        {
+          "zh": "拉子鸡",
+          "ko": "라즈지",
+          "desc": "매콤하게 볶은 닭(얼얼함)",
+          "image": "foods/food-36.jpeg"
+        },
+        {
+          "zh": "鲜花饼",
+          "ko": "장미 꽃빵",
+          "desc": "디저트",
+          "image": "foods/food-35.jpeg"
+        }
+      ],
+      "tips": [
+        "인기 지점은 대기가 길다. 오후 2~4시나 이른 저녁이 한산하다",
+        "남문점 생선조림은 맵고 얼얼하다"
+      ],
+      "perPerson": "약 ¥60~100",
+      "dayIds": [
+        "D2",
+        "D4"
+      ],
+      "slots": [
+        "D2 저녁",
+        "D2 점심",
+        "D4 간식"
+      ],
+      "image": "foods/food-36.jpeg",
+      "credit": {
+        "title": "운남 요리",
+        "author": "",
+        "license": "Nuodeng ham with Dali dried cheese at Hong 0871 Yunnan Cuisine, Beijing (20211030132843).jpg (CC BY-SA 4.0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "hours": "현장 확인",
+      "keywords": [
+        "운설리",
+        "云雪丽"
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E4%BA%91%E9%9B%AA%E4%B8%BD%C2%B7%E7%8E%B0%E7%82%92%E4%BA%91%E5%8D%97%E8%8F%9C&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "jidou",
+      "region": "리장",
+      "nameKo": "할머니 계두량분",
+      "nameZh": "奶奶鸡豆凉粉",
+      "optionIds": [
+        "D2-04-1"
+      ],
+      "kind": "간식",
+      "summary": "광의가 골목의 리장 대표 간식집. 계두(鸡豆, 리장 콩) 가루로 만든 묵을 차갑게 무치거나 구워서 먹는다.",
+      "menu": [
+        {
+          "zh": "凉鸡豆凉粉",
+          "ko": "차가운 계두량분",
+          "desc": "새콤매콤 양념에 무친 묵",
+          "image": "foods/food-10.jpeg"
+        },
+        {
+          "zh": "热鸡豆凉粉",
+          "ko": "구운 계두량분",
+          "desc": "겨울엔 구운 쪽이 따뜻하다",
+          "image": "foods/food-10.jpeg"
+        }
+      ],
+      "tips": [
+        "기본 양념이 맵다. 不要辣(안 맵게)"
+      ],
+      "perPerson": "약 ¥10~15",
+      "dayIds": [
+        "D2"
+      ],
+      "slots": [
+        "D2 간식"
+      ],
+      "image": "foods/food-10.jpeg",
+      "credit": {
+        "title": "계두량분",
+        "author": "",
+        "license": "丽江鸡豌豆凉粉 - Chicken pea jelly.jpg (CC BY-SA 2.0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "hours": "현장 확인",
+      "keywords": [
+        "계두량분"
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E5%A5%B6%E5%A5%B6%E9%B8%A1%E8%B1%86%E5%87%89%E7%B2%89&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "dingdang",
+      "region": "리장",
+      "nameKo": "딩딩당당 야크 요거트",
+      "nameZh": "丁丁当当酸奶店（丽江古城店）",
+      "optionIds": [
+        "D2-04-2"
+      ],
+      "kind": "디저트",
+      "summary": "관문구(官门口) 골목의 야크 요거트·빵 가게. 진한 야크 요거트와 갓 구운 번(3개 약 ¥27)이 인기다.",
+      "menu": [
+        {
+          "zh": "牦牛酸奶",
+          "ko": "야크 요거트",
+          "desc": "진하고 새콤한 요거트",
+          "image": "eats/eat-yakyogurt.jpg"
+        },
+        {
+          "zh": "面包",
+          "ko": "번(빵)",
+          "desc": "요거트와 함께"
+        }
+      ],
+      "tips": [
+        "D4 오전 고성 산책 코스(官门口42号)에 들어 있다"
+      ],
+      "perPerson": "약 ¥15~30",
+      "dayIds": [
+        "D2"
+      ],
+      "slots": [
+        "D2 간식"
+      ],
+      "image": "eats/eat-yakyogurt.jpg",
+      "credit": {
+        "title": "Yak Yogurt",
+        "author": "feserc",
+        "license": "CC BY 2.0",
+        "url": "https://www.flickr.com/photos/42602676@N00/3509087283"
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "hours": "현장 확인",
+      "keywords": [
+        "딩딩당당"
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E4%B8%81%E4%B8%81%E5%BD%93%E5%BD%93%E9%85%B8%E5%A5%B6%E5%BA%97&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "shiguoyu",
+      "region": "리장",
+      "nameKo": "석과어(돌솥 생선)",
+      "nameZh": "石锅鱼",
+      "optionIds": [
+        "D2-05-1"
+      ],
+      "kind": "생선 요리",
+      "summary": "남문 근처의 돌솥 생선 요리 집. 뜨겁게 달군 돌솥에 생선과 육수를 넣어 식탁에서 바로 익혀 먹는다.",
+      "menu": [
+        {
+          "zh": "石锅鱼",
+          "ko": "돌솥 생선",
+          "desc": "기본 국물(안 매운 맛 선택 가능)",
+          "image": "foods/food-09.jpeg"
+        },
+        {
+          "zh": "青菜",
+          "ko": "채소",
+          "desc": "곁들임",
+          "image": "foods/food-36.jpeg"
+        }
+      ],
+      "tips": [
+        "생선은 무게로 값을 매긴다. 주문 전에 가격을 확인한다: 一斤多少钱？",
+        "돌솥이 매우 뜨겁다(아이 주의)"
+      ],
+      "perPerson": "약 ¥80~110",
+      "dayIds": [
+        "D2"
+      ],
+      "slots": [
+        "D2 저녁"
+      ],
+      "image": "foods/food-09.jpeg",
+      "credit": {
+        "title": "돌솥 생선",
+        "author": "",
+        "license": "麻辣石锅鲈鱼.jpg (CC BY-SA 4.0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "hours": "현장 확인",
+      "keywords": [
+        "석과어"
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E7%9F%B3%E9%94%85%E9%B1%BC&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "shiquan",
+      "region": "리장",
+      "nameKo": "습전주미 야생버섯 훠궈",
+      "nameZh": "拾全酒美野生菌火锅",
+      "optionIds": [
+        "D2-05-2"
+      ],
+      "kind": "야생버섯 훠궈",
+      "summary": "광의가 충의항의 야생버섯 훠궈 집. 9가지 버섯이 들어간 모둠이 대표 메뉴다.",
+      "menu": [
+        {
+          "zh": "野生菌火锅",
+          "ko": "9종 야생버섯 훠궈",
+          "desc": "닭 육수에 버섯 9종",
+          "image": "foods/food-32.jpeg"
+        },
+        {
+          "zh": "腊排骨",
+          "ko": "납배골",
+          "desc": "훠궈에 추가하는 염장 돼지갈비",
+          "image": "foods/food-18.jpeg"
+        }
+      ],
+      "tips": [
+        "★버섯은 종업원이 먹어도 된다고 할 때까지 기다린다",
+        "12월은 비수기라 냉동 버섯일 수 있다"
+      ],
+      "perPerson": "약 ¥90~130",
+      "dayIds": [
+        "D2"
+      ],
+      "slots": [
+        "D2 저녁"
+      ],
+      "image": "foods/food-32.jpeg",
+      "credit": {
+        "title": "야생버섯 훠궈",
+        "author": "",
+        "license": "野生菌火锅-1813888.jpg (CC0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "hours": "현장 확인",
+      "keywords": [
+        "습전주미"
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E6%8B%BE%E5%85%A8%E9%85%92%E7%BE%8E%E9%87%8E%E7%94%9F%E8%8F%8C%E7%81%AB%E9%94%85&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "tiantianxian",
+      "region": "리장",
+      "nameKo": "천천선(고성점)",
+      "nameZh": "天天鲜（丽江古城店）",
+      "optionIds": [
+        "D3-04-1"
+      ],
+      "kind": "나시 가정식",
+      "summary": "오일가 왕가장항의 나시족 가정식 집. 볶음·조림 요리를 여러 개 시켜 나눠 먹는다. D3 투어 후 저녁 후보.",
+      "menu": [
+        {
+          "zh": "纳西家常菜",
+          "ko": "나시 가정식",
+          "desc": "볶음·조림 몇 가지",
+          "image": "foods/food-36.jpeg"
+        },
+        {
+          "zh": "丽江粑粑",
+          "ko": "리장 바바",
+          "desc": "겹겹이 구운 리장 빵",
+          "image": "foods/food-25.jpeg"
+        }
+      ],
+      "tips": [
+        "투어 후 피곤하면 숙소 가까운 오일가 쪽이 편하다"
+      ],
+      "perPerson": "약 ¥70~90",
+      "dayIds": [
+        "D3"
+      ],
+      "slots": [
+        "D3 저녁"
+      ],
+      "image": "foods/food-36.jpeg",
+      "credit": {
+        "title": "운남 요리",
+        "author": "",
+        "license": "Nuodeng ham with Dali dried cheese at Hong 0871 Yunnan Cuisine, Beijing (20211030132843).jpg (CC BY-SA 4.0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "hours": "현장 확인",
+      "keywords": [
+        "천천선"
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E5%A4%A9%E5%A4%A9%E9%B2%9C&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "apo",
+      "region": "리장",
+      "nameKo": "아파 납배골 훠궈(본점)",
+      "nameZh": "阿婆腊排骨火锅（总店）",
+      "optionIds": [
+        "D3-04-2"
+      ],
+      "kind": "납배골 훠궈",
+      "summary": "리장 명물 납배골(腊排骨, 소금에 절여 말린 돼지갈비) 훠궈 본점. 짭짤하고 구수한 국물에 채소·감자를 넣어 먹는다.",
+      "menu": [
+        {
+          "zh": "腊排骨火锅",
+          "ko": "납배골 훠궈",
+          "desc": "염장 돼지갈비 전골(1인분 단위)",
+          "image": "foods/food-18.jpeg"
+        },
+        {
+          "zh": "土豆",
+          "ko": "감자",
+          "desc": "훠궈 재료",
+          "image": "foods/food-28.jpeg"
+        },
+        {
+          "zh": "青菜",
+          "ko": "채소",
+          "desc": "훠궈 재료",
+          "image": "foods/food-36.jpeg"
+        }
+      ],
+      "tips": [
+        "갈비 양을 근(斤) 단위로 고른다. 3명이면 1.5~2근",
+        "국물이 짭짤하니 채소를 넉넉히 넣는다"
+      ],
+      "perPerson": "약 ¥70~100",
+      "dayIds": [
+        "D3"
+      ],
+      "slots": [
+        "D3 저녁"
+      ],
+      "image": "foods/food-18.jpeg",
+      "credit": {
+        "title": "삼겹살",
+        "author": "",
+        "license": "A Chinese Pork bellies with taro.jpg (CC BY-SA 4.0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "hours": "현장 확인",
+      "keywords": [
+        "납배골"
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E9%98%BF%E5%A9%86%E8%85%8A%E6%8E%92%E9%AA%A8%E7%81%AB%E9%94%85&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "erge",
+      "region": "리장",
+      "nameKo": "이가미선",
+      "nameZh": "二哥米线",
+      "optionIds": [
+        "D4-01-1"
+      ],
+      "kind": "아침 미선",
+      "summary": "숭인항(崇仁巷)의 아침 미선 집. 닭 육수 미선이 대표 메뉴로, D4 아침 고성 산책 전에 들르기 좋다.",
+      "menu": [
+        {
+          "zh": "鸡汤米线",
+          "ko": "닭육수 미선",
+          "desc": "맑은 닭 국물",
+          "image": "foods/food-33.jpeg"
+        }
+      ],
+      "tips": [
+        "아침 일찍 연다(현장 확인)"
+      ],
+      "perPerson": "약 ¥15~20",
+      "dayIds": [
+        "D4"
+      ],
+      "slots": [
+        "D4 아침"
+      ],
+      "image": "foods/food-33.jpeg",
+      "credit": {
+        "title": "소과미선",
+        "author": "",
+        "license": "昆明青和小锅米线.jpg (CC BY-SA 4.0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "hours": "현장 확인",
+      "keywords": [
+        "이가미선"
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E4%BA%8C%E5%93%A5%E7%B1%B3%E7%BA%BF&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "shaozi",
+      "region": "리장",
+      "nameKo": "작자미선",
+      "nameZh": "勺子米线",
+      "optionIds": [
+        "D4-01-2"
+      ],
+      "kind": "아침 미선",
+      "summary": "백세방(百岁坊)의 소고기 미선 집. 진한 소고기 국물 쌀국수.",
+      "menu": [
+        {
+          "zh": "牛肉米线",
+          "ko": "소고기 미선",
+          "desc": "소고기 국물 쌀국수",
+          "image": "foods/food-17.jpeg"
+        }
+      ],
+      "tips": [
+        "토마토 계란 미선 등 순한 맛도 있다"
+      ],
+      "perPerson": "약 ¥15~25",
+      "dayIds": [
+        "D4"
+      ],
+      "slots": [
+        "D4 아침"
+      ],
+      "image": "foods/food-17.jpeg",
+      "credit": {
+        "title": "우육면",
+        "author": "",
+        "license": "兰州牛肉面.jpg (CC BY-SA 4.0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "hours": "현장 확인",
+      "keywords": [
+        "작자미선"
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E5%8B%BA%E5%AD%90%E7%B1%B3%E7%BA%BF&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "fuxian",
+      "region": "리장",
+      "nameKo": "푸셴 소과반(수허점)",
+      "nameZh": "普洱猪肉小锅饭（束河店）",
+      "optionIds": [
+        "D4-04-2"
+      ],
+      "kind": "솥밥",
+      "summary": "수허고진 강보항(康普巷)의 소과반(작은 솥밥) 집. 보이차로 맛을 낸 돼지고기를 올린 솥밥이 대표 메뉴다.",
+      "menu": [
+        {
+          "zh": "普洱猪肉小锅饭",
+          "ko": "보이차 돼지고기 솥밥",
+          "desc": "작은 솥에 지은 밥 + 고기",
+          "image": "foods/food-18.jpeg"
+        },
+        {
+          "zh": "炒饭",
+          "ko": "볶음밥",
+          "desc": "아이용",
+          "image": "foods/food-19.jpeg"
+        }
+      ],
+      "tips": [
+        "솥 바닥 누룽지까지 긁어 먹는다"
+      ],
+      "perPerson": "약 ¥40~80",
+      "dayIds": [
+        "D4"
+      ],
+      "slots": [
+        "D4 저녁"
+      ],
+      "image": "foods/food-18.jpeg",
+      "credit": {
+        "title": "삼겹살",
+        "author": "",
+        "license": "A Chinese Pork bellies with taro.jpg (CC BY-SA 4.0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "hours": "현장 확인",
+      "keywords": [
+        "소과반"
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E6%9D%9F%E6%B2%B3%E5%BA%97&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "yintong",
+      "region": "샹그릴라",
+      "nameKo": "은동 편민소흡",
+      "nameZh": "银同便民小吃",
+      "optionIds": [
+        "D6-03-2",
+        "D7-01-1"
+      ],
+      "kind": "티베트 분식",
+      "summary": "독극종고성 일약목랑(一若木廊)의 현지 분식집. 칭커(쌀보리) 바바와 수유차로 간단히 아침·점심을 먹기 좋다. D7 이른 아침 후보.",
+      "menu": [
+        {
+          "zh": "青稞粑粑",
+          "ko": "칭커 바바",
+          "desc": "쌀보리 가루로 구운 빵",
+          "image": "foods/food-25.jpeg"
+        },
+        {
+          "zh": "酥油茶",
+          "ko": "수유차",
+          "desc": "짭짤한 티베트식 버터차",
+          "image": "foods/food-26.jpeg"
+        },
+        {
+          "zh": "牦牛火锅",
+          "ko": "야크 훠궈",
+          "desc": "점심에",
+          "image": "foods/food-24.jpeg"
+        }
+      ],
+      "tips": [
+        "수유차는 짭짤하다. 한 잔 나눠 맛본다"
+      ],
+      "perPerson": "약 ¥20~60",
+      "dayIds": [
+        "D6",
+        "D7"
+      ],
+      "slots": [
+        "D6 점심",
+        "D7 아침"
+      ],
+      "image": "foods/food-25.jpeg",
+      "credit": {
+        "title": "칭커 바바",
+        "author": "",
+        "license": "Songpan.qingke.mianbao.2.jpg (CC BY-SA 3.0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "hours": "현장 확인",
+      "keywords": [
+        "银同"
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E9%93%B6%E5%90%8C%E4%BE%BF%E6%B0%91%E5%B0%8F%E5%90%83&city=%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "gaodi",
+      "region": "샹그릴라",
+      "nameKo": "고지주방(High Land Kitchen)",
+      "nameZh": "高地厨房",
+      "optionIds": [
+        "D6-03-3"
+      ],
+      "kind": "티베트·퓨전",
+      "summary": "독극종고성 안 레스토랑. 야크 소고기 요리와 야크 버거·피자 같은 퓨전 메뉴가 있어 아이도 먹기 쉽다.",
+      "menu": [
+        {
+          "zh": "牦牛肉",
+          "ko": "야크 소고기",
+          "desc": "볶음·구이",
+          "image": "foods/food-24.jpeg"
+        },
+        {
+          "zh": "牦牛汉堡",
+          "ko": "야크 버거",
+          "desc": "아이용",
+          "image": "foods/food-24.jpeg"
+        },
+        {
+          "zh": "牦牛奶蛋挞",
+          "ko": "야크우유 에그타르트",
+          "desc": "디저트",
+          "image": "foods/food-29.jpeg"
+        }
+      ],
+      "tips": [
+        "정확한 위치는 지도 검색으로 확인한다"
+      ],
+      "perPerson": "약 ¥60~100",
+      "dayIds": [
+        "D6"
+      ],
+      "slots": [
+        "D6 점심"
+      ],
+      "image": "foods/food-24.jpeg",
+      "credit": {
+        "title": "야크 소고기",
+        "author": "",
+        "license": "Tibetan yak meat dish.jpg (CC0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "hours": "현장 확인",
+      "keywords": [
+        "高地厨房"
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E9%AB%98%E5%9C%B0%E5%8E%A8%E6%88%BF&city=%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "manishi",
+      "region": "샹그릴라",
+      "nameKo": "징징더 마니석(静静的嘛呢石)",
+      "nameZh": "静静的嘛呢石",
+      "optionIds": [
+        "D6-04-2"
+      ],
+      "kind": "야크 훠궈",
+      "summary": "금룡가 지랑강의 티베트 식당. 야크 훠궈와 구운 감자가 인기다. 마니차 야경 뒤 저녁 후보.",
+      "menu": [
+        {
+          "zh": "牦牛火锅",
+          "ko": "야크 훠궈",
+          "desc": "야크고기 전골",
+          "image": "foods/food-24.jpeg"
+        },
+        {
+          "zh": "烤土豆",
+          "ko": "구운 감자",
+          "desc": "고원 감자",
+          "image": "foods/food-28.jpeg"
+        },
+        {
+          "zh": "酥油茶",
+          "ko": "수유차",
+          "desc": "버터차",
+          "image": "foods/food-26.jpeg"
+        }
+      ],
+      "tips": [
+        "고도 3,300m라 저녁엔 매우 춥다. 따뜻한 국물 요리를 고른다"
+      ],
+      "perPerson": "약 ¥80~110",
+      "dayIds": [
+        "D6"
+      ],
+      "slots": [
+        "D6 저녁"
+      ],
+      "image": "foods/food-24.jpeg",
+      "credit": {
+        "title": "야크 소고기",
+        "author": "",
+        "license": "Tibetan yak meat dish.jpg (CC0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "hours": "현장 확인",
+      "keywords": [
+        "嘛呢石"
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E9%9D%99%E9%9D%99%E7%9A%84%E5%98%9B%E5%91%A2%E7%9F%B3&city=%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "tarot",
+      "region": "샹그릴라",
+      "nameKo": "타로 티베트 식당(Tarot)",
+      "nameZh": "塔罗藏餐吧",
+      "optionIds": [
+        "D6-04-3"
+      ],
+      "kind": "티베트 요리",
+      "summary": "창방가 지랑강의 티베트 식당. 야크 훠궈와 고기파이(藏式肉饼), 야크우유 에그타르트가 있다.",
+      "menu": [
+        {
+          "zh": "藏式肉饼",
+          "ko": "고기파이",
+          "desc": "다진 고기를 넣어 구운 티베트식 파이",
+          "image": "foods/food-27.jpeg"
+        },
+        {
+          "zh": "牦牛火锅",
+          "ko": "야크 훠궈",
+          "desc": "",
+          "image": "foods/food-24.jpeg"
+        },
+        {
+          "zh": "牦牛奶蛋挞",
+          "ko": "야크우유 에그타르트",
+          "desc": "품절이 빠르다",
+          "image": "foods/food-29.jpeg"
+        }
+      ],
+      "tips": [
+        "에그타르트는 오후에 일찍 떨어질 수 있다"
+      ],
+      "perPerson": "약 ¥80~110",
+      "dayIds": [
+        "D6"
+      ],
+      "slots": [
+        "D6 저녁"
+      ],
+      "image": "foods/food-27.jpeg",
+      "credit": {
+        "title": "티베트 고기파이",
+        "author": "",
+        "license": "Shapale.jpg (CC BY-SA 4.0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "hours": "현장 확인",
+      "keywords": [
+        "塔罗"
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E5%A1%94%E7%BD%97%E8%97%8F%E9%A4%90%E5%90%A7&city=%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E&src=travelyunnan&callnative=1"
+    }
+  ]
+}
