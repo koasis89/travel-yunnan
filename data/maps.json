@@ -233,6 +233,15 @@
      "distance": "약 1,600m",
      "hotelDistance": "약 500m",
      "color": "#c62828"
+    },
+    {
+     "no": 16,
+     "nameKo": "관설 설산뷰 식당",
+     "nameZh": "观雪·阅古楼",
+     "kind": "식사",
+     "distance": "약 1,200m",
+     "hotelDistance": "약 550m",
+     "color": "#c62828"
     }
    ]
   }

@@ -656,7 +656,7 @@ PINS = [  # no, 이름, 중국어, 분류, 남문거리, 도식좌표, 핫스팟
     (12, "아마의 납서식당", "阿妈意", "식사", 800, (300, 296), ("poi", None, ["아마"], "阿妈意纳西饮食院", "五一街")),
     (13, "이가미선", "二哥米线", "아침", 1000, (256, 214), ("meal", "二哥米线", ["이가미선"], "二哥米线", "崇仁巷32号 아침")),
     (14, "길상 구운 이과이", "吉祥烤饵块", "야식", 700, (312, 334), ("poi", None, ["이과이"], "吉祥烤饵块", "长水路忠义市场夜市 야식")),
-    (15, "田村 야크훠궈(대수차점)", "田村", "식사", 1600, (238, 104), ("meal", "田村", ["田村"], "田村·酸汤牦牛肉火锅(古城大水车店)", "玉河走廊A区37号")),
+    (15, "田村 야크훠궈(대수차점)", "田村", "식사", 1600, (238, 104), ("meal", "田村", ["田村"], "田村·酸汤牦牛肉火锅(古城大水车店)", "玉河走廊A区37号")),    (16, "관설 설산뷰 식당", "观雪·阅古楼", "식사", 1200, (104, 206), ("place", "guanxue", ["관설", "观雪"], "观雪·阅古楼雪山观景餐厅(万古楼店)", "黄山上段53号 · 설산 전망 · 납배골 훠궈")),
 ]
 PIN_COLOR = {"식사": "#c62828", "아침": "#ef6c00", "간식": "#2e7d32", "야식": "#5e35b1"}
 M_PER_PX = 5.6  # 도식 좌표 1px ≈ 5.6m (남문 거리로 역산)
@@ -669,7 +669,7 @@ def hotel_dist(p):
 
 def map06():
     f = Fig("map06", "리장고성 맛집 지도", "번호 색 = 분류(식사·아침·간식·야식). 거리는 남문·호텔 기준 직선 거리(개략)",
-            (5, 420), (25, 490), invert_y=True, panels=[("list", 15 * 40 + 70)])
+            (5, 420), (25, 490), invert_y=True, panels=[("list", len(PINS) * 40 + 70)])
     oldtown_base(f)
     ax = f.ax
     ax.add_patch(Circle(OT["nm"], 1000 / M_PER_PX, fill=False, ec="#b9ad95", lw=1.5, ls=(0, (4, 4)), zorder=1.1))
@@ -680,7 +680,7 @@ def map06():
     for no, ko, zh, kind, dist, p, (t, key, kws, hz, note) in PINS:
         ax.annotate(str(no), p, ha="center", va="center", fontsize=15, fontweight="bold", color="white", zorder=9,
                     bbox=dict(boxstyle="circle,pad=0.3", fc=PIN_COLOR[kind], ec="white", lw=2))
-        nm = f"{'①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮'[no - 1]} {ko}"
+        nm = f"{'①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳'[no - 1]} {ko}"
         f.hot(p, **H(nm, t, key, kws, hz, f"{kind} · 남문 약 {dist:,}m · 호텔 약 {hotel_dist(p):,}m" + (f". {note}" if note else "")))
     handles = [plt.Line2D([], [], marker="o", ls="", ms=14, color=c, mec="white", mew=1.5) for c in PIN_COLOR.values()]
     ax.legend(handles, list(PIN_COLOR), loc="upper right", fontsize=15, framealpha=0.95, ncol=1, borderpad=0.6,

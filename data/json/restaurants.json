@@ -2196,6 +2196,86 @@
       "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
       "ratings": [],
       "amapUrl": "https://uri.amap.com/search?keyword=%E5%8F%81%E8%B4%B0%E7%8E%96%E8%82%863294%E8%97%8F%E5%BC%8F%E7%94%9C%E8%8C%B6%E9%A6%86&city=%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "guanxue",
+      "region": "리장",
+      "nameKo": "관설·열고루 설산뷰 식당(만고루점)",
+      "nameZh": "观雪·阅古楼雪山观景餐厅(万古楼店)",
+      "optionIds": [],
+      "dayIds": [
+        "D2",
+        "D3"
+      ],
+      "slots": [
+        "D2·D3 점심·저녁(숙소 근처)"
+      ],
+      "kind": "설산뷰 운남 훠궈·과교미선",
+      "placeId": "guanxue",
+      "summary": "리장고성 서쪽 사자산(만고루) 기슭의 설산 전망 식당. 운남 납배골(훈제 돼지갈비) 훠궈와 과교미선을 낸다. 숙소 물라뉴 호텔(黄山上段18号)과 같은 黄山上段 길에 있어 가깝다(사용자 제공 고덕지도 화면).",
+      "menu": [
+        {
+          "zh": "云南腊排骨火锅",
+          "ko": "운남 납배골 훠궈",
+          "desc": "훈제 돼지갈비 전골. 고덕지도 단체구매 2~3인 세트 ¥166(정가 ¥300)",
+          "image": "foods/food-18.jpeg"
+        },
+        {
+          "zh": "过桥米线",
+          "ko": "과교미선",
+          "desc": "뜨거운 육수에 쌀국수·고명을 넣어 먹는다",
+          "image": "foods/food-30.jpeg"
+        },
+        {
+          "zh": "丽江粑粑",
+          "ko": "리장 바바",
+          "desc": "납작하게 구운 리장 빵"
+        }
+      ],
+      "tips": [
+        "설산 전망 자리는 맑은 낮이 좋다. 창가·테라스 자리를 부탁한다(要靠窗的位子)",
+        "고덕지도 단체구매(高德团购)로 사면 납배골 훠궈 2~3인 세트 ¥166. 언제든 환불 가능",
+        "영업 10:00~22:00 · 주소 新华街黄山上段53号"
+      ],
+      "perPerson": "약 ¥36(고덕지도 기준)",
+      "hours": "10:00~22:00",
+      "keywords": [
+        "观雪",
+        "阅古楼",
+        "관설",
+        "설산뷰"
+      ],
+      "image": "foods/food-18.jpeg",
+      "credit": {
+        "title": "삼겹살",
+        "author": "",
+        "license": "A Chinese Pork bellies with taro.jpg (CC BY-SA 4.0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "ratings": [
+        {
+          "source": "고덕지도(高德)",
+          "name": "观雪·阅古楼雪山观景餐厅(万古楼店)",
+          "score": 4.5,
+          "reviews": null,
+          "price": "¥36",
+          "addr": "新华街黄山上段53号",
+          "popular": [
+            {
+              "zh": "腊排骨火锅",
+              "ko": "납배골 훠궈"
+            },
+            {
+              "zh": "过桥米线",
+              "ko": "과교미선"
+            }
+          ],
+          "label": "고성 훠궈 순위 24위",
+          "note": "사용자 제공 고덕지도 화면(2026-11-07)"
+        }
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E8%A7%82%E9%9B%AA%C2%B7%E9%98%85%E5%8F%A4%E6%A5%BC%E9%9B%AA%E5%B1%B1%E8%A7%82%E6%99%AF%E9%A4%90%E5%8E%85%28%E4%B8%87%E5%8F%A4%E6%A5%BC%E5%BA%97%29&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
     }
   ],
   "tips": [

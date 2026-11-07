@@ -241,7 +241,7 @@ class S6Test {
         assertEquals(listOf("map_d8"), d.day("D8")!!.mapIds)
         assertTrue(d.maps.none { it.id == "map02" || it.id == "map04" || it.id == "ref_cablecar" })
         val pins = d.map("map06")!!.pins
-        assertEquals(15, pins.size)
+        assertEquals(16, pins.size)
         assertTrue(pins.all { it.hotelDistance.isNotBlank() && it.color.startsWith("#") })
         assertTrue(d.hotspotsOf("map_d3").any { it.key == "sifang" })
     }
