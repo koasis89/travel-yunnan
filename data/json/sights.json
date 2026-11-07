@@ -198,8 +198,13 @@
       "hours": "상시",
       "fee": "무료",
       "duration": "15분",
-      "image": null,
-      "credit": null,
+      "image": "sights/sight-dashiqiao.jpg",
+      "credit": {
+        "title": "대석교",
+        "author": "여행자 직접 촬영",
+        "license": "사용자 제공 사진",
+        "url": ""
+      },
       "amapUrl": "https://surl.amap.com/7wbVuHAl5Ki"
     },
     {
@@ -225,8 +230,13 @@
       "hours": "상시",
       "fee": "무료",
       "duration": "20분",
-      "image": null,
-      "credit": null,
+      "image": "sights/sight-zhisanxiang.jpg",
+      "credit": {
+        "title": "우산골목(纸伞巷)",
+        "author": "여행자 직접 촬영",
+        "license": "사용자 제공 사진",
+        "url": ""
+      },
       "amapUrl": "https://surl.amap.com/fStxeK2P5Ur"
     },
     {
@@ -254,8 +264,13 @@
       "hours": "낮 시간(현장 확인)",
       "fee": "현장 확인",
       "duration": "30분",
-      "image": null,
-      "credit": null,
+      "image": "sights/sight-wenchanggong.jpg",
+      "credit": {
+        "title": "문창궁(文昌宫) 전망대",
+        "author": "여행자 직접 촬영",
+        "license": "사용자 제공 사진",
+        "url": ""
+      },
       "amapUrl": "https://surl.amap.com/YGwvY1taBo"
     },
     {
@@ -282,8 +297,13 @@
       "hours": "현장 확인",
       "fee": "현장 확인",
       "duration": "30분",
-      "image": null,
-      "credit": null,
+      "image": "sights/sight-dayanhuaxiang.jpg",
+      "credit": {
+        "title": "대연화항(大研花巷) 전망대",
+        "author": "여행자 직접 촬영",
+        "license": "사용자 제공 사진",
+        "url": ""
+      },
       "amapUrl": "https://surl.amap.com/69FSlMKQcvI"
     },
     {

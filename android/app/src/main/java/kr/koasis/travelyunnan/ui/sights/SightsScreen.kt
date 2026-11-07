@@ -81,7 +81,7 @@ fun SightsScreen(vm: AppViewModel, data: TripData, dayArg: String?) {
                 }
             }
             item {
-                Text("요금·운영 시간은 참고용이며 바뀔 수 있다. 사진은 Flickr 의 CC 라이선스 사진이며, 각 관광지 화면에 촬영자와 라이선스를 적었다.",
+                Text("요금·운영 시간은 참고용이며 바뀔 수 있다. 사진은 대부분 Flickr 의 CC 라이선스 사진이고 일부는 여행자가 직접 찍은 사진이다. 각 관광지 화면에 촬영자와 라이선스를 적었다.",
                     style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline, modifier = Modifier.padding(16.dp))
             }
         }
@@ -119,7 +119,7 @@ fun SightScreen(vm: AppViewModel, data: TripData, id: String) {
                 SightImage(s, 240)
                 s.credit?.let { c ->
                     Text("사진: ${c.title} · ${c.author} · ${c.license}", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.outline,
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp).clickable { External.openUrl(ctx, c.url) })
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp).clickable(enabled = c.url.isNotBlank()) { External.openUrl(ctx, c.url) })
                 }
                 Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(s.nameKo, style = MaterialTheme.typography.titleLarge)

@@ -41,7 +41,7 @@ export function Sights() {
           <div className="stack pad">{list.filter((s) => s.region === r).map((s) => <SightCard key={s.id} s={s} />)}</div>
         </div>
       ))}
-      <p className="pad tiny faint">요금·운영 시간은 참고용이며 바뀔 수 있다. 사진은 Flickr 의 CC 라이선스 사진이며, 각 관광지 화면 아래에 촬영자와 라이선스를 적었다.</p>
+      <p className="pad tiny faint">요금·운영 시간은 참고용이며 바뀔 수 있다. 사진은 대부분 Flickr 의 CC 라이선스 사진이고 일부는 여행자가 직접 찍은 사진이다. 각 관광지 화면 아래에 촬영자와 라이선스를 적었다.</p>
     </div>
   )
 }
@@ -58,7 +58,7 @@ export function SightView() {
       {src && <figure style={{ margin: 0 }}>
         <img src={src} alt={s.nameKo} style={{ width: '100%', maxHeight: 340, objectFit: 'cover', display: 'block' }} />
         {s.credit && <figcaption className="tiny faint" style={{ padding: '4px 16px' }}>
-          사진: <a href={s.credit.url} target="_blank" rel="noreferrer">{s.credit.title}</a> · {s.credit.author} · {s.credit.license}
+          사진: {s.credit.url ? <a href={s.credit.url} target="_blank" rel="noreferrer">{s.credit.title}</a> : s.credit.title} · {s.credit.author} · {s.credit.license}
         </figcaption>}
       </figure>}
       <div className="pad stack" style={{ marginTop: 8 }}>
