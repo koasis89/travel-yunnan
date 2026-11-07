@@ -62,6 +62,42 @@
         "철붕",
         "铁朋"
       ],
+      "ratings": [
+        {
+          "source": "씨트립(携程)",
+          "name": "铁朋小锅米线(塘子巷总店)",
+          "score": 4.4,
+          "reviews": 113,
+          "price": "¥19",
+          "addr": "吴井路131号1楼（塘子巷地铁站D口斜对面）",
+          "popular": [
+            {
+              "zh": "肉丁小锅米线",
+              "ko": "고기 소과미선"
+            },
+            {
+              "zh": "老昆明凉糕",
+              "ko": "쿤밍식 찬 떡"
+            },
+            {
+              "zh": "臭豆腐小锅宽面",
+              "ko": "취두부 넓은면"
+            },
+            {
+              "zh": "臭豆腐",
+              "ko": "취두부"
+            },
+            {
+              "zh": "普洱小黄牛大肉串",
+              "ko": "보이 황소고기 꼬치"
+            },
+            {
+              "zh": "石屏包浆豆腐",
+              "ko": "석병 구운 두부"
+            }
+          ]
+        }
+      ],
       "amapUrl": "https://uri.amap.com/search?keyword=%E9%93%81%E6%9C%8B%E5%B0%8F%E9%94%85%E7%B1%B3%E7%BA%BF%20%E5%A1%98%E5%AD%90%E5%B7%B7%E6%80%BB%E5%BA%97&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1"
     },
     {
@@ -117,6 +153,42 @@
       "keywords": [
         "건신원",
         "建新园"
+      ],
+      "ratings": [
+        {
+          "source": "씨트립(携程)",
+          "name": "建新园过桥米线(宝善街店)",
+          "score": 4.5,
+          "reviews": 189,
+          "price": "¥32",
+          "addr": "宝善街消防队旁边",
+          "popular": [
+            {
+              "zh": "标准过桥米线",
+              "ko": "과교미선(기본)"
+            },
+            {
+              "zh": "小碗脆旺面条",
+              "ko": "바삭고기·선지 국수"
+            },
+            {
+              "zh": "脆哨",
+              "ko": "바삭한 돼지고기 고명"
+            },
+            {
+              "zh": "凉米线",
+              "ko": "량미선"
+            },
+            {
+              "zh": "红油血旺",
+              "ko": "고추기름 선지"
+            },
+            {
+              "zh": "什锦凉米线",
+              "ko": "모둠 량미선"
+            }
+          ]
+        }
       ],
       "amapUrl": "https://uri.amap.com/search?keyword=%E5%BB%BA%E6%96%B0%E5%9B%AD%E8%BF%87%E6%A1%A5%E7%B1%B3%E7%BA%BF&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1"
     },
@@ -174,6 +246,43 @@
         "福照楼",
         "복조루"
       ],
+      "ratings": [
+        {
+          "source": "씨트립(携程)",
+          "name": "福照楼汽锅鸡·云南特色菜(火车站锦江店)",
+          "score": 4.3,
+          "reviews": 670,
+          "price": "¥79",
+          "addr": "太和街道北京路98号锦江大酒店1楼（近昆明火车站、环城南路站、地铁2号线、大悦城）",
+          "popular": [
+            {
+              "zh": "汽锅鸡中锅",
+              "ko": "기과계(중)"
+            },
+            {
+              "zh": "建水豆腐汇",
+              "ko": "건수 두부 모둠"
+            },
+            {
+              "zh": "七彩凉米线",
+              "ko": "칠채 량미선"
+            },
+            {
+              "zh": "滇味炒饵块",
+              "ko": "윈난식 이과이 볶음"
+            },
+            {
+              "zh": "秘制椰子饭",
+              "ko": "코코넛밥"
+            },
+            {
+              "zh": "火焰土豆泥",
+              "ko": "불꽃 감자퓨레"
+            }
+          ],
+          "note": "화차역 금강점(锦江店) 기준. 취호 쪽 지점은 목록에 없음"
+        }
+      ],
       "amapUrl": "https://uri.amap.com/search?keyword=%E7%A6%8F%E7%85%A7%E6%A5%BC%E6%B1%BD%E9%94%85%E9%B8%A1&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1"
     },
     {
@@ -227,6 +336,42 @@
       "hours": "현장 확인",
       "keywords": [
         "云平"
+      ],
+      "ratings": [
+        {
+          "source": "씨트립(携程)",
+          "name": "云平风味园(护国路店)",
+          "score": 4.3,
+          "reviews": 43,
+          "price": "¥24",
+          "addr": "护国路35-39号",
+          "popular": [
+            {
+              "zh": "罐罐牛肉",
+              "ko": "단지 소고기찜"
+            },
+            {
+              "zh": "调糕藕粉",
+              "ko": "조고 연근전분 디저트"
+            },
+            {
+              "zh": "小锅米线",
+              "ko": "소과미선"
+            },
+            {
+              "zh": "罐罐臭豆腐米线",
+              "ko": "취두부 미선"
+            },
+            {
+              "zh": "木瓜水",
+              "ko": "모과수(젤리 음료)"
+            },
+            {
+              "zh": "冷串串",
+              "ko": "냉꼬치"
+            }
+          ]
+        }
       ],
       "amapUrl": "https://uri.amap.com/search?keyword=%E4%BA%91%E5%B9%B3%E9%A3%8E%E5%91%B3%E5%9B%AD&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1"
     },
@@ -282,6 +427,42 @@
       "keywords": [
         "多哥水"
       ],
+      "ratings": [
+        {
+          "source": "씨트립(携程)",
+          "name": "多哥水傣味餐厅(司马巷店)",
+          "score": 4.4,
+          "reviews": 198,
+          "price": "¥67",
+          "addr": "金马坊司马巷10号（书林街儿童医院背后小巷）",
+          "popular": [
+            {
+              "zh": "烤猪皮",
+              "ko": "돼지껍데기 구이"
+            },
+            {
+              "zh": "烤三线肉",
+              "ko": "삼겹살 구이"
+            },
+            {
+              "zh": "菠萝饭",
+              "ko": "파인애플밥"
+            },
+            {
+              "zh": "凉拌荷包蛋",
+              "ko": "계란후라이 무침"
+            },
+            {
+              "zh": "柠檬鸡",
+              "ko": "레몬 닭"
+            },
+            {
+              "zh": "包烧老奶洋芋",
+              "ko": "바나나잎 감자구이"
+            }
+          ]
+        }
+      ],
       "amapUrl": "https://uri.amap.com/search?keyword=%E5%A4%9A%E5%93%A5%E6%B0%B4%E5%82%A3%E5%91%B3%E9%A4%90%E5%8E%85&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1"
     },
     {
@@ -328,6 +509,42 @@
       "hours": "현장 확인",
       "keywords": [
         "文山荷鲜居"
+      ],
+      "ratings": [
+        {
+          "source": "씨트립(携程)",
+          "name": "文山荷鲜居(翠湖店)",
+          "score": 4.4,
+          "reviews": 21,
+          "price": "¥15",
+          "addr": "染布巷10号",
+          "popular": [
+            {
+              "zh": "加一份血",
+              "ko": "선지 추가"
+            },
+            {
+              "zh": "鸡汤米线",
+              "ko": "닭육수 미선"
+            },
+            {
+              "zh": "饵丝",
+              "ko": "얼쓰(쌀국수)"
+            },
+            {
+              "zh": "卷粉",
+              "ko": "쥐엔펀(쌀피 롤)"
+            },
+            {
+              "zh": "面条",
+              "ko": "국수"
+            },
+            {
+              "zh": "鸡肉帽",
+              "ko": "닭고기 고명"
+            }
+          ]
+        }
       ],
       "amapUrl": "https://uri.amap.com/search?keyword=%E6%96%87%E5%B1%B1%E8%8D%B7%E9%B2%9C%E5%B1%85&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1"
     },
@@ -382,6 +599,7 @@
       "keywords": [
         "好菌道"
       ],
+      "ratings": [],
       "amapUrl": "https://uri.amap.com/search?keyword=%E5%A5%BD%E8%8F%8C%E9%81%93%C2%B7&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1"
     },
     {
@@ -433,6 +651,78 @@
         "일타균",
         "一朵菌",
         "菌故"
+      ],
+      "ratings": [
+        {
+          "source": "씨트립(携程)",
+          "name": "一朵菌·野生菌探索家火锅(南屏店)",
+          "score": 4.6,
+          "reviews": 9,
+          "price": "¥107",
+          "addr": "宝善街192号2层",
+          "popular": [
+            {
+              "zh": "鸡枞肉包",
+              "ko": "계종버섯 고기만두"
+            },
+            {
+              "zh": "黄牛肝菌焖饭",
+              "ko": "황우간균 솥밥"
+            },
+            {
+              "zh": "红乳牛肝菌",
+              "ko": "홍유 그물버섯"
+            },
+            {
+              "zh": "烩青头菌",
+              "ko": "청두균 조림"
+            },
+            {
+              "zh": "松茸蒸饺",
+              "ko": "송이 찐만두"
+            },
+            {
+              "zh": "油淋干吧",
+              "ko": "유림간바(버섯)"
+            }
+          ],
+          "label": "一朵菌"
+        },
+        {
+          "source": "씨트립(携程)",
+          "name": "菌故·云南野生菌火锅(南屏店)",
+          "score": 4.4,
+          "reviews": 9,
+          "price": "¥86",
+          "addr": "祥云街101号2楼南强街街口旁",
+          "popular": [
+            {
+              "zh": "牛肝菌炒饭",
+              "ko": "그물버섯 볶음밥"
+            },
+            {
+              "zh": "鲜花饼",
+              "ko": "장미 꽃빵"
+            },
+            {
+              "zh": "竹荪",
+              "ko": "망태버섯"
+            },
+            {
+              "zh": "老人头",
+              "ko": "노인두 버섯"
+            },
+            {
+              "zh": "黄牛肝",
+              "ko": "황그물버섯"
+            },
+            {
+              "zh": "松茸",
+              "ko": "송이버섯"
+            }
+          ],
+          "label": "菌故"
+        }
       ],
       "amapUrl": "https://uri.amap.com/search?keyword=%E4%B8%80%E6%9C%B5%E8%8F%8C%C2%B7%E9%87%8E%E7%94%9F%E8%8F%8C%E6%8E%A2%E7%B4%A2%E5%AE%B6%E7%81%AB%E9%94%85&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1"
     },
@@ -491,6 +781,7 @@
         "관두 바바",
         "官渡粑粑"
       ],
+      "ratings": [],
       "amapUrl": "https://uri.amap.com/search?keyword=%E5%AE%98%E6%B8%A1%E7%B2%91%E7%B2%91&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1"
     },
     {
@@ -545,6 +836,42 @@
       "hours": "현장 확인",
       "keywords": [
         "田村"
+      ],
+      "ratings": [
+        {
+          "source": "씨트립(携程)",
+          "name": "田村酸汤牦牛肉火锅(古城大水车店)",
+          "score": 5.0,
+          "reviews": 12,
+          "price": "¥80",
+          "addr": "民主路玉河走廊A区37号（大水车对面）",
+          "popular": [
+            {
+              "zh": "现切牦牛肉",
+              "ko": "생 야크고기"
+            },
+            {
+              "zh": "特色酸汤锅",
+              "ko": "산탕 훠궈"
+            },
+            {
+              "zh": "嫩牛肉",
+              "ko": "연한 소고기"
+            },
+            {
+              "zh": "丽江粑粑",
+              "ko": "리장 바바"
+            },
+            {
+              "zh": "七彩土豆",
+              "ko": "칠채 감자"
+            },
+            {
+              "zh": "水性杨花",
+              "ko": "수성양화(물풀 볶음)"
+            }
+          ]
+        }
       ],
       "amapUrl": "https://uri.amap.com/search?keyword=%E7%94%B0%E6%9D%91%C2%B7%E9%85%B8%E6%B1%A4%E7%89%A6%E7%89%9B%E8%82%89%E7%81%AB%E9%94%85&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
     },
@@ -613,6 +940,113 @@
         "운설리",
         "云雪丽"
       ],
+      "ratings": [
+        {
+          "source": "씨트립(携程)",
+          "name": "云雪丽丨民族风情纳西庭院餐厅(古城店)",
+          "score": 4.3,
+          "reviews": 28,
+          "price": "¥90",
+          "addr": "七一街兴文巷108号(丽江和府洲际酒店旁，英迪格酒店隔壁)",
+          "popular": [
+            {
+              "zh": "秘制雪山鱼",
+              "ko": "비법 설산 생선"
+            },
+            {
+              "zh": "包烧菌菇",
+              "ko": "버섯 잎구이"
+            },
+            {
+              "zh": "傣味炸猪皮",
+              "ko": "다이식 튀긴 돼지껍데기"
+            },
+            {
+              "zh": "黑松露煎蛋",
+              "ko": "트러플 계란부침"
+            },
+            {
+              "zh": "手抓牛肉",
+              "ko": "손으로 먹는 소고기"
+            },
+            {
+              "zh": "香辣野生牛肝菌",
+              "ko": "매운 그물버섯"
+            }
+          ],
+          "label": "남문 쪽 纳西庭院점"
+        },
+        {
+          "source": "씨트립(携程)",
+          "name": "云雪丽·木府土司文化·现炒云南菜(木府店)",
+          "score": 4.4,
+          "reviews": 12,
+          "price": "¥79",
+          "addr": "丽江古城区大研街道光义街忠义巷107号(近丽江木府,介于木府与忠义市场之间）",
+          "popular": [
+            {
+              "zh": "秘制雪山鱼",
+              "ko": "비법 설산 생선"
+            },
+            {
+              "zh": "自磨泉水豆腐",
+              "ko": "샘물 두부"
+            },
+            {
+              "zh": "山珍菌香炒饭",
+              "ko": "버섯 볶음밥"
+            },
+            {
+              "zh": "云南汽锅鸡",
+              "ko": "기과계"
+            },
+            {
+              "zh": "葱油水性杨花",
+              "ko": "파기름 수성양화"
+            },
+            {
+              "zh": "手工荞麦饼",
+              "ko": "메밀전"
+            }
+          ],
+          "label": "목부점"
+        },
+        {
+          "source": "씨트립(携程)",
+          "name": "云雪丽·本地菜|白沙雪山观景餐厅",
+          "score": 5.0,
+          "reviews": 3,
+          "price": "¥90",
+          "addr": "玉龙纳西族自治县白沙古镇束白路白沙村木都158号(白沙派出所南行100米)",
+          "popular": [
+            {
+              "zh": "秘制雪山鱼",
+              "ko": "비법 설산 생선"
+            },
+            {
+              "zh": "自磨泉水豆腐",
+              "ko": "샘물 두부"
+            },
+            {
+              "zh": "墨脱石锅黑松露饭",
+              "ko": "트러플 돌솥밥"
+            },
+            {
+              "zh": "椰香泡鲁达",
+              "ko": "코코넛 파오루다(디저트)"
+            },
+            {
+              "zh": "山珍菌香炒饭",
+              "ko": "버섯 볶음밥"
+            },
+            {
+              "zh": "黑毛猪五花肉串/大份",
+              "ko": "흑돼지 삼겹 꼬치"
+            }
+          ],
+          "label": "백사점"
+        }
+      ],
       "amapUrl": "https://uri.amap.com/search?keyword=%E4%BA%91%E9%9B%AA%E4%B8%BD%C2%B7%E7%8E%B0%E7%82%92%E4%BA%91%E5%8D%97%E8%8F%9C&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
     },
     {
@@ -661,6 +1095,30 @@
       "keywords": [
         "계두량분"
       ],
+      "ratings": [
+        {
+          "source": "씨트립(携程)",
+          "name": "奶奶鸡豆凉粉",
+          "score": 5.0,
+          "reviews": 1,
+          "price": "¥13",
+          "addr": "光义街新院巷30号",
+          "popular": [
+            {
+              "zh": "鸡豆凉粉",
+              "ko": "계두량분"
+            },
+            {
+              "zh": "炸洋芋片",
+              "ko": "감자칩 튀김"
+            },
+            {
+              "zh": "猪血糯米肠",
+              "ko": "찹쌀순대"
+            }
+          ]
+        }
+      ],
       "amapUrl": "https://uri.amap.com/search?keyword=%E5%A5%B6%E5%A5%B6%E9%B8%A1%E8%B1%86%E5%87%89%E7%B2%89&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
     },
     {
@@ -708,7 +1166,104 @@
       "keywords": [
         "딩딩당당"
       ],
+      "ratings": [],
       "amapUrl": "https://uri.amap.com/search?keyword=%E4%B8%81%E4%B8%81%E5%BD%93%E5%BD%93%E9%85%B8%E5%A5%B6%E5%BA%97&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "xiaochi88",
+      "region": "리장",
+      "nameKo": "88호 소흡(88号小吃店)",
+      "nameZh": "88号小吃店",
+      "optionIds": [
+        "D2-04-3"
+      ],
+      "dayIds": [
+        "D2"
+      ],
+      "slots": [
+        "D2 간식"
+      ],
+      "kind": "나시 분식",
+      "summary": "오일가 흥인상단 88호의 리장 분식집. 씨트립 리뷰가 1,000건이 넘는 인기 가게로, 나시 볶음밥·리장 바바·계두량분 같은 리장 음식을 싸게 한꺼번에 맛볼 수 있다.",
+      "menu": [
+        {
+          "zh": "纳西炒饭",
+          "ko": "나시 볶음밥",
+          "desc": "",
+          "image": "foods/food-19.jpeg"
+        },
+        {
+          "zh": "丽江粑粑",
+          "ko": "리장 바바",
+          "desc": "겹겹이 구운 빵",
+          "image": "foods/food-25.jpeg"
+        },
+        {
+          "zh": "鸡豆凉粉",
+          "ko": "계두량분",
+          "desc": "",
+          "image": "foods/food-10.jpeg"
+        },
+        {
+          "zh": "包浆豆腐",
+          "ko": "구운 두부",
+          "desc": ""
+        }
+      ],
+      "tips": [
+        "식사 시간엔 줄이 길다"
+      ],
+      "perPerson": "약 ¥44",
+      "hours": "현장 확인",
+      "keywords": [
+        "88소흡",
+        "88小吃"
+      ],
+      "image": "foods/food-19.jpeg",
+      "credit": {
+        "title": "볶음밥",
+        "author": "",
+        "license": "Chinese egg fried rice.jpg (CC BY-SA 4.0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "ratings": [
+        {
+          "source": "씨트립(携程)",
+          "name": "88号小吃店",
+          "score": 4.7,
+          "reviews": 1155,
+          "price": "¥44",
+          "addr": "五一街兴仁上段88号",
+          "popular": [
+            {
+              "zh": "纳西炒饭",
+              "ko": "나시 볶음밥"
+            },
+            {
+              "zh": "丽江粑粑",
+              "ko": "리장 바바"
+            },
+            {
+              "zh": "鸡豆凉粉",
+              "ko": "계두량분"
+            },
+            {
+              "zh": "汽锅鸡",
+              "ko": "기과계"
+            },
+            {
+              "zh": "包浆豆腐",
+              "ko": "구운 두부"
+            },
+            {
+              "zh": "炒饵块",
+              "ko": "이과이 볶음"
+            }
+          ]
+        }
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E5%B0%8F%E5%90%83&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
     },
     {
       "id": "shiguoyu",
@@ -757,6 +1312,7 @@
       "keywords": [
         "석과어"
       ],
+      "ratings": [],
       "amapUrl": "https://uri.amap.com/search?keyword=%E7%9F%B3%E9%94%85%E9%B1%BC&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
     },
     {
@@ -806,6 +1362,7 @@
       "keywords": [
         "습전주미"
       ],
+      "ratings": [],
       "amapUrl": "https://uri.amap.com/search?keyword=%E6%8B%BE%E5%85%A8%E9%85%92%E7%BE%8E%E9%87%8E%E7%94%9F%E8%8F%8C%E7%81%AB%E9%94%85&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
     },
     {
@@ -853,6 +1410,42 @@
       "hours": "현장 확인",
       "keywords": [
         "천천선"
+      ],
+      "ratings": [
+        {
+          "source": "씨트립(携程)",
+          "name": "天天鲜",
+          "score": 4.6,
+          "reviews": 194,
+          "price": "¥48",
+          "addr": "五一街王家庄巷47号(古城基督福音堂旁)",
+          "popular": [
+            {
+              "zh": "纳西老奶洋芋",
+              "ko": "나시 감자볶음"
+            },
+            {
+              "zh": "纳西酱油鸡",
+              "ko": "나시 간장닭"
+            },
+            {
+              "zh": "水性杨花",
+              "ko": "수성양화(물풀 볶음)"
+            },
+            {
+              "zh": "茉莉花炒蛋",
+              "ko": "재스민꽃 계란볶음"
+            },
+            {
+              "zh": "纳西小炒牛肉",
+              "ko": "나시 소고기 볶음"
+            },
+            {
+              "zh": "纳西烤肉",
+              "ko": "나시 고기구이"
+            }
+          ]
+        }
       ],
       "amapUrl": "https://uri.amap.com/search?keyword=%E5%A4%A9%E5%A4%A9%E9%B2%9C&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
     },
@@ -909,6 +1502,43 @@
       "keywords": [
         "납배골"
       ],
+      "ratings": [
+        {
+          "source": "씨트립(携程)",
+          "name": "阿婆情腊排骨火锅(古城旗舰店)",
+          "score": 4.4,
+          "reviews": 46,
+          "price": "¥60",
+          "addr": "五一街兴仁上段38号",
+          "popular": [
+            {
+              "zh": "腊排骨火锅",
+              "ko": "납배골 훠궈"
+            },
+            {
+              "zh": "豌豆尖",
+              "ko": "완두순"
+            },
+            {
+              "zh": "腊排骨",
+              "ko": "납배골"
+            },
+            {
+              "zh": "丽江粑粑",
+              "ko": "리장 바바"
+            },
+            {
+              "zh": "阿婆鸡豆凉粉",
+              "ko": "계두량분"
+            },
+            {
+              "zh": "水性杨花",
+              "ko": "수성양화(물풀 볶음)"
+            }
+          ],
+          "note": "씨트립 이름은 阿婆情腊排骨火锅(古城旗舰店), 주소 같음"
+        }
+      ],
       "amapUrl": "https://uri.amap.com/search?keyword=%E9%98%BF%E5%A9%86%E8%85%8A%E6%8E%92%E9%AA%A8%E7%81%AB%E9%94%85&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
     },
     {
@@ -951,6 +1581,42 @@
       "keywords": [
         "이가미선"
       ],
+      "ratings": [
+        {
+          "source": "씨트립(携程)",
+          "name": "二哥米线(丽江店)",
+          "score": 4.8,
+          "reviews": 96,
+          "price": "¥27",
+          "addr": "崇仁巷32号",
+          "popular": [
+            {
+              "zh": "卤鸡胗",
+              "ko": "닭모래집 조림"
+            },
+            {
+              "zh": "香酥葱油饼",
+              "ko": "파기름 전병"
+            },
+            {
+              "zh": "土鸡米线",
+              "ko": "토종닭 미선"
+            },
+            {
+              "zh": "招牌鸡汁米线",
+              "ko": "닭육수 미선(대표)"
+            },
+            {
+              "zh": "卤肉油酥粑粑",
+              "ko": "조림고기 바바"
+            },
+            {
+              "zh": "油卤手枪腿",
+              "ko": "닭다리 조림"
+            }
+          ]
+        }
+      ],
       "amapUrl": "https://uri.amap.com/search?keyword=%E4%BA%8C%E5%93%A5%E7%B1%B3%E7%BA%BF&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
     },
     {
@@ -992,6 +1658,42 @@
       "hours": "현장 확인",
       "keywords": [
         "작자미선"
+      ],
+      "ratings": [
+        {
+          "source": "씨트립(携程)",
+          "name": "勺子米线·云南传统小吃市集(四方街店)",
+          "score": 4.0,
+          "reviews": 12,
+          "price": "¥45",
+          "addr": "百岁坊8号(导航百岁桥,在百岁桥左转河边就是)",
+          "popular": [
+            {
+              "zh": "牛奶鸡蛋醪糟",
+              "ko": "우유 계란 단술"
+            },
+            {
+              "zh": "传统过桥米线",
+              "ko": "과교미선"
+            },
+            {
+              "zh": "炸菌子",
+              "ko": "버섯 튀김"
+            },
+            {
+              "zh": "版纳手抓饭",
+              "ko": "반나 손밥"
+            },
+            {
+              "zh": "纸包排骨",
+              "ko": "종이 포장 갈비"
+            },
+            {
+              "zh": "昭通小肉串",
+              "ko": "소통 꼬치"
+            }
+          ]
+        }
       ],
       "amapUrl": "https://uri.amap.com/search?keyword=%E5%8B%BA%E5%AD%90%E7%B1%B3%E7%BA%BF&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
     },
@@ -1041,6 +1743,42 @@
       "keywords": [
         "소과반"
       ],
+      "ratings": [
+        {
+          "source": "씨트립(携程)",
+          "name": "浮娴小锅饭·云南民俗风味餐厅(束河古镇店)",
+          "score": 4.8,
+          "reviews": 572,
+          "price": "¥76",
+          "addr": "束河街道康普巷30号",
+          "popular": [
+            {
+              "zh": "纳西烤鱼",
+              "ko": "나시 생선구이"
+            },
+            {
+              "zh": "招牌小锅饭",
+              "ko": "소과반(대표)"
+            },
+            {
+              "zh": "纳西小炒肉",
+              "ko": "나시 돼지고기 볶음"
+            },
+            {
+              "zh": "普洱茶红烧肉",
+              "ko": "보이차 홍소육"
+            },
+            {
+              "zh": "情人梅烧排骨",
+              "ko": "매실 갈비조림"
+            },
+            {
+              "zh": "丽江粑粑（甜咸）",
+              "ko": "리장 바바(단·짠)"
+            }
+          ]
+        }
+      ],
       "amapUrl": "https://uri.amap.com/search?keyword=%E6%9D%9F%E6%B2%B3%E5%BA%97&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
     },
     {
@@ -1088,6 +1826,7 @@
       "image": null,
       "credit": null,
       "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "ratings": [],
       "amapUrl": "https://uri.amap.com/search?keyword=%E7%93%A6%E7%95%B6%E9%9B%B2%E5%92%96&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
     },
     {
@@ -1145,6 +1884,44 @@
       "keywords": [
         "银同"
       ],
+      "ratings": [
+        {
+          "source": "씨트립(携程)",
+          "name": "银同牦牛肉火锅",
+          "score": 4.9,
+          "reviews": 106,
+          "price": "¥59",
+          "addr": "独克宗古城四方街旁依若木廊25号",
+          "popular": [
+            {
+              "zh": "牦牛肉火锅",
+              "ko": "야크 훠궈"
+            },
+            {
+              "zh": "藏家酥油茶",
+              "ko": "수유차"
+            },
+            {
+              "zh": "卓玛青稞饼",
+              "ko": "칭커(보리)빵"
+            },
+            {
+              "zh": "高原七彩土豆",
+              "ko": "칠채 감자"
+            },
+            {
+              "zh": "牦牛米线",
+              "ko": "야크 미선"
+            },
+            {
+              "zh": "臧家自制酸奶",
+              "ko": "수제 요거트"
+            }
+          ],
+          "label": "같은 골목 银同牦牛肉火锅",
+          "note": "이름이 비슷한 야크훠궈 집(依若木廊25号). 우리 일정의 银同便民小吃(一若木廊32号)과 같은 가게인지는 확인하지 못함"
+        }
+      ],
       "amapUrl": "https://uri.amap.com/search?keyword=%E9%93%B6%E5%90%8C%E4%BE%BF%E6%B0%91%E5%B0%8F%E5%90%83&city=%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E&src=travelyunnan&callnative=1"
     },
     {
@@ -1198,6 +1975,31 @@
       "hours": "현장 확인",
       "keywords": [
         "高地厨房"
+      ],
+      "ratings": [
+        {
+          "source": "씨트립(携程)",
+          "name": "高地厨房·原切牦牛肉·从养牛开始",
+          "score": 5.0,
+          "reviews": 1,
+          "price": "¥78",
+          "addr": "旭亿诊所旁边",
+          "popular": [
+            {
+              "zh": "现包牦牛肉烧卖",
+              "ko": "야크고기 샤오마이"
+            },
+            {
+              "zh": "薯片牛肉",
+              "ko": "감자칩 소고기"
+            },
+            {
+              "zh": "鲜切吊龙",
+              "ko": "소 등심 훠궈용"
+            }
+          ],
+          "note": "리뷰 1건뿐이라 참고만"
+        }
       ],
       "amapUrl": "https://uri.amap.com/search?keyword=%E9%AB%98%E5%9C%B0%E5%8E%A8%E6%88%BF&city=%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E&src=travelyunnan&callnative=1"
     },
@@ -1253,6 +2055,42 @@
       "keywords": [
         "嘛呢石"
       ],
+      "ratings": [
+        {
+          "source": "씨트립(携程)",
+          "name": "静静的嘛呢石藏餐(香格里拉首店)",
+          "score": 4.3,
+          "reviews": 39,
+          "price": "¥74",
+          "addr": "云南省迪庆藏族自治州香格里拉市独克宗古城衮玛廊38号",
+          "popular": [
+            {
+              "zh": "藏式肉饼",
+              "ko": "티베트 고기파이"
+            },
+            {
+              "zh": "牦牛肉火锅",
+              "ko": "야크 훠궈"
+            },
+            {
+              "zh": "康巴牛排",
+              "ko": "캄파 스테이크"
+            },
+            {
+              "zh": "大拌菜",
+              "ko": "샐러드"
+            },
+            {
+              "zh": "烤蘑菇",
+              "ko": "버섯구이"
+            },
+            {
+              "zh": "酥油茶",
+              "ko": "수유차"
+            }
+          ]
+        }
+      ],
       "amapUrl": "https://uri.amap.com/search?keyword=%E9%9D%99%E9%9D%99%E7%9A%84%E5%98%9B%E5%91%A2%E7%9F%B3&city=%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E&src=travelyunnan&callnative=1"
     },
     {
@@ -1307,6 +2145,7 @@
       "keywords": [
         "塔罗"
       ],
+      "ratings": [],
       "amapUrl": "https://uri.amap.com/search?keyword=%E5%A1%94%E7%BD%97%E8%97%8F%E9%A4%90%E5%90%A7&city=%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E&src=travelyunnan&callnative=1"
     },
     {
@@ -1361,10 +2200,13 @@
         "url": "https://www.flickr.com/photos/42602676@N00/3509087283"
       },
       "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "ratings": [],
       "amapUrl": "https://uri.amap.com/search?keyword=%E5%8F%81%E8%B4%B0%E7%8E%96%E8%82%863294%E8%97%8F%E5%BC%8F%E7%94%9C%E8%8C%B6%E9%A6%86&city=%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E&src=travelyunnan&callnative=1"
     }
   ],
   "tips": [
     "대중점평(大众点评)·메이투안 쿠폰은 중국 휴대폰 번호를 입력해야 할인되는 경우가 많다. 숙소 전화번호를 적어 두면 좋다(하이디라오 등)"
-  ]
+  ],
+  "ratingsAsOf": "2026-11-07",
+  "ratingsNote": "대중점평(大众点评)은 자동 조회가 막혀 있어(인증 페이지), 공개된 씨트립(携程) 미식림 목록의 평점·리뷰 수·1인 가격·여행자 인기 메뉴를 2026-11-07에 옮겼다. 시점에 따라 바뀐다."
 }

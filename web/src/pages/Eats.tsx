@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { CarTaxiFront, Copy, Lightbulb, MapPin, Maximize2, MessageSquareText, ShoppingBasket, UtensilsCrossed, Wallet } from 'lucide-react'
+import { CarTaxiFront, Copy, Lightbulb, Star, MapPin, Maximize2, MessageSquareText, ShoppingBasket, UtensilsCrossed, Wallet } from 'lucide-react'
 import { Banner, DayChips, ShowCard, TopBar, copyText } from '../components/ui'
 import { useData, useNow } from '../store/data'
 import { resolvePhase } from '../domain/tripTime'
@@ -19,7 +19,7 @@ function EatCard({ r }: { r: Restaurant }) {
       <div style={{ padding: '10px 12px' }} className="grow">
         <div className="bold">{r.nameKo}</div>
         <div className="small zh muted">{r.nameZh}</div>
-        <div className="tiny" style={{ marginTop: 4 }}>{r.kind} · {r.perPerson}</div>
+        <div className="tiny" style={{ marginTop: 4 }}>{r.ratings?.[0]?.score != null && <b style={{ color: '#e08a00' }}>★{r.ratings[0].score.toFixed(1)}</b>}{r.ratings?.[0]?.reviews != null && <span className="faint">({r.ratings[0].reviews}) </span>}{r.kind} · {r.perPerson}</div>
         <div className="tiny faint">{r.slots.join(' · ')}</div>
       </div>
     </Link>
@@ -85,6 +85,22 @@ export function EatView() {
           <button className="btn" onClick={() => setBoard(true)}><Maximize2 size={18} />메뉴판 크게</button>
         </div>
       </div>
+      {(r.ratings?.length ?? 0) > 0 && <><div className="section">평점·여행자 인기 메뉴 (씨트립)</div>
+        <div className="pad stack">{r.ratings!.map((g) => (
+          <div key={g.name} className="card stack" data-testid="rating" style={{ gap: 6 }}>
+            <div className="row" style={{ gap: 8, alignItems: 'baseline', flexWrap: 'wrap' }}>
+              {g.score != null && <span className="bold" style={{ fontSize: '1.4em', color: '#e08a00' }}><Star size={18} fill="#e08a00" color="#e08a00" /> {g.score.toFixed(1)}</span>}
+              {g.reviews != null && <span className="small muted">리뷰 {g.reviews.toLocaleString()}건</span>}
+              <span className="small">1인 {g.price}</span>
+              {g.label && <span className="tiny muted">· {g.label}</span>}
+            </div>
+            <div className="tiny muted zh">{g.name} · {g.addr}</div>
+            {g.note && <div className="tiny faint">{g.note}</div>}
+            {g.popular.length > 0 && <div className="wrap">{g.popular.map((p) => { const n = sel[p.zh] ?? 0; return (
+              <button key={p.zh} className={`chip ${n ? 'on' : ''}`} data-testid="popular" onClick={() => setSel((x) => ({ ...x, [p.zh]: ((x[p.zh] ?? 0) + 1) % 4 }))}><span className="zh">{p.zh}</span> {p.ko}{n ? ` ×${n}` : ''}</button>) })}</div>}
+          </div>))}
+          <div className="tiny faint">{data.ratingsNote} 인기 메뉴를 누르면 주문 목록에 담긴다.</div>
+        </div></>}
       <div className="section">메뉴판 (누를 때마다 1→2→3→빼기, 여러 개 선택)</div>
       <div className="pad stack">
         {r.menu.map((m) => { const n = sel[m.zh] ?? 0; return (
@@ -100,7 +116,7 @@ export function EatView() {
           </div>
         ) })}
       </div>
-      {(() => { const picked = r.menu.map((m) => [m.zh, sel[m.zh] ?? 0] as [string, number]).filter(([, n]) => n > 0); return (
+      {(() => { const picked = Object.entries(sel).filter(([, n]) => n > 0) as [string, number][]; return (
         <div className="pad" style={{ position: 'sticky', bottom: 72, zIndex: 5 }}>
           <button className="btn primary block" data-testid="make-order" onClick={() => nav(picked.length ? `/menu?foods=${encodeURIComponent(encodeFoods(picked))}` : '/menu')}>
             <MessageSquareText size={18} />{picked.length ? `고른 ${picked.reduce((a, [, n]) => a + n, 0)}개로 주문 문장 만들기` : '주문 문장 만들기(음료·가리키기)'}</button>

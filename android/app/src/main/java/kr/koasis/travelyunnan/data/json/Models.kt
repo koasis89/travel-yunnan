@@ -189,6 +189,14 @@ data class Sight(
 )
 
 @Serializable
+data class PopularDish(val zh: String, val ko: String = "")
+
+/** 공개 평점(씨트립). score 는 5점 만점 */
+@Serializable
+data class Rating(val source: String = "", val name: String = "", val score: Double? = null, val reviews: Int? = null, val price: String = "",
+    val addr: String = "", val popular: List<PopularDish> = emptyList(), val label: String? = null, val note: String? = null)
+
+@Serializable
 data class MenuItem(val zh: String, val ko: String = "", val desc: String = "", val image: String? = null)
 
 /** 맛집 안내(data/restaurants.json). optionIds = meals.json 선택지 */
@@ -212,6 +220,7 @@ data class Restaurant(
     val keywords: List<String> = emptyList(),
     val amapUrl: String? = null,
     val placeId: String? = null,
+    val ratings: List<Rating> = emptyList(),
 )
 
 @Serializable
@@ -285,7 +294,7 @@ data class Hospital(val id: String, val nameKo: String = "", val nameZh: String 
     val amapUrl: String = "", val region: String = "", val note: String = "", val phrases: List<ShowPhrase> = emptyList())
 
 @Serializable
-data class RestaurantsFile(val version: String = "", val tips: List<String> = emptyList())
+data class RestaurantsFile(val version: String = "", val tips: List<String> = emptyList(), val ratingsNote: String = "")
 
 @Serializable
 data class Hotspot(

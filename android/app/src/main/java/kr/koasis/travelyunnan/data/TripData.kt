@@ -40,6 +40,7 @@ class TripData(
     val sights: List<Sight> = emptyList(),
     val restaurants: List<Restaurant> = emptyList(),
     val restaurantTips: List<String> = emptyList(),
+    val ratingsNote: String = "",
 ) {
     private val dayById = days.associateBy { it.id }
     private val lodgingById = lodgings.associateBy { it.id }
@@ -138,6 +139,7 @@ class TripData(
                 sights = runCatching { items("sights.json", Sight.serializer()).items }.getOrDefault(emptyList()),
                 restaurants = runCatching { items("restaurants.json", Restaurant.serializer()).items }.getOrDefault(emptyList()),
                 restaurantTips = runCatching { json.decodeFromString(RestaurantsFile.serializer(), read("restaurants.json")).tips }.getOrDefault(emptyList()),
+                ratingsNote = runCatching { json.decodeFromString(RestaurantsFile.serializer(), read("restaurants.json")).ratingsNote }.getOrDefault(""),
                 hotspots = runCatching { items("map_hotspots.json", Hotspot.serializer()).items }.getOrDefault(emptyList()),
                 emergency = runCatching { json.decodeFromString(EmergencyFile.serializer(), read("emergency.json")) }.getOrDefault(EmergencyFile()),
             )

@@ -150,6 +150,12 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   await page.goto(base + '#/schedule?day=D3')
   ok('일정 식당 칩(천천선)', await page.isVisible('.linkchip:has-text("천천선")'))
 
+  // 씨트립 평점·인기 메뉴 담기
+  await page.goto(base + '#/eats/jianxinyuan'); await page.waitForSelector('[data-testid=rating]')
+  ok('평점 표시(★4.5·리뷰 189)', (await page.textContent('[data-testid=rating]')).includes('4.5') && (await page.textContent('[data-testid=rating]')).includes('189'))
+  await page.click('[data-testid=popular]:has-text("标准过桥米线")'); await page.click('[data-testid=make-order]')
+  ok('인기 메뉴 → 주문 문장', await page.waitForSelector('text=我要一份标准过桥米线。', { timeout: 5000 }).then(() => true).catch(() => false))
+
   // 고산병 병원·새 가게·쿠폰 팁
   await page.goto(base + '#/emergency'); await page.waitForSelector('[data-testid=hospital]')
   ok('고산병 병원(리장시 인민병원)', (await page.textContent('[data-testid=hospital]')).includes('丽江市人民医院'))

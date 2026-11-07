@@ -71,7 +71,10 @@ fun EatsScreen(vm: AppViewModel, data: TripData, dayArg: String?) {
                     ListItem(
                         leadingContent = { Thumb(r.image, 72) },
                         headlineContent = { Text(r.nameKo) },
-                        supportingContent = { Text("${r.nameZh}\n${r.kind} · ${r.perPerson}\n${r.slots.joinToString(" · ")}", style = MaterialTheme.typography.bodySmall) },
+                        supportingContent = {
+                            val g = r.ratings.firstOrNull()
+                            Text((if (g?.score != null) "★%.1f".format(g.score) + (g.reviews?.let { "($it) " } ?: " ") else "") + "${r.nameZh}\n${r.kind} · ${r.perPerson}\n${r.slots.joinToString(" · ")}", style = MaterialTheme.typography.bodySmall)
+                        },
                         modifier = Modifier.clickable { actions.openEat(r.id) },
                     )
                 }
@@ -102,7 +105,7 @@ fun EatScreen(data: TripData, id: String) {
         ) {}
         return
     }
-    val pickedList = r.menu.mapNotNull { m -> sel[m.zh]?.takeIf { it > 0 }?.let { m.zh to it } }
+    val pickedList = sel.entries.filter { it.value > 0 }.map { it.key to it.value }
     Column(Modifier.fillMaxSize()) {
         AppTopBar(r.nameKo, onBack = actions.back)
         LazyColumn(Modifier.weight(1f), contentPadding = PaddingValues(bottom = 24.dp)) {
@@ -122,6 +125,27 @@ fun EatScreen(data: TripData, id: String) {
                         r.amapUrl?.let { u -> SmallAction(Icons.Filled.Map, "지도") { External.openUrl(ctx, u) } }
                         SmallAction(Icons.Filled.Fullscreen, "메뉴판 크게") { board = true }
                     }
+                }
+                if (r.ratings.isNotEmpty()) {
+                    SectionTitle("평점·여행자 인기 메뉴 (씨트립)")
+                    r.ratings.forEach { g ->
+                        Card(Modifier.padding(horizontal = 16.dp, vertical = 4.dp).fillMaxWidth()) {
+                            Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                                Text(listOfNotNull(g.score?.let { "★ %.1f".format(it) }, g.reviews?.let { "리뷰 ${it}건" }, "1인 ${g.price}", g.label).joinToString("  ·  "),
+                                    style = MaterialTheme.typography.titleMedium, color = androidx.compose.ui.graphics.Color(0xFFE08A00))
+                                Text("${g.name} · ${g.addr}", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                g.note?.let { Text(it, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline) }
+                                FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                                    g.popular.forEach { p ->
+                                        val n = sel[p.zh] ?: 0
+                                        FilterChip(n > 0, onClick = { sel[p.zh] = (n + 1) % 4 }, label = { Text("${p.zh} ${p.ko}" + if (n > 0) " ×$n" else "") })
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    Text("${data.ratingsNote} 인기 메뉴를 누르면 주문 목록에 담긴다.", style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.outline, modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp))
                 }
                 SectionTitle("메뉴판 (누를 때마다 1→2→3→빼기, 여러 개 선택)")
             }

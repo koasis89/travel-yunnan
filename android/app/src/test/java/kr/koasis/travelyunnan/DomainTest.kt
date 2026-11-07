@@ -201,6 +201,15 @@ class S6Test {
         assertEquals(listOf("汽锅鸡" to 1, "野生菌" to 2), kr.koasis.travelyunnan.ui.meal.decodeFoods(enc))
     }
 
+    @Test fun ctripRatings() {
+        val d = TripDataHolder.data
+        val j = d.restaurant("jianxinyuan")!!.ratings.single()
+        assertEquals(4.5, j.score!!, 0.0); assertEquals(189, j.reviews)
+        assertTrue(j.popular.any { it.zh == "标准过桥米线" })
+        assertTrue(d.restaurants.count { it.ratings.isNotEmpty() } >= 18)
+        assertTrue(d.ratingsNote.contains("大众点评"))
+    }
+
     @Test fun hospitalAndNewShops() {
         val d = TripDataHolder.data
         val h = d.emergency.hospitals.single()

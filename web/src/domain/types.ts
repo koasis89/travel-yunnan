@@ -20,7 +20,8 @@ export interface LodgingTodo { id: string; lodgingId: string; text: string; phra
 export interface SightCredit { title: string; author: string; license: string; url: string }
 export interface Sight { id: string; region: string; nameKo: string; nameZh: string; dayIds: string[]; placeId: string | null; keywords: string[]; summary: string; highlights: string[]; tips: string[]; hours: string; fee: string; duration: string; image: string | null; credit: SightCredit | null; amapUrl?: string | null }
 export interface MenuItem { zh: string; ko: string; desc: string; image?: string }
-export interface Restaurant { id: string; region: string; nameKo: string; nameZh: string; optionIds: string[]; dayIds: string[]; slots: string[]; kind: string; summary: string; menu: MenuItem[]; tips: string[]; perPerson: string; hours: string; image: string | null; credit: SightCredit | null; imageNote: string; keywords: string[]; amapUrl?: string | null; placeId?: string | null }
+export interface Rating { source: string; name: string; score: number | null; reviews: number | null; price: string; addr: string; popular: { zh: string; ko: string }[]; label?: string; note?: string }
+export interface Restaurant { id: string; region: string; nameKo: string; nameZh: string; optionIds: string[]; dayIds: string[]; slots: string[]; kind: string; summary: string; menu: MenuItem[]; tips: string[]; perPerson: string; hours: string; image: string | null; credit: SightCredit | null; imageNote: string; keywords: string[]; amapUrl?: string | null; placeId?: string | null; ratings?: Rating[] }
 export interface Hospital { id: string; nameKo: string; nameZh: string; addrZh: string; placeId: string; amapUrl: string; region: string; note: string; phrases: { zh: string; ko: string }[] }
 export interface EmergencyContact { id: string; group: string; name: string; phone: string; note: string }
 
@@ -35,6 +36,7 @@ export class TripData {
   packing: PackingItem[]; notes: Note[]; notifications: TripNotification[]; todos: LodgingTodo[]
   emergency: { note: string; contacts: EmergencyContact[]; altitude: string[]; hospitals: Hospital[] }
   restaurantTips: string[]
+  ratingsNote: string
   sights: Sight[]
   restaurants: Restaurant[]
   version: string
@@ -53,6 +55,7 @@ export class TripData {
     const em = b['emergency.json'] as { note?: string; contacts?: EmergencyContact[]; altitude?: string[]; hospitals?: Hospital[] } | undefined
     this.emergency = { note: em?.note ?? '', contacts: em?.contacts ?? [], altitude: em?.altitude ?? [], hospitals: em?.hospitals ?? [] }
     this.restaurantTips = (b['restaurants.json'] as { tips?: string[] })?.tips ?? []
+    this.ratingsNote = (b['restaurants.json'] as { ratingsNote?: string })?.ratingsNote ?? ''
     this.sights = it<Sight>('sights.json')
     this.restaurants = it<Restaurant>('restaurants.json')
     this.version = (b['version.json'] as { data?: string })?.data ?? ''
