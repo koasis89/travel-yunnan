@@ -161,8 +161,6 @@ private fun FoodCard(data: TripData, f: Food, have: List<String>) {
 
 // ------------------------------------------------------------ 메뉴 포인팅 카드 (S4-3)
 
-private val UNITS = listOf("一份" to "1인분", "一个" to "하나", "一瓶" to "한 병", "一杯" to "한 잔", "两份" to "2인분", "三份" to "3인분")
-private val REQUESTS = listOf("不要辣" to "안 맵게", "不要香菜" to "고수 빼고", "少放盐" to "소금 적게", "打包" to "포장")
 
 fun composeOrder(foodZh: String?, unit: String, requests: List<String>): String {
     val main = if (foodZh != null) "我要${unit}${foodZh}" else "这个要${unit}"
@@ -216,6 +214,24 @@ fun MenuPointScreen(vm: AppViewModel, data: TripData, foodArg: String?) {
     MenuPointContent(data, foodArg) { text -> if (!vm.speak("menu-${text.hashCode()}", text)) android.widget.Toast.makeText(ctx, "음성 재생을 할 수 없다", android.widget.Toast.LENGTH_SHORT).show() }
 }
 
+/** 주문 화면 탭(웹 ORDER_TABS): 음식 · 음료(물·차·윈난 음료·음료수·커피) · 맥주 · 술 */
+val ORDER_TABS = listOf("food" to "음식", "drink" to "음료", "beer" to "맥주", "liquor" to "술")
+fun tabOf(d: Drink) = when (d.group) { "맥주" -> "beer"; "술" -> "liquor"; else -> "drink" }
+private val ORDER_REQUESTS = listOf("不要辣" to "안 맵게", "微辣" to "조금만 맵게", "不要香菜" to "고수 빼고", "少放盐" to "소금 적게", "打包" to "포장") + DRINK_REQUESTS
+
+/** 고른 음식 + '이거'(가리키며) + 음료·맥주·술 + 요청 → 주문 문장(웹 composeTabOrder 와 같다) */
+fun composeTabOrder(foods: List<Pair<String, Int>>, point: Int, drinks: List<Pair<Drink, Int>>, requests: List<String>): String {
+    val num = { n: Int -> NUM.getOrElse(n) { n.toString() } }
+    val parts = mutableListOf<String>()
+    val fs = foods.filter { it.second > 0 }.map { (z, n) -> "${num(n)}份$z" }
+    if (fs.isNotEmpty()) parts += "我要" + fs.joinToString("、")
+    if (point > 0) parts += if (fs.isNotEmpty()) "这个也要${num(point)}份" else "这个要${num(point)}份"
+    val ds = drinks.filter { it.second > 0 }.map { (d, n) -> "${num(n)}${d.measure}${d.zh}" }
+    if (ds.isNotEmpty()) parts += (if (parts.isNotEmpty()) "再" else "我") + "要" + ds.joinToString("、")
+    if (parts.isEmpty()) parts += "你好，我要点菜"
+    return (parts + requests).joinToString("，") + "。"
+}
+
 @OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
 fun MenuPointContent(data: TripData, foodArg: String?, onSpeak: (String) -> Unit) {
@@ -232,24 +248,23 @@ fun MenuPointContent(data: TripData, foodArg: String?, onSpeak: (String) -> Unit
             }
         }
     }
-    var unit by rememberSaveable { mutableStateOf("一份") }
+    var point by rememberSaveable { mutableIntStateOf(0) }
     var requests by rememberSaveable { mutableStateOf(listOf<String>()) }
     var showMode by rememberSaveable { mutableStateOf(false) }
-    var drinksOnly by rememberSaveable { mutableStateOf(false) }
+    var tab by rememberSaveable { mutableStateOf("food") }
+    var showReq by rememberSaveable { mutableStateOf(false) }
     val drinkCount = remember { mutableStateMapOf<String, Int>() }
     fun count(zh: String) = picked.firstOrNull { it.first == zh }?.second ?: 0
-    fun cycle(zh: String) {
-        drinksOnly = false
-        val n = (count(zh) + 1) % 4
-        val i = picked.indexOfFirst { it.first == zh }
-        if (n == 0) { if (i >= 0) picked.removeAt(i) } else if (i >= 0) picked[i] = zh to n else picked.add(zh to n)
+    fun setFood(zh: String, n: Int) {
+        val v = n.coerceIn(0, 9); val i = picked.indexOfFirst { it.first == zh }
+        if (v == 0) { if (i >= 0) picked.removeAt(i) } else if (i >= 0) picked[i] = zh to v else picked.add(zh to v)
     }
     val chosen = DRINKS.mapNotNull { d -> drinkCount[d.zh]?.takeIf { it > 0 }?.let { d to it } }
-    val sentence = composeMultiOrder(picked.toList(), if (drinksOnly) null else unit, chosen, requests)
+    val sentence = composeTabOrder(picked.toList(), point, chosen, requests)
     val koName = { zh: String -> foods.firstOrNull { it.zh == zh }?.ko?.substringBefore("(") ?: zh }
-    val koLine = ((if (picked.isNotEmpty()) picked.map { (z, n) -> "${koName(z)} ${n}인분" } else if (drinksOnly) emptyList()
-        else listOf("이거(메뉴를 가리키며) · ${UNITS.firstOrNull { u -> u.first == unit }?.second ?: unit}")) +
-        chosen.map { (d, n) -> "${d.ko} $n" }).joinToString(" / ")
+    val koLine = (picked.map { (z, n) -> "${koName(z)} $n" } + (if (point > 0) listOf("이거(가리키며) $point") else emptyList()) +
+        chosen.map { (d, n) -> "${d.ko.substringBefore("(")} $n" }).joinToString(" · ")
+    fun tabCount(t: String) = if (t == "food") picked.sumOf { it.second } + point else chosen.filter { tabOf(it.first) == t }.sumOf { it.second }
 
     if (showMode) {
         ShowCardScreen(
@@ -263,53 +278,71 @@ fun MenuPointContent(data: TripData, foodArg: String?, onSpeak: (String) -> Unit
         }
         return
     }
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
+    Column(Modifier.fillMaxSize()) {
         AppTopBar("주문 문장 만들기", onBack = actions.back)
-        Card(Modifier.padding(16.dp).fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)) {
-            Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text(sentence, style = ShowText.longPhrase.copy(fontSize = 28.sp, lineHeight = 40.sp), fontWeight = FontWeight.Bold)
-                Text(koLine, style = MaterialTheme.typography.bodyMedium)
+        // 문장은 늘 위에(목록만 스크롤)
+        Card(Modifier.padding(horizontal = 16.dp, vertical = 4.dp).fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)) {
+            Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                Text(sentence, style = ShowText.longPhrase.copy(fontSize = 24.sp, lineHeight = 34.sp), fontWeight = FontWeight.Bold)
+                if (koLine.isNotBlank()) Text(koLine, style = MaterialTheme.typography.bodyMedium)
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     SmallAction(Icons.Filled.Fullscreen, "크게 보여주기") { showMode = true }
                     SmallAction(Icons.AutoMirrored.Filled.VolumeUp, "듣기") { onSpeak(sentence) }
                     SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, sentence) }
+                    if (picked.isNotEmpty() || point > 0 || chosen.isNotEmpty()) SmallAction(Icons.Filled.Delete, "비우기") { picked.clear(); point = 0; drinkCount.clear(); requests = emptyList() }
                 }
             }
         }
-        if (picked.isEmpty() && !drinksOnly) {
-            SectionTitle("가리키기 수량")
-            FlowRow(Modifier.padding(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                UNITS.forEach { (zh, ko) -> FilterChip(unit == zh, onClick = { unit = zh }, label = { Text("$zh $ko") }) }
+        Row(Modifier.padding(horizontal = 16.dp, vertical = 6.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            ORDER_TABS.forEach { (k, t) ->
+                val n = tabCount(k)
+                FilterChip(tab == k, onClick = { tab = k }, label = { Text(if (n > 0) "$t $n" else t, style = MaterialTheme.typography.titleSmall) })
             }
         }
-        SectionTitle("요청")
-        FlowRow(Modifier.padding(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            REQUESTS.forEach { (zh, ko) ->
-                FilterChip(zh in requests, onClick = { requests = if (zh in requests) requests - zh else requests + zh }, label = { Text("$zh $ko") })
+        LazyColumn(Modifier.weight(1f), contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 24.dp)) {
+            if (tab == "food") {
+                item(key = "point") { OrderRow("这个", "이거 (메뉴판을 손으로 가리키며)", null, point) { point = it.coerceIn(0, 9) } }
+                items(picked.filter { p -> foods.none { it.zh == p.first } }, key = { "x" + it.first }) { (z, n) -> OrderRow(z, "메뉴판에서 고른 음식", null, n) { setFood(z, it) } }
+                items(foods, key = { "f" + it.id }) { f -> OrderRow(f.zh, f.ko.substringBefore("("), null, count(f.zh)) { setFood(f.zh, it) } }
+            } else {
+                val list = DRINKS.filter { tabOf(it) == tab }
+                val groups = list.map { it.group }.distinct()
+                groups.forEach { g ->
+                    if (groups.size > 1) item(key = "g$g") { Text(g, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.outline, modifier = Modifier.padding(top = 8.dp, bottom = 2.dp)) }
+                    items(list.filter { it.group == g }, key = { "d" + it.zh }) { d -> OrderRow(d.zh, d.ko, null, drinkCount[d.zh] ?: 0) { drinkCount[d.zh] = it.coerceIn(0, 9) } }
+                }
+                if (tab == "liquor") item { Text("고량주(백주)는 40도 이상이라 작은 병(小瓶)으로 주문한다.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline, modifier = Modifier.padding(top = 6.dp)) }
             }
-        }
-        SectionTitle("음료 (누를 때마다 1→2→3→빼기)")
-        DRINKS.map { it.group }.distinct().forEach { g ->
-            Text(g, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.outline, modifier = Modifier.padding(start = 16.dp, top = 4.dp))
-            FlowRow(Modifier.padding(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                DRINKS.filter { it.group == g }.forEach { d ->
-                    val n = drinkCount[d.zh] ?: 0
-                    FilterChip(n > 0, onClick = { drinkCount[d.zh] = (n + 1) % 4 }, label = { Text("${d.zh} ${d.ko}" + if (n > 0) " ×$n" else "") })
+            item(key = "req") {
+                Column(Modifier.padding(top = 12.dp)) {
+                    TextButton(onClick = { showReq = !showReq }, contentPadding = PaddingValues(0.dp)) {
+                        Text((if (showReq) "▼ " else "▶ ") + "요청 추가 (선택)" + if (requests.isNotEmpty()) " · ${requests.size}" else "", style = MaterialTheme.typography.titleSmall)
+                    }
+                    if (showReq || requests.isNotEmpty()) FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                        ORDER_REQUESTS.forEach { (zh, ko) -> FilterChip(zh in requests, onClick = { requests = if (zh in requests) requests - zh else requests + zh }, label = { Text("$zh $ko") }) }
+                    }
+                    Text("항목을 누르거나 + 로 담고 − 로 줄인다. 문장은 위에서 바로 바뀐다.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline, modifier = Modifier.padding(top = 8.dp))
                 }
             }
         }
-        FlowRow(Modifier.padding(horizontal = 16.dp, vertical = 4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            DRINK_REQUESTS.forEach { (zh, ko) ->
-                FilterChip(zh in requests, onClick = { requests = if (zh in requests) requests - zh else requests + zh }, label = { Text("$zh $ko") })
+    }
+}
+
+/** 주문 항목 한 줄: 중국어·한국어 이름 + [−] 수량 [+]. 줄을 눌러도 하나 더 담긴다 */
+@Composable
+private fun OrderRow(zh: String, ko: String, note: String?, n: Int, onSet: (Int) -> Unit) {
+    Surface(onClick = { onSet(n + 1) }, color = if (n > 0) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface,
+        shape = RoundedCornerShape(12.dp), modifier = Modifier.fillMaxWidth().padding(vertical = 3.dp)) {
+        Row(Modifier.padding(horizontal = 12.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.weight(1f)) {
+                Text(zh, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                Text(ko + (note?.let { " · $it" } ?: ""), style = MaterialTheme.typography.bodySmall)
             }
+            if (n > 0) {
+                IconButton(onClick = { onSet(n - 1) }) { Icon(Icons.Filled.Remove, "빼기") }
+                Text("$n", style = MaterialTheme.typography.titleLarge, modifier = Modifier.widthIn(min = 22.dp))
+            }
+            FilledIconButton(onClick = { onSet(n + 1) }) { Icon(Icons.Filled.Add, "더하기") }
         }
-        SectionTitle("음식 (여러 개 선택 · 누를 때마다 1→2→3→빼기)")
-        FlowRow(Modifier.padding(horizontal = 16.dp, vertical = 4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            FilterChip(!drinksOnly && picked.isEmpty(), onClick = { picked.clear(); drinksOnly = false }, label = { Text("이거(가리키기)") })
-            FilterChip(drinksOnly, onClick = { picked.clear(); drinksOnly = true }, label = { Text("음료만") })
-            picked.filter { p -> foods.none { it.zh == p.first } }.forEach { (z, n) -> FilterChip(true, onClick = { cycle(z) }, label = { Text("$z ×$n") }) }
-            foods.forEach { f -> val n = count(f.zh); FilterChip(n > 0, onClick = { cycle(f.zh) }, label = { Text("${f.zh} ${f.ko.substringBefore("(")}" + if (n > 0) " ×$n" else "") }) }
-        }
-        Spacer(Modifier.height(24.dp))
     }
 }

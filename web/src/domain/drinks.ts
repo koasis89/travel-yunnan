@@ -60,3 +60,25 @@ export function composeFullOrder(food: string | null | undefined, unit: string, 
   if (!parts.length) parts.push('你好，我要点菜')
   return [...parts, ...requests].join('，') + '。'
 }
+
+/** 주문 화면 탭: 음식 · 음료(물·차·윈난 음료·음료수·커피) · 맥주 · 술 */
+export type OrderTab = 'food' | 'drink' | 'beer' | 'liquor'
+export const ORDER_TABS: [OrderTab, string][] = [['food', '음식'], ['drink', '음료'], ['beer', '맥주'], ['liquor', '술']]
+export const tabOf = (d: Drink): OrderTab => (d.group === '맥주' ? 'beer' : d.group === '술' ? 'liquor' : 'drink')
+export const ORDER_REQUESTS: [string, string][] = [['不要辣', '안 맵게'], ['微辣', '조금만 맵게'], ['不要香菜', '고수 빼고'], ['少放盐', '소금 적게'], ['打包', '포장'], ...DRINK_REQUESTS]
+
+const num = (n: number) => NUM[n] ?? String(n)
+/**
+ * 고른 음식(각 수량) + '이거'(메뉴를 가리키며, 수량) + 음료·맥주·술(각 수량) + 요청 → 주문 문장.
+ * "我要两份过桥米线，这个也要一份，再要三瓶冰啤酒，不要辣。" 아무것도 없으면 "你好，我要点菜。"
+ */
+export function composeTabOrder(foods: [string, number][], point: number, drinks: [Drink, number][], requests: string[]): string {
+  const parts: string[] = []
+  const fs = foods.filter(([, n]) => n > 0).map(([z, n]) => `${num(n)}份${z}`)
+  if (fs.length) parts.push(`我要${fs.join('、')}`)
+  if (point > 0) parts.push(fs.length ? `这个也要${num(point)}份` : `这个要${num(point)}份`)
+  const ds = drinks.filter(([, n]) => n > 0).map(([d, n]) => drinkPhrase(d, n))
+  if (ds.length) parts.push(`${parts.length ? '再' : '我'}要${ds.join('、')}`)
+  if (!parts.length) parts.push('你好，我要点菜')
+  return [...parts, ...requests].join('，') + '。'
+}

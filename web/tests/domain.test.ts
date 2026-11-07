@@ -205,3 +205,16 @@ describe('경비 CSV 가져오기', () => {
     expect(round.added.map((e) => [e.amount, e.currency, e.at])).toEqual(r.added.map((e) => [e.amount, e.currency, e.at]).sort((a, b) => (a[2] as number) - (b[2] as number)))
   })
 })
+
+import { composeTabOrder, tabOf } from '../src/domain/drinks'
+describe('주문 문장(탭·수량)', () => {
+  const d = (zh: string) => DRINKS.find((x) => x.zh === zh)!
+  it('음식·이거·음료·맥주·술을 수량대로 한 문장으로', () => {
+    expect(composeTabOrder([['过桥米线', 2]], 1, [[d('冰啤酒'), 3]], ['不要辣'])).toBe('我要两份过桥米线，这个也要一份，再要三瓶冰啤酒，不要辣。')
+    expect(composeTabOrder([], 2, [], [])).toBe('这个要两份。')
+    expect(composeTabOrder([], 0, [[d('矿泉水'), 1], [d('鹤庆乾酒'), 1]], [])).toBe('我要一瓶矿泉水、一小瓶鹤庆乾酒。')
+    expect(composeTabOrder([], 0, [], [])).toBe('你好，我要点菜。')
+    expect(composeTabOrder([['汽锅鸡', 8]], 0, [], [])).toBe('我要8份汽锅鸡。')
+    expect([tabOf(d('冰啤酒')), tabOf(d('鹤庆乾酒')), tabOf(d('普洱茶')), tabOf(d('冰美式'))]).toEqual(['beer', 'liquor', 'drink', 'drink'])
+  })
+})

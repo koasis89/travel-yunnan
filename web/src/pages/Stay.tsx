@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import { BookOpen, CarTaxiFront, Copy, MapPin, MessageSquareText, Maximize2, Users } from 'lucide-react'
+import { BookOpen, CarTaxiFront, Copy, MapPin, MessageSquareText, Maximize2, Minus, Plus, Users } from 'lucide-react'
 import { Banner, DayChips, ShowCard, TopBar, copyText } from '../components/ui'
 import { useData, useNow } from '../store/data'
 import { useStored } from '../store/local'
@@ -8,7 +8,7 @@ import { resolvePhase } from '../domain/tripTime'
 import { isTaxiable, optKo, optZh } from '../domain/cards'
 import { FoodPhotos, LocalPhoto } from './FoodPhotos'
 import { usePhotoIds } from '../store/foodPhotos'
-import { DRINKS, DRINK_REQUESTS, composeMultiOrder, decodeFoods, type Drink } from '../domain/drinks'
+import { DRINKS, ORDER_REQUESTS, ORDER_TABS, composeTabOrder, decodeFoods, tabOf, type Drink, type OrderTab } from '../domain/drinks'
 
 /** 하단 탭 "숙소·식사": 숙소 / 식사 / 음식 도감 / 음식 사진 */
 export function Stay() {
@@ -137,77 +137,86 @@ function Foods() {
   </>)
 }
 
-const UNITS: [string, string][] = [['一份', '1인분'], ['一个', '하나'], ['一瓶', '한 병'], ['一杯', '한 잔'], ['两份', '2인분'], ['三份', '3인분']]
-const REQUESTS: [string, string][] = [['不要辣', '안 맵게'], ['不要香菜', '고수 빼고'], ['少放盐', '소금 적게'], ['打包', '포장']]
 
 export function Menu() {
-  const data = useData(); const nav = useNavigate()
+  const data = useData()
   const [sp] = useSearchParams()
   const foods = useMemo(() => [...new Map(data.foods.map((f) => [f.nameZh, f])).values()], [data])
   // 고른 음식(수량). ?food=단일 또는 ?foods=A*1|B*2 (맛집 메뉴판에서 여러 개)
   const [picked, setPicked] = useState<[string, number][]>(() => sp.get('foods') ? decodeFoods(sp.get('foods')) : sp.get('food') ? [[sp.get('food')!, 1]] : [])
-  const [drinksOnly, setDrinksOnly] = useState(false)
+  const [point, setPoint] = useState(0)
   const [drinks, setDrinks] = useState<Record<string, number>>({})
-  const [unit, setUnit] = useState('一份')
   const [req, setReq] = useState<string[]>([])
+  const [tab, setTab] = useState<OrderTab>('food')
   const [show, setShow] = useState(false)
   const count = (z: string) => picked.find(([x]) => x === z)?.[1] ?? 0
-  const cycle = (z: string) => { setDrinksOnly(false); setPicked((l) => { const n = (count(z) + 1) % 4; const rest = l.filter(([x]) => x !== z); return n ? (l.some(([x]) => x === z) ? l.map(([x, c]) => [x, x === z ? n : c] as [string, number]) : [...rest, [z, n]]) : rest }) }
+  const setFood = (z: string, n: number) => setPicked((l) => {
+    const v = Math.max(0, Math.min(9, n))
+    if (!v) return l.filter(([x]) => x !== z)
+    return l.some(([x]) => x === z) ? l.map(([x, c]) => [x, x === z ? v : c] as [string, number]) : [...l, [z, v]]
+  })
+  const setDrink = (z: string, n: number) => setDrinks((m) => ({ ...m, [z]: Math.max(0, Math.min(9, n)) }))
   const dsel = DRINKS.map((d) => [d, drinks[d.zh] ?? 0] as [Drink, number]).filter(([, n]) => n > 0)
-  const sentence = composeMultiOrder(picked, drinksOnly ? null : unit, dsel, req)
+  const sentence = composeTabOrder(picked, point, dsel, req)
   const koName = (z: string) => foods.find((f) => f.nameZh === z)?.nameKo.split('(')[0] ?? z
-  const ko = [...(picked.length ? picked.map(([z, n]) => `${koName(z)} ${n}인분`) : drinksOnly ? [] : [`이거(메뉴를 가리키며) · ${UNITS.find((u) => u[0] === unit)?.[1]}`]),
-    ...dsel.map(([d, n]) => `${d.ko} ${n}`)].join(' / ')
+  const ko = [...picked.map(([z, n]) => `${koName(z)} ${n}`), ...(point ? [`이거(가리키며) ${point}`] : []), ...dsel.map(([d, n]) => `${d.ko.split('(')[0]} ${n}`)].join(' · ')
   const extra = picked.filter(([z]) => !foods.some((f) => f.nameZh === z))
+  const tabCount = (t: OrderTab) => t === 'food' ? picked.reduce((a, [, n]) => a + n, 0) + point : dsel.filter(([d]) => tabOf(d) === t).reduce((a, [, n]) => a + n, 0)
+  const any = picked.length > 0 || point > 0 || dsel.length > 0
   if (show) return (
     <ShowCard header="종업원에게 보여주세요" onClose={() => setShow(false)} actions={<button className="btn" onClick={() => copyText(sentence)}><Copy size={16} />복사</button>}>
       <div className="phrase zh">{sentence}</div>
       <div className="sub">{ko}</div>
     </ShowCard>
   )
+  const Row = ({ zh, koText, note, n, onSet }: { zh: string; koText: string; note?: string; n: number; onSet: (n: number) => void }) => (
+    <div className={`li order-row ${n ? 'on' : ''}`} data-testid="item" data-zh={zh} onClick={() => onSet(n + 1)} style={{ cursor: 'pointer', background: n ? 'var(--primary-c)' : undefined }}>
+      <div className="grow" style={{ minWidth: 0 }}>
+        <div className="zh bold" style={{ fontSize: '1.15em' }}>{zh}</div>
+        <div className="small">{koText}{note ? <span className="tiny muted"> · {note}</span> : null}</div>
+      </div>
+      <div className="row" style={{ gap: 6, flex: 'none' }} onClick={(e) => e.stopPropagation()}>
+        {n > 0 && <><button className="iconbtn stepper" aria-label="빼기" data-testid="minus" onClick={() => onSet(n - 1)}><Minus size={20} /></button>
+          <span className="bold" data-testid="qty" style={{ minWidth: 22, textAlign: 'center', fontSize: '1.2em' }}>{n}</span></>}
+        <button className="iconbtn stepper" aria-label="더하기" data-testid="plus" onClick={() => onSet(n + 1)} style={{ background: 'var(--primary)', color: 'var(--on-primary)' }}><Plus size={20} /></button>
+      </div>
+    </div>
+  )
+  const groups = [...new Set(DRINKS.filter((d) => tabOf(d) === tab).map((d) => d.group))]
   return (
     <div className="page">
       <TopBar title="주문 문장 만들기" />
-      <div className="pad"><div className="card mint">
-        <div className="zh bold" data-testid="order-sentence" style={{ fontSize: '1.6em', lineHeight: 1.35 }}>{sentence}</div>
-        <div className="small" style={{ marginTop: 6 }}>{ko}</div>
-        <div className="wrap" style={{ marginTop: 10 }}>
-          <button className="btn" onClick={() => setShow(true)}><Maximize2 size={16} />크게 보여주기</button>
-          <button className="btn" onClick={() => copyText(sentence)}><Copy size={16} />복사</button>
-          {(picked.length > 0 || dsel.length > 0) && <button className="btn ghost" onClick={() => { setPicked([]); setDrinks({}); setDrinksOnly(false) }}>모두 지우기</button>}
-          <button className="btn ghost" onClick={() => nav(-1)}>닫기</button>
+      {/* 문장은 늘 위에 보이게 */}
+      <div style={{ position: 'sticky', top: 0, zIndex: 6, background: 'var(--bg)' }}>
+        <div className="pad" style={{ paddingBottom: 6 }}><div className="card mint">
+          <div className="zh bold" data-testid="order-sentence" style={{ fontSize: '1.45em', lineHeight: 1.35 }}>{sentence}</div>
+          {ko && <div className="small" style={{ marginTop: 4 }}>{ko}</div>}
+          <div className="wrap" style={{ marginTop: 8 }}>
+            <button className="btn primary" onClick={() => setShow(true)}><Maximize2 size={16} />크게 보여주기</button>
+            <button className="btn" onClick={() => copyText(sentence)}><Copy size={16} />복사</button>
+            {any && <button className="btn ghost" onClick={() => { setPicked([]); setPoint(0); setDrinks({}); setReq([]) }}>비우기</button>}
+          </div>
+        </div></div>
+        <div className="chips" data-testid="order-tabs" style={{ paddingBottom: 6 }}>
+          {ORDER_TABS.map(([k, t]) => <button key={k} className={`chip ${tab === k ? 'on' : ''}`} onClick={() => setTab(k)} style={{ fontSize: '1em', padding: '9px 16px' }}>{t}{tabCount(k) ? ` ${tabCount(k)}` : ''}</button>)}
         </div>
+      </div>
+      <div className="pad"><div className="card flat" style={{ padding: 0 }}>
+        {tab === 'food' ? <>
+          <Row zh="这个" koText="이거 (메뉴판을 손으로 가리키며)" n={point} onSet={setPoint} />
+          {extra.map(([z, n]) => <Row key={z} zh={z} koText="메뉴판에서 고른 음식" n={n} onSet={(v) => setFood(z, v)} />)}
+          {foods.map((f) => <Row key={f.id} zh={f.nameZh} koText={f.nameKo.split('(')[0]} note={f.region} n={count(f.nameZh)} onSet={(v) => setFood(f.nameZh, v)} />)}
+        </> : groups.map((g) => <div key={g}>
+          {groups.length > 1 && <div className="tiny muted" style={{ padding: '8px 14px 2px' }}>{g}</div>}
+          {DRINKS.filter((d) => d.group === g).map((d) => <Row key={d.zh} zh={d.zh} koText={d.ko} note={d.note} n={drinks[d.zh] ?? 0} onSet={(v) => setDrink(d.zh, v)} />)}
+        </div>)}
       </div></div>
-      <div className="section">음식 (여러 개 선택 · 누를 때마다 1→2→3→빼기)</div>
-      <div className="wrap pad">
-        <button className={`chip ${!picked.length && !drinksOnly ? 'on' : ''}`} onClick={() => { setPicked([]); setDrinksOnly(false) }}>이거(가리키기)</button>
-        <button className={`chip ${drinksOnly ? 'on' : ''}`} onClick={() => { setPicked([]); setDrinksOnly(true) }}>음료만</button>
-        {extra.map(([z, n]) => <button key={z} data-testid="food" className="chip on" onClick={() => cycle(z)}><span className="zh">{z}</span> ×{n}</button>)}
-        {foods.map((f) => { const n = count(f.nameZh); return <button key={f.id} data-testid="food" className={`chip ${n ? 'on' : ''}`} onClick={() => cycle(f.nameZh)}><span className="zh">{f.nameZh}</span> {f.nameKo.split('(')[0]}{n ? ` ×${n}` : ''}</button> })}
-      </div>
-      {!picked.length && !drinksOnly && <><div className="section">가리키기 수량</div>
-        <div className="wrap pad">{UNITS.map(([z, k]) => <button key={z} className={`chip ${unit === z ? 'on' : ''}`} onClick={() => setUnit(z)}><span className="zh">{z}</span> {k}</button>)}</div></>}
-      <div className="section">요청</div>
-      <div className="wrap pad">{REQUESTS.map(([z, k]) => <button key={z} className={`chip ${req.includes(z) ? 'on' : ''}`} onClick={() => setReq((r) => (r.includes(z) ? r.filter((x) => x !== z) : [...r, z]))}><span className="zh">{z}</span> {k}</button>)}</div>
-      <div className="section">음료 (누를 때마다 1→2→3→빼기)</div>
-      {[...new Set(DRINKS.map((d) => d.group))].map((g) => (
-        <div key={g} className="pad" style={{ marginBottom: 6 }}>
-          <div className="tiny muted" style={{ margin: '2px 0 4px' }}>{g}</div>
-          <div className="wrap">{DRINKS.filter((d) => d.group === g).map((d) => {
-            const n = drinks[d.zh] ?? 0
-            return <button key={d.zh} data-testid="drink" className={`chip ${n ? 'on' : ''}`} title={d.note}
-              onClick={() => setDrinks((m) => ({ ...m, [d.zh]: ((m[d.zh] ?? 0) + 1) % 4 }))}><span className="zh">{d.zh}</span> {d.ko}{n ? ` ×${n}` : ''}</button>
-          })}</div>
-        </div>
-      ))}
-      <div className="wrap pad">{DRINK_REQUESTS.map(([z, k]) => <button key={z} className={`chip ${req.includes(z) ? 'on' : ''}`} onClick={() => setReq((r) => (r.includes(z) ? r.filter((x) => x !== z) : [...r, z]))}><span className="zh">{z}</span> {k}</button>)}</div>
-      <p className="pad tiny faint">고량주(백주)는 도수가 40도 이상이라 작은 병(小瓶)으로 고르게 했다. 酥油茶·牦牛酸奶는 샹그릴라, 酸角汁·木瓜水는 윈난 식당 어디서나 흔하다.</p>
-      {/* 아래로 내려가 음식·음료를 골라도 문장이 보이게 */}
-      <div className="pad" style={{ position: 'sticky', bottom: 72, zIndex: 5 }}>
-        <button className="card mint row" data-testid="sticky-order" onClick={() => setShow(true)} style={{ width: '100%', textAlign: 'left', border: 0, gap: 10 }}>
-          <span className="zh bold grow" style={{ fontSize: '1.05em' }}>{sentence}</span><Maximize2 size={18} />
-        </button>
-      </div>
+      {tab === 'liquor' && <p className="pad tiny faint" style={{ margin: 0 }}>고량주(백주)는 40도 이상이라 작은 병(小瓶)으로 주문한다.</p>}
+      <details className="pad" style={{ marginTop: 8 }} open={req.length > 0}>
+        <summary className="bold" style={{ padding: '6px 0' }}>요청 추가 (선택){req.length ? ` · ${req.length}` : ''}</summary>
+        <div className="wrap" style={{ marginTop: 6 }}>{ORDER_REQUESTS.map(([z, k]) => <button key={z} className={`chip ${req.includes(z) ? 'on' : ''}`} onClick={() => setReq((r) => (r.includes(z) ? r.filter((x) => x !== z) : [...r, z]))}><span className="zh">{z}</span> {k}</button>)}</div>
+      </details>
+      <p className="pad tiny faint">항목을 누르거나 + 로 담고 − 로 줄인다. 문장은 위에서 바로 바뀐다.</p>
     </div>
   )
 }

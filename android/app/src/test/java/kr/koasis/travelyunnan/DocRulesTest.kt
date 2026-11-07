@@ -92,4 +92,14 @@ class DocRulesTest {
         // 내보내기 → 가져오기 왕복
         assertEquals(2, E.parse(kr.koasis.travelyunnan.ui.expense.expensesCsv(r.added, 200.0), emptyList()).added.size)
     }
+
+    @Test fun tabOrderSentence() {
+        val M = kr.koasis.travelyunnan.ui.meal.DRINKS
+        val d = { zh: String -> M.first { it.zh == zh } }
+        assertEquals("我要两份过桥米线，这个也要一份，再要三瓶冰啤酒，不要辣。",
+            kr.koasis.travelyunnan.ui.meal.composeTabOrder(listOf("过桥米线" to 2), 1, listOf(d("冰啤酒") to 3), listOf("不要辣")))
+        assertEquals("这个要两份。", kr.koasis.travelyunnan.ui.meal.composeTabOrder(emptyList(), 2, emptyList(), emptyList()))
+        assertEquals("我要一瓶矿泉水、一小瓶鹤庆乾酒。", kr.koasis.travelyunnan.ui.meal.composeTabOrder(emptyList(), 0, listOf(d("矿泉水") to 1, d("鹤庆乾酒") to 1), emptyList()))
+        assertEquals(listOf("beer", "liquor", "drink"), listOf(d("冰啤酒"), d("鹤庆乾酒"), d("冰美式")).map { kr.koasis.travelyunnan.ui.meal.tabOf(it) })
+    }
 }
