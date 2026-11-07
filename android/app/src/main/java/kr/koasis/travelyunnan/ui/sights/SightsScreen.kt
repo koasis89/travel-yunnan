@@ -3,6 +3,8 @@ package kr.koasis.travelyunnan.ui.sights
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -176,7 +178,9 @@ fun DaySightsRow(data: TripData, dayId: String) {
 fun AmapLinksScreen(data: TripData) {
     val actions = LocalActions.current
     val ctx = LocalContext.current
-    val rows = remember { kr.koasis.travelyunnan.domain.AmapLinks.rows(data) }
+    val all = remember { kr.koasis.travelyunnan.domain.AmapLinks.rows(data) }
+    var group by rememberSaveable { mutableStateOf<String?>(null) }
+    val rows = all.filter { group == null || it.group == group }
     Column(Modifier.fillMaxSize()) {
         AppTopBar("지도 링크 모음", onBack = actions.back) {
             IconButton(onClick = { External.copy(ctx, rows.joinToString("\n\n") { kr.koasis.travelyunnan.domain.AmapLinks.text(it) }, "${rows.size}곳을 복사했다") }) {
@@ -187,6 +191,14 @@ fun AmapLinksScreen(data: TripData) {
             item {
                 Text("고덕지도(Amap) 앱을 깔고 누른다. '정확'은 고덕지도에서 공유받은 위치, 나머지는 이름·주소 검색 링크다. 복사 버튼은 이름·주소·링크를 붙여넣기용 글로 복사한다.",
                     style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(16.dp))
+            }
+            item(key = "groups") {
+                Row(Modifier.horizontalScroll(rememberScrollState()).padding(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    FilterChip(selected = group == null, onClick = { group = null }, label = { Text("전체 ${all.size}") })
+                    all.map { it.group }.distinct().forEach { g ->
+                        FilterChip(selected = group == g, onClick = { group = g }, label = { Text("$g ${all.count { it.group == g }}") })
+                    }
+                }
             }
             rows.map { it.group }.distinct().forEach { g ->
                 item(key = "g-$g") { SectionTitle("$g (${rows.count { it.group == g }})") }

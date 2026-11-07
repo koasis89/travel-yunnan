@@ -126,6 +126,11 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   ok('지도 링크 80곳 이상', (await page.locator('[data-testid=amap-row]').count()) >= 80)
   ok('공유받은 링크(일와당) 사용', (await page.getAttribute('[data-testid=amap-row]:has-text("一瓦堂") a', 'href')) === 'https://surl.amap.com/1ZGvMhI4fh')
   ok('숙소 지도 링크', ((await page.getAttribute('[data-testid=amap-row]:has-text("丽江沐蘭遇") a', 'href')) || '').startsWith('https://uri.amap.com/search'))
+  await page.click('[data-testid=amap-groups] >> text=숙소')
+  ok('지도 링크: 숙소만 보기', [4, 5, 6].includes(await page.locator('[data-testid=amap-row]').count()) && !(await page.isVisible('text=톈춘 산탕')))
+  await page.click('[data-testid=amap-groups] >> text=식당')
+  ok('지도 링크: 식당만 보기(한국어 이름)', await page.isVisible('text=톈춘 산탕 야크고기 훠궈') && !(await page.isVisible('[data-testid=amap-row]:has-text("丽江沐蘭遇")')))
+  await page.click('[data-testid=amap-groups] >> text=전체')
 
   // 옥룡설산 가이드 위챗: 일정 칩 → 템플릿 + 위챗 ID 카드
   await page.goto(base + '#/schedule?day=D2'); await page.click('text=위챗: 가이드에게 내일 집합 시각·장소 확인')
