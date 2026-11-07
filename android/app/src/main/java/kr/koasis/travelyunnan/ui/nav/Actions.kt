@@ -16,6 +16,7 @@ data class Actions(
     val openLodgings: (String?) -> Unit = {},
     val openMeals: (String?) -> Unit = {},
     val openFoods: () -> Unit = {},
+    val openFoodPhotos: () -> Unit = {},
     val openMenu: (String?) -> Unit = {},
     val openTransport: () -> Unit = {},
     val openExpense: () -> Unit = {},
@@ -52,6 +53,7 @@ object Routes {
     const val LODGINGS = "lodgings?id={id}"
     const val MEALS = "meals?day={day}"
     const val FOODS = "foods"
+    const val FOOD_PHOTOS = "foodphotos"
     const val MENU = "menu?food={food}"
     const val TRANSPORT = "transport"
     const val EXPENSE = "expense"

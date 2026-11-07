@@ -53,4 +53,12 @@ class DocRulesTest {
         assertEquals(listOf("b"), DocRules.filter(m, null, "D2").map { it.id })
         assertEquals(listOf("b"), DocRules.filter(m, null, null, "7호차").map { it.id })
     }
+
+    @Test fun foodPhotoNames() {
+        val d = TripDataHolder.data
+        assertEquals(93, d.foodPhotos.items.size)
+        assertEquals("铜锅饭", d.foodPhotoName("photo_005")?.nameZh)
+        assertEquals(null, d.foodPhotoName("photo_013"))
+        assertEquals("photo_005", kr.koasis.travelyunnan.data.FoodPhotoStore.photoId("리장음식사진/photo_005.webp"))
+    }
 }

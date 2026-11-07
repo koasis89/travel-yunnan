@@ -177,6 +177,12 @@ data class Blog(
 )
 
 @Serializable
+data class FoodPhotoName(val file: String, val nameKo: String = "", val nameZh: String = "")
+
+@Serializable
+data class FoodPhotosFile(val restaurant: String = "", val items: List<FoodPhotoName> = emptyList())
+
+@Serializable
 data class SightsFile(val blogs: List<Blog> = emptyList())
 
 /** 관광지 안내(data/sights.json). image 는 assets/images/ 기준 경로 */

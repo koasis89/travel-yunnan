@@ -227,6 +227,19 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   ok('다시 오면 PDF 보기', await page.waitForSelector('[data-testid=blog-pdf]', { timeout: 10000 }).then(() => true).catch(() => false))
   await page.screenshot({ path: `${out}/w27_sight_blog.png`, fullPage: true })
 
+  // 음식 사진: zip 넣기 → 3열 격자·이름 → 크게 보기
+  await page.goto(base + '#/stay?tab=photos'); await page.waitForSelector('[data-testid=photo-add]')
+  await page.setInputFiles('[data-testid=photo-add] input', `${fx}/food_photos_sample.zip`)
+  ok('음식 사진 zip 넣기(3장, __MACOSX 제외)', await page.waitForFunction(() => document.querySelectorAll('[data-testid=photo-cell]').length === 3, null, { timeout: 20000 }).then(() => true).catch(() => false))
+  ok('음식 사진 이름 표시(동솥밥·양배추)', await page.isVisible('[data-testid=photo-cell]:has-text("동솥밥")') && await page.isVisible('[data-testid=photo-cell]:has-text("양배추")'))
+  ok('음식 사진 1줄 3장', await page.evaluate(() => getComputedStyle(document.querySelector('[data-testid=photo-grid]')).gridTemplateColumns.split(' ').length === 3))
+  await page.click('[data-testid=photo-cell] >> nth=0')
+  ok('누르면 크게 보기(이름·중국어)', await page.waitForSelector('[data-testid=photo-viewer] img', { timeout: 10000 }).then(() => true).catch(() => false) && await page.isVisible('[data-testid=photo-viewer] >> text=铜锅饭'))
+  await page.screenshot({ path: `${out}/w28_food_photo_view.png` })
+  await page.click('[aria-label=닫기]')
+  await page.click('[data-testid=photo-filter] >> text=이름 모름')
+  ok('이름 모름 거르기(1장)', (await page.locator('[data-testid=photo-cell]').count()) === 1)
+
   // 오프라인: 서비스 워커 캐시로 다시 열기
   await page.goto(base); await page.waitForFunction(() => navigator.serviceWorker?.controller != null, null, { timeout: 15000 }).catch(() => {})
   await page.waitForTimeout(1500)

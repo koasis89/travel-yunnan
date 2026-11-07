@@ -1,7 +1,7 @@
 {
   "name": "travel-yunnan-web",
   "private": true,
-  "version": "1.6.2",
+  "version": "1.6.3",
   "type": "module",
   "scripts": {
     "encrypt": "node scripts/encrypt-data.mjs",
@@ -13,6 +13,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "fflate": "^0.8.2",
     "lucide-react": "^1.69.0",
     "pdfjs-dist": "^4.10.38",
     "react": "^19.2.0",

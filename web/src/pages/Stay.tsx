@@ -6,9 +6,10 @@ import { useData, useNow } from '../store/data'
 import { useStored } from '../store/local'
 import { resolvePhase } from '../domain/tripTime'
 import { isTaxiable, optKo, optZh } from '../domain/cards'
+import { FoodPhotos } from './FoodPhotos'
 import { DRINKS, DRINK_REQUESTS, composeMultiOrder, decodeFoods, type Drink } from '../domain/drinks'
 
-/** 하단 탭 "숙소·식사": 숙소 / 식사 / 음식 도감 */
+/** 하단 탭 "숙소·식사": 숙소 / 식사 / 음식 도감 / 음식 사진 */
 export function Stay() {
   const [sp, setSp] = useSearchParams()
   const tab = sp.get('tab') ?? 'lodging'
@@ -16,11 +17,11 @@ export function Stay() {
     <div className="page">
       <TopBar title="숙소·식사" back={false} />
       <div className="chips">
-        {[['lodging', '숙소'], ['meals', '식사'], ['foods', '음식 도감']].map(([k, t]) => (
+        {[['lodging', '숙소'], ['meals', '식사'], ['foods', '음식 도감'], ['photos', '음식 사진']].map(([k, t]) => (
           <button key={k} className={`chip ${tab === k ? 'on' : ''}`} onClick={() => setSp({ tab: k }, { replace: true })}>{t}</button>
         ))}
       </div>
-      {tab === 'lodging' ? <Lodgings focus={sp.get('id')} /> : tab === 'meals' ? <Meals dayArg={sp.get('day')} /> : <Foods />}
+      {tab === 'lodging' ? <Lodgings focus={sp.get('id')} /> : tab === 'meals' ? <Meals dayArg={sp.get('day')} /> : tab === 'photos' ? <FoodPhotos /> : <Foods />}
     </div>
   )
 }

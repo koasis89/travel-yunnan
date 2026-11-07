@@ -40,6 +40,8 @@ export class TripData {
   ratingsNote: string
   sights: Sight[]
   blogs: Blog[]
+  foodPhotoNames: Record<string, { nameKo: string; nameZh: string }>
+  foodPhotoRestaurant: string
   restaurants: Restaurant[]
   version: string
 
@@ -60,6 +62,9 @@ export class TripData {
     this.ratingsNote = (b['restaurants.json'] as { ratingsNote?: string })?.ratingsNote ?? ''
     this.sights = it<Sight>('sights.json')
     this.blogs = (b['sights.json'] as { blogs?: Blog[] })?.blogs ?? []
+    const fp = b['food_photos.json'] as { restaurant?: string; items?: { file: string; nameKo: string; nameZh: string }[] } | undefined
+    this.foodPhotoNames = Object.fromEntries((fp?.items ?? []).map((x) => [x.file, { nameKo: x.nameKo, nameZh: x.nameZh }]))
+    this.foodPhotoRestaurant = fp?.restaurant ?? ''
     this.restaurants = it<Restaurant>('restaurants.json')
     this.version = (b['version.json'] as { data?: string })?.data ?? ''
   }

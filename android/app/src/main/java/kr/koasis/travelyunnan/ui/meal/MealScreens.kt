@@ -114,6 +114,7 @@ fun FoodsScreen(data: TripData) {
     var region by rememberSaveable { mutableStateOf(regions.first()) }
     Column(Modifier.fillMaxSize()) {
         AppTopBar("음식 도감", onBack = actions.back) {
+            IconButton(onClick = actions.openFoodPhotos) { Icon(Icons.Filled.PhotoLibrary, "음식 사진") }
             TextButton(onClick = { actions.openMenu(null) }) { Icon(Icons.Filled.RecordVoiceOver, null); Spacer(Modifier.width(4.dp)); Text("주문 문장") }
         }
         LazyRow(contentPadding = PaddingValues(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
