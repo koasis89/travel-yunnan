@@ -5,3 +5,4 @@ public/data.enc
 public/keys.json
 *.tsbuildinfo
 public/ocr/
+shots/
