@@ -17,6 +17,13 @@ export function cleanZhAddress(s: string): string {
 }
 
 const LODGING_HELPERS: Record<string, string[]> = { kunming1: ['px-002'], mulanyu: ['px-003'], comeinn: ['px-004'] }
+/** 식사 선택지의 한국어 이름(중국어로만 적힌 선택지는 data/meal_names_ko.json 의 이름) */
+export const optKo = (o: MealOption) => o.nameKo || o.name
+/** 식사 선택지의 중국어 이름(한국어 이름이 따로 있으면 원래 이름에서 한글을 뺀 것, 중국어가 없으면 빈칸) */
+export const optZh = (o: MealOption) => {
+  const z = o.nameKo ? cleanZhAddress(o.name) : o.nameZh || o.name
+  return hasChinese(z) ? z : ''
+}
 export const isTaxiable = (o: MealOption) => hasChinese(o.name) || hasChinese(o.addrZh) || !!o.amapUrl
 
 export function buildTaxiCard(data: TripData, type: TargetType, id: string): TaxiCard | null {
@@ -35,7 +42,7 @@ export function buildTaxiCard(data: TripData, type: TargetType, id: string): Tax
   const mo = data.mealOption(id); if (!mo) return null
   const [meal, o] = mo
   const addr = cleanZhAddress(o.addrZh)
-  return { type, id: o.id, nameZh: o.nameZh || o.name, addrZh: hasChinese(addr) ? addr : '', nameKo: `${meal.dayId} ${meal.slot} · ${o.name}`,
+  return { type, id: o.id, nameZh: o.nameZh || o.name, addrZh: hasChinese(addr) ? addr : '', nameKo: `${meal.dayId} ${meal.slot} · ${optKo(o)}`,
     phones: [], bookingInfo: '', amapUrl: o.amapUrl, helpers: [],
     warning: hasChinese(o.name + addr) ? null : '중국어 주소가 없는 선택지다. 지도앱 링크를 이용한다.',
     siblings: meal.options.filter((x) => x.id !== o.id && isTaxiable(x)) }
@@ -68,7 +75,7 @@ export function scheduleLinks(data: TripData, row: Schedule): LinkTarget[] {
     } else if (l.type === 'place') {
       const p = data.place(l.key); if (p) t = { label: p.nameKo, type: 'place', id: p.id }
     } else {
-      const m = data.findMealOption(l.key); if (m) t = { label: m[1].name.split('(')[0], type: 'meal', id: m[1].id }
+      const m = data.findMealOption(l.key); if (m) t = { label: optKo(m[1]).split('(')[0], type: 'meal', id: m[1].id }
     }
     if (t && !out.has(`${t.type}:${t.id}`)) out.set(`${t.type}:${t.id}`, t)
   }
@@ -96,13 +103,13 @@ export function amapRows(data: TripData): AmapRow[] {
   }
   for (const p of data.places) if (p.amapUrl) push({ group: '관광지·장소', nameKo: p.nameKo, nameZh: p.nameZh, addrZh: p.addrZh, url: p.amapUrl, exact: p.amapUrl.includes('surl.amap') })
   for (const m of [...data.meals].sort((a, b) => a.dayId.localeCompare(b.dayId) || a.seq - b.seq))
-    for (const o of m.options) if (o.amapUrl) push({ group: '식당', nameKo: `${m.dayId} ${m.slot} · ${o.name}`, nameZh: o.nameZh || o.name, addrZh: cleanZhAddress(o.addrZh), url: o.amapUrl, exact: o.amapUrl.includes('surl.amap') })
+    for (const o of m.options) if (o.amapUrl) push({ group: '식당', nameKo: `${m.dayId} ${m.slot} · ${optKo(o)}`, nameZh: optZh(o), addrZh: cleanZhAddress(o.addrZh), url: o.amapUrl, exact: o.amapUrl.includes('surl.amap') })
   return out
 }
 
 /** 붙여넣기용 글: 📍이름 / 중국어 이름 / 고덕지도 주소 / 링크 */
 export const amapText = (r: AmapRow) =>
-  [`📍${r.nameKo}`, `중국어 이름 : ${r.nameZh}`, ...(hasChinese(r.addrZh) ? [`고덕지도 주소 : ${r.addrZh}`] : []), `고덕지도 주소 링크 : ${r.url}`].join('\n')
+  [`📍${r.nameKo}`, ...(r.nameZh ? [`중국어 이름 : ${r.nameZh}`] : []), ...(hasChinese(r.addrZh) ? [`고덕지도 주소 : ${r.addrZh}`] : []), `고덕지도 주소 링크 : ${r.url}`].join('\n')
 
 /** 주소(또는 이름)로 고덕지도 검색. 도시는 주소에서 짐작한다(tools/amap_links.py 와 같은 규칙) */
 export function amapSearchUrl(keyword: string): string {

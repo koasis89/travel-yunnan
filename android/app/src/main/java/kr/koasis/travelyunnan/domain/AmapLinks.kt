@@ -18,13 +18,13 @@ object AmapLinks {
         }
         data.places.forEach { p -> p.amapUrl?.let { push(Row("관광지·장소", p.nameKo, p.nameZh, p.addrZh, it)) } }
         data.meals.sortedWith(compareBy({ it.dayId }, { it.seq })).forEach { m ->
-            m.options.forEach { o -> o.amapUrl?.let { push(Row("식당", "${m.dayId} ${m.slot} · ${o.name}", o.nameZh.ifBlank { o.name }, cleanZhAddress(o.addrZh), it)) } }
+            m.options.forEach { o -> o.amapUrl?.let { push(Row("식당", "${m.dayId} ${m.slot} · ${o.koName()}", o.zhName(), cleanZhAddress(o.addrZh), it)) } }
         }
         return out
     }
 
     fun text(r: Row): String = buildList {
-        add("📍${r.nameKo}"); add("중국어 이름 : ${r.nameZh}")
+        add("📍${r.nameKo}"); if (r.nameZh.isNotBlank()) add("중국어 이름 : ${r.nameZh}")
         if (Regex("[\\u4e00-\\u9fff]").containsMatchIn(r.addrZh)) add("고덕지도 주소 : ${r.addrZh}")
         add("고덕지도 주소 링크 : ${r.url}")
     }.joinToString("\n")

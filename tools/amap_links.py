@@ -8,6 +8,7 @@
 - 단축 링크가 없는 숙소·장소·식당·관광지는 검색 링크를 만든다:
   https://uri.amap.com/search?keyword=<중국어 이름 또는 주소>&city=<도시>&callnative=1
   휴대폰에서 누르면 고덕지도 앱(없으면 웹)이 그 검색 결과로 열린다.
+- 중국어로만 적힌 식사 선택지에는 data/meal_names_ko.json 의 한국어 이름을 nameKo 로 넣는다.
 - 결과: data/json 의 lodgings·places·meals·sights 에 amapUrl, docs/고덕지도_링크모음.md
 """
 import json
@@ -19,6 +20,7 @@ from urllib.parse import quote
 REPO = Path(__file__).resolve().parent.parent
 CJK = re.compile(r"[一-鿿]")
 HANGUL = re.compile(r"[가-힣]+:?")
+HAS_KO = re.compile(r"[가-힣]")
 
 
 def clean(s: str) -> str:
@@ -69,8 +71,16 @@ def main(d: Path):
     place = {p["id"]: p for p in pl["items"]}
 
     meals = load("meals.json")
+    ko_names = json.loads((REPO / "data" / "meal_names_ko.json").read_text(encoding="utf-8"))["names"]
+    rest_ko = {i: r["nameKo"] for r in load("restaurants.json")["items"] for i in r["optionIds"]}
+    missing = []
     for m in meals["items"]:
         for o in m["options"]:
+            # 중국어로만 적힌 선택지에 한국어 이름을 붙인다(표에 없으면 식당 정보 이름)
+            if o["name"] in ko_names or not HAS_KO.search(o["name"]):
+                o["nameKo"] = ko_names.get(o["name"]) or rest_ko.get(o["id"]) or ""
+                if not o["nameKo"]:
+                    missing.append(o["name"])
             if o.get("amapUrl"):
                 pass
             elif CJK.search(o.get("nameZh") or ""):
@@ -79,7 +89,8 @@ def main(d: Path):
                 o["amapUrl"] = search_url(clean(o["addrZh"]), city_of(o["addrZh"], m.get("area", "")))
             else:
                 continue
-            rows["식당"].append((o["id"], f"{m['dayId']} {m['slot']} · {o['name']}", o.get("nameZh") or "", clean(o.get("addrZh", "")), o["amapUrl"]))
+            zh = clean(o["name"]) if o.get("nameKo") else (o.get("nameZh") or "")
+            rows["식당"].append((o["id"], f"{m['dayId']} {m['slot']} · {o.get('nameKo') or o['name']}", zh, clean(o.get("addrZh", "")), o["amapUrl"]))
     save("meals.json", meals)
 
     sights = load("sights.json")
@@ -106,8 +117,10 @@ def main(d: Path):
             if url in seen:
                 continue
             seen.add(url)
-            out += [f"📍{ko}", f"중국어 이름 : {zh}"] + ([f"고덕지도 주소 : {addr}"] if addr else []) + [f"고덕지도 주소 링크 : {url}", ""]
+            out += [f"📍{ko}"] + ([f"중국어 이름 : {zh}"] if zh else []) + ([f"고덕지도 주소 : {addr}"] if CJK.search(addr or "") else []) + [f"고덕지도 주소 링크 : {url}", ""]
     (REPO / "docs" / "고덕지도_링크모음.md").write_text("\n".join(out), encoding="utf-8")
+    if missing:
+        print(f"경고: 한국어 이름이 없는 식사 선택지 {len(missing)}건 → data/meal_names_ko.json 에 추가: {missing}")
     n = sum(len(v) for v in rows.values())
     print(f"고덕지도 링크 {n}건(숙소 {len(rows['숙소'])}·관광지 {len(rows['관광지·장소'])}·식당 {len(rows['식당'])}) → docs/고덕지도_링크모음.md")
 

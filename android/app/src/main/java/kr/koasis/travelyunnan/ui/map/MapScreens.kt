@@ -48,6 +48,7 @@ import kr.koasis.travelyunnan.domain.HotspotInfo
 import kr.koasis.travelyunnan.domain.HotspotResolver
 import kr.koasis.travelyunnan.domain.TargetType
 import kr.koasis.travelyunnan.domain.TripPhase
+import kr.koasis.travelyunnan.domain.koName
 import kr.koasis.travelyunnan.ui.AppViewModel
 import kr.koasis.travelyunnan.ui.common.AppTopBar
 import kr.koasis.travelyunnan.ui.common.DayChips
@@ -114,7 +115,7 @@ private fun MapPage(data: TripData, map: MapItem, day: String?, flags: Set<Strin
     val amapLinks = remember(day) {
         if (day == null) emptyList() else
             data.scheduleOf(day).mapNotNull { r -> r.amapUrl?.let { "${r.timeLabel} ${r.to.ifBlank { r.from }}" to it } } +
-                data.mealsOf(day).flatMap { m -> m.options.mapNotNull { o -> o.amapUrl?.let { "${m.slot} · ${o.name}" to it } } }
+                data.mealsOf(day).flatMap { m -> m.options.mapNotNull { o -> o.amapUrl?.let { "${m.slot} · ${o.koName()}" to it } } }
     }
     LazyColumn(contentPadding = PaddingValues(bottom = 24.dp)) {
         item {
@@ -336,7 +337,7 @@ fun HotspotSheetContent(info: HotspotInfo, onDismiss: () -> Unit) {
                 Row(Modifier.fillMaxWidth().clickable { onDismiss(); actions.openMeals(m.dayId) }.padding(vertical = 4.dp)) {
                     Text("${m.dayId} ${m.slot}", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary, modifier = Modifier.width(118.dp))
                     Column(Modifier.weight(1f)) {
-                        Text(o.name, style = MaterialTheme.typography.bodyMedium)
+                        Text(o.koName(), style = MaterialTheme.typography.bodyMedium)
                         if (o.menu.isNotBlank()) Text("추천: ${o.menu}", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 }

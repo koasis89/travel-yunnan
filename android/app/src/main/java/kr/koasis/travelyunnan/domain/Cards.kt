@@ -38,6 +38,15 @@ fun cleanZhAddress(s: String): String =
 
 fun hasChinese(s: String) = CJK.containsMatchIn(s)
 
+/** 식사 선택지의 한국어 이름(웹 optKo 와 같다) */
+fun MealOption.koName(): String = nameKo.ifBlank { name }
+
+/** 식사 선택지의 중국어 이름. 한국어 이름이 따로 있으면 원래 이름에서 한글을 뺀 것, 중국어가 없으면 빈칸(웹 optZh) */
+fun MealOption.zhName(): String {
+    val z = if (nameKo.isNotBlank()) cleanZhAddress(name) else nameZh.ifBlank { name }
+    return if (hasChinese(z)) z else ""
+}
+
 object TaxiCards {
     private val LODGING_HELPERS = mapOf(
         "kunming1" to listOf("px-002"),
@@ -72,7 +81,7 @@ object TaxiCards {
             TargetType.meal, o.id,
             nameZh = o.nameZh.ifBlank { o.name },
             addrZh = if (hasChinese(addr)) addr else "",
-            nameKo = "${meal.dayId} ${meal.slot} · ${o.name}",
+            nameKo = "${meal.dayId} ${meal.slot} · ${o.koName()}",
             amapUrl = o.amapUrl,
             siblings = meal.options.filter { it.id != o.id && isTaxiable(it) },
             warning = if (!hasChinese(o.name + addr)) "중국어 주소가 없는 선택지다. 지도앱 링크를 이용한다." else null,
@@ -115,7 +124,7 @@ object ScheduleLinks {
                     LinkTarget(l2.nameKo.substringBefore(" (").substringBefore("("), TargetType.lodging, l2.id)
                 }
                 "place" -> data.place(l.key)?.let { LinkTarget(it.nameKo, TargetType.place, it.id) }
-                "meal" -> data.findMealOption(l.key)?.let { (_, o) -> LinkTarget(o.name.substringBefore("("), TargetType.meal, o.id) }
+                "meal" -> data.findMealOption(l.key)?.let { (_, o) -> LinkTarget(o.koName().substringBefore("("), TargetType.meal, o.id) }
                 else -> null
             } ?: continue
             out.putIfAbsent("${t.type}:${t.id}", t)

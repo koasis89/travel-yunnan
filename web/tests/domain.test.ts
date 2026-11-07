@@ -123,6 +123,14 @@ describe('고덕지도 링크', () => {
     expect(rows.find((r) => r.nameZh === '一瓦堂咖啡店')?.url).toBe('https://surl.amap.com/1ZGvMhI4fh')
     expect(amapText(rows[0])).toMatch(/^📍.+\n중국어 이름 : .+\n.*고덕지도 주소 링크 : https:/s)
   })
+  it('식당 이름은 모두 한국어로 보이고 중국어 이름은 따로 둔다', () => {
+    const food = amapRows(data).filter((r) => r.group === '식당')
+    expect(food.every((r) => /[가-힣]/.test(r.nameKo.split(' · ')[1]))).toBe(true)
+    const tian = food.find((r) => r.nameZh === '田村·酸汤牦牛肉火锅(古城大水车店)')!
+    expect(tian.nameKo).toBe('D2 점심 · 톈춘 산탕 야크고기 훠궈(고성 대수차점)')
+    expect(food.find((r) => r.nameKo.includes('리장 바바'))?.nameZh).toBe('丽江粑粑')
+    expect(amapText(food.find((r) => !r.nameZh)!)).not.toContain('중국어 이름')
+  })
 })
 
 import { DRINKS, composeFullOrder } from '../src/domain/drinks'

@@ -2,7 +2,7 @@
 export interface Day { id: string; date: string; dateLabel: string; route: string; summary: string; lodgingLabel: string; lodgingId: string | null; region: string | null; altitude: string | null; tempDay: string | null; tempNight: string | null; outfit: string | null; mapIds: string[] }
 export interface Schedule { id: string; dayId: string; seq: number; timeLabel: string; timeStart: string | null; timeEnd: string | null; from: string; via: string; to: string; transport: string; duration: string; tip: string; amapUrl: string | null; message: string | null }
 export interface Lodging { id: string; dates: string[]; nights: number | null; region: string; nameKo: string; nameZh: string; addrZh: string; addrEn: string; phones: string[]; room: string; bookingNo: string; bookedBy: string; priceKrw: number | null; status: string; note: string; confirmed: boolean; amapUrl?: string | null }
-export interface MealOption { id: string; name: string; nameZh: string; addrZh: string; amapUrl: string | null; menu: string }
+export interface MealOption { id: string; name: string; nameKo?: string; nameZh: string; addrZh: string; amapUrl: string | null; menu: string }
 export interface Meal { id: string; dayId: string; seq: number; area: string; slot: string; options: MealOption[]; budgetCny: number | null; note: string; extra: string | null }
 export interface Food { id: string; region: string; no: number | null; nameZh: string; nameKo: string; description: string; imageKind: string; image: string | null; source: string }
 export interface Phrase { id: string; zh: string; pinyin: string; categories: string[]; ko: string; koRead: string; copyOnly: boolean }

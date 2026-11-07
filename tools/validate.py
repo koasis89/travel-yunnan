@@ -77,6 +77,9 @@ def main(d):
             errors.append(f"meals {x['id']}: dayId")
         if not x["options"]:
             errors.append(f"meals {x['id']}: 옵션 없음")
+        for o in x["options"]:
+            if not re.search(r"[가-힣]", o["name"]) and not o.get("nameKo"):
+                errors.append(f"meals {o['id']}: 중국어 이름만 있음(data/meal_names_ko.json 에 한국어 이름 추가)")
     for x in items("foods.json"):
         if x["image"] and not (REPO / "assets" / x["image"]).exists():
             errors.append(f"foods {x['id']}: 이미지 없음 {x['image']}")

@@ -106,7 +106,8 @@
           "nameZh": "田村·酸汤牦牛肉火锅",
           "addrZh": "丽江市古城区大研街道办事处玉河走廊A区37号",
           "amapUrl": "https://uri.amap.com/search?keyword=%E7%94%B0%E6%9D%91%C2%B7%E9%85%B8%E6%B1%A4%E7%89%A6%E7%89%9B%E8%82%89%E7%81%AB%E9%94%85&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1",
-          "menu": "야크훠궈(토마토·마라탕)"
+          "menu": "야크훠궈(토마토·마라탕)",
+          "nameKo": "톈춘 산탕 야크고기 훠궈(고성 대수차점)"
         },
         {
           "id": "D2-03-2",
@@ -114,7 +115,8 @@
           "nameZh": "云雪丽·现炒云南菜",
           "addrZh": "云雪丽(大水车店) 검색",
           "amapUrl": "https://uri.amap.com/search?keyword=%E4%BA%91%E9%9B%AA%E4%B8%BD%C2%B7%E7%8E%B0%E7%82%92%E4%BA%91%E5%8D%97%E8%8F%9C&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1",
-          "menu": "트러플죽·가지튀김"
+          "menu": "트러플죽·가지튀김",
+          "nameKo": "운설리 즉석 운남요리(대수차점)"
         }
       ],
       "budgetCny": 240,
@@ -134,7 +136,8 @@
           "nameZh": "奶奶鸡豆凉粉",
           "addrZh": "光义街新院巷30号",
           "amapUrl": "https://uri.amap.com/search?keyword=%E5%A5%B6%E5%A5%B6%E9%B8%A1%E8%B1%86%E5%87%89%E7%B2%89&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1",
-          "menu": "계두량분"
+          "menu": "계두량분",
+          "nameKo": "할머니 계두량분(병아리콩 묵)"
         },
         {
           "id": "D2-04-2",
@@ -142,7 +145,8 @@
           "nameZh": "丁丁当当酸奶店",
           "addrZh": "古城区官门口42号",
           "amapUrl": "https://uri.amap.com/search?keyword=%E4%B8%81%E4%B8%81%E5%BD%93%E5%BD%93%E9%85%B8%E5%A5%B6%E5%BA%97&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1",
-          "menu": "야크 요거트·번(3개 ¥27)"
+          "menu": "야크 요거트·번(3개 ¥27)",
+          "nameKo": "딩딩당당 야크 요거트(리장고성점)"
         },
         {
           "id": "D2-04-3",
@@ -150,7 +154,8 @@
           "nameZh": "小吃",
           "addrZh": "五一街88号",
           "amapUrl": "https://uri.amap.com/search?keyword=%E5%B0%8F%E5%90%83&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1",
-          "menu": "두부"
+          "menu": "두부",
+          "nameKo": "88호 분식(소흡)"
         }
       ],
       "budgetCny": 40,
@@ -170,7 +175,8 @@
           "nameZh": "石锅鱼",
           "addrZh": "丽江市古城区长水路72号",
           "amapUrl": "https://uri.amap.com/search?keyword=%E7%9F%B3%E9%94%85%E9%B1%BC&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1",
-          "menu": "돌솥 생선"
+          "menu": "돌솥 생선",
+          "nameKo": "석과어(돌솥 생선 요리)"
         },
         {
           "id": "D2-05-2",
@@ -178,7 +184,8 @@
           "nameZh": "拾全酒美野生菌火锅",
           "addrZh": "古城区光义街忠义巷38号",
           "amapUrl": "https://uri.amap.com/search?keyword=%E6%8B%BE%E5%85%A8%E9%85%92%E7%BE%8E%E9%87%8E%E7%94%9F%E8%8F%8C%E7%81%AB%E9%94%85&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1",
-          "menu": "9종 야생버섯 훠궈"
+          "menu": "9종 야생버섯 훠궈",
+          "nameKo": "습전주미 야생버섯 훠궈"
         },
         {
           "id": "D2-05-3",
@@ -186,7 +193,8 @@
           "nameZh": "云雪丽·纳西庭院 现炒云南菜",
           "addrZh": "云雪丽(古城南门店) 검색",
           "amapUrl": "https://uri.amap.com/search?keyword=%E4%BA%91%E9%9B%AA%E4%B8%BD%C2%B7%E7%BA%B3%E8%A5%BF%E5%BA%AD%E9%99%A2%20%E7%8E%B0%E7%82%92%E4%BA%91%E5%8D%97%E8%8F%9C&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1",
-          "menu": "트러플죽·생선조림(맵고 얼얼)"
+          "menu": "트러플죽·생선조림(맵고 얼얼)",
+          "nameKo": "운설리 나시정원 즉석 운남요리(고성 남문점)"
         }
       ],
       "budgetCny": 300,
@@ -206,7 +214,8 @@
           "nameZh": "丽江粑粑 포장",
           "addrZh": "전날 충의시장·고성에서 구입",
           "amapUrl": "https://uri.amap.com/search?keyword=%E4%B8%BD%E6%B1%9F%E7%B2%91%E7%B2%91&src=travelyunnan&callnative=1",
-          "menu": "리장 바바"
+          "menu": "리장 바바",
+          "nameKo": "리장 바바(납작 구운 빵) 포장"
         },
         {
           "id": "D3-01-2",
@@ -282,7 +291,8 @@
           "nameZh": "天天鲜",
           "addrZh": "古城区五一街王家庄巷47号",
           "amapUrl": "https://uri.amap.com/search?keyword=%E5%A4%A9%E5%A4%A9%E9%B2%9C&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1",
-          "menu": "나시 가정식"
+          "menu": "나시 가정식",
+          "nameKo": "천천선(리장고성점)"
         },
         {
           "id": "D3-04-2",
@@ -290,7 +300,8 @@
           "nameZh": "阿婆腊排骨火锅",
           "addrZh": "古城区五一街兴仁上段38号",
           "amapUrl": "https://uri.amap.com/search?keyword=%E9%98%BF%E5%A9%86%E8%85%8A%E6%8E%92%E9%AA%A8%E7%81%AB%E9%94%85&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1",
-          "menu": "납배골 훠궈"
+          "menu": "납배골 훠궈",
+          "nameKo": "아파 납배골(훈제 돼지갈비) 훠궈(본점)"
         },
         {
           "id": "D3-04-3",
@@ -318,7 +329,8 @@
           "nameZh": "二哥米线",
           "addrZh": "古城区崇仁巷32号",
           "amapUrl": "https://uri.amap.com/search?keyword=%E4%BA%8C%E5%93%A5%E7%B1%B3%E7%BA%BF&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1",
-          "menu": "닭육수 미선"
+          "menu": "닭육수 미선",
+          "nameKo": "이가 미선(쌀국수)"
         },
         {
           "id": "D4-01-2",
@@ -326,7 +338,8 @@
           "nameZh": "勺子米线",
           "addrZh": "古城区百岁坊8号",
           "amapUrl": "https://uri.amap.com/search?keyword=%E5%8B%BA%E5%AD%90%E7%B1%B3%E7%BA%BF&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1",
-          "menu": "소고기 미선"
+          "menu": "소고기 미선",
+          "nameKo": "작자 미선(쌀국수)"
         },
         {
           "id": "D4-01-3",
@@ -406,7 +419,8 @@
           "nameZh": "云雪丽白沙村落小院餐厅",
           "addrZh": "云雪丽(白沙店) 검색",
           "amapUrl": "https://uri.amap.com/search?keyword=%E4%BA%91%E9%9B%AA%E4%B8%BD%E7%99%BD%E6%B2%99%E6%9D%91%E8%90%BD%E5%B0%8F%E9%99%A2%E9%A4%90%E5%8E%85&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1",
-          "menu": "커피·디저트"
+          "menu": "커피·디저트",
+          "nameKo": "운설리 백사 마을 정원 식당"
         }
       ],
       "budgetCny": 90,
@@ -602,7 +616,8 @@
           "nameZh": "银同便民小吃",
           "addrZh": "独克宗古城一若木廊32号",
           "amapUrl": "https://uri.amap.com/search?keyword=%E9%93%B6%E5%90%8C%E4%BE%BF%E6%B0%91%E5%B0%8F%E5%90%83&city=%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E&src=travelyunnan&callnative=1",
-          "menu": "칭커 바바·야크훠궈"
+          "menu": "칭커 바바·야크훠궈",
+          "nameKo": "은동 편민 분식"
         },
         {
           "id": "D6-03-3",
@@ -610,7 +625,8 @@
           "nameZh": "高地厨房",
           "addrZh": "独克宗古城 高地厨房 검색",
           "amapUrl": "https://uri.amap.com/search?keyword=%E9%AB%98%E5%9C%B0%E5%8E%A8%E6%88%BF&city=%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E&src=travelyunnan&callnative=1",
-          "menu": "야크 소고기"
+          "menu": "야크 소고기",
+          "nameKo": "고지주방(High Land Kitchen)"
         }
       ],
       "budgetCny": 200,
@@ -638,7 +654,8 @@
           "nameZh": "静静的嘛呢石",
           "addrZh": "独克宗古城金龙街池廊岗3号",
           "amapUrl": "https://uri.amap.com/search?keyword=%E9%9D%99%E9%9D%99%E7%9A%84%E5%98%9B%E5%91%A2%E7%9F%B3&city=%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E&src=travelyunnan&callnative=1",
-          "menu": "야크훠궈·구운 감자"
+          "menu": "야크훠궈·구운 감자",
+          "nameKo": "징징더 마니석(티베트 요리)"
         },
         {
           "id": "D6-04-3",
@@ -646,7 +663,8 @@
           "nameZh": "塔罗藏餐吧",
           "addrZh": "独克宗古城仓房街池廊岗7号",
           "amapUrl": "https://uri.amap.com/search?keyword=%E5%A1%94%E7%BD%97%E8%97%8F%E9%A4%90%E5%90%A7&city=%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E&src=travelyunnan&callnative=1",
-          "menu": "야크훠궈·고기파이"
+          "menu": "야크훠궈·고기파이",
+          "nameKo": "타로 티베트 식당(Tarot)"
         }
       ],
       "budgetCny": 300,
@@ -686,7 +704,8 @@
           "nameZh": "银同便民小吃",
           "addrZh": "独克宗古城一若木廊32号",
           "amapUrl": "https://uri.amap.com/search?keyword=%E9%93%B6%E5%90%8C%E4%BE%BF%E6%B0%91%E5%B0%8F%E5%90%83&city=%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E&src=travelyunnan&callnative=1",
-          "menu": "칭커 바바·수유차"
+          "menu": "칭커 바바·수유차",
+          "nameKo": "은동 편민 분식"
         },
         {
           "id": "D7-01-2",
@@ -750,7 +769,8 @@
           "nameZh": "建新园过桥米线",
           "addrZh": "昆明市五华区宝善街",
           "amapUrl": "https://uri.amap.com/search?keyword=%E5%BB%BA%E6%96%B0%E5%9B%AD%E8%BF%87%E6%A1%A5%E7%B1%B3%E7%BA%BF&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1",
-          "menu": "과교미선"
+          "menu": "과교미선",
+          "nameKo": "건신원 과교미선(보선가점)"
         },
         {
           "id": "D7-03-2",
@@ -758,7 +778,8 @@
           "nameZh": "一朵菌·野生菌探索家火锅",
           "addrZh": "南屏步行街·金马碧鸡坊 일대 (각 상호 검색)",
           "amapUrl": "https://uri.amap.com/search?keyword=%E4%B8%80%E6%9C%B5%E8%8F%8C%C2%B7%E9%87%8E%E7%94%9F%E8%8F%8C%E6%8E%A2%E7%B4%A2%E5%AE%B6%E7%81%AB%E9%94%85&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1",
-          "menu": "야생버섯 훠궈"
+          "menu": "야생버섯 훠궈",
+          "nameKo": "이둬쥔 야생버섯 훠궈(남병가점)"
         },
         {
           "id": "D7-03-3",
@@ -766,7 +787,8 @@
           "nameZh": "菌故·云南野生菌火锅",
           "addrZh": "南屏步行街 菌故 검색",
           "amapUrl": "https://uri.amap.com/search?keyword=%E8%8F%8C%E6%95%85%C2%B7%E4%BA%91%E5%8D%97%E9%87%8E%E7%94%9F%E8%8F%8C%E7%81%AB%E9%94%85&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1",
-          "menu": "과교미선"
+          "menu": "과교미선",
+          "nameKo": "쥔구 운남 야생버섯 훠궈(남병가점)"
         }
       ],
       "budgetCny": 240,
@@ -786,7 +808,8 @@
           "nameZh": "文山荷鲜居",
           "addrZh": "翠湖 讲武堂 인근 (文山荷鲜居 翠湖店 검색)",
           "amapUrl": "https://uri.amap.com/search?keyword=%E6%96%87%E5%B1%B1%E8%8D%B7%E9%B2%9C%E5%B1%85&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1",
-          "menu": "닭육수 미선·삼칠 기과계"
+          "menu": "닭육수 미선·삼칠 기과계",
+          "nameKo": "문산하선거(취호점)"
         },
         {
           "id": "D8-01-2",
@@ -794,7 +817,8 @@
           "nameZh": "铁朋小锅米线",
           "addrZh": "翠湖 讲武堂 인근 (文山荷鲜居 翠湖店 검색)",
           "amapUrl": "https://uri.amap.com/search?keyword=%E9%93%81%E6%9C%8B%E5%B0%8F%E9%94%85%E7%B1%B3%E7%BA%BF&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1",
-          "menu": "닭육수 미선·삼칠 기과계"
+          "menu": "닭육수 미선·삼칠 기과계",
+          "nameKo": "철붕 소과미선"
         },
         {
           "id": "D8-01-3",
@@ -822,7 +846,8 @@
           "nameZh": "福照楼汽锅鸡",
           "addrZh": "福照楼(翠湖·火车站 지점 검색)",
           "amapUrl": "https://uri.amap.com/search?keyword=%E7%A6%8F%E7%85%A7%E6%A5%BC%E6%B1%BD%E9%94%85%E9%B8%A1&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1",
-          "menu": "기과계"
+          "menu": "기과계",
+          "nameKo": "복조루 기과계(찜닭)"
         },
         {
           "id": "D8-02-2",
@@ -830,7 +855,8 @@
           "nameZh": "云平风味园",
           "addrZh": "护国路",
           "amapUrl": "https://uri.amap.com/search?keyword=%E4%BA%91%E5%B9%B3%E9%A3%8E%E5%91%B3%E5%9B%AD&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1",
-          "menu": "운남 소흡"
+          "menu": "운남 소흡",
+          "nameKo": "운평풍미원(호국로점)"
         },
         {
           "id": "D8-02-3",
@@ -838,7 +864,8 @@
           "nameZh": "多哥水傣味餐厅",
           "addrZh": "司马巷",
           "amapUrl": "https://uri.amap.com/search?keyword=%E5%A4%9A%E5%93%A5%E6%B0%B4%E5%82%A3%E5%91%B3%E9%A4%90%E5%8E%85&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1",
-          "menu": "다이족 요리"
+          "menu": "다이족 요리",
+          "nameKo": "다거수 다이족 요리(사마항점)"
         }
       ],
       "budgetCny": 250,
@@ -902,7 +929,8 @@
           "nameZh": "福照楼汽锅鸡",
           "addrZh": "昆明站 인근",
           "amapUrl": "https://uri.amap.com/search?keyword=%E7%A6%8F%E7%85%A7%E6%A5%BC%E6%B1%BD%E9%94%85%E9%B8%A1&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1",
-          "menu": "기과계"
+          "menu": "기과계",
+          "nameKo": "복조루 기과계(쿤밍역 금강점)"
         }
       ],
       "budgetCny": 200,

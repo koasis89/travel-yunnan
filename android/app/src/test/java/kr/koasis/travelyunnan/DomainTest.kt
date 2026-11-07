@@ -181,6 +181,12 @@ class S6Test {
         val rows = kr.koasis.travelyunnan.domain.AmapLinks.rows(d)
         assertEquals("https://surl.amap.com/1ZGvMhI4fh", rows.first { it.nameZh == "一瓦堂咖啡店" }.url)
         assertTrue(kr.koasis.travelyunnan.domain.AmapLinks.text(rows.first()).startsWith("📍"))
+        // 식당은 모두 한국어 이름으로 보이고 중국어 이름은 따로 둔다
+        val food = rows.filter { it.group == "식당" }
+        assertTrue(food.all { Regex("[가-힣]").containsMatchIn(it.nameKo.substringAfter(" · ")) })
+        assertEquals("D2 점심 · 톈춘 산탕 야크고기 훠궈(고성 대수차점)", food.first { it.nameZh == "田村·酸汤牦牛肉火锅(古城大水车店)" }.nameKo)
+        assertEquals("丽江粑粑", food.first { it.nameKo.contains("리장 바바") }.nameZh)
+        assertTrue(!kr.koasis.travelyunnan.domain.AmapLinks.text(food.first { it.nameZh.isBlank() }).contains("중국어 이름"))
         assertEquals(TargetType.place, ScheduleLinks.find(d, d.scheduleOf("D4").first { it.via.contains("기와카페") }).firstOrNull { it.id == "yiwatang" }?.type)
     }
 

@@ -87,6 +87,8 @@ data class Meal(
 data class MealOption(
     val id: String,
     val name: String,
+    /** 중국어로만 적힌 선택지의 한국어 이름(data/meal_names_ko.json) */
+    val nameKo: String = "",
     val nameZh: String = "",
     val addrZh: String = "",
     val amapUrl: String? = null,

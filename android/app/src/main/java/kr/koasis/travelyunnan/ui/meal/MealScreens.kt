@@ -31,6 +31,8 @@ import kr.koasis.travelyunnan.data.json.MealOption
 import kr.koasis.travelyunnan.domain.DayResolver
 import kr.koasis.travelyunnan.domain.TargetType
 import kr.koasis.travelyunnan.domain.TaxiCards
+import kr.koasis.travelyunnan.domain.koName
+import kr.koasis.travelyunnan.domain.zhName
 import kr.koasis.travelyunnan.domain.TripPhase
 import kr.koasis.travelyunnan.ui.AppViewModel
 import kr.koasis.travelyunnan.ui.common.*
@@ -83,7 +85,8 @@ private fun MealCard(data: TripData, m: Meal) {
             m.options.forEachIndexed { i, o ->
                 HorizontalDivider()
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Text("${"①②③"[i]} ${o.name}", style = MaterialTheme.typography.titleMedium)
+                    Text("${"①②③"[i]} ${o.koName()}", style = MaterialTheme.typography.titleMedium)
+                    if (o.nameKo.isNotBlank() && o.zhName().isNotBlank()) Text(o.zhName(), style = MaterialTheme.typography.bodyMedium)
                     if (o.addrZh.isNotBlank()) Text(o.addrZh, style = MaterialTheme.typography.bodyMedium)
                     if (o.menu.isNotBlank()) Text("추천: ${o.menu}", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {

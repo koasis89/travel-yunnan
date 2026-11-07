@@ -110,7 +110,7 @@ fun HomeContent(data: TripData, now: LocalDateTime, overrideActive: Boolean = fa
                 }
                 Shortcut(
                     Modifier.weight(1f), Icons.Filled.Restaurant, "${TaxiCards.slotFor(now.hour)} 식당 카드",
-                    meal?.name?.substringBefore("(") ?: "선택지 없음",
+                    meal?.koName()?.substringBefore("(") ?: "선택지 없음",
                     MaterialTheme.colorScheme.tertiaryContainer,
                 ) { if (meal != null) actions.openTaxi(TargetType.meal, meal.id) else actions.openMeals(day.id) }
             }

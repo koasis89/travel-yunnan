@@ -3,7 +3,7 @@ import { BedDouble, CalendarDays, CarTaxiFront, Clock, Shirt, Thermometer, Train
 import { Banner, BrandHeader, Section } from '../components/ui'
 import { useData, useNow, useSettings } from '../store/data'
 import { findNow, focusDay, formatLeft, nextMove, resolvePhase } from '../domain/tripTime'
-import { mealFor, slotFor } from '../domain/cards'
+import { mealFor, optKo, slotFor } from '../domain/cards'
 import { DayDocsLink } from './Docs'
 import { DaySights } from './Sights'
 
@@ -76,7 +76,7 @@ export function Home() {
         </Link>
         <Link className="tile" style={{ background: 'var(--tertiary-c)' }} to={meal ? `/taxi/meal/${meal.id}` : `/meals?day=${day.id}`}>
           <span className="ic"><UtensilsCrossed size={20} /></span>
-          <div><div className="t">{slotFor(hour)} 식당 카드</div><div className="s">{meal?.name.split('(')[0] ?? '선택지 없음'}</div></div>
+          <div><div className="t">{slotFor(hour)} 식당 카드</div><div className="s">{meal ? optKo(meal).split('(')[0] : '선택지 없음'}</div></div>
         </Link>
         <Link className="tile" style={{ background: 'var(--secondary-c)', color: 'var(--on-secondary-c)' }} to={`/schedule?day=${day.id}`}>
           <span className="ic"><CalendarDays size={20} /></span>

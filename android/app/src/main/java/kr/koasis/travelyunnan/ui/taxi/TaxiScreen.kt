@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import kr.koasis.travelyunnan.data.TripData
 import kr.koasis.travelyunnan.domain.TargetType
 import kr.koasis.travelyunnan.domain.TaxiCards
+import kr.koasis.travelyunnan.domain.koName
 import kr.koasis.travelyunnan.ui.common.*
 import kr.koasis.travelyunnan.ui.nav.LocalActions
 import kr.koasis.travelyunnan.util.External
@@ -55,7 +56,7 @@ fun TaxiScreen(data: TripData, type: TargetType?, id: String, appInstalled: (Str
             Text("다른 선택지", style = MaterialTheme.typography.labelLarge, modifier = Modifier.padding(top = 10.dp, bottom = 4.dp))
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 card.siblings.forEach { o ->
-                    FilterChip(selected = false, onClick = { currentId = o.id }, label = { Text(o.name.substringBefore("(")) })
+                    FilterChip(selected = false, onClick = { currentId = o.id }, label = { Text(o.koName().substringBefore("(")) })
                 }
             }
         }

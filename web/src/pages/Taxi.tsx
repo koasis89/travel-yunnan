@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Copy, MapPin, Search } from 'lucide-react'
 import { ShowCard, TopBar, copyText } from '../components/ui'
 import { useData } from '../store/data'
-import { amapSearchUrl, buildTaxiCard, type TargetType } from '../domain/cards'
+import { amapSearchUrl, buildTaxiCard, optKo, type TargetType } from '../domain/cards'
 
 export function Taxi() {
   const data = useData(); const nav = useNavigate()
@@ -21,7 +21,7 @@ export function Taxi() {
       {card.amapUrl && <a className="btn" href={card.amapUrl} target="_blank" rel="noreferrer"><MapPin size={16} />지도</a>}
       <a className="btn" href={amapSearchUrl(target)} target="_blank" rel="noreferrer"><Search size={16} />지도 검색</a>
       {card.siblings.length > 0 && <div style={{ width: '100%' }} className="small bold">다른 선택지</div>}
-      {card.siblings.map((o) => <button key={o.id} className="chip zh" onClick={() => setCur(o.id)}>{o.name.split('(')[0]}</button>)}
+      {card.siblings.map((o) => <button key={o.id} className="chip" onClick={() => setCur(o.id)}>{optKo(o).split('(')[0]}</button>)}
     </>}>
       {head && <><div className="head zh">{head.zh.replace(/。$/, '')}</div><div className="note">{head.pinyin}</div></>}
       <div className="name zh">{card.nameZh}</div>

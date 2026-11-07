@@ -5,7 +5,7 @@ import { Banner, DayChips, ShowCard, TopBar, copyText } from '../components/ui'
 import { useData, useNow } from '../store/data'
 import { useStored } from '../store/local'
 import { resolvePhase } from '../domain/tripTime'
-import { isTaxiable } from '../domain/cards'
+import { isTaxiable, optKo, optZh } from '../domain/cards'
 import { DRINKS, DRINK_REQUESTS, composeMultiOrder, decodeFoods, type Drink } from '../domain/drinks'
 
 /** 하단 탭 "숙소·식사": 숙소 / 식사 / 음식 도감 */
@@ -85,7 +85,8 @@ function Meals({ dayArg }: { dayArg: string | null }) {
             return (
               <div key={o.id}>
                 <div className="divider" />
-                <div className="bold">{'①②③'[i]} {o.name}</div>
+                <div className="bold">{'①②③'[i]} {optKo(o)}</div>
+                {o.nameKo && <div className="small zh">{optZh(o)}</div>}
                 {o.addrZh && <div className="small zh">{o.addrZh}</div>}
                 {o.menu && <div className="small muted">추천: {o.menu}</div>}
                 <div className="wrap" style={{ marginTop: 8 }}>

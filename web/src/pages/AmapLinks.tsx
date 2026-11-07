@@ -29,7 +29,7 @@ export function AmapLinks() {
                 <div key={r.url} className="li" data-testid="amap-row">
                   <a className="grow" href={r.url} target="_blank" rel="noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
                     <div className="bold">{r.nameKo} {r.exact && <span className="tiny" style={{ background: 'var(--primary)', color: '#fff', borderRadius: 6, padding: '1px 6px' }}>정확</span>}</div>
-                    <div className="small">{r.nameZh}</div>
+                    {r.nameZh && <div className="small zh">{r.nameZh}</div>}
                     {r.addrZh && <div className="tiny muted">{r.addrZh}</div>}
                   </a>
                   <button className="iconbtn" aria-label="복사" onClick={() => copyText(amapText(r), '이름·주소·링크를 복사했다')}><Copy size={18} /></button>
