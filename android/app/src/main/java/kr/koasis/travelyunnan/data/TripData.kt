@@ -41,6 +41,7 @@ class TripData(
     val restaurants: List<Restaurant> = emptyList(),
     val restaurantTips: List<String> = emptyList(),
     val ratingsNote: String = "",
+    val blogs: List<kr.koasis.travelyunnan.data.json.Blog> = emptyList(),
 ) {
     private val dayById = days.associateBy { it.id }
     private val lodgingById = lodgings.associateBy { it.id }
@@ -66,6 +67,7 @@ class TripData(
     fun restaurantOfOption(optionId: String) = restaurants.firstOrNull { optionId in it.optionIds }
     fun restaurantsFor(r: Schedule) = restaurants.filter { x -> r.dayId in x.dayIds && x.keywords.any { k -> "${r.from} ${r.via} ${r.to} ${r.tip}".contains(k) } }
     fun sight(id: String?) = id?.let { k -> sights.firstOrNull { it.id == k } }
+    fun blogsFor(sightId: String) = blogs.filter { sightId in it.sightIds }
     fun sightsOf(dayId: String) = sights.filter { dayId in it.dayIds }
     /** 일정 행에 관련된 관광지: 그 일차 관광지 중 키워드가 행 글에 들어 있는 것(웹 sightsFor 와 같음) */
     fun sightsFor(r: Schedule) = sightsOf(r.dayId).filter { s -> s.keywords.any { k -> "${r.from} ${r.via} ${r.to} ${r.tip}".contains(k) } }
@@ -140,6 +142,7 @@ class TripData(
                 restaurants = runCatching { items("restaurants.json", Restaurant.serializer()).items }.getOrDefault(emptyList()),
                 restaurantTips = runCatching { json.decodeFromString(RestaurantsFile.serializer(), read("restaurants.json")).tips }.getOrDefault(emptyList()),
                 ratingsNote = runCatching { json.decodeFromString(RestaurantsFile.serializer(), read("restaurants.json")).ratingsNote }.getOrDefault(""),
+                blogs = runCatching { json.decodeFromString(kr.koasis.travelyunnan.data.json.SightsFile.serializer(), read("sights.json")).blogs }.getOrDefault(emptyList()),
                 hotspots = runCatching { items("map_hotspots.json", Hotspot.serializer()).items }.getOrDefault(emptyList()),
                 emergency = runCatching { json.decodeFromString(EmergencyFile.serializer(), read("emergency.json")) }.getOrDefault(EmergencyFile()),
             )

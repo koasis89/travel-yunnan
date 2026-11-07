@@ -1,3 +1,4 @@
+import type { Blog } from './docs'
 // data/json 구조(앱 Models.kt 와 동일)
 export interface Day { id: string; date: string; dateLabel: string; route: string; summary: string; lodgingLabel: string; lodgingId: string | null; region: string | null; altitude: string | null; tempDay: string | null; tempNight: string | null; outfit: string | null; mapIds: string[] }
 export interface Schedule { id: string; dayId: string; seq: number; timeLabel: string; timeStart: string | null; timeEnd: string | null; from: string; via: string; to: string; transport: string; duration: string; tip: string; amapUrl: string | null; message: string | null }
@@ -38,6 +39,7 @@ export class TripData {
   restaurantTips: string[]
   ratingsNote: string
   sights: Sight[]
+  blogs: Blog[]
   restaurants: Restaurant[]
   version: string
 
@@ -57,6 +59,7 @@ export class TripData {
     this.restaurantTips = (b['restaurants.json'] as { tips?: string[] })?.tips ?? []
     this.ratingsNote = (b['restaurants.json'] as { ratingsNote?: string })?.ratingsNote ?? ''
     this.sights = it<Sight>('sights.json')
+    this.blogs = (b['sights.json'] as { blogs?: Blog[] })?.blogs ?? []
     this.restaurants = it<Restaurant>('restaurants.json')
     this.version = (b['version.json'] as { data?: string })?.data ?? ''
   }
@@ -80,6 +83,7 @@ export class TripData {
   restaurantOfOption = (optionId: string) => this.restaurants.find((r) => r.optionIds.includes(optionId))
   /** 일정 행에 나오는 식당(그 일차 식당 중 이름 키워드가 행 글에 있는 것) */
   restaurantsFor = (r: Schedule) => this.restaurants.filter((x) => x.dayIds.includes(r.dayId) && x.keywords.some((k) => `${r.from} ${r.via} ${r.to} ${r.tip}`.includes(k)))
+  blogsFor = (sightId: string) => this.blogs.filter((x) => x.sightIds.includes(sightId))
   sightsOf = (dayId: string) => this.sights.filter((s) => s.dayIds.includes(dayId))
   /** 일정 행에 관련된 관광지: 그 일차 관광지 중 키워드가 행 글에 들어 있는 것 */
   sightsFor = (r: Schedule) => this.sightsOf(r.dayId).filter((s) => s.keywords.some((k) => `${r.from} ${r.via} ${r.to} ${r.tip}`.includes(k)))

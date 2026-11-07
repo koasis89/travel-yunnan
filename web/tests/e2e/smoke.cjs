@@ -218,6 +218,15 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   ok('새로고침 후 문서 유지', await page.waitForSelector('[data-testid=doc-row]', { timeout: 5000 }).then(async () => (await page.locator('[data-testid=doc-row]').count()) === 2).catch(() => false))
   const docHref = await page.locator('[data-testid=doc-row]:has-text("옥룡설산")').getAttribute('href')
 
+  // 블로그 후기: 관광지 화면 → PDF 넣기 → 문서함(블로그) → 다시 오면 PDF 보기
+  await page.goto(base + '#/sights/yulong'); await page.waitForSelector('[data-testid=blog-card]')
+  ok('관광지 블로그 후기 카드·원문 링크', (await page.locator('[data-testid=blog-card]').count()) === 1 && ((await page.getAttribute('[data-testid=blog-card] a:has-text("원문 열기")', 'href')) || '').startsWith('https://blog.naver.com/'))
+  await page.setInputFiles('[data-testid=blog-add] input', `${fx}/sample_voucher_1218.pdf`)
+  ok('블로그 PDF 넣기 → 문서 화면', await page.waitForURL(/#\/docs\//, { timeout: 30000 }).then(() => true).catch(() => false))
+  await page.goto(base + '#/sights/yulong')
+  ok('다시 오면 PDF 보기', await page.waitForSelector('[data-testid=blog-pdf]', { timeout: 10000 }).then(() => true).catch(() => false))
+  await page.screenshot({ path: `${out}/w27_sight_blog.png`, fullPage: true })
+
   // 오프라인: 서비스 워커 캐시로 다시 열기
   await page.goto(base); await page.waitForFunction(() => navigator.serviceWorker?.controller != null, null, { timeout: 15000 }).catch(() => {})
   await page.waitForTimeout(1500)

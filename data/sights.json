@@ -963,5 +963,97 @@
     "url": "https://www.flickr.com/photos/10559879@N00/2821523290"
    }
   }
+ ],
+ "blogs": [
+  {
+   "id": "b-oldtown-gill",
+   "title": "리장고성 완벽 입문 | 동파문자, 대석교, 물레방아까지 첫날 코스 총정리",
+   "blog": "네이버 블로그 gillddong",
+   "date": "2025-12-29",
+   "url": "https://blog.naver.com/gillddong/224126286090",
+   "sightIds": [
+    "lijiang_oldtown",
+    "sifang",
+    "dashiqiao",
+    "dashuiche"
+   ],
+   "summary": "고성 첫날 걷기 코스: 대수차(물레방아)·동파문자·대석교·사방가",
+   "match": [
+    "완벽 입문",
+    "동파문자"
+   ]
+  },
+  {
+   "id": "b-oldtown-snail",
+   "title": "<리장 여행> 리장고성(丽江古城)",
+   "blog": "네이버 블로그 '달팽이의 나들이'",
+   "date": "2024-03-28",
+   "url": "https://m.search.naver.com/search.naver?where=m_blog&query=%3C%EB%A6%AC%EC%9E%A5%20%EC%97%AC%ED%96%89%3E%20%EB%A6%AC%EC%9E%A5%EA%B3%A0%EC%84%B1%28%E4%B8%BD%E6%B1%9F%E5%8F%A4%E5%9F%8E%29%20%EB%8B%AC%ED%8C%BD%EC%9D%B4%EC%9D%98%20%EB%82%98%EB%93%A4%EC%9D%B4",
+   "search": true,
+   "sightIds": [
+    "lijiang_oldtown",
+    "sifang",
+    "dashiqiao"
+   ],
+   "summary": "고성의 역사·다리(대석교 등)·사방가 소개. 원문 주소가 PDF에 없어 네이버 블로그 검색으로 연다",
+   "match": [
+    "리장고성(丽江古城)",
+    "丽江古城)",
+    "달팽이"
+   ]
+  },
+  {
+   "id": "b-yulong-gill",
+   "title": "리장 옥룡설산 케이블카 후기 | 람월곡부터 인상리장까지, 산소통은 꼭 2통 챙기세요",
+   "blog": "네이버 블로그 gillddong",
+   "date": "2025-12-29",
+   "url": "https://blog.naver.com/gillddong/224126594915",
+   "sightIds": [
+    "yulong",
+    "glacier",
+    "lanyuegu",
+    "ganhaizi",
+    "impression"
+   ],
+   "summary": "겨울 하루 투어: 람월곡 → 케이블카(빙천공원) → 인상리장. 추위·산소통 준비 팁",
+   "match": [
+    "케이블카 후기",
+    "산소통"
+   ]
+  },
+  {
+   "id": "b-day4-gill",
+   "title": "리장 여행 4일차 | 흑룡담, 수허고성, 목부, 충의야시장 완전 정복",
+   "blog": "네이버 블로그 gillddong",
+   "date": "2026-01-05",
+   "url": "https://blog.naver.com/gillddong/224134948810",
+   "sightIds": [
+    "heilongtan",
+    "shuhe",
+    "mufu"
+   ],
+   "summary": "흑룡담 공원(설산 반영)·수허고진·목부·충의 야시장 하루 코스",
+   "match": [
+    "4일차",
+    "충의야시장"
+   ]
+  },
+  {
+   "id": "b-trek-gill",
+   "title": "리장 차마고도 트래킹 후기 | 호도협부터 중도객잔까지 겨울에 걷다",
+   "blog": "네이버 블로그 gillddong",
+   "date": "2026-01-15",
+   "url": "https://blog.naver.com/gillddong/224147504040",
+   "sightIds": [
+    "tiger_gorge",
+    "upper_tiger",
+    "high_trail"
+   ],
+   "summary": "겨울 호도협: 상호도협(에스컬레이터) → 차마객잔 → 중도객잔 트래킹",
+   "match": [
+    "차마고도 트래킹",
+    "중도객잔까지"
+   ]
+  }
  ]
 }

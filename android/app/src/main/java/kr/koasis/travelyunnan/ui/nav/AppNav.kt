@@ -184,7 +184,7 @@ fun AppNav(vm: AppViewModel, initialRoute: String? = null) {
                 }
                 composable(Routes.EAT) { kr.koasis.travelyunnan.ui.eats.EatScreen(d, it.arguments?.getString("id").orEmpty()) }
                 composable(Routes.AMAP) { kr.koasis.travelyunnan.ui.sights.AmapLinksScreen(d) }
-                composable(Routes.SIGHT) { kr.koasis.travelyunnan.ui.sights.SightScreen(d, it.arguments?.getString("id").orEmpty()) }
+                composable(Routes.SIGHT) { kr.koasis.travelyunnan.ui.sights.SightScreen(vm, d, it.arguments?.getString("id").orEmpty()) }
                 composable(Routes.DOCS, arguments = listOf(navArgument("day") { type = NavType.StringType; nullable = true })) {
                     kr.koasis.travelyunnan.ui.docs.DocsScreen(vm, d, it.arguments?.getString("day"))
                 }

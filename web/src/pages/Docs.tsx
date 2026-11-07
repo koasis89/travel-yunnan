@@ -8,7 +8,7 @@ import { DOC_KINDS, filterDocs, fmtSize, sortDocs, type DocKind, type DocMeta } 
 import { addDoc, deleteDoc, getFile, storageUse, updateDoc, useDocs } from '../store/docs'
 
 const KIND_TONE: Record<DocKind, string> = {
-  '바우처': '#6f42c1', '기차표': '#1f4e79', '항공권': '#4b5563', '숙소 예약': '#b4442e', '영수증': '#e09a2b', '보험·신분': '#1f6f6b', '기타': '#6e6a64',
+  '바우처': '#6f42c1', '기차표': '#1f4e79', '항공권': '#4b5563', '숙소 예약': '#b4442e', '영수증': '#e09a2b', '보험·신분': '#1f6f6b', '블로그': '#03a94f', '기타': '#6e6a64',
 }
 export const KindBadge = ({ k }: { k: DocKind }) => <span className="tiny bold" style={{ background: KIND_TONE[k], color: '#fff', borderRadius: 8, padding: '2px 8px', whiteSpace: 'nowrap' }}>{k}</span>
 

@@ -140,6 +140,13 @@ def main(d):
                 errors.append(f"restaurants {x['id']}: 이미지 없음 {img}")
         if not x.get("amapUrl"):
             errors.append(f"restaurants {x['id']}: 지도 링크 없음")
+    sight_ids = {s["id"] for s in items("sights.json")}
+    for b in json.loads((d / "sights.json").read_text(encoding="utf-8")).get("blogs", []):
+        if not b.get("url", "").startswith("https://"):
+            errors.append(f"blogs {b.get('id')}: 링크 없음")
+        for i in b.get("sightIds", []):
+            if i not in sight_ids:
+                errors.append(f"blogs {b['id']}: sightId {i}")
     for x in items("sights.json"):
         if x.get("placeId") and x["placeId"] not in place_ids:
             errors.append(f"sights {x['id']}: placeId {x['placeId']}")

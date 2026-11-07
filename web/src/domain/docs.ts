@@ -1,7 +1,7 @@
 // 문서함: 바우처·기차표·영수증 등 여행 서류. 분류·일차 추정은 파일 이름 기준(순수 함수, 테스트 대상)
 import type { Day } from './types'
 
-export const DOC_KINDS = ['바우처', '기차표', '항공권', '숙소 예약', '영수증', '보험·신분', '기타'] as const
+export const DOC_KINDS = ['바우처', '기차표', '항공권', '숙소 예약', '영수증', '보험·신분', '블로그', '기타'] as const
 export type DocKind = (typeof DOC_KINDS)[number]
 
 export interface DocMeta {
@@ -21,6 +21,7 @@ export interface DocMeta {
 }
 
 const RULES: [DocKind, RegExp][] = [
+  ['블로그', /blog|블로그|naver|네이버|후기|여행기/i],
   ['기차표', /c446|c644|train|rail|火车|铁路|12306|动车|高铁|기차|열차|승차권/i],
   ['항공권', /flight|boarding|airline|航班|机票|登机|항공|탑승권|e-?ticket/i],
   ['바우처', /voucher|klook|kkday|凭证|tour|투어|바우처|입장권|门票/i],
@@ -55,6 +56,15 @@ export function filterDocs(list: DocMeta[], kind: DocKind | null, dayId: string 
   const s = q.trim().toLowerCase()
   return list.filter((d) => (!kind || d.kind === kind) && (!dayId || d.dayId === dayId) &&
     (!s || `${d.title} ${d.note} ${d.fileName}`.toLowerCase().includes(s)))
+}
+
+/** 관광지 블로그 글(sights.json blogs) */
+export interface Blog { id: string; title: string; blog: string; date: string; url: string; search?: boolean; sightIds: string[]; summary: string; match: string[] }
+
+/** 블로그 글에 맞는 문서함 PDF: 블로그 버튼으로 넣은 것(메모에 원문 주소), 같은 제목, 또는 파일 이름·제목에 표시 낱말 */
+export function docForBlog(b: Blog, docs: DocMeta[]): DocMeta | undefined {
+  return docs.find((d) => d.note.includes(b.url)) ?? docs.find((d) => d.title === b.title) ??
+    docs.find((d) => b.match.some((k) => `${d.title} ${d.fileName}`.includes(k)))
 }
 
 export const fmtSize = (n: number) => (n >= 1024 * 1024 ? `${(n / 1024 / 1024).toFixed(1)}MB` : `${Math.max(1, Math.round(n / 1024))}KB`)

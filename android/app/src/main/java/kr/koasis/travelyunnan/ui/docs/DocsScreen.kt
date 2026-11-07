@@ -49,7 +49,7 @@ import java.io.File
 
 private val KIND_COLOR = mapOf(
     "바우처" to Color(0xFF6F42C1), "기차표" to Color(0xFF1F4E79), "항공권" to Color(0xFF4B5563), "숙소 예약" to Color(0xFFB4442E),
-    "영수증" to Color(0xFFE09A2B), "보험·신분" to Color(0xFF1F6F6B), "기타" to Color(0xFF6E6A64),
+    "영수증" to Color(0xFFE09A2B), "보험·신분" to Color(0xFF1F6F6B), "블로그" to Color(0xFF03A94F), "기타" to Color(0xFF6E6A64),
 )
 
 @Composable

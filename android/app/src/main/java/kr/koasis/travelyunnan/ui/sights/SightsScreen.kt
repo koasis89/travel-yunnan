@@ -1,5 +1,8 @@
 package kr.koasis.travelyunnan.ui.sights
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import kotlinx.coroutines.launch
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -86,9 +89,25 @@ fun SightsScreen(vm: AppViewModel, data: TripData, dayArg: String?) {
 }
 
 @Composable
-fun SightScreen(data: TripData, id: String) {
+fun SightScreen(vm: AppViewModel, data: TripData, id: String) {
     val actions = LocalActions.current
     val ctx = LocalContext.current
+    val docs by vm.docs.collectAsStateWithLifecycle()
+    val scope = rememberCoroutineScope()
+    var blogBusy by remember { mutableStateOf<String?>(null) }
+    var pending by remember { mutableStateOf<kr.koasis.travelyunnan.data.json.Blog?>(null) }
+    val picker = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        val b = pending ?: return@rememberLauncherForActivityResult
+        if (uri == null) return@rememberLauncherForActivityResult
+        blogBusy = b.id
+        scope.launch {
+            val d = vm.addDocs(listOf(uri), null).firstOrNull()
+            blogBusy = null
+            if (d == null) { android.widget.Toast.makeText(ctx, "PDF 를 넣지 못했다", android.widget.Toast.LENGTH_SHORT).show(); return@launch }
+            vm.updateDoc(d.copy(title = b.title, kind = "블로그", note = "${b.blog} · ${b.date}\n${b.url}"))
+            actions.openDoc(d.id, false)
+        }
+    }
     val s = data.sight(id)
     if (s == null) { Column { AppTopBar("관광지", onBack = actions.back); Text("찾을 수 없다", Modifier.padding(16.dp)) }; return }
     val place = data.place(s.placeId)
@@ -138,6 +157,31 @@ fun SightScreen(data: TripData, id: String) {
                         Text("${r.dayId} ${r.timeLabel}", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary, modifier = Modifier.width(118.dp))
                         Text(listOf(r.from, r.to).filter { it.isNotBlank() && it != "-" }.joinToString(" → "), style = MaterialTheme.typography.bodyMedium)
                     }
+                }
+            }
+            val blogs = data.blogsFor(s.id)
+            if (blogs.isNotEmpty()) {
+                item { SectionTitle("블로그 후기 (${blogs.size})") }
+                items(blogs, key = { "blog-" + it.id }) { b ->
+                    val d = kr.koasis.travelyunnan.domain.DocRules.docForBlog(b, docs)
+                    Card(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp)) {
+                        Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                            Text(b.title, style = MaterialTheme.typography.titleSmall)
+                            Text("${b.blog} · ${b.date}", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text(b.summary, style = MaterialTheme.typography.bodyMedium)
+                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                if (d != null) Button(onClick = { actions.openDoc(d.id, false) }) { Icon(Icons.Filled.Description, null); Spacer(Modifier.width(6.dp)); Text("PDF 보기") }
+                                else OutlinedButton(onClick = { pending = b; picker.launch(arrayOf("application/pdf", "image/*")) }, enabled = blogBusy == null) {
+                                    Icon(Icons.Filled.NoteAdd, null); Spacer(Modifier.width(6.dp)); Text(if (blogBusy == b.id) "넣는 중…" else "PDF 넣기")
+                                }
+                                OutlinedButton(onClick = { External.openUrl(ctx, b.url) }) { Icon(Icons.Filled.OpenInNew, null); Spacer(Modifier.width(6.dp)); Text(if (b.search) "블로그 검색" else "원문 열기") }
+                            }
+                        }
+                    }
+                }
+                item {
+                    Text("PDF 는 'PDF 넣기'로 한 번 고르면 이 휴대폰의 문서함(분류: 블로그)에 저장되어 인터넷 없이 볼 수 있다. 문서함에 이미 넣은 PDF 는 제목으로 찾아 바로 연다. 글의 저작권은 블로그 글쓴이에게 있다.",
+                        style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.outline, modifier = Modifier.padding(16.dp))
                 }
             }
         }

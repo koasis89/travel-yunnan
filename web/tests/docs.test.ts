@@ -14,6 +14,7 @@ describe('문서 분류 추정', () => {
     expect(guessKind('微信支付 小票.jpg')).toBe('영수증')
     expect(guessKind('여권 사본.jpg')).toBe('보험·신분')
     expect(guessKind('Screenshot_20261105.png')).toBe('기타')
+    expect(guessKind('리장 옥룡설산 케이블카 후기 _ 네이버 블로그.pdf')).toBe('블로그')
   })
   it('열차 번호·날짜로 일차', () => {
     expect(guessDay('C446.pdf', days)).toBe('D2')
@@ -41,5 +42,16 @@ describe('정렬·거르기', () => {
     expect(filterDocs(l, '바우처', null).map((d) => d.id)).toEqual(['a'])
     expect(filterDocs(l, null, 'D2').map((d) => d.id)).toEqual(['b'])
     expect(filterDocs(l, null, null, '7호차').map((d) => d.id)).toEqual(['b'])
+  })
+})
+
+import { docForBlog, type Blog } from '../src/domain/docs'
+describe('블로그 PDF 찾기', () => {
+  const b: Blog = { id: 'b1', title: '리장 옥룡설산 케이블카 후기 | 람월곡부터', blog: 'gill', date: '2025-12-29', url: 'https://blog.naver.com/x/1', sightIds: ['yulong'], summary: '', match: ['케이블카 후기'] }
+  const doc = (o: Partial<DocMeta>): DocMeta => ({ id: 'd', title: '', kind: '블로그', dayId: null, note: '', mime: 'application/pdf', fileName: '', size: 1, pages: 1, created: 1, thumb: '', ...o })
+  it('메모의 원문 주소 → 같은 제목 → 표시 낱말 순으로 찾는다', () => {
+    expect(docForBlog(b, [doc({ id: 'a', note: 'gill\nhttps://blog.naver.com/x/1' })])?.id).toBe('a')
+    expect(docForBlog(b, [doc({ id: 'c', fileName: '리장 옥룡설산 케이블카 후기 _ 네이버 블로그.pdf' })])?.id).toBe('c')
+    expect(docForBlog(b, [doc({ id: 'e', fileName: '다른 글.pdf' })])).toBeUndefined()
   })
 })

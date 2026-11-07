@@ -19,6 +19,18 @@ class DocRulesTest {
         assertEquals("영수증", DocRules.guessKind("微信支付 小票.jpg"))
         assertEquals("보험·신분", DocRules.guessKind("여권 사본.jpg"))
         assertEquals("기타", DocRules.guessKind("Screenshot_20261105.png"))
+        assertEquals("블로그", DocRules.guessKind("리장 옥룡설산 케이블카 후기 _ 네이버 블로그.pdf"))
+    }
+
+    @Test fun blogsAndDocForBlog() {
+        val d = TripDataHolder.data
+        assertEquals(5, d.blogs.size)
+        assertEquals(1, d.blogsFor("yulong").size)
+        assertEquals(2, d.blogsFor("lijiang_oldtown").size)
+        val b = d.blogsFor("yulong").first()
+        assertEquals("a", DocRules.docForBlog(b, listOf(doc("a", note = "x\n${b.url}")))?.id)
+        assertEquals("c", DocRules.docForBlog(b, listOf(TripDoc(id = "c", title = "t", kind = "블로그", mime = "application/pdf", fileName = "리장 옥룡설산 케이블카 후기.pdf")))?.id)
+        assertEquals(null, DocRules.docForBlog(b, listOf(doc("e"))))
     }
 
     @Test fun guessDay() {

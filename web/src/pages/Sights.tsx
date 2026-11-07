@@ -1,7 +1,9 @@
-import { useMemo } from 'react'
-import { Link, useParams, useSearchParams } from 'react-router-dom'
-import { CarTaxiFront, Clock, Landmark, Lightbulb, MapPin, Sparkles, Ticket, Timer } from 'lucide-react'
-import { DayChips, TopBar } from '../components/ui'
+import { useMemo, useState } from 'react'
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { BookOpenText, CarTaxiFront, Clock, ExternalLink, FilePlus, FileText, Landmark, Lightbulb, MapPin, Sparkles, Ticket, Timer } from 'lucide-react'
+import { DayChips, TopBar, toast } from '../components/ui'
+import { addDoc, updateDoc, useDocs } from '../store/docs'
+import { docForBlog, type Blog } from '../domain/docs'
 import { useData, useNow } from '../store/data'
 import { resolvePhase } from '../domain/tripTime'
 import type { Sight } from '../domain/types'
@@ -78,8 +80,49 @@ export function SightView() {
         <div className="pad"><div className="card flat" style={{ padding: 0 }}>
           {rows.map((r) => <Link key={r.id} className="li" to={`/schedule?day=${r.dayId}`}><span className="small bold" style={{ color: 'var(--primary)', width: 110, flex: 'none' }}>{r.dayId} {r.timeLabel}</span><span className="small grow">{[r.from, r.to].filter((x) => x && x !== '-').join(' → ')}</span></Link>)}
         </div></div></>}
+      <BlogSection blogs={data.blogsFor(s.id)} />
       <p className="pad tiny faint">요금·운영 시간은 참고용이며 바뀔 수 있다. 현장 안내를 따른다.</p>
     </div>
+  )
+}
+
+/** 블로그 후기: 원문 열기 + 문서함에 넣은 PDF 보기(없으면 PDF 넣기). PDF 는 이 기기 문서함에만 저장된다 */
+function BlogSection({ blogs }: { blogs: Blog[] }) {
+  const data = useData(); const { docs } = useDocs(); const nav = useNavigate()
+  const [busy, setBusy] = useState<string | null>(null)
+  if (!blogs.length) return null
+  const put = async (b: Blog, f?: File) => {
+    if (!f) return
+    setBusy(b.id)
+    try {
+      const m = await addDoc(f, data.days, { dayId: null })
+      await updateDoc({ ...m, title: b.title, kind: '블로그', note: `${b.blog} · ${b.date}\n${b.url}` })
+      toast('문서함에 넣었다'); nav(`/docs/${m.id}`)
+    } catch { toast('PDF 를 넣지 못했다') } finally { setBusy(null) }
+  }
+  return (
+    <>
+      <div className="section row"><BookOpenText size={18} /><span>블로그 후기 ({blogs.length})</span></div>
+      <div className="pad stack">
+        {blogs.map((b) => {
+          const d = docs ? docForBlog(b, docs) : undefined
+          return (
+            <div key={b.id} className="card stack" style={{ gap: 6 }} data-testid="blog-card">
+              <div className="bold">{b.title}</div>
+              <div className="tiny muted">{b.blog} · {b.date}</div>
+              <div className="small">{b.summary}</div>
+              <div className="wrap" style={{ marginTop: 4 }}>
+                {d ? <Link className="btn primary" to={`/docs/${d.id}`} data-testid="blog-pdf"><FileText size={16} />PDF 보기</Link>
+                  : <label className="btn" data-testid="blog-add"><FilePlus size={16} />{busy === b.id ? '넣는 중…' : 'PDF 넣기'}
+                    <input type="file" accept="application/pdf,image/*" hidden disabled={busy != null} onChange={(e) => { put(b, e.target.files?.[0]); e.target.value = '' }} /></label>}
+                <a className="btn" href={b.url} target="_blank" rel="noreferrer"><ExternalLink size={16} />{b.search ? '블로그 검색' : '원문 열기'}</a>
+              </div>
+            </div>
+          )
+        })}
+        <p className="tiny faint" style={{ margin: 0 }}>PDF 는 'PDF 넣기'로 한 번 고르면 이 휴대폰의 문서함(분류: 블로그)에 저장되어 인터넷 없이 볼 수 있다. 문서함에 이미 넣은 PDF 는 제목으로 찾아 바로 연다. 글의 저작권은 블로그 글쓴이에게 있다.</p>
+      </div>
+    </>
   )
 }
 
