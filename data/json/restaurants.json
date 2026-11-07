@@ -2276,6 +2276,575 @@
         }
       ],
       "amapUrl": "https://uri.amap.com/search?keyword=%E8%A7%82%E9%9B%AA%C2%B7%E9%98%85%E5%8F%A4%E6%A5%BC%E9%9B%AA%E5%B1%B1%E8%A7%82%E6%99%AF%E9%A4%90%E5%8E%85%28%E4%B8%87%E5%8F%A4%E6%A5%BC%E5%BA%97%29&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "bs_dachu",
+      "region": "백사·수허",
+      "nameKo": "대주방 백사풍미관(나시 가정식)",
+      "nameZh": "大厨白沙风味馆",
+      "optionIds": [],
+      "dayIds": [
+        "D4"
+      ],
+      "slots": [
+        "D4 점심(백사고진)"
+      ],
+      "kind": "나시 가정식 볶음요리",
+      "placeId": "bs_dachu",
+      "summary": "백사고진 안의 나시족 가정식 식당. 야크고기·돼지고기 볶음, 물풀 볶음 같은 반찬을 여럿 시켜 밥과 나눠 먹는다. 우육면 말고 '밥과 반찬' 점심을 원할 때 가장 무난하다.",
+      "menu": [
+        {
+          "zh": "普洱茶炒牦牛肉",
+          "ko": "보이차 야크고기 볶음",
+          "desc": "보이차 잎과 함께 볶은 야크고기",
+          "image": "foods/food-24.jpeg"
+        },
+        {
+          "zh": "纳西小炒肉",
+          "ko": "나시식 돼지고기 볶음",
+          "desc": "고추·마늘종과 볶은 돼지고기"
+        },
+        {
+          "zh": "炒水性杨花",
+          "ko": "수성양화 볶음",
+          "desc": "리장 호수에서 나는 물풀 볶음(아삭한 나물)"
+        },
+        {
+          "zh": "陈氏脆皮鱼",
+          "ko": "바삭 생선튀김",
+          "desc": "통생선을 바삭하게 튀겨 소스를 얹는다",
+          "image": "foods/food-09.jpeg"
+        },
+        {
+          "zh": "米饭",
+          "ko": "쌀밥",
+          "desc": ""
+        }
+      ],
+      "tips": [
+        "3명이면 볶음 3가지 + 밥이 알맞다",
+        "맵기 조절: 不要太辣(너무 맵지 않게)"
+      ],
+      "perPerson": "약 ¥45",
+      "hours": "현장 확인",
+      "keywords": [
+        "大厨白沙风味馆",
+        "우육면 점심"
+      ],
+      "image": "foods/food-24.jpeg",
+      "credit": {
+        "title": "야크 소고기",
+        "author": "",
+        "license": "Tibetan yak meat dish.jpg (CC0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "ratings": [
+        {
+          "source": "씨트립(携程)",
+          "name": "大厨白沙风味馆",
+          "score": 4.0,
+          "reviews": 20,
+          "price": "¥45",
+          "addr": "三元村一组11号",
+          "popular": [
+            {
+              "zh": "普洱茶炒牦牛肉",
+              "ko": "보이차 야크고기 볶음"
+            },
+            {
+              "zh": "陈氏脆皮鱼",
+              "ko": "바삭 생선튀김"
+            },
+            {
+              "zh": "纳西香辣肥肠",
+              "ko": "나시 매운 곱창"
+            },
+            {
+              "zh": "炒水性杨花",
+              "ko": "수성양화 볶음"
+            },
+            {
+              "zh": "纳西小炒肉",
+              "ko": "나시 돼지고기 볶음"
+            },
+            {
+              "zh": "特色酱油鸡",
+              "ko": "간장 닭"
+            }
+          ]
+        }
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E5%A4%A7%E5%8E%A8%E7%99%BD%E6%B2%99%E9%A3%8E%E5%91%B3%E9%A6%86&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "bs_shaguo",
+      "region": "백사·수허",
+      "nameKo": "나시 특색 사궈(뚝배기)",
+      "nameZh": "纳西特色砂锅(白沙店)",
+      "optionIds": [],
+      "dayIds": [
+        "D4"
+      ],
+      "slots": [
+        "D4 점심(백사고진)"
+      ],
+      "kind": "나시 뚝배기 전골",
+      "placeId": "bs_shaguo",
+      "summary": "백사 문화 먹거리 거리의 뚝배기(砂锅) 식당. 고기·채소를 뚝배기에 끓인 나시식 전골과 구운 고기를 낸다. 쌀쌀한 12월 점심에 따뜻한 국물로 좋다.",
+      "menu": [
+        {
+          "zh": "纳西砂锅菜",
+          "ko": "나시 뚝배기 전골",
+          "desc": "고기·두부·채소를 뚝배기에 끓인다"
+        },
+        {
+          "zh": "纳西东巴骨",
+          "ko": "나시 동바 갈비",
+          "desc": "양념한 돼지 등뼈·갈비 요리"
+        },
+        {
+          "zh": "纳西特色烤肉",
+          "ko": "나시식 구운 고기",
+          "desc": ""
+        },
+        {
+          "zh": "鸡豆凉粉",
+          "ko": "계두량분",
+          "desc": "병아리콩 묵 무침",
+          "image": "foods/food-10.jpeg"
+        },
+        {
+          "zh": "酥油茶",
+          "ko": "수유차",
+          "desc": "버터 차",
+          "image": "foods/food-26.jpeg"
+        }
+      ],
+      "tips": [
+        "리뷰 수가 적다(2건). 들어가기 전에 메뉴판 가격을 확인한다"
+      ],
+      "perPerson": "약 ¥38",
+      "hours": "현장 확인",
+      "keywords": [
+        "纳西特色砂锅",
+        "우육면 점심"
+      ],
+      "image": null,
+      "credit": null,
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "ratings": [
+        {
+          "source": "씨트립(携程)",
+          "name": "纳西特色砂锅(白沙店)",
+          "score": 4.5,
+          "reviews": 2,
+          "price": "¥38",
+          "addr": "白沙村委会对面 白沙文化美食街",
+          "popular": [
+            {
+              "zh": "纳西砂锅菜",
+              "ko": "나시 뚝배기 전골"
+            },
+            {
+              "zh": "纳西东巴骨",
+              "ko": "나시 동바 갈비"
+            },
+            {
+              "zh": "纳西特色烤肉",
+              "ko": "나시 구운 고기"
+            },
+            {
+              "zh": "鸡豆凉粉",
+              "ko": "계두량분"
+            },
+            {
+              "zh": "酥油茶",
+              "ko": "수유차"
+            },
+            {
+              "zh": "腊排骨火锅",
+              "ko": "납배골 훠궈"
+            }
+          ]
+        }
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E7%BA%B3%E8%A5%BF%E7%89%B9%E8%89%B2%E7%A0%82%E9%94%85%28%E7%99%BD%E6%B2%99%E5%BA%97%29&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "bs_niutan",
+      "region": "백사·수허",
+      "nameKo": "우담정 운남 소향과(야크·버섯 솥요리)",
+      "nameZh": "牛譚情·云南特色小香锅",
+      "optionIds": [],
+      "dayIds": [
+        "D4"
+      ],
+      "slots": [
+        "D4 점심(백사고진)"
+      ],
+      "kind": "야크·야생버섯 샹궈",
+      "placeId": "bs_niutan",
+      "summary": "작은 솥에 야크고기와 야생버섯을 볶아 내는 샹궈(香锅)와 덮밥 가게. 1인 1솥·1그릇이라 셋이 각자 고르기 편하다.",
+      "menu": [
+        {
+          "zh": "野生菌牦牛肉香锅",
+          "ko": "야생버섯 야크고기 샹궈",
+          "desc": "작은 솥에 볶아 낸다(바비큐 맛)",
+          "image": "foods/food-24.jpeg"
+        },
+        {
+          "zh": "蛋包菌牦牛肉拌饭",
+          "ko": "달걀 버섯 야크고기 비빔밥",
+          "desc": ""
+        },
+        {
+          "zh": "野生菌菇汤",
+          "ko": "야생버섯탕",
+          "desc": "",
+          "image": "foods/food-32.jpeg"
+        },
+        {
+          "zh": "罐罐烤奶",
+          "ko": "항아리 구운 밀크티",
+          "desc": ""
+        }
+      ],
+      "tips": [
+        "리뷰 5건 모두 만점이지만 표본이 적다"
+      ],
+      "perPerson": "약 ¥64",
+      "hours": "현장 확인",
+      "keywords": [
+        "牛譚情",
+        "우육면 점심"
+      ],
+      "image": "foods/food-24.jpeg",
+      "credit": {
+        "title": "야크 소고기",
+        "author": "",
+        "license": "Tibetan yak meat dish.jpg (CC0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "ratings": [
+        {
+          "source": "씨트립(携程)",
+          "name": "牛譚情·云南特色小香锅",
+          "score": 5.0,
+          "reviews": 5,
+          "price": "¥64",
+          "addr": "白沙村委会白沙镇街尾村一组14号",
+          "popular": [
+            {
+              "zh": "野生菌牦牛肉香锅",
+              "ko": "야생버섯 야크 샹궈"
+            },
+            {
+              "zh": "蛋包菌牦牛肉拌饭",
+              "ko": "달걀 버섯 야크 비빔밥"
+            },
+            {
+              "zh": "罐罐烤奶",
+              "ko": "항아리 밀크티"
+            },
+            {
+              "zh": "野生菌菇汤",
+              "ko": "야생버섯탕"
+            },
+            {
+              "zh": "冰汤圆",
+              "ko": "차가운 탕위안"
+            },
+            {
+              "zh": "腊排骨小锅",
+              "ko": "납배골 소과"
+            }
+          ]
+        }
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E7%89%9B%E8%AD%9A%E6%83%85%C2%B7%E4%BA%91%E5%8D%97%E7%89%B9%E8%89%B2%E5%B0%8F%E9%A6%99%E9%94%85&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "bs_liangchu",
+      "region": "백사·수허",
+      "nameKo": "양주 식당(백사점)",
+      "nameZh": "梁厨餐厅(白沙店)",
+      "optionIds": [],
+      "dayIds": [
+        "D4"
+      ],
+      "slots": [
+        "D4 점심(백사고진)"
+      ],
+      "kind": "중식 가정요리(홍소육·거위구이)",
+      "placeId": "bs_liangchu",
+      "summary": "백사에서 씨트립 평점이 가장 높은 식당(★5.0, 리뷰 47). 홍소육·광둥식 거위구이 같은 익숙한 중식이라 입맛을 타지 않는다. 만터우 시인(馒头诗人) 맞은편.",
+      "menu": [
+        {
+          "zh": "私房红烧肉",
+          "ko": "홍소육",
+          "desc": "간장·설탕에 졸인 삼겹살",
+          "image": "foods/food-18.jpeg"
+        },
+        {
+          "zh": "至尊烧鹅",
+          "ko": "거위구이",
+          "desc": "광둥식 바삭한 거위구이"
+        },
+        {
+          "zh": "香芋蒸鸡爪",
+          "ko": "토란 닭발찜",
+          "desc": ""
+        },
+        {
+          "zh": "白灼时蔬",
+          "ko": "데친 제철 채소",
+          "desc": "",
+          "image": "foods/food-36.jpeg"
+        }
+      ],
+      "tips": [
+        "거위구이는 반 마리(半只) 단위가 많다. 3명이면 반 마리 + 홍소육 + 채소"
+      ],
+      "perPerson": "약 ¥75",
+      "hours": "현장 확인",
+      "keywords": [
+        "梁厨餐厅",
+        "우육면 점심"
+      ],
+      "image": "foods/food-18.jpeg",
+      "credit": {
+        "title": "삼겹살",
+        "author": "",
+        "license": "A Chinese Pork bellies with taro.jpg (CC BY-SA 4.0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "ratings": [
+        {
+          "source": "씨트립(携程)",
+          "name": "梁厨餐厅(白沙店)",
+          "score": 5.0,
+          "reviews": 47,
+          "price": "¥75",
+          "addr": "三元村委会二组42号",
+          "popular": [
+            {
+              "zh": "私房红烧肉",
+              "ko": "홍소육"
+            },
+            {
+              "zh": "香芋蒸鸡爪",
+              "ko": "토란 닭발찜"
+            },
+            {
+              "zh": "秘制辣酱鱼",
+              "ko": "매운 소스 생선"
+            },
+            {
+              "zh": "港深烧鹅皇",
+              "ko": "광둥식 거위구이"
+            },
+            {
+              "zh": "白灼时蔬",
+              "ko": "데친 채소"
+            },
+            {
+              "zh": "至尊烧鹅",
+              "ko": "거위구이"
+            }
+          ]
+        }
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E6%A2%81%E5%8E%A8%E9%A4%90%E5%8E%85%28%E7%99%BD%E6%B2%99%E5%BA%97%29&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "bs_mantou",
+      "region": "백사·수허",
+      "nameKo": "만터우 시인·차 서재",
+      "nameZh": "馒头诗人·茶书房",
+      "optionIds": [],
+      "dayIds": [
+        "D4"
+      ],
+      "slots": [
+        "D4 점심·간식(백사고진)"
+      ],
+      "kind": "찐빵·요거트 간식",
+      "placeId": "bs_mantou",
+      "summary": "백사 사방가 패루 아래 찐빵(만터우) 가게. 꽃잎을 넣은 만터우와 야크고기 찐빵, 장미 물소 요거트가 인기다. 가볍게 먹거나 간식으로 좋다.",
+      "menu": [
+        {
+          "zh": "玫瑰鲜花馒头",
+          "ko": "장미 꽃 만터우",
+          "desc": "",
+          "image": "foods/food-35.jpeg"
+        },
+        {
+          "zh": "牦牛肉包",
+          "ko": "야크고기 찐빵",
+          "desc": ""
+        },
+        {
+          "zh": "猪肉大葱包",
+          "ko": "돼지고기 대파 찐빵",
+          "desc": ""
+        },
+        {
+          "zh": "玫瑰水牛酸奶",
+          "ko": "장미 물소 요거트",
+          "desc": ""
+        }
+      ],
+      "tips": [
+        "점심을 가볍게 하고 기와카페로 넘어갈 때 좋다"
+      ],
+      "perPerson": "약 ¥11",
+      "hours": "현장 확인",
+      "keywords": [
+        "馒头诗人",
+        "우육면 점심"
+      ],
+      "image": "foods/food-35.jpeg",
+      "credit": {
+        "title": "꽃 과자",
+        "author": "",
+        "license": "云南玫瑰鲜花饼-2164122.jpg (CC0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "ratings": [
+        {
+          "source": "씨트립(携程)",
+          "name": "馒头诗人·茶书房",
+          "score": 4.5,
+          "reviews": 2,
+          "price": "¥11",
+          "addr": "木都路白沙古镇四方街牌楼下",
+          "popular": [
+            {
+              "zh": "鲜花味馒头",
+              "ko": "꽃 만터우"
+            },
+            {
+              "zh": "红糖馒头",
+              "ko": "흑설탕 만터우"
+            },
+            {
+              "zh": "猪肉大葱包",
+              "ko": "돼지고기 대파 찐빵"
+            },
+            {
+              "zh": "玫瑰水牛酸奶",
+              "ko": "장미 물소 요거트"
+            },
+            {
+              "zh": "玫瑰鲜花馒头",
+              "ko": "장미 꽃 만터우"
+            },
+            {
+              "zh": "牦牛肉包",
+              "ko": "야크고기 찐빵"
+            }
+          ]
+        }
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E9%A6%92%E5%A4%B4%E8%AF%97%E4%BA%BA%C2%B7%E8%8C%B6%E4%B9%A6%E6%88%BF&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "bs_pangjinmei",
+      "region": "백사·수허",
+      "nameKo": "팡진메이 계두량분(먹거리 장터)",
+      "nameZh": "胖金妹鸡豆凉粉店",
+      "optionIds": [],
+      "dayIds": [
+        "D4"
+      ],
+      "slots": [
+        "D4 점심·간식(백사고진)"
+      ],
+      "kind": "나시 간식(계두량분·튀김)",
+      "placeId": "bs_pangjinmei",
+      "summary": "백사 종합광장 먹거리 장터 5번 노점. 나시식 계두량분(병아리콩 묵)과 감자칩·버섯 튀김, 겉바속촉 두부를 판다.",
+      "menu": [
+        {
+          "zh": "纳西鸡豆凉粉",
+          "ko": "나시 계두량분",
+          "desc": "병아리콩 묵 무침(차갑게·볶아서)",
+          "image": "foods/food-10.jpeg"
+        },
+        {
+          "zh": "炸洋芋片",
+          "ko": "감자칩 튀김",
+          "desc": "",
+          "image": "foods/food-28.jpeg"
+        },
+        {
+          "zh": "包浆豆腐",
+          "ko": "바오장 두부",
+          "desc": "겉은 바삭, 속은 흐르는 두부구이"
+        },
+        {
+          "zh": "米凉虾冰粉",
+          "ko": "미량샤 빙펀(디저트)",
+          "desc": ""
+        }
+      ],
+      "tips": [
+        "점심 사이 간식으로 1~2접시"
+      ],
+      "perPerson": "약 ¥12",
+      "hours": "현장 확인",
+      "keywords": [
+        "胖金妹鸡豆凉粉店",
+        "우육면 점심"
+      ],
+      "image": "foods/food-10.jpeg",
+      "credit": {
+        "title": "계두량분",
+        "author": "",
+        "license": "丽江鸡豌豆凉粉 - Chicken pea jelly.jpg (CC BY-SA 2.0)",
+        "url": ""
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "ratings": [
+        {
+          "source": "씨트립(携程)",
+          "name": "胖金妹鸡豆凉粉店",
+          "score": 4.5,
+          "reviews": 6,
+          "price": "¥12",
+          "addr": "白沙综合广场美食集市5号摊位",
+          "popular": [
+            {
+              "zh": "纳西鸡豆凉粉",
+              "ko": "나시 계두량분"
+            },
+            {
+              "zh": "炸洋芋片",
+              "ko": "감자칩 튀김"
+            },
+            {
+              "zh": "炸蘑菇",
+              "ko": "버섯 튀김"
+            },
+            {
+              "zh": "米凉虾冰粉",
+              "ko": "미량샤 빙펀"
+            },
+            {
+              "zh": "包浆豆腐",
+              "ko": "바오장 두부"
+            },
+            {
+              "zh": "炸米肠",
+              "ko": "쌀 순대 튀김"
+            }
+          ]
+        }
+      ],
+      "amapUrl": "https://uri.amap.com/search?keyword=%E8%83%96%E9%87%91%E5%A6%B9%E9%B8%A1%E8%B1%86%E5%87%89%E7%B2%89%E5%BA%97&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
     }
   ],
   "tips": [

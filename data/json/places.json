@@ -278,6 +278,48 @@
       "nameZh": "观雪·阅古楼雪山观景餐厅(万古楼店)",
       "addrZh": "云南省丽江市古城区大研街道新华街黄山上段53号",
       "amapUrl": "https://uri.amap.com/search?keyword=%E8%A7%82%E9%9B%AA%C2%B7%E9%98%85%E5%8F%A4%E6%A5%BC%E9%9B%AA%E5%B1%B1%E8%A7%82%E6%99%AF%E9%A4%90%E5%8E%85%28%E4%B8%87%E5%8F%A4%E6%A5%BC%E5%BA%97%29&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "bs_dachu",
+      "nameKo": "대주방 백사풍미관(나시 가정식)",
+      "nameZh": "大厨白沙风味馆",
+      "addrZh": "云南省丽江市玉龙纳西族自治县白沙镇三元村一组11号",
+      "amapUrl": "https://uri.amap.com/search?keyword=%E5%A4%A7%E5%8E%A8%E7%99%BD%E6%B2%99%E9%A3%8E%E5%91%B3%E9%A6%86&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "bs_shaguo",
+      "nameKo": "나시 특색 사궈(뚝배기)",
+      "nameZh": "纳西特色砂锅(白沙店)",
+      "addrZh": "云南省丽江市玉龙纳西族自治县白沙镇白沙村委会对面 白沙文化美食街",
+      "amapUrl": "https://uri.amap.com/search?keyword=%E7%BA%B3%E8%A5%BF%E7%89%B9%E8%89%B2%E7%A0%82%E9%94%85%28%E7%99%BD%E6%B2%99%E5%BA%97%29&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "bs_niutan",
+      "nameKo": "우담정 운남 소향과(야크·버섯 솥요리)",
+      "nameZh": "牛譚情·云南特色小香锅",
+      "addrZh": "云南省丽江市玉龙纳西族自治县白沙镇白沙村委会白沙镇街尾村一组14号",
+      "amapUrl": "https://uri.amap.com/search?keyword=%E7%89%9B%E8%AD%9A%E6%83%85%C2%B7%E4%BA%91%E5%8D%97%E7%89%B9%E8%89%B2%E5%B0%8F%E9%A6%99%E9%94%85&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "bs_liangchu",
+      "nameKo": "양주 식당(백사점)",
+      "nameZh": "梁厨餐厅(白沙店)",
+      "addrZh": "云南省丽江市玉龙纳西族自治县白沙镇三元村委会二组42号",
+      "amapUrl": "https://uri.amap.com/search?keyword=%E6%A2%81%E5%8E%A8%E9%A4%90%E5%8E%85%28%E7%99%BD%E6%B2%99%E5%BA%97%29&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "bs_mantou",
+      "nameKo": "만터우 시인·차 서재",
+      "nameZh": "馒头诗人·茶书房",
+      "addrZh": "云南省丽江市玉龙纳西族自治县白沙镇木都路白沙古镇四方街牌楼下",
+      "amapUrl": "https://uri.amap.com/search?keyword=%E9%A6%92%E5%A4%B4%E8%AF%97%E4%BA%BA%C2%B7%E8%8C%B6%E4%B9%A6%E6%88%BF&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "bs_pangjinmei",
+      "nameKo": "팡진메이 계두량분(먹거리 장터)",
+      "nameZh": "胖金妹鸡豆凉粉店",
+      "addrZh": "云南省丽江市玉龙纳西族自治县白沙镇白沙综合广场美食集市5号摊位",
+      "amapUrl": "https://uri.amap.com/search?keyword=%E8%83%96%E9%87%91%E5%A6%B9%E9%B8%A1%E8%B1%86%E5%87%89%E7%B2%89%E5%BA%97&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
     }
   ]
 }
