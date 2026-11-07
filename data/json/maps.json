@@ -73,8 +73,8 @@
   {
    "id": "map_d7",
    "file": "maps/map_d7_kunming_city.png",
-   "title": "D7 쿤밍 오후·야경",
-   "caption": "12:50 쿤밍역 → 호텔 → 남병가·노가 → 저녁 → 동서사탑 야경",
+   "title": "D7 쿤밍 쉬는 날",
+   "caption": "호텔 휴식·배달 점심, 저녁에 남병가·금마벽계방 한 곳만",
    "dayIds": [
     "D7"
    ]

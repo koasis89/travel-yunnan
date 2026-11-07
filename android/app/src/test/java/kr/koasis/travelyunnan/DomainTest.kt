@@ -120,7 +120,7 @@ class DomainTest {
         val csv = kr.koasis.travelyunnan.ui.expense.expensesCsv(list, 200.0)
         assertTrue(csv.lines().size == 2 && csv.contains("20000") && csv.contains("\"a,b\""))
         assertEquals("식비", kr.koasis.travelyunnan.ui.expense.budgetKey("식비(맛집·식사 계획)"))
-        assertEquals(14, data.notifications.size)
+        assertEquals(15, data.notifications.size)
         assertTrue(data.notifications.all { kr.koasis.travelyunnan.notify.TripNotifier.epochMillis(it.at) > 0 })
     }
 

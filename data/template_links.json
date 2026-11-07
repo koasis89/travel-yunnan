@@ -76,9 +76,9 @@
     {
       "id": "tl-07",
       "dayId": "D7",
-      "timeStart": "12:50",
+      "timeStart": "13:10",
       "templateId": "tpl-delivery",
-      "label": "배달 주소 요청(쿤밍 호텔)",
+      "label": "배달 받을 주소 요청(호텔 프런트)",
       "values": {
         "hotel": "格菲酒店(昆明火车站北广场店)"
       }

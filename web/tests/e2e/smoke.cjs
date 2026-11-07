@@ -74,7 +74,7 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   await page.goto(base + '#/transport')
   const [dl] = await Promise.all([page.waitForEvent('download'), page.click('text=캘린더 파일 받기')])
   const ics = require('fs').readFileSync(await dl.path(), 'utf8')
-  ok('캘린더 파일 14건', (ics.match(/BEGIN:VEVENT/g) || []).length === 14)
+  ok('캘린더 파일 15건', (ics.match(/BEGIN:VEVENT/g) || []).length === 15)
 
   // 체크 저장 유지
   await page.goto(base + '#/packing'); await page.locator('.check input').first().check(); await page.reload()
@@ -149,6 +149,10 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   await page.screenshot({ path: `${out}/w35_menu_multi.png` })
   await page.goto(base + '#/schedule?day=D3')
   ok('일정 식당 칩(천천선)', await page.isVisible('.linkchip:has-text("천천선")'))
+
+  // D7 쉬는 날: 배달 점심 행에 배달 주소 템플릿
+  await page.goto(base + '#/schedule?day=D7')
+  ok('D7 배달 점심·주소 템플릿', await page.isVisible('text=위챗: 배달 받을 주소 요청(호텔 프런트)') && await page.isVisible('text=배달 점심'))
 
   // 씨트립 평점·인기 메뉴 담기
   await page.goto(base + '#/eats/jianxinyuan'); await page.waitForSelector('[data-testid=rating]')

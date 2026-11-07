@@ -705,36 +705,36 @@
       "id": "D7-02",
       "dayId": "D7",
       "seq": 2,
-      "area": "쿤밍역",
+      "area": "호텔(배달)",
       "slot": "점심",
       "options": [
         {
           "id": "D7-02-1",
-          "name": "철붕소과미선(铁朋小锅米线 塘子巷总店)",
-          "nameZh": "铁朋小锅米线 塘子巷总店",
-          "addrZh": "昆明市官渡区塘子巷 (铁朋小锅米线 검색)",
-          "amapUrl": "https://uri.amap.com/search?keyword=%E9%93%81%E6%9C%8B%E5%B0%8F%E9%94%85%E7%B1%B3%E7%BA%BF%20%E5%A1%98%E5%AD%90%E5%B7%B7%E6%80%BB%E5%BA%97&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1",
-          "menu": "소과미선"
+          "name": "배달 과교미선",
+          "nameZh": "",
+          "addrZh": "格菲酒店(昆明火车站北广场店) 前台(放前台)",
+          "amapUrl": "https://uri.amap.com/search?keyword=%E6%A0%BC%E8%8F%B2%E9%85%92%E5%BA%97%28%E6%98%86%E6%98%8E%E7%81%AB%E8%BD%A6%E7%AB%99%E5%8C%97%E5%B9%BF%E5%9C%BA%E5%BA%97%29%20%E5%89%8D%E5%8F%B0%28%E6%94%BE%E5%89%8D%E5%8F%B0%29&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1",
+          "menu": "过桥米线"
         },
         {
           "id": "D7-02-2",
-          "name": "好菌道·야생버섯훠궈(호텔 인근)",
-          "nameZh": "好菌道·야생버섯훠궈",
-          "addrZh": "好菌道 昆明火车站 검색",
-          "amapUrl": "https://uri.amap.com/search?keyword=%E5%A5%BD%E8%8F%8C%E9%81%93%C2%B7&city=%E6%98%86%E6%98%8E&src=travelyunnan&callnative=1",
-          "menu": "야생버섯훠궈(쿠폰 12%)"
-        },
-        {
-          "id": "D7-02-3",
-          "name": "역 매점 간식",
+          "name": "배달 소과미선",
           "nameZh": "",
           "addrZh": "",
           "amapUrl": null,
-          "menu": ""
+          "menu": "小锅米线"
+        },
+        {
+          "id": "D7-02-3",
+          "name": "배달 기과계·미선 세트",
+          "nameZh": "",
+          "addrZh": "",
+          "amapUrl": null,
+          "menu": "汽锅鸡"
         }
       ],
       "budgetCny": 150,
-      "note": "12:50 도착 후 호텔 도보 10분",
+      "note": "메이투안·어러머 배달, 프런트 수령",
       "extra": null
     },
     {

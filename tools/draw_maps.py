@@ -275,39 +275,34 @@ def map_d1():
 
 
 def map_d7():
-    x0, _ = K(102.688, 0); x1, _ = K(102.733, 0)
-    f = Fig("map_d7", "D7 쿤밍 오후·야경 (12/22)", "12:50 쿤밍역 도착 → 호텔 → 남병가·금마벽계방·노가 → 저녁 → 동서사탑 야경",
-            (x0, x1), (25.012, 25.060))
-    nan, jm, lao, wl = K(102.7115, 25.0395), K(102.7085, 25.0335), K(102.7055, 25.0405), K(102.7005, 25.0555)
-    jxy, ta, tp = K(102.7165, 25.0365), K(102.7065, 25.0295), K(102.7175, 25.0255)
-    f.place(KM_HOTEL, "Gefei VX 호텔", "lodging", "r",
-            H("Gefei VX Hotel", "lodging", "kunming2", ["Gefei", "호텔", "숙소"], note="D7 숙박. 12:50 도착 후 체크인(짐 보관)"))
-    f.place(KM_ST, "① 쿤밍역 12:50", "place", "r",
+    """D7: 오후 호텔 휴식·배달 점심, 저녁에 남병가·금마벽계방 한 곳만"""
+    x0, _ = K(102.700, 0); x1, _ = K(102.730, 0)
+    f = Fig("map_d7", "D7 쿤밍: 쉬는 날 (12/22)", "12:50 쿤밍역 → 호텔 체크인 → 배달 점심·휴식 → 17:00 남병가·금마벽계방 한 곳 → 19:30 귀가",
+            (x0, x1), (25.012, 25.045), panels=[("tl", 250)])
+    nan, jm, jxy = K(102.7115, 25.0395), K(102.7085, 25.0335), K(102.7165, 25.0365)
+    f.place(KM_HOTEL, "Gefei VX 호텔\n배달 점심·휴식", "lodging", "r",
+            H("Gefei VX Hotel", "lodging", "kunming2", ["Gefei", "호텔", "숙소"], note="D7 숙박. 배달은 프런트 수령(放前台)"))
+    f.place(KM_ST, "쿤밍역 12:50", "place", "r",
             H("쿤밍역", "place", "kunming_station", ["쿤밍역"], "昆明站", "D7 12:50 C644 도착 → 북광장 도보 360m"), size=16)
-    f.place(tp, "② 점심 철붕소과미선", "meal", "r",
-            H("철붕소과미선(塘子巷)", "meal", "铁朋", ["철붕"], "铁朋小锅米线", "D7 점심 · 호텔 도보 10분"), size=15.5)
-    f.place(nan, "③ 남병가 14:30", "place", "r",
-            H("남병가", "place", "nanping", ["남병가"], "南屏步行街", "D7 오후 자유 산책 시작점"))
-    f.place(jm, "④ 금마벽계방", "place", "l",
-            H("금마벽계방", "place", "jinmabiji", ["금마벽계방"], "金马碧鸡坊", "낮 산책 · 밤 야경"), size=16)
-    f.place(lao, "⑤ 노가(钱王街·文明街)", "place", "l",
-            H("노가", "place", "laojie", ["노가"], "昆明老街", "카페·기념품(선화병·보이차)"), size=16)
-    f.place(wl, "⑥ 문림가", "poi", "r", H("문림가", "poi", None, ["문림가"], "文林街", "카페 거리"), size=16)
-    f.place(jxy, "⑦ 저녁 건신원 과교미선", "meal", "r",
-            H("건신원 과교미선(宝善街)", "meal", "建新园", ["건신원"], "建新园过桥米线(宝善街店)", "D7 저녁 17:30"), size=15.5)
-    f.place(ta, "⑧ 동서사탑 야경", "poi", "l",
-            H("동서사탑", "poi", None, ["동서사탑"], "东西寺塔", "D7 밤 산책 후 택시 귀가"), size=16)
+    f.place(nan, "남병가", "place", "l", H("남병가", "place", "nanping", ["남병가"], "南屏步行街", "D7 저녁 한 곳만"))
+    f.place(jm, "금마벽계방 야경", "place", "l",
+            H("금마벽계방", "place", "jinmabiji", ["금마벽계방"], "金马碧鸡坊", "저녁 후 조명 야경"), size=16)
+    f.place(jxy, "저녁 건신원 과교미선", "meal", "r",
+            H("건신원 과교미선(宝善街)", "meal", "建新园", ["건신원"], "建新园过桥米线(宝善街店)", "D7 저녁 17:20"), size=15.5)
     f.path([KM_ST, KM_HOTEL], "walk", lw=4)
-    f.seg(KM_HOTEL, tp, "walk", lw=3)
-    f.seg(KM_HOTEL, nan, "taxi", rad=-0.2)
-    f.tag(K(102.719, 25.031), "택시 20분", "taxi", dx=20)
-    f.path([nan, jm, lao, wl], "walk", rad=0.15)
-    f.seg(wl, nan, "walk", rad=0.25)
+    f.seg(KM_HOTEL, nan, "taxi", rad=-0.2, lw=4)
+    f.tag(K(102.722, 25.032), "17:00 택시 20분", "taxi", size=15)
     f.seg(nan, jxy, "walk")
-    f.path([jxy, jm, ta], "night", rad=0.2)
-    f.seg(ta, KM_HOTEL, "taxi", rad=0.3)
-    f.tag(K(102.714, 25.0225), "밤 택시 귀가", "taxi")
+    f.path([jxy, jm], "night", rad=0.2)
+    f.seg(jm, KM_HOTEL, "taxi", rad=0.3)
+    f.tag(K(102.713, 25.022), "19:00 택시 귀가", "taxi", size=15)
     f.legend(["walk", "night", "taxi"], "lower left")
+    pa = f.panels[0]
+    rows = [("13:10", C["car"], "점심 배달: 美团外卖·饿了么 → 프런트 수령(放前台)"),
+            ("14:00", C["walk"], "호텔 휴식·낮잠·짐 정리(3시간)"),
+            ("17:00", C["taxi"], "남병가·금마벽계방 한 곳만, 저녁 과교미선"),
+            ("19:00", C["taxi"], "일찍 귀가, 프런트에 내일 짐 보관 요청")]
+    text_panel(pa, rows, y=20, lh=50, size=16.5)
     f.save("map_d7_kunming_city.png")
 
 
