@@ -184,3 +184,24 @@ describe('음식 도감 기기 사진', () => {
     expect(data.foodPhotoNames['docx-01-01'].nameZh).toBe('腊排骨火锅')
   })
 })
+
+import { parseExpensesCsv, splitCsvLine } from '../src/domain/expense'
+describe('경비 CSV 가져오기', () => {
+  const csv = '﻿일시,일차,금액,통화,원화환산,구분,결제수단,지불자,메모\n' +
+    '2026-11-05 22:48,D3,350000,KRW,350000,교통·투어·입장료,위챗,공동,"투어, 클룩"\n' +
+    '2026-12-17 12:05,D2,68,CNY,13600,식비,알리페이,아빠,"점심 ""과교미선"""\n' +
+    '깨진 줄,,,\n'
+  it('내보낸 형식을 읽고(중국 시간·따옴표·쉼표), 다시 넣으면 건너뛴다', () => {
+    expect(splitCsvLine('a,"b, c","d ""e"""')).toEqual(['a', 'b, c', 'd "e"'])
+    const r = parseExpensesCsv(csv, [], 1000)
+    expect(r.added.length).toBe(2); expect(r.bad).toBe(1)
+    expect(r.added[0]).toMatchObject({ dayId: 'D3', amount: 350000, currency: 'KRW', category: '교통·투어·입장료', method: '위챗', payer: '공동', memo: '투어, 클룩' })
+    expect(new Date(r.added[1].at).toISOString()).toBe('2026-12-17T04:05:00.000Z')
+    expect(r.added[1].memo).toBe('점심 "과교미선"')
+    const again = parseExpensesCsv(csv, r.added)
+    expect(again.added.length).toBe(0); expect(again.skipped).toBe(2)
+    // 내보내기 → 가져오기 왕복
+    const round = parseExpensesCsv(expensesCsv(r.added, 200), [])
+    expect(round.added.map((e) => [e.amount, e.currency, e.at])).toEqual(r.added.map((e) => [e.amount, e.currency, e.at]).sort((a, b) => (a[2] as number) - (b[2] as number)))
+  })
+})

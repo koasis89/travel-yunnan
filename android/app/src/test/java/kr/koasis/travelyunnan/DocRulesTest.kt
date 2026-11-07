@@ -74,4 +74,22 @@ class DocRulesTest {
         assertEquals(listOf("docx-02-01"), d.photoIdsForFood("food-23", listOf("photo_005", "docx-01-01", "docx-02-01")))
         assertEquals("腊排骨火锅", d.foodPhotoName("docx-01-01")?.nameZh)
     }
+
+    @Test fun expenseCsvImport() {
+        val csv = "\uFEFF일시,일차,금액,통화,원화환산,구분,결제수단,지불자,메모\n" +
+            "2026-11-05 22:48,D3,350000,KRW,350000,교통·투어·입장료,위챗,공동,\"투어, 클룩\"\n" +
+            "2026-12-17 12:05,D2,68,CNY,13600,식비,알리페이,아빠,\"점심 \"\"과교미선\"\"\"\n" +
+            "깨진 줄,,,\n"
+        val E = kr.koasis.travelyunnan.ui.expense.ExpenseCsv
+        assertEquals(listOf("a", "b, c", "d \"e\""), E.split("a,\"b, c\",\"d \"\"e\"\"\""))
+        val r = E.parse(csv, emptyList())
+        assertEquals(2, r.added.size); assertEquals(1, r.bad)
+        assertEquals("투어, 클룩", r.added[0].memo); assertEquals("KRW", r.added[0].currency); assertEquals(350000.0, r.added[0].amount, 0.0)
+        assertEquals(java.time.Instant.parse("2026-12-17T04:05:00Z").toEpochMilli(), r.added[1].at)
+        assertEquals("점심 \"과교미선\"", r.added[1].memo)
+        val again = E.parse(csv, r.added)
+        assertEquals(0, again.added.size); assertEquals(2, again.skipped)
+        // 내보내기 → 가져오기 왕복
+        assertEquals(2, E.parse(kr.koasis.travelyunnan.ui.expense.expensesCsv(r.added, 200.0), emptyList()).added.size)
+    }
 }

@@ -83,7 +83,7 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
 
   // 영수증 인식 → 자동 채움 → 저장
   const fx = require('path').join(__dirname, '..', 'fixtures')
-  await page.goto(base + '#/expense'); await page.waitForSelector('text=영수증으로 추가')
+  await page.goto(base + '#/expense'); await page.waitForSelector('text=영수증 추가')
   await page.setInputFiles('[data-testid=receipt-input]', `${fx}/wechat.jpg`)
   const filled = await page.waitForFunction(() => document.querySelector('input[inputmode=decimal]')?.value === '128', null, { timeout: 90000 }).then(() => true).catch(() => false)
   ok('영수증(위챗페이) 금액 자동 채움 128', filled)
@@ -98,6 +98,16 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   ok('오프라인 영수증 인식(디디 32.5)', await page.waitForFunction(() => document.querySelector('input[inputmode=decimal]')?.value === '32.5', null, { timeout: 60000 }).then(() => true).catch(() => false))
   await ctx.setOffline(false)
   await page.click('button:has-text("취소")').catch(() => {})
+
+  // 경비: 영수증 추가·지출 추가 한 줄, CSV 가져오기(다시 넣으면 건너뜀)
+  ok('영수증 추가·지출 추가 한 줄', await page.evaluate(() => { const b = [...document.querySelectorAll('[data-testid=expense-actions] button')].map((x) => x.getBoundingClientRect().top); return b.length === 2 && Math.abs(b[0] - b[1]) < 2 }))
+  const rowsBefore = await page.locator('.card.flat .li').count()
+  await page.setInputFiles('[data-testid=csv-input]', `${fx}/expenses_sample.csv`)
+  ok('CSV 가져오기 2건', await page.waitForSelector('text=2건을 추가했다', { timeout: 5000 }).then(() => true).catch(() => false) && await page.isVisible('text=시험용 호텔'))
+  await page.waitForTimeout(2500)
+  await page.setInputFiles('[data-testid=csv-input]', `${fx}/expenses_sample.csv`)
+  ok('같은 CSV 다시 넣으면 건너뜀', await page.waitForSelector('text=이미 있는 2건은 건너뛰었다', { timeout: 5000 }).then(() => true).catch(() => false))
+  await page.screenshot({ path: `${out}/w30_expense_csv.png` })
 
   // 경비: 원화를 위안으로 잘못 넣은 기록 → 경고·원화로 고치기·수정·삭제 후 총액 즉시 반영
   page.on('dialog', (d) => d.accept())

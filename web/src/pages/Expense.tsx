@@ -1,10 +1,10 @@
 import { useRef, useState } from 'react'
-import { Camera, Download, Pencil, Plus, Trash2, TriangleAlert } from 'lucide-react'
+import { Camera, Download, FileUp, Pencil, Plus, Trash2, TriangleAlert } from 'lucide-react'
 import { Banner, Section, TopBar, download, toast } from '../components/ui'
 import { useData, useNow, useSettings } from '../store/data'
 import { useStored } from '../store/local'
 import { resolvePhase } from '../domain/tripTime'
-import { CATEGORIES, METHODS, PAYERS, SUSPICIOUS_CNY, budgetKey, expensesCsv, krw, looksLikeKrw, type Expense as Ex } from '../domain/expense'
+import { CATEGORIES, METHODS, PAYERS, SUSPICIOUS_CNY, budgetKey, expensesCsv, krw, looksLikeKrw, parseExpensesCsv, type Expense as Ex } from '../domain/expense'
 import { parseReceipt, type ReceiptGuess } from '../domain/receipt'
 import { readReceipt } from '../store/ocr'
 
@@ -19,6 +19,15 @@ export function Expense() {
   const [prefill, setPrefill] = useState<(ReceiptGuess & { photo: string }) | null>(null)
   const [ocrMsg, setOcrMsg] = useState<string | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
+  const csvRef = useRef<HTMLInputElement>(null)
+  async function onCsv(f: File | undefined) {
+    if (!f) return
+    try {
+      const r = parseExpensesCsv(await f.text(), list)
+      if (r.added.length) setList((l) => [...r.added, ...l].sort((a, b) => b.at - a.at))
+      toast(`${r.added.length}건을 추가했다` + (r.skipped ? ` · 이미 있는 ${r.skipped}건은 건너뛰었다` : '') + (r.bad ? ` · 읽지 못한 줄 ${r.bad}개` : ''))
+    } catch { toast('CSV 를 읽지 못했다') } finally { if (csvRef.current) csvRef.current.value = '' }
+  }
   async function onReceipt(f: File | undefined) {
     if (!f) return
     setOcrMsg('영수증을 읽는 중… 처음 한 번은 인식 데이터(약 6MB)를 받는다')
@@ -63,10 +72,12 @@ export function Expense() {
             onCancel={() => setEditing(null)} onSave={(e) => { setList((l) => l.map((x) => (x.id === editing.id ? { ...e, id: editing.id, at: editing.at } : x))); setEditing(null); toast('고쳤다') }} />
           : adding ? <AddForm key={prefill?.photo ?? 'manual'} dayDefault={p.kind === 'on' ? p.day.id : 'D1'} days={data.days.map((d) => d.id)} prefill={prefill}
             onCancel={() => { setAdding(false); setPrefill(null) }} onSave={(e) => { setList((l) => [e, ...l]); setAdding(false); setPrefill(null) }} />
-          : <div className="row">
+          : <><div className="row" data-testid="expense-actions">
+              <button className="btn block grow" disabled={!!ocrMsg} onClick={() => fileRef.current?.click()}><Camera size={18} />영수증 추가</button>
               <button className="btn primary block grow" onClick={() => setAdding(true)}><Plus size={18} />지출 추가</button>
-              <button className="btn block grow" disabled={!!ocrMsg} onClick={() => fileRef.current?.click()}><Camera size={18} />영수증으로 추가</button>
-            </div>}
+            </div>
+            <button className="btn block" style={{ marginTop: 8 }} onClick={() => csvRef.current?.click()} data-testid="csv-import"><FileUp size={18} />CSV 가져오기 (내보낸 경비 파일)</button></>}
+        <input ref={csvRef} type="file" accept=".csv,text/csv,text/plain" hidden data-testid="csv-input" onChange={(e) => onCsv(e.target.files?.[0])} />
         <input ref={fileRef} type="file" accept="image/*" hidden data-testid="receipt-input" onChange={(e) => onReceipt(e.target.files?.[0])} />
         {ocrMsg && <div style={{ marginTop: 10 }}><Banner icon={<Camera size={18} />}>{ocrMsg}</Banner></div>}
         <div className="card flat" style={{ padding: 0, marginTop: 12 }}>
@@ -84,7 +95,7 @@ export function Expense() {
             </div>
           ))}
         </div>
-        <p className="tiny faint">기록은 이 기기에만 저장된다. CSV(오른쪽 위)로 내보내 가족과 공유한다. 영수증 사진은 기기 안에서만 읽으며 밖으로 보내지 않는다. 위챗페이·알리페이 결제 완료 화면 캡처가 가장 잘 읽힌다.</p>
+        <p className="tiny faint">기록은 이 기기에만 저장된다. CSV(오른쪽 위)로 내보내 가족과 공유하고, 받은 CSV 는 'CSV 가져오기'로 넣는다(이미 있는 지출은 건너뛴다). 영수증 사진은 기기 안에서만 읽으며 밖으로 보내지 않는다. 위챗페이·알리페이 결제 완료 화면 캡처가 가장 잘 읽힌다.</p>
       </div>
     </div>
   )

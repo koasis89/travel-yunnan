@@ -70,6 +70,58 @@ fun expensesCsv(list: List<Expense>, rate: Double): String {
     }).joinToString("\n")
 }
 
+/** 경비 CSV 가져오기(웹 domain/expense.ts parseExpensesCsv 와 같은 규칙) */
+object ExpenseCsv {
+    data class Result(val added: List<Expense>, val skipped: Int, val bad: Int)
+
+    fun split(line: String): List<String> {
+        val out = mutableListOf<String>(); val cur = StringBuilder(); var q = false; var i = 0
+        while (i < line.length) {
+            val c = line[i]
+            if (q) { if (c == '"' && i + 1 < line.length && line[i + 1] == '"') { cur.append('"'); i++ } else if (c == '"') q = false else cur.append(c) }
+            else if (c == '"') q = true
+            else if (c == ',') { out += cur.toString(); cur.clear() }
+            else cur.append(c)
+            i++
+        }
+        out += cur.toString()
+        return out.map { it.trim() }
+    }
+
+    private fun key(at: Long, amount: Double, currency: String, memo: String) = "${at / 60000}|$amount|$currency|$memo"
+
+    /** 내보낸 형식(일시,일차,금액,통화,원화환산,구분,결제수단,지불자,메모)을 읽는다. 일시는 중국 시간. 이미 있는 지출과 같은 줄은 건너뛴다 */
+    fun parse(text: String, existing: List<Expense>): Result {
+        val lines = text.removePrefix("\uFEFF").lines().filter { it.isNotBlank() }
+        if (lines.isEmpty()) return Result(emptyList(), 0, 0)
+        val head = split(lines[0])
+        fun col(name: String, i: Int) = head.indexOf(name).takeIf { it >= 0 } ?: i
+        val hasHead = "금액" in head
+        val cAt = col("일시", 0); val cDay = col("일차", 1); val cAmt = col("금액", 2); val cCur = col("통화", 3)
+        val cCat = col("구분", 5); val cMethod = col("결제수단", 6); val cPayer = col("지불자", 7); val cMemo = col("메모", 8)
+        val seen = existing.map { key(it.at, it.amount, it.currency, it.memo) }.toMutableSet()
+        val added = mutableListOf<Expense>(); var skipped = 0; var bad = 0
+        val re = Regex("^(\\d{4})-(\\d{2})-(\\d{2})[ T](\\d{1,2}):(\\d{2})")
+        for (line in if (hasHead) lines.drop(1) else lines) {
+            val f = split(line)
+            val m = re.find(f.getOrElse(cAt) { "" })
+            val amount = f.getOrElse(cAmt) { "" }.replace(Regex("[,\\s원¥]"), "").toDoubleOrNull()
+            val cur = f.getOrElse(cCur) { "" }.uppercase()
+            if (m == null || amount == null || amount <= 0 || (cur != "CNY" && cur != "KRW")) { bad++; continue }
+            val (y, mo, d, h, mi) = m.destructured
+            val at = LocalDateTime.of(y.toInt(), mo.toInt(), d.toInt(), h.toInt(), mi.toInt()).atZone(ZoneId.of("Asia/Shanghai")).toInstant().toEpochMilli()
+            val memo = f.getOrElse(cMemo) { "" }
+            val k = key(at, amount, cur, memo)
+            if (k in seen) { skipped++; continue }
+            seen += k
+            added += Expense(dayId = f.getOrElse(cDay) { "" }.ifBlank { "D1" }, amount = amount, currency = cur,
+                category = f.getOrElse(cCat) { "" }.ifBlank { "교통·투어·입장료" }, memo = memo,
+                method = f.getOrElse(cMethod) { "" }.ifBlank { "위챗" }, payer = f.getOrElse(cPayer) { "" }.ifBlank { "공동" }, at = at)
+        }
+        return Result(added, skipped, bad)
+    }
+}
+
 @Composable
 fun ExpenseScreen(vm: AppViewModel, data: TripData) {
     val list by vm.expenses.collectAsStateWithLifecycle()
@@ -93,8 +145,20 @@ fun ExpenseScreen(vm: AppViewModel, data: TripData) {
             }
         }
     }
+    val csvPicker = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        if (uri == null) return@rememberLauncherForActivityResult
+        scope.launch {
+            val r = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                runCatching { ctx.contentResolver.openInputStream(uri)?.use { it.readBytes().decodeToString() }?.let { ExpenseCsv.parse(it, list) } }.getOrNull()
+            }
+            if (r == null) { android.widget.Toast.makeText(ctx, "CSV 를 읽지 못했다", android.widget.Toast.LENGTH_SHORT).show(); return@launch }
+            r.added.forEach { vm.addExpense(it) }
+            android.widget.Toast.makeText(ctx, "${r.added.size}건을 추가했다" + (if (r.skipped > 0) " · 이미 있는 ${r.skipped}건은 건너뛰었다" else "") + (if (r.bad > 0) " · 읽지 못한 줄 ${r.bad}개" else ""), android.widget.Toast.LENGTH_LONG).show()
+        }
+    }
     ExpenseContent(
         data, list, settings, now, vm::addExpense, vm::deleteExpense, vm::setCnyRate, vm::setCash,
+        onCsv = { csvPicker.launch(arrayOf("text/*", "application/csv", "application/vnd.ms-excel", "application/octet-stream")) },
         onFixKrw = { vm.updateExpense(it.copy(currency = "KRW")) },
         reading = reading, prefill = prefill, onClearPrefill = { prefill = null },
         onReceipt = { picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) },
@@ -108,6 +172,7 @@ fun ExpenseContent(
     onAdd: (Expense) -> Unit, onDelete: (Expense) -> Unit, onRate: (Double?) -> Unit, onCash: (Double) -> Unit,
     onFixKrw: (Expense) -> Unit = {},
     reading: Boolean = false, prefill: Pair<ReceiptGuess, Uri>? = null, onClearPrefill: () -> Unit = {}, onReceipt: () -> Unit = {},
+    onCsv: () -> Unit = {},
 ) {
     val actions = LocalActions.current
     val ctx = LocalContext.current
@@ -129,7 +194,7 @@ fun ExpenseContent(
                 runCatching { ctx.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_SUBJECT, "윈난 여행 지출").putExtra(Intent.EXTRA_TEXT, csv), "지출 내보내기")) }
             }) { Icon(Icons.Filled.Share, "CSV 내보내기") }
         }
-        LazyColumn(Modifier.weight(1f), contentPadding = PaddingValues(bottom = 96.dp)) {
+        LazyColumn(Modifier.weight(1f), contentPadding = PaddingValues(bottom = 16.dp)) {
             item {
                 Card(Modifier.padding(16.dp).fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)) {
                     Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -150,16 +215,25 @@ fun ExpenseContent(
                 }
             }
             item { SectionTitle("지출 내역 (${list.size}건)") }
-            if (list.isEmpty()) item { EmptyState("아직 기록이 없다. 아래 + 로 추가한다") }
+            item {
+                OutlinedButton(onClick = onCsv, modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp)) {
+                    Icon(Icons.Filled.UploadFile, null); Spacer(Modifier.width(6.dp)); Text("CSV 가져오기 (내보낸 경비 파일)")
+                }
+            }
+            if (list.isEmpty()) item { EmptyState("아직 기록이 없다. 아래 버튼으로 추가한다") }
             items(list, key = { it.id }) { e -> ExpenseRow(e, rate, onFixKrw = { onFixKrw(e) }) { onDelete(e) } }
         }
-    }
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.BottomEnd) {
-        Column(Modifier.padding(20.dp), horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            ExtendedFloatingActionButton(onClick = { if (!reading) onReceipt() }, containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                icon = { if (reading) CircularProgressIndicator(Modifier.size(20.dp), strokeWidth = 2.dp) else Icon(Icons.Filled.PhotoCamera, null) },
-                text = { Text(if (reading) "영수증 읽는 중…" else "영수증으로 추가") })
-            ExtendedFloatingActionButton(onClick = { showAdd = true }, icon = { Icon(Icons.Filled.Add, null) }, text = { Text("지출 추가") })
+        // 영수증 추가 · 지출 추가를 한 줄에
+        Surface(tonalElevation = 3.dp) {
+            Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 10.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                FilledTonalButton(onClick = { if (!reading) onReceipt() }, modifier = Modifier.weight(1f).heightIn(min = 52.dp)) {
+                    if (reading) CircularProgressIndicator(Modifier.size(18.dp), strokeWidth = 2.dp) else Icon(Icons.Filled.PhotoCamera, null)
+                    Spacer(Modifier.width(6.dp)); Text(if (reading) "읽는 중…" else "영수증 추가")
+                }
+                Button(onClick = { showAdd = true }, modifier = Modifier.weight(1f).heightIn(min = 52.dp)) {
+                    Icon(Icons.Filled.Add, null); Spacer(Modifier.width(6.dp)); Text("지출 추가")
+                }
+            }
         }
     }
     if (showAdd) AddExpenseSheet(todayId, data.days.map { it.id }, onDismiss = { showAdd = false }) { onAdd(it); showAdd = false }
