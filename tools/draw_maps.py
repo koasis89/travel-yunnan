@@ -17,7 +17,7 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
-from matplotlib.patches import FancyArrowPatch, FancyBboxPatch, Polygon, Circle  # noqa: E402
+from matplotlib.patches import FancyArrowPatch, FancyBboxPatch, Polygon, Circle, Ellipse  # noqa: E402
 
 REPO = Path(__file__).resolve().parent.parent
 OUT = REPO / "assets" / "maps"
@@ -425,40 +425,47 @@ def map_d2():
 
 # ---------------------------------------------------------------- D3 옥룡설산 투어
 def map_d3():
-    """도식 배치. 관광센터에서 셔틀로 각 명소를 오가며, 순서는 가이드가 정한다"""
-    f = Fig("map_d3", "D3 옥룡설산 투어 (12/18 · 예약 확정)", "사방가 픽업 → 甘海子·람월곡 → 대索道 빙천공원 4,506m → 인상리장 → 고성 복귀",
+    """도식 배치. 관광센터·인상리장 공연장은 甘海子 초원 한곳에 모여 있고, 거기서 셔틀로 람월곡·대索道를 오간다.
+    순서는 가이드가 정한다"""
+    f = Fig("map_d3", "D3 옥룡설산 투어 (12/18 · 예약 확정)", "사방가 픽업 → 甘海子(관광센터·인상리장 공연장) ⇄ 람월곡 · 대索道 빙천공원 4,506m → 고성 복귀",
             (0, 100), (0, 100), map_h=900, panels=[("tl", 470)])
     ax = f.ax
     ax.add_patch(Polygon([(0, 100), (0, 60), (14, 48), (30, 70), (44, 100)], closed=True, fc="#e3e8ef", ec="#c5cfdb", lw=1.5, zorder=0.6))
     ax.text(10, 56, "옥룡설산\n(玉龙雪山)", fontsize=15, color="#56657a", ha="center", zorder=2)
     f.mountain((14, 88), "주봉 5,596m", 14)
-    lj, bs, cen = (62, 8), (48, 26), (60, 56)
-    gh, imp, low, up, lan = (80, 46), (40, 50), (34, 70), (24, 80), (74, 82)
+    lj, bs, cen = (62, 8), (48, 26), (52, 55)
+    gh, imp, low, up, lan = (68, 56), (61, 45), (32, 72), (22, 83), (78, 80)
+    # 甘海子 일대: 관광센터·초원·인상리장 공연장이 한곳(서로 걸어서 몇 분)
+    ax.add_patch(Ellipse((59, 51), 40, 22, fc="#efe9fb", ec=C["tour"], lw=2, ls=(0, (5, 3)), zorder=0.8))
+    ax.text(39, 41, "甘海子 일대(보라 원)\n관광센터·초원·공연장이\n한곳에 모여 있다", fontsize=15, color=C["tour"], fontweight="bold",
+            ha="right", va="center", linespacing=1.25, zorder=3)
     f.place(lj, "리장고성 사방가(四方街)\n픽업 05:00~07:00 · 복귀 16~17시", "lodging", "r",
             H("사방가 픽업(Sifang Street)", "place", "sifang", ["Sifang", "사방가", "픽업"], "四方街",
               "D3 투어 무료 픽업. 정확한 시각·만남 위치는 가이드 위챗 안내"))
     f.dot(bs, "poi", 8)
     f.label(bs, "백사 경유", "l", size=14, box=False, color=MUTED)
-    f.place(cen, "관광센터(셔틀 환승)", "place", "r",
+    f.place(cen, "관광센터\n(셔틀 환승)", "place", "l",
             H("옥룡설산 관광센터", "place", "yulong_center", ["관광센터"], "玉龙雪山游客中心", "셔틀 환승·식당"), size=15, dot=10)
-    f.place(gh, "甘海子 초원\n설산 전망 [일정 1]", "place", "b",
+    f.place(gh, "甘海子 초원\n설산 전망 [일정 1]", "place", "r",
             H("감해자(甘海子)", "place", "ganhaizi", ["甘海子", "감해자"], "甘海子", "설산 전망 초원 · 투어 포함"), size=16)
     f.place(lan, "람월곡(블루문밸리)\n옥빛 호수 [일정 1]", "place", "l",
             H("람월곡(블루문밸리)", "place", "lanyuegu", ["람월곡", "蓝月谷", "블루문"], "蓝月谷", "투어 포함 · 전동차·도보"), size=16)
-    f.place(low, "대索道 하부역 3,356m", "place", "r",
+    f.place(low, "대索道 하부역 3,356m", "place", "l",
             H("대索道 하부역", "place", "yulong_cableway", ["대索道", "케이블카", "하부역"], "玉龙雪山大索道",
               "투어 포함. 여권 실명 확인, 대기 길 수 있음"), size=15, dot=10)
     f.place(up, "빙천공원 4,506m\n대索道 [일정 2]", "place", "r",
             H("빙천공원 4,506m", "place", "yulong_cableway", ["빙천공원", "4,506"], "冰川公园",
               "강풍·영하 15도 안팎. 산소통, 천천히 걷기"), size=16)
-    f.place(imp, "인상리장 공연\n(印象丽江) [일정 3]", "place", "l",
+    f.place(imp, "인상리장 공연장(印象丽江)\n甘海子 안 · 공연 [일정 3]", "place", "r",
             H("인상리장 공연장", "place", "impression", ["인상리장", "印象丽江", "공연"], "印象丽江",
               "야외 공연 약 1시간 · 투어 포함"), size=16)
     f.path([lj, bs, cen], "tour", lw=4.5)
-    f.seg(cen, lj, "tour", rad=-0.45, lw=3, dashed=(0, (4, 3)))
-    f.tag((70, 22), "투어 차량 약 1시간\n복귀 16:00~17:00", "tour", size=15)
-    for p in (gh, lan, low, imp):
+    f.seg(imp, lj, "tour", rad=-0.35, lw=3, dashed=(0, (4, 3)))
+    f.tag((78, 24), "투어 차량 약 1시간\n복귀 16:00~17:00", "tour", size=15)
+    for p in (lan, low):
         f.seg(cen, p, "tour", lw=2.4, head=False, dashed=(0, (2, 2)))
+    for p in (gh, imp):
+        f.seg(cen, p, "tour", lw=2, head=False, dashed=(0, (1, 2)))
     f.seg(low, up, "car", lw=4, dashed=(0, (1.5, 1.5)))
     from matplotlib.lines import Line2D
     ax.legend([Line2D([], [], color=C["tour"], lw=4), Line2D([], [], color=C["tour"], lw=2.4, ls=(0, (2, 2))),
