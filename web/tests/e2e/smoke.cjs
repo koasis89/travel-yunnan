@@ -121,6 +121,11 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   ok('관광지 사진 출처(라이선스)', (await page.textContent('figcaption')).includes('CC BY'))
   await page.click('text=택시 카드'); ok('관광지 → 택시 카드', await page.waitForSelector('text=玉龙雪山大索道', { timeout: 5000 }).then(() => true).catch(() => false))
 
+  // 앱 업데이트 확인 버튼
+  await page.goto(base + '#/more'); await page.waitForSelector('[data-testid=update-row]')
+  await page.click('[data-testid=update-row] >> text=업데이트 확인')
+  ok('업데이트 확인 → 최신 버전 안내', await page.waitForSelector('text=최신 버전이다', { timeout: 15000 }).then(() => true).catch(() => false))
+
   // 지도 링크 모음: 숙소·관광지·식당, 공유받은 정확 링크
   await page.goto(base + '#/amap'); await page.waitForSelector('[data-testid=amap-row]')
   ok('지도 링크 80곳 이상', (await page.locator('[data-testid=amap-row]').count()) >= 80)

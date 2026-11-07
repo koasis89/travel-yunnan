@@ -1,14 +1,15 @@
 import { Link } from 'react-router-dom'
-import { BookOpen, ChevronRight, FolderOpen, Landmark, MapPinned, UtensilsCrossed, Hash, Info, ListChecks, LogOut, MessageSquareText, Receipt, Settings as SettingsIcon, Siren, TrainFront, TriangleAlert, Download } from 'lucide-react'
-import type { ReactNode } from 'react'
-import { DayChips, TopBar } from '../components/ui'
+import { BookOpen, ChevronRight, FolderOpen, Landmark, MapPinned, UtensilsCrossed, Hash, Info, ListChecks, LogOut, MessageSquareText, Receipt, Settings as SettingsIcon, Siren, TrainFront, TriangleAlert, Download, RefreshCw } from 'lucide-react'
+import { useState, type ReactNode } from 'react'
+import { DayChips, TopBar, toast } from '../components/ui'
+import { checkUpdate, reinstallApp } from '../store/update'
 import { useData, useNow, useSettings } from '../store/data'
 import { shiftHours, tripNow } from '../domain/tripTime'
 
 const items: [string, string, string, ReactNode][] = [
   ['/transport', '교통·열차·알림', 'C446·C644, 비용, 캘린더 파일', <TrainFront size={20} />],
   ['/sights', '관광지 안내', '리장고성·옥룡설산·호도협·샹그릴라·쿤밍 사진과 설명', <Landmark size={20} />],
-  ['/eats', '맛집 안내', '식당 24곳 대표 메뉴판·사진·주문 문장', <UtensilsCrossed size={20} />],
+  ['/eats', '맛집 안내', '식당 메뉴판·평점·사진·주문 문장', <UtensilsCrossed size={20} />],
   ['/amap', '지도 링크 모음', '숙소·관광지·식당 고덕지도 링크, 복사해서 공유', <MapPinned size={20} />],
   ['/docs', '문서함', '바우처·기차표·숙소 예약·영수증 보관', <FolderOpen size={20} />],
   ['/expense', '경비', '예산 대비 지출, CSV', <Receipt size={20} />],
@@ -29,6 +30,7 @@ export function More({ onLogout }: { onLogout: () => void }) {
         {items.map(([to, t, s, ic]) => <Link key={to} to={to} className="li"><span className="ic">{ic}</span><span className="grow"><div className="bold">{t}</div><div className="tiny muted">{s}</div></span><ChevronRight size={18} color="var(--ink-3)" /></Link>)}
       </div>
       <div className="card" style={{ margin: '12px 16px 0', padding: 0 }}>
+        <UpdateRow />
         <div className="li"><span className="ic"><Download size={20} /></span><span className="grow"><div className="bold">홈 화면에 추가</div>
           <div className="tiny muted">안드로이드 크롬: 메뉴 → 홈 화면에 추가 · 아이폰 사파리: 공유 → 홈 화면에 추가. 한 번 열면 오프라인에서도 열린다</div></span></div>
         <button className="li" style={{ width: '100%', border: 0, background: 'none', textAlign: 'left' }} onClick={() => confirm('로그아웃하면 다시 이메일을 입력해야 한다. 로그아웃할까?') && onLogout()}>
@@ -36,6 +38,34 @@ export function More({ onLogout }: { onLogout: () => void }) {
       </div>
       <p className="pad tiny faint center" style={{ marginTop: 16 }}><Info size={12} /> 데이터 버전 {data.version} · 웹 {__APP_VERSION__}<br />음식 사진: Wikimedia Commons (CC)</p>
     </div>
+  )
+}
+
+/** 앱 업데이트: 새 버전 확인, 안 되면 앱 파일 다시 받기(저장한 문서·체크·경비는 그대로) */
+function UpdateRow() {
+  const [busy, setBusy] = useState(false)
+  const check = async () => {
+    setBusy(true)
+    try {
+      const r = await checkUpdate()
+      toast(r === 'new' ? '새 버전을 받는 중이다. 다 받으면 화면이 저절로 새로고침된다'
+        : r === 'latest' ? `최신 버전이다(웹 ${__APP_VERSION__})`
+        : r === 'offline' ? '인터넷이 연결되지 않았다' : '이 브라우저는 자동 업데이트를 지원하지 않는다. 새로고침한다')
+      if (r === 'unsupported') location.reload()
+    } catch { toast('확인하지 못했다. 잠시 후 다시 해 본다') } finally { setBusy(false) }
+  }
+  const reinstall = () => {
+    if (!navigator.onLine) { toast('인터넷이 될 때만 다시 받을 수 있다'); return }
+    if (confirm('앱 파일을 지우고 서버에서 다시 받는다. 문서함 파일·체크·경비·설정은 그대로 남는다. 할까?')) reinstallApp()
+  }
+  return (
+    <div className="li" data-testid="update-row"><span className="ic"><RefreshCw size={20} /></span>
+      <span className="grow"><div className="bold">앱 업데이트 · 지금 웹 {__APP_VERSION__}</div>
+        <div className="tiny muted">새 버전은 앱을 열 때 저절로 받는다. 안 바뀌면 '확인'을, 그래도 안 되면 '다시 받기'를 누른다</div>
+        <div className="wrap" style={{ marginTop: 8 }}>
+          <button className="btn" disabled={busy} onClick={check}>업데이트 확인</button>
+          <button className="btn" onClick={reinstall}>앱 파일 다시 받기</button>
+        </div></span></div>
   )
 }
 
