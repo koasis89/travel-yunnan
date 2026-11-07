@@ -1,3 +1,4 @@
+import { setGuideBooking } from './templates'
 import type { Blog } from './docs'
 // data/json 구조(앱 Models.kt 와 동일)
 export interface Day { id: string; date: string; dateLabel: string; route: string; summary: string; lodgingLabel: string; lodgingId: string | null; region: string | null; altitude: string | null; tempDay: string | null; tempNight: string | null; outfit: string | null; mapIds: string[] }
@@ -23,6 +24,8 @@ export interface Sight { id: string; region: string; nameKo: string; nameZh: str
 export interface MenuItem { zh: string; ko: string; desc: string; image?: string }
 export interface Rating { source: string; name: string; score: number | null; reviews: number | null; price: string; addr: string; popular: { zh: string; ko: string }[]; label?: string; note?: string }
 export interface Restaurant { id: string; region: string; nameKo: string; nameZh: string; optionIds: string[]; dayIds: string[]; slots: string[]; kind: string; summary: string; menu: MenuItem[]; tips: string[]; perPerson: string; hours: string; image: string | null; credit: SightCredit | null; imageNote: string; keywords: string[]; amapUrl?: string | null; placeId?: string | null; ratings?: Rating[] }
+/** 여행 전(사전) 일정: data/pretrip.json */
+export interface PreTrip { id: string; date: string; dateLabel: string; time: string; title: string; detail: string; tips: string[]; templateLinkId?: string; notificationId?: string }
 export interface Hospital { id: string; nameKo: string; nameZh: string; addrZh: string; placeId: string; amapUrl: string; region: string; note: string; phrases: { zh: string; ko: string }[] }
 export interface EmergencyContact { id: string; group: string; name: string; phone: string; note: string }
 
@@ -39,6 +42,7 @@ export class TripData {
   restaurantTips: string[]
   ratingsNote: string
   sights: Sight[]
+  pretrip: PreTrip[]
   blogs: Blog[]
   foodPhotoNames: Record<string, { nameKo: string; nameZh: string }>
   foodPhotoRestaurant: string
@@ -78,6 +82,10 @@ export class TripData {
     }
     this.foodPhotoRestaurant = fp?.restaurant ?? ''
     this.restaurants = it<Restaurant>('restaurants.json')
+    this.pretrip = it<PreTrip>('pretrip.json')
+    // 개인 정보(저장소 밖에서 빌드 때 암호화해 넣은 값)
+    const pv = b['private.json'] as { guideBooker?: string; guideRef?: string } | undefined
+    setGuideBooking(pv?.guideBooker, pv?.guideRef)
     this.version = (b['version.json'] as { data?: string })?.data ?? ''
   }
   day = (id?: string | null) => this.days.find((d) => d.id === id)

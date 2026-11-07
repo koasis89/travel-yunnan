@@ -77,6 +77,10 @@ fun TemplateScreen(data: TripData, idArg: String?, linkArg: String? = null) {
                             SmallAction(Icons.Filled.ContentCopy, "위챗 ID 복사") { External.copy(ctx, c.wechat, "위챗 ID를 복사했다. 친구 추가 검색창에 붙여넣는다") }
                             SmallAction(Icons.AutoMirrored.Filled.Chat, "위챗 열기") { External.openWechat(ctx, c.wechat) }
                         }
+                        if (c.bookingRef.isNotBlank()) Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Text("대표 예약자 ${c.booker} · 예약 번호 ${c.bookingRef}", style = MaterialTheme.typography.bodyMedium, fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold, modifier = Modifier.weight(1f))
+                            SmallAction(Icons.Filled.ContentCopy, "예약 번호") { External.copy(ctx, c.bookingRef, "예약 번호를 복사했다") }
+                        }
                         Text("친구 추가: 위챗 → 오른쪽 위 ⊕ → 친구 추가(添加朋友) → 검색창에 ID 붙여넣기 → 요청 메시지에 아래 문장", style = MaterialTheme.typography.bodySmall)
                         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                             Text(c.friendNote, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))

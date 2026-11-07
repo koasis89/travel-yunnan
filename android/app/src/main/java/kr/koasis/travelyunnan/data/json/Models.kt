@@ -169,6 +169,13 @@ data class MapPin(
 @Serializable
 data class SightCredit(val title: String = "", val author: String = "", val license: String = "", val url: String = "")
 
+/** 여행 전(사전) 일정(data/pretrip.json) */
+@Serializable
+data class PreTrip(
+    val id: String, val date: String = "", val dateLabel: String = "", val time: String = "", val title: String = "",
+    val detail: String = "", val tips: List<String> = emptyList(), val templateLinkId: String? = null, val notificationId: String? = null,
+)
+
 /** 관광지 블로그 글(sights.json blogs) */
 @Serializable
 data class Blog(

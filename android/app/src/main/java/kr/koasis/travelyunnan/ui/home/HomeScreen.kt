@@ -68,6 +68,16 @@ fun HomeContent(data: TripData, now: LocalDateTime, overrideActive: Boolean = fa
             InfoBanner("날짜 지정 모드다. 설정에서 해제하면 실제 시각으로 돌아간다.", Icons.Filled.Schedule)
         }
 
+        if (phase is TripPhase.BeforeTrip) data.pretrip.filter { it.date >= now.toLocalDate().toString() }.forEach { x ->
+            Card(onClick = { actions.openSchedule("pre") }, modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)) {
+                Column(Modifier.padding(14.dp)) {
+                    Text("사전 일정 · ${x.dateLabel} ${x.time}", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
+                    Text(x.title, style = MaterialTheme.typography.titleMedium)
+                    Text("위챗 문장·연락처는 눌러서 본다", style = MaterialTheme.typography.bodySmall)
+                }
+            }
+        }
         DayCard(day, isToday = phase is TripPhase.OnTrip) { actions.openSchedule(day.id) }
 
         // 지금 일정

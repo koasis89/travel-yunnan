@@ -147,6 +147,12 @@ def main(d):
         for i in b.get("sightIds", []):
             if i not in sight_ids:
                 errors.append(f"blogs {b['id']}: sightId {i}")
+    tl_ids = {t["id"] for t in items("template_links.json")}
+    for x in items("pretrip.json"):
+        if x.get("templateLinkId") and x["templateLinkId"] not in tl_ids:
+            errors.append(f"pretrip {x['id']}: templateLinkId {x['templateLinkId']}")
+        if not re.match(r"^\d{4}-\d{2}-\d{2}$", x.get("date", "")) or x["date"] >= min(d["date"] for d in items("days.json")):
+            errors.append(f"pretrip {x['id']}: 날짜는 여행 첫날 전이어야 한다")
     for x in items("sights.json"):
         if x.get("placeId") and x["placeId"] not in place_ids:
             errors.append(f"sights {x['id']}: placeId {x['placeId']}")

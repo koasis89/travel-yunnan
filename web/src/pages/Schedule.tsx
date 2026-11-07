@@ -24,7 +24,9 @@ export function Schedule() {
   const [sp, setSp] = useSearchParams()
   const phase = resolvePhase(now, data.days)
   const todayId = phase.kind === 'on' ? phase.day.id : null
-  const sel = sp.get('day') ?? todayId ?? data.days[0].id
+  // 출발 전에 아직 할 사전 일정이 있으면 '사전'부터 연다
+  const preOpen = phase.kind === 'before' && data.pretrip.some((x) => x.date >= now.slice(0, 10))
+  const sel = sp.get('day') ?? todayId ?? (preOpen ? 'pre' : data.days[0].id)
   const day = data.day(sel) ?? data.days[0]
   const rows = data.scheduleOf(day.id)
   const current = day.id === todayId ? findNow(rows, now.slice(11)).current : null
@@ -35,7 +37,8 @@ export function Schedule() {
   return (
     <div className="page">
       <TopBar title="일정" back={false} />
-      <DayChips days={data.days} selected={day.id} todayId={todayId} onSelect={(id) => id && setSp({ day: id }, { replace: true })} />
+      <DayChips days={data.days} selected={sel === 'pre' ? 'pre' : day.id} todayId={todayId} preLabel={data.pretrip.length ? '사전' : undefined} onSelect={(id) => id && setSp({ day: id }, { replace: true })} />
+      {sel === 'pre' ? <PreTripList /> : <>
       <div className="pad" style={{ padding: '4px 20px 10px' }}>
         <div className="bold" style={{ fontSize: '1.15em' }}>{day.id} {day.dateLabel} · {day.route}</div>
         <div className="small muted">숙박: {day.lodgingLabel || '-'}</div>
@@ -50,7 +53,39 @@ export function Schedule() {
           </div>
         ))}
       </div>
+      </>}
     </div>
+  )
+}
+
+/** 사전 일정(여행 전 할 일): 날짜·시각·할 일·위챗 문장 바로가기. 완료 표시는 일정과 같은 'done' 저장소 */
+export function PreTripList() {
+  const data = useData(); const [done, setDone] = useStored<string[]>('done', [])
+  return (
+    <>
+      <div className="pad" style={{ padding: '4px 20px 10px' }}>
+        <div className="bold" style={{ fontSize: '1.15em' }}>사전 일정 · 출발 전에 할 일</div>
+        <div className="tiny faint">완료하면 '했다'를 누른다</div>
+      </div>
+      <div className="stack" style={{ padding: '0 16px', gap: 8 }}>
+        {data.pretrip.map((x) => {
+          const tl = data.templateLink(x.templateLinkId); const ok = done.includes(x.id)
+          return (
+            <div key={x.id} className="card" data-testid="pretrip" style={{ opacity: ok ? 0.6 : 1 }}>
+              <div className="row"><span className="bold" style={{ color: 'var(--primary)' }}>{x.dateLabel} {x.time}</span><span className="grow" />{ok && <span className="tag">완료</span>}</div>
+              <h3 style={{ margin: '4px 0' }}>{x.title}</h3>
+              <div className="small">{x.detail}</div>
+              {x.tips.map((t) => <div key={t} className="tiny muted" style={{ marginTop: 4 }}>· {t}</div>)}
+              <div className="wrap" style={{ marginTop: 10 }}>
+                {tl && <Link className="btn primary" to={`/templates?link=${tl.id}`}><PenLine size={16} />위챗: 가이드 첫 연락 문장</Link>}
+                <button className="btn" onClick={() => setDone((d) => (d.includes(x.id) ? d.filter((y) => y !== x.id) : [...d, x.id]))}>{ok ? '완료 취소' : '했다'}</button>
+              </div>
+              {x.notificationId && <div className="tiny faint" style={{ marginTop: 6 }}>캘린더 알림 파일(교통·열차·알림)에 {x.dateLabel} {x.time} 알림이 들어 있다.</div>}
+            </div>
+          )
+        })}
+      </div>
+    </>
   )
 }
 

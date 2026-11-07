@@ -49,12 +49,13 @@ export function Banner({ icon, children, tone }: { icon?: ReactNode; children: R
   return <div className={`banner ${tone ?? ''}`}>{icon}<div>{children}</div></div>
 }
 
-export function DayChips({ days, selected, onSelect, todayId, allLabel }: { days: Day[]; selected: string | null; onSelect: (id: string | null) => void; todayId?: string | null; allLabel?: string }) {
+export function DayChips({ days, selected, onSelect, todayId, allLabel, preLabel }: { days: Day[]; selected: string | null; onSelect: (id: string | null) => void; todayId?: string | null; allLabel?: string; preLabel?: string }) {
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => { ref.current?.querySelector('.on')?.scrollIntoView({ inline: 'center', block: 'nearest' }) }, [selected])
   return (
     <div className="chips" ref={ref}>
       {allLabel && <button className={`chip ${selected === null ? 'on' : ''}`} onClick={() => onSelect(null)}>{allLabel}</button>}
+      {preLabel && <button className={`chip ${selected === 'pre' ? 'on' : ''}`} data-testid="pre-chip" onClick={() => onSelect('pre')}>{preLabel}</button>}
       {days.map((d) => (
         <button key={d.id} className={`chip ${selected === d.id ? 'on' : ''}`} onClick={() => onSelect(d.id)}>
           {d.id} {d.id === todayId ? '오늘' : d.dateLabel.split('(')[0]}

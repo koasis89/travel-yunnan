@@ -26,6 +26,13 @@ export function Home() {
       <BrandHeader status={status} sub={`현지 시각 ${Number(m)}/${Number(d)} ${now.slice(11)} · 한국보다 1시간 늦다`} />
       <div className="stack pad" style={{ marginTop: 12 }}>
         {settings.override && <Banner icon={<Clock size={18} />}>날짜 지정 모드다. 설정에서 해제하면 실제 시각으로 돌아간다.</Banner>}
+        {phase.kind === 'before' && data.pretrip.filter((x) => x.date >= now.slice(0, 10)).map((x) => (
+          <Link key={x.id} to="/schedule?day=pre" className="card" data-testid="home-pretrip" style={{ textDecoration: 'none', color: 'inherit', borderLeft: '4px solid var(--primary)' }}>
+            <div className="tiny bold" style={{ color: 'var(--primary)' }}>사전 일정 · {x.dateLabel} {x.time}</div>
+            <div className="bold" style={{ fontSize: '1.1em' }}>{x.title}</div>
+            <div className="tiny muted">위챗 문장·연락처는 눌러서 본다</div>
+          </Link>
+        ))}
         <Link to={`/schedule?day=${day.id}`} className="card mint" style={{ textDecoration: 'none' }}>
           <h3>{phase.kind === 'on' ? '오늘 ' : ''}{day.id} {day.dateLabel} · {day.route}</h3>
           <div className="small">{day.summary}</div>

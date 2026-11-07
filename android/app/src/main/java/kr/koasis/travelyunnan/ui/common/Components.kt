@@ -39,10 +39,14 @@ fun AppTopBar(title: String, onBack: (() -> Unit)? = null, actions: @Composable 
 
 /** D1~D8 가로 칩. allLabel 이 있으면 맨 앞에 "전체" 칩을 둔다. */
 @Composable
-fun DayChips(days: List<Day>, selected: String?, onSelect: (String?) -> Unit, allLabel: String? = null, todayId: String? = null) {
+fun DayChips(days: List<Day>, selected: String?, onSelect: (String?) -> Unit, allLabel: String? = null, todayId: String? = null, preLabel: String? = null) {
     LazyRow(contentPadding = PaddingValues(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         if (allLabel != null) item {
             FilterChip(selected = selected == null, onClick = { onSelect(null) }, label = { Text(allLabel) })
+        }
+        // 여행 전(사전) 일정
+        if (preLabel != null) item {
+            FilterChip(selected = selected == "pre", onClick = { onSelect("pre") }, label = { Text(preLabel) })
         }
         items(days, key = { it.id }) { d ->
             FilterChip(

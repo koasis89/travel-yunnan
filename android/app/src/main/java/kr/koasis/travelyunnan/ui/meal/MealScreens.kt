@@ -214,8 +214,8 @@ fun MenuPointScreen(vm: AppViewModel, data: TripData, foodArg: String?) {
     MenuPointContent(data, foodArg) { text -> if (!vm.speak("menu-${text.hashCode()}", text)) android.widget.Toast.makeText(ctx, "음성 재생을 할 수 없다", android.widget.Toast.LENGTH_SHORT).show() }
 }
 
-/** 주문 화면 탭(웹 ORDER_TABS): 음식 · 음료(물·차·윈난 음료·음료수·커피) · 맥주 · 술 */
-val ORDER_TABS = listOf("food" to "음식", "drink" to "음료", "beer" to "맥주", "liquor" to "술")
+/** 주문 화면 탭(웹 ORDER_TABS): 음식 · 요청사항 · 음료(물·차·윈난 음료·음료수·커피) · 맥주 · 술 */
+val ORDER_TABS = listOf("food" to "음식", "req" to "요청사항", "drink" to "음료", "beer" to "맥주", "liquor" to "술")
 fun tabOf(d: Drink) = when (d.group) { "맥주" -> "beer"; "술" -> "liquor"; else -> "drink" }
 private val ORDER_REQUESTS = listOf("不要辣" to "안 맵게", "微辣" to "조금만 맵게", "不要香菜" to "고수 빼고", "少放盐" to "소금 적게", "打包" to "포장") + DRINK_REQUESTS
 
@@ -252,7 +252,6 @@ fun MenuPointContent(data: TripData, foodArg: String?, onSpeak: (String) -> Unit
     var requests by rememberSaveable { mutableStateOf(listOf<String>()) }
     var showMode by rememberSaveable { mutableStateOf(false) }
     var tab by rememberSaveable { mutableStateOf("food") }
-    var showReq by rememberSaveable { mutableStateOf(false) }
     val drinkCount = remember { mutableStateMapOf<String, Int>() }
     fun count(zh: String) = picked.firstOrNull { it.first == zh }?.second ?: 0
     fun setFood(zh: String, n: Int) {
@@ -264,7 +263,7 @@ fun MenuPointContent(data: TripData, foodArg: String?, onSpeak: (String) -> Unit
     val koName = { zh: String -> foods.firstOrNull { it.zh == zh }?.ko?.substringBefore("(") ?: zh }
     val koLine = (picked.map { (z, n) -> "${koName(z)} $n" } + (if (point > 0) listOf("이거(가리키며) $point") else emptyList()) +
         chosen.map { (d, n) -> "${d.ko.substringBefore("(")} $n" }).joinToString(" · ")
-    fun tabCount(t: String) = if (t == "food") picked.sumOf { it.second } + point else chosen.filter { tabOf(it.first) == t }.sumOf { it.second }
+    fun tabCount(t: String) = when (t) { "food" -> picked.sumOf { it.second } + point; "req" -> requests.size; else -> chosen.filter { tabOf(it.first) == t }.sumOf { it.second } }
 
     if (showMode) {
         ShowCardScreen(
@@ -293,14 +292,31 @@ fun MenuPointContent(data: TripData, foodArg: String?, onSpeak: (String) -> Unit
                 }
             }
         }
-        Row(Modifier.padding(horizontal = 16.dp, vertical = 6.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        // 다섯 탭이 한 줄에 다 보이게
+        Row(Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 6.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
             ORDER_TABS.forEach { (k, t) ->
                 val n = tabCount(k)
-                FilterChip(tab == k, onClick = { tab = k }, label = { Text(if (n > 0) "$t $n" else t, style = MaterialTheme.typography.titleSmall) })
+                FilterChip(tab == k, onClick = { tab = k }, modifier = Modifier.weight(if (k == "req") 1.6f else 1f),
+                    label = { Text(if (n > 0) "$t $n" else t, style = MaterialTheme.typography.titleSmall, maxLines = 1, textAlign = androidx.compose.ui.text.style.TextAlign.Center, modifier = Modifier.fillMaxWidth()) })
             }
         }
         LazyColumn(Modifier.weight(1f), contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 24.dp)) {
-            if (tab == "food") {
+            if (tab == "req") {
+                items(ORDER_REQUESTS, key = { "r" + it.first }) { (zh, ko) ->
+                    val on = zh in requests
+                    Surface(onClick = { requests = if (on) requests - zh else requests + zh }, color = if (on) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface,
+                        shape = RoundedCornerShape(12.dp), modifier = Modifier.fillMaxWidth().padding(vertical = 3.dp)) {
+                        Row(Modifier.padding(horizontal = 12.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                            Column(Modifier.weight(1f)) {
+                                Text(zh, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                                Text(ko, style = MaterialTheme.typography.bodySmall)
+                            }
+                            if (on) FilledIconButton(onClick = { requests = requests - zh }) { Icon(Icons.Filled.Check, "빼기") }
+                            else FilledTonalIconButton(onClick = { requests = requests + zh }) { Icon(Icons.Filled.Add, "넣기") }
+                        }
+                    }
+                }
+            } else if (tab == "food") {
                 item(key = "point") { OrderRow("这个", "이거 (메뉴판을 손으로 가리키며)", null, point) { point = it.coerceIn(0, 9) } }
                 items(picked.filter { p -> foods.none { it.zh == p.first } }, key = { "x" + it.first }) { (z, n) -> OrderRow(z, "메뉴판에서 고른 음식", null, n) { setFood(z, it) } }
                 items(foods, key = { "f" + it.id }) { f -> OrderRow(f.zh, f.ko.substringBefore("("), null, count(f.zh)) { setFood(f.zh, it) } }
@@ -313,16 +329,9 @@ fun MenuPointContent(data: TripData, foodArg: String?, onSpeak: (String) -> Unit
                 }
                 if (tab == "liquor") item { Text("고량주(백주)는 40도 이상이라 작은 병(小瓶)으로 주문한다.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline, modifier = Modifier.padding(top = 6.dp)) }
             }
-            item(key = "req") {
-                Column(Modifier.padding(top = 12.dp)) {
-                    TextButton(onClick = { showReq = !showReq }, contentPadding = PaddingValues(0.dp)) {
-                        Text((if (showReq) "▼ " else "▶ ") + "요청 추가 (선택)" + if (requests.isNotEmpty()) " · ${requests.size}" else "", style = MaterialTheme.typography.titleSmall)
-                    }
-                    if (showReq || requests.isNotEmpty()) FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                        ORDER_REQUESTS.forEach { (zh, ko) -> FilterChip(zh in requests, onClick = { requests = if (zh in requests) requests - zh else requests + zh }, label = { Text("$zh $ko") }) }
-                    }
-                    Text("항목을 누르거나 + 로 담고 − 로 줄인다. 문장은 위에서 바로 바뀐다.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline, modifier = Modifier.padding(top = 8.dp))
-                }
+            item(key = "help") {
+                Text("항목을 누르거나 + 로 담고 − 로 줄인다. 요청사항(안 맵게·포장 등)은 눌러서 넣고 뺀다. 문장은 위에서 바로 바뀐다.",
+                    style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline, modifier = Modifier.padding(top = 12.dp))
             }
         }
     }

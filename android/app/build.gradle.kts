@@ -22,8 +22,8 @@ android {
         applicationId = "kr.koasis.travelyunnan"
         minSdk = 26
         targetSdk = 35
-        versionCode = 39
-        versionName = "1.6.6"
+        versionCode = 41
+        versionName = "1.6.8"
         // 영수증 인식(ML Kit) 네이티브 라이브러리가 CPU 종류마다 약 11MB 라서 실제 휴대폰용(ARM)만 넣는다(에뮬레이터 x86 제외)
         ndk { abiFilters += listOf("arm64-v8a", "armeabi-v7a") }
     }
@@ -81,6 +81,10 @@ val syncTripAssets by tasks.registering(Sync::class) {
     val repo = rootProject.projectDir.parentFile
     into(layout.buildDirectory.dir("generated/tripAssets"))
     from(File(repo, "data/json")) { into("data"); include("*.json") }
+    // 개인 정보(가이드 예약자·예약 번호 등): 저장소 밖 파일. keystore.properties 의 privateJson 또는 환경 변수 PRIVATE_JSON_FILE
+    (keystoreProps.getProperty("privateJson") ?: System.getenv("PRIVATE_JSON_FILE"))?.let { File(it) }?.takeIf { it.exists() }?.let { pf ->
+        from(pf) { into("data"); rename { "private.json" } }
+    }
     from(File(repo, "assets/maps")) { into("images/maps") }
     from(File(repo, "assets/foods")) { into("images/foods") }
     from(File(repo, "assets/sights")) { into("images/sights") }

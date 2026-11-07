@@ -12,7 +12,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 OUT = REPO / "data" / "json"
-MANUAL = ["maps.json", "places.json", "place_links.json", "notifications.json", "lodging_todos.json", "emergency.json", "map_hotspots.json", "template_links.json", "sights.json", "restaurants.json", "food_photos.json"]
+MANUAL = ["maps.json", "places.json", "place_links.json", "notifications.json", "lodging_todos.json", "emergency.json", "map_hotspots.json", "template_links.json", "sights.json", "restaurants.json", "food_photos.json", "pretrip.json"]
 
 
 def run(*args):

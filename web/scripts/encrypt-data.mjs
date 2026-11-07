@@ -21,6 +21,12 @@ const b64 = (u8) => Buffer.from(u8).toString('base64')
 const dir = '../data/web' // 평문은 web/ 밖에 있다
 const bundle = Object.fromEntries(readdirSync(dir).filter((f) => f.endsWith('.json')).sort()
   .map((f) => [f, JSON.parse(readFileSync(`${dir}/${f}`, 'utf8'))]))
+// 개인 정보(가이드 예약자·예약 번호 등)는 저장소에 두지 않고 빌드 때만 넣는다:
+// 환경 변수 PRIVATE_JSON(JSON 문자열, Cloudflare 빌드 변수) 또는 PRIVATE_JSON_FILE(저장소 밖 파일 경로)
+const priv = process.env.PRIVATE_JSON ?? (process.env.PRIVATE_JSON_FILE && existsSync(process.env.PRIVATE_JSON_FILE) ? readFileSync(process.env.PRIVATE_JSON_FILE, 'utf8') : '')
+if (priv.trim()) {
+  try { bundle['private.json'] = JSON.parse(priv); console.log('개인 정보 포함: ' + Object.keys(bundle['private.json']).join(', ')) } catch { console.error('PRIVATE_JSON 이 올바른 JSON 이 아니다(넣지 않음)') }
+}
 
 const dek = await c.subtle.generateKey({ name: 'AES-GCM', length: 256 }, true, ['encrypt', 'decrypt'])
 const iv = c.getRandomValues(new Uint8Array(12))

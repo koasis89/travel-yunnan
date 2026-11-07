@@ -41,6 +41,10 @@ export function Templates() {
               <button className="btn" onClick={() => copyText(t.contact!.wechat, '위챗 ID를 복사했다. 위챗 친구 추가 검색창에 붙여넣는다')}><Copy size={16} />위챗 ID 복사</button>
               <a className="btn" href="weixin://">위챗 열기</a>
             </div>
+            {t.contact.bookingRef && <div className="row" data-testid="booking-ref" style={{ gap: 8, flexWrap: 'wrap' }}>
+              <span>대표 예약자 <b>{t.contact.booker}</b> · 예약 번호 <b>{t.contact.bookingRef}</b></span>
+              <button className="btn ghost" onClick={() => copyText(t.contact!.bookingRef!, '예약 번호를 복사했다')}><Copy size={16} />예약 번호 복사</button>
+            </div>}
             <div className="small muted">친구 추가: 위챗 → 오른쪽 위 ⊕ → 친구 추가(添加朋友) → 검색창에 ID 붙여넣기 → 요청 메시지에 아래 문장을 붙인다.</div>
             <div className="row" style={{ gap: 8, flexWrap: 'wrap' }}>
               <span className="zh small">{t.contact.friendNote}</span>

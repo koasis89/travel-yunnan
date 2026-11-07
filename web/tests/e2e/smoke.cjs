@@ -190,7 +190,7 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
 
   // 주문 문장: 음료
   await page.goto(base + '#/menu?food=过桥米线'); await page.waitForSelector('[data-testid=order-tabs]')
-  ok('주문 탭 4개(음식·음료·맥주·술)', (await page.locator('[data-testid=order-tabs] button').allTextContents()).map((t) => t.replace(/\s*\d+$/, '')).join() === '음식,음료,맥주,술')
+  ok('주문 탭(음식·요청사항·음료·맥주·술)', (await page.locator('[data-testid=order-tabs] button').allTextContents()).map((t) => t.replace(/\s*\d+$/, '')).join() === '음식,요청사항,음료,맥주,술')
   await page.click('[data-testid=item][data-zh="过桥米线"] [data-testid=plus]')
   ok('음식 수량 + → 2', (await page.textContent('[data-testid=item][data-zh="过桥米线"] [data-testid=qty]')) === '2' && await page.isVisible('text=我要两份过桥米线。'))
   await page.click('[data-testid=item][data-zh="过桥米线"] [data-testid=minus]')
@@ -205,7 +205,26 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   ok('이거(가리키기) 1', await page.isVisible('text=这个要一份，再要一瓶矿泉水、两瓶冰啤酒。'))
   await page.click('[data-testid=order-tabs] >> text=술'); await page.click('[data-testid=item][data-zh="鹤庆乾酒"] [data-testid=plus]')
   ok('술 작은 병', (await page.textContent('[data-testid=order-sentence]')).includes('一小瓶鹤庆乾酒'))
+  await page.click('[data-testid=order-tabs] >> text=요청사항'); await page.click('[data-testid=req][data-zh="不要辣"]')
+  ok('요청사항 탭 → 문장 끝에 不要辣', (await page.textContent('[data-testid=order-sentence]')).endsWith('不要辣。') && (await page.textContent('[data-testid=order-tabs]')).includes('요청사항 1'))
   await page.screenshot({ path: `${out}/w30_menu_drinks.png` })
+
+  // 사전 일정: 출발 전(12/10)이면 홈 카드·일정 '사전' 칩, 가이드 첫 연락 위챗 문장
+  await page.evaluate(() => localStorage.setItem('yn.settings', JSON.stringify({ override: '2026-12-10T10:00', bigFont: false, cnyRate: null, cash: 0 })))
+  await page.goto(base); await page.reload(); await page.waitForSelector('text=바로가기', { timeout: 15000 })
+  ok('출발 전 홈: 사전 일정 카드(12/15 가이드 연락)', await page.isVisible('[data-testid=home-pretrip]:has-text("옥룡설산 가이드 연락")') && await page.isVisible('[data-testid=home-pretrip]:has-text("12/15(화) 20:00")'))
+  await page.click('[data-testid=home-pretrip]')
+  ok('일정 사전 칩 → 사전 일정', await page.waitForSelector('[data-testid=pretrip]', { timeout: 5000 }).then(() => true).catch(() => false) && (await page.getAttribute('[data-testid=pre-chip]', 'class')).includes('on'))
+  await page.click('[data-testid=pretrip] >> text=위챗: 가이드 첫 연락 문장')
+  ok('사전 일정 → 가이드 첫 연락 위챗 문장', await page.waitForSelector('text=请问', { timeout: 5000 }).then(() => true).catch(() => false))
+  // 예약자·예약 번호는 개인 정보라 저장소에 없고 빌드 때(PRIVATE_JSON) 넣는다. PRIVATE_JSON_FILE 을 주면 그 값이 들어갔는지 본다
+  if (process.env.PRIVATE_JSON_FILE) {
+    const pv = JSON.parse(require('fs').readFileSync(process.env.PRIVATE_JSON_FILE, 'utf8'))
+    ok('가이드 문장·연락처에 예약자·예약 번호(빌드 때 넣은 값)', await page.isVisible(`text=订单号（Booking reference）：${pv.guideRef}`) && await page.isVisible(`text=预订人：${pv.guideBooker}`) && (await page.textContent('[data-testid=booking-ref]')).includes(pv.guideRef))
+  }
+  else ok('가이드 템플릿 예약자·예약 번호 입력칸', await page.isVisible('text=대표 예약자(영문)') && await page.isVisible('text=예약 번호(Booking reference)'))
+  await page.evaluate(() => localStorage.setItem('yn.settings', JSON.stringify({ override: '2026-12-20T12:30', bigFont: false, cnyRate: null, cash: 0 })))
+  await page.reload(); await page.waitForSelector('text=바로가기', { timeout: 15000 }).catch(() => {})
 
   // 택시 카드 '지도' 버튼 = 만든 고덕지도 링크
   await page.goto(base + '#/taxi/lodging/mulanyu'); await page.waitForSelector('text=丽江沐蘭遇の汤宿')

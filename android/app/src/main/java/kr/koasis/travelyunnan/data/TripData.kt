@@ -42,6 +42,7 @@ class TripData(
     val restaurantTips: List<String> = emptyList(),
     val ratingsNote: String = "",
     val blogs: List<kr.koasis.travelyunnan.data.json.Blog> = emptyList(),
+    val pretrip: List<kr.koasis.travelyunnan.data.json.PreTrip> = emptyList(),
     val foodPhotos: kr.koasis.travelyunnan.data.json.FoodPhotosFile = kr.koasis.travelyunnan.data.json.FoodPhotosFile(),
 ) {
     private val dayById = days.associateBy { it.id }
@@ -117,6 +118,11 @@ class TripData(
         fun fromJson(read: (String) -> String): TripData {
             fun <T> items(name: String, s: KSerializer<T>): ItemsFile<T> =
                 json.decodeFromString(ItemsFile.serializer(s), read(name))
+            // 개인 정보(가이드 예약자·예약 번호): 저장소 밖 파일을 빌드 때 assets/data/private.json 으로 넣는다. 없으면 빈칸
+            runCatching { kotlinx.serialization.json.Json.parseToJsonElement(read("private.json")) as kotlinx.serialization.json.JsonObject }.getOrNull()?.let { o ->
+                fun s(k: String) = (o[k] as? kotlinx.serialization.json.JsonPrimitive)?.content
+                kr.koasis.travelyunnan.domain.Templates.setGuideBooking(s("guideBooker"), s("guideRef"))
+            } ?: kr.koasis.travelyunnan.domain.Templates.setGuideBooking(null, null)
             val days = items("days.json", Day.serializer())
             val phrases = json.decodeFromString(PhrasesFile.serializer(), read("phrases.json"))
             val lodgings = json.decodeFromString(LodgingsFile.serializer(), read("lodgings.json"))
@@ -153,6 +159,7 @@ class TripData(
                 restaurantTips = runCatching { json.decodeFromString(RestaurantsFile.serializer(), read("restaurants.json")).tips }.getOrDefault(emptyList()),
                 ratingsNote = runCatching { json.decodeFromString(RestaurantsFile.serializer(), read("restaurants.json")).ratingsNote }.getOrDefault(""),
                 foodPhotos = runCatching { json.decodeFromString(kr.koasis.travelyunnan.data.json.FoodPhotosFile.serializer(), read("food_photos.json")) }.getOrDefault(kr.koasis.travelyunnan.data.json.FoodPhotosFile()),
+                pretrip = runCatching { items("pretrip.json", kr.koasis.travelyunnan.data.json.PreTrip.serializer()).items }.getOrDefault(emptyList()),
                 blogs = runCatching { json.decodeFromString(kr.koasis.travelyunnan.data.json.SightsFile.serializer(), read("sights.json")).blogs }.getOrDefault(emptyList()),
                 hotspots = runCatching { items("map_hotspots.json", Hotspot.serializer()).items }.getOrDefault(emptyList()),
                 emergency = runCatching { json.decodeFromString(EmergencyFile.serializer(), read("emergency.json")) }.getOrDefault(EmergencyFile()),

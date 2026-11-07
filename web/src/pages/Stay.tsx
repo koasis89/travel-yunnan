@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import { BookOpen, CarTaxiFront, Copy, MapPin, MessageSquareText, Maximize2, Minus, Plus, Users } from 'lucide-react'
+import { BookOpen, CarTaxiFront, Copy, MapPin, MessageSquareText, Check, Maximize2, Minus, Plus, Users } from 'lucide-react'
 import { Banner, DayChips, ShowCard, TopBar, copyText } from '../components/ui'
 import { useData, useNow } from '../store/data'
 import { useStored } from '../store/local'
@@ -161,7 +161,7 @@ export function Menu() {
   const koName = (z: string) => foods.find((f) => f.nameZh === z)?.nameKo.split('(')[0] ?? z
   const ko = [...picked.map(([z, n]) => `${koName(z)} ${n}`), ...(point ? [`이거(가리키며) ${point}`] : []), ...dsel.map(([d, n]) => `${d.ko.split('(')[0]} ${n}`)].join(' · ')
   const extra = picked.filter(([z]) => !foods.some((f) => f.nameZh === z))
-  const tabCount = (t: OrderTab) => t === 'food' ? picked.reduce((a, [, n]) => a + n, 0) + point : dsel.filter(([d]) => tabOf(d) === t).reduce((a, [, n]) => a + n, 0)
+  const tabCount = (t: OrderTab) => t === 'food' ? picked.reduce((a, [, n]) => a + n, 0) + point : t === 'req' ? req.length : dsel.filter(([d]) => tabOf(d) === t).reduce((a, [, n]) => a + n, 0)
   const any = picked.length > 0 || point > 0 || dsel.length > 0
   if (show) return (
     <ShowCard header="종업원에게 보여주세요" onClose={() => setShow(false)} actions={<button className="btn" onClick={() => copyText(sentence)}><Copy size={16} />복사</button>}>
@@ -197,12 +197,20 @@ export function Menu() {
             {any && <button className="btn ghost" onClick={() => { setPicked([]); setPoint(0); setDrinks({}); setReq([]) }}>비우기</button>}
           </div>
         </div></div>
-        <div className="chips" data-testid="order-tabs" style={{ paddingBottom: 6 }}>
-          {ORDER_TABS.map(([k, t]) => <button key={k} className={`chip ${tab === k ? 'on' : ''}`} onClick={() => setTab(k)} style={{ fontSize: '1em', padding: '9px 16px' }}>{t}{tabCount(k) ? ` ${tabCount(k)}` : ''}</button>)}
+        {/* 다섯 탭이 한 줄에 다 보이게(가로 스크롤 없음) */}
+        <div className="row" data-testid="order-tabs" style={{ gap: 6, padding: '4px 16px 8px', flexWrap: 'nowrap' }}>
+          {ORDER_TABS.map(([k, t]) => <button key={k} className={`chip ${tab === k ? 'on' : ''}`} onClick={() => setTab(k)} style={{ flex: '1 1 auto', fontSize: '.98em', padding: '9px 6px', whiteSpace: 'nowrap' }}>{t}{tabCount(k) ? ` ${tabCount(k)}` : ''}</button>)}
         </div>
       </div>
       <div className="pad"><div className="card flat" style={{ padding: 0 }}>
-        {tab === 'food' ? <>
+        {tab === 'req' ? ORDER_REQUESTS.map(([z, k]) => {
+          const on = req.includes(z)
+          return <div key={z} className="li" data-testid="req" data-zh={z} onClick={() => setReq((r) => (on ? r.filter((x) => x !== z) : [...r, z]))}
+            style={{ cursor: 'pointer', background: on ? 'var(--primary-c)' : undefined }}>
+            <div className="grow"><div className="zh bold" style={{ fontSize: '1.15em' }}>{z}</div><div className="small">{k}</div></div>
+            <span className="iconbtn stepper" style={{ background: on ? 'var(--primary)' : 'var(--card-2)', color: on ? 'var(--on-primary)' : 'var(--ink-3)' }}>{on ? <Check size={20} /> : <Plus size={20} />}</span>
+          </div>
+        }) : tab === 'food' ? <>
           <Row zh="这个" koText="이거 (메뉴판을 손으로 가리키며)" n={point} onSet={setPoint} />
           {extra.map(([z, n]) => <Row key={z} zh={z} koText="메뉴판에서 고른 음식" n={n} onSet={(v) => setFood(z, v)} />)}
           {foods.map((f) => <Row key={f.id} zh={f.nameZh} koText={f.nameKo.split('(')[0]} note={f.region} n={count(f.nameZh)} onSet={(v) => setFood(f.nameZh, v)} />)}
@@ -212,11 +220,7 @@ export function Menu() {
         </div>)}
       </div></div>
       {tab === 'liquor' && <p className="pad tiny faint" style={{ margin: 0 }}>고량주(백주)는 40도 이상이라 작은 병(小瓶)으로 주문한다.</p>}
-      <details className="pad" style={{ marginTop: 8 }} open={req.length > 0}>
-        <summary className="bold" style={{ padding: '6px 0' }}>요청 추가 (선택){req.length ? ` · ${req.length}` : ''}</summary>
-        <div className="wrap" style={{ marginTop: 6 }}>{ORDER_REQUESTS.map(([z, k]) => <button key={z} className={`chip ${req.includes(z) ? 'on' : ''}`} onClick={() => setReq((r) => (r.includes(z) ? r.filter((x) => x !== z) : [...r, z]))}><span className="zh">{z}</span> {k}</button>)}</div>
-      </details>
-      <p className="pad tiny faint">항목을 누르거나 + 로 담고 − 로 줄인다. 문장은 위에서 바로 바뀐다.</p>
+      <p className="pad tiny faint">항목을 누르거나 + 로 담고 − 로 줄인다. 요청사항(안 맵게·포장 등)은 눌러서 넣고 뺀다. 문장은 위에서 바로 바뀐다.</p>
     </div>
   )
 }

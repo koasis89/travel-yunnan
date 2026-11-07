@@ -1,9 +1,16 @@
 export interface TemplateField { key: string; label: string; def: string; hint?: string }
-export interface Contact { name: string; wechat: string; email?: string; friendNote: string }
+export interface Contact { name: string; wechat: string; email?: string; friendNote: string; booker?: string; bookingRef?: string }
 export interface Template { id: string; title: string; fields: TemplateField[]; render: (v: Record<string, string>) => string; renderKo: (v: Record<string, string>) => string; contact?: Contact }
 
 /** 12/18 옥룡설산 투어 가이드·기사(바우처 기준). 연락은 위챗, 메일은 참고. 바우처의 +86 긴 번호는 깨진 값이라 쓰지 않는다 */
-export const GUIDE: Contact = { name: '옥룡설산 투어 가이드·기사', wechat: '18088479095', email: '2487812697@qq.com', friendNote: '12月18日玉龙雪山一日游 3位客人' }
+/**
+ * 옥룡설산 투어(클룩) 대표 예약자·예약 번호. 개인 정보라 저장소(공개)에 넣지 않는다.
+ * 데이터 묶음의 private.json(빌드 때 PRIVATE_JSON 환경 변수나 저장소 밖 파일에서 암호화해 넣음)에서 setGuideBooking 으로 채운다.
+ * 없으면 빈칸이고, 템플릿 화면에서 직접 적을 수 있다.
+ */
+export const GUIDE_BOOKING = { booker: '', ref: '' }
+const FRIEND_NOTE = '12月18日玉龙雪山一日游 3位客人'
+export const GUIDE: Contact = { name: '옥룡설산 투어 가이드·기사', wechat: '18088479095', email: '2487812697@qq.com', friendNote: FRIEND_NOTE, booker: '', bookingRef: '' }
 
 const val = (v: Record<string, string>, f: TemplateField[], k: string) => (v[k]?.trim() ? v[k] : f.find((x) => x.key === k)!.def)
 
@@ -30,10 +37,14 @@ const pickF: TemplateField[] = [
   { key: 'where', label: '도착 장소', def: '丽江站' },
   { key: 'persons', label: '인원·짐', def: '3个人，3个行李箱' },
 ]
+/** 예약자·예약 번호 줄(값이 있는 것만) */
+const bookingLines = (booker: string, ref: string) => (booker ? `预订人：${booker}\n` : '') + (ref ? `订单号（Booking reference）：${ref}\n` : '')
 const guideF: TemplateField[] = [
   { key: 'date', label: '투어 날짜', def: '12月18日' },
   { key: 'tour', label: '투어 이름', def: '玉龙雪山+蓝月谷一日游（含大索道、印象丽江）' },
   { key: 'persons', label: '인원', def: '3位成人' },
+  { key: 'booker', label: '대표 예약자(영문)', def: '', hint: '예: HONG GILDONG' },
+  { key: 'ref', label: '예약 번호(Booking reference)', def: '', hint: '클룩 바우처의 Booking reference' },
   { key: 'hotel', label: '숙소', def: '丽江古城 沐蘭遇の汤宿（黄山上段18号）' },
 ]
 
@@ -57,14 +68,14 @@ const lateF: TemplateField[] = [{ key: 'min', label: '늦는 시간(분)', def: 
 const dropF: TemplateField[] = [{ key: 'to', label: '내릴 곳', def: '古城大水车附近的停车场（离我们的酒店最近）' }]
 
 TEMPLATES.push({ id: 'tpl-guide', title: '옥룡설산 가이드 첫 연락(12/15까지)', fields: guideF, contact: GUIDE,
-  render: (v) => `您好！我们预订了${val(v, guideF, 'date')}的${val(v, guideF, 'tour')}，${val(v, guideF, 'persons')}。我们住在${val(v, guideF, 'hotel')}。\n请问：\n1. 那天几点、在四方街哪里集合？\n2. 回来时可以送到离酒店最近的停车点（大水车附近）吗？\n请在微信上联系我们，谢谢！`,
-  renderKo: (v) => `${val(v, guideF, 'date')} 옥룡설산 투어 예약자(${val(v, guideF, 'persons')}), 숙소는 ${val(v, guideF, 'hotel')}. ① 몇 시에 사방가 어디서 만나는지 ② 돌아올 때 호텔에서 가장 가까운 차량 지점(대수차 근처)에 내려 줄 수 있는지 묻고, 위챗으로 연락을 요청한다.` })
+  render: (v) => `您好！我们预订了${val(v, guideF, 'date')}的${val(v, guideF, 'tour')}，${val(v, guideF, 'persons')}。\n${bookingLines(val(v, guideF, 'booker'), val(v, guideF, 'ref'))}我们住在${val(v, guideF, 'hotel')}。\n请问：\n1. 那天几点、在四方街哪里集合？\n2. 回来时可以送到离酒店最近的停车点（大水车附近）吗？\n请在微信上联系我们，谢谢！`,
+  renderKo: (v) => `${val(v, guideF, 'date')} 옥룡설산 투어 예약자(${val(v, guideF, 'persons')}${val(v, guideF, 'booker') ? `, 대표 예약자 ${val(v, guideF, 'booker')}` : ''}${val(v, guideF, 'ref') ? `, 예약 번호 ${val(v, guideF, 'ref')}` : ''}), 숙소는 ${val(v, guideF, 'hotel')}. ① 몇 시에 사방가 어디서 만나는지 ② 돌아올 때 호텔에서 가장 가까운 차량 지점(대수차 근처)에 내려 줄 수 있는지 묻고, 위챗으로 연락을 요청한다.` })
 TEMPLATES.push(
   { id: 'tpl-guide-confirm', title: '가이드 전날 확인(12/17)', fields: confirmF, contact: GUIDE,
-    render: (v) => `您好！我们是${val(v, confirmF, 'date')}玉龙雪山+蓝月谷一日游的客人，3位成人。请问几点在${val(v, confirmF, 'where')}哪个位置集合？我们会提前10分钟到。谢谢！`,
-    renderKo: (v) => `${val(v, confirmF, 'date')} 옥룡설산 투어 손님 3명이다. 몇 시에 ${val(v, confirmF, 'where')} 어디서 모이는지 묻고, 10분 일찍 가겠다고 알린다.` },
+    render: (v) => `您好！我们是${val(v, confirmF, 'date')}玉龙雪山+蓝月谷一日游的客人，3位成人${GUIDE_BOOKING.ref ? `（预订人${GUIDE_BOOKING.booker}，订单号${GUIDE_BOOKING.ref}）` : ''}。请问几点在${val(v, confirmF, 'where')}哪个位置集合？我们会提前10分钟到。谢谢！`,
+    renderKo: (v) => `${val(v, confirmF, 'date')} 옥룡설산 투어 손님 3명이다${GUIDE_BOOKING.ref ? `(예약자 ${GUIDE_BOOKING.booker}, 예약 번호 ${GUIDE_BOOKING.ref})` : ''}. 몇 시에 ${val(v, confirmF, 'where')} 어디서 모이는지 묻고, 10분 일찍 가겠다고 알린다.` },
   { id: 'tpl-guide-arrive', title: '픽업 장소 도착(12/18)', fields: arriveF, contact: GUIDE,
-    render: (v) => `您好，我们3个人已经到${val(v, arriveF, 'where')}了，穿着${val(v, arriveF, 'wear')}。请问您在哪里？`,
+    render: (v) => `您好，我们3个人已经到${val(v, arriveF, 'where')}了，穿着${val(v, arriveF, 'wear')}。${GUIDE_BOOKING.ref ? `订单号${GUIDE_BOOKING.ref}（${GUIDE_BOOKING.booker}）。` : ''}请问您在哪里？`,
     renderKo: (v) => `우리 3명이 ${val(v, arriveF, 'where')}에 도착했고 ${val(v, arriveF, 'wear')}을(를) 입고 있다. 어디 계신지 묻는다.` },
   { id: 'tpl-guide-late', title: '픽업 늦을 때(12/18)', fields: lateF, contact: GUIDE,
     render: (v) => `不好意思，我们会晚到${val(v, lateF, 'min')}分钟左右，请稍等一下，谢谢！`,
@@ -73,6 +84,14 @@ TEMPLATES.push(
     render: (v) => `师傅您好，回程的时候可以把我们送到${val(v, dropF, 'to')}吗？古城里面车进不去。谢谢！`,
     renderKo: (v) => `돌아갈 때 ${val(v, dropF, 'to')}에 내려 달라고 부탁한다(고성 안은 차가 못 들어간다).` },
 )
+/** 데이터 묶음의 private.json 값으로 가이드 예약자·예약 번호를 채운다(TripData 가 부른다) */
+export function setGuideBooking(booker?: string, ref?: string) {
+  GUIDE_BOOKING.booker = (booker ?? '').trim(); GUIDE_BOOKING.ref = (ref ?? '').trim()
+  GUIDE.booker = GUIDE_BOOKING.booker; GUIDE.bookingRef = GUIDE_BOOKING.ref
+  GUIDE.friendNote = GUIDE_BOOKING.ref ? `${FRIEND_NOTE} 订单号${GUIDE_BOOKING.ref}` : FRIEND_NOTE
+  for (const f of guideF) { if (f.key === 'booker') f.def = GUIDE_BOOKING.booker; if (f.key === 'ref') f.def = GUIDE_BOOKING.ref }
+}
+
 export const templateById = (id?: string | null) => TEMPLATES.find((t) => t.id === id)
 
 export function composeOrder(foodZh: string | null, unit: string, requests: string[]): string {

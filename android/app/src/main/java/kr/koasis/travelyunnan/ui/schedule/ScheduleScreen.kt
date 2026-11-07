@@ -44,7 +44,9 @@ fun ScheduleScreen(vm: AppViewModel, data: TripData, dayArg: String?) {
 fun ScheduleContent(data: TripData, now: LocalDateTime, dayArg: String?, flags: Set<String>, dayHeader: @Composable (String) -> Unit = {}, onToggleDone: (String) -> Unit) {
     val phase = DayResolver.resolve(now, data.days)
     val todayId = (phase as? TripPhase.OnTrip)?.day?.id
-    var selected by rememberSaveable(dayArg) { mutableStateOf(dayArg ?: todayId ?: data.days.first().id) }
+    // 출발 전에 아직 할 사전 일정이 있으면 '사전'부터 연다(웹과 같다)
+    val preOpen = phase is TripPhase.BeforeTrip && data.pretrip.any { it.date >= now.toLocalDate().toString() }
+    var selected by rememberSaveable(dayArg) { mutableStateOf(dayArg ?: todayId ?: if (preOpen) "pre" else data.days.first().id) }
     val day = data.day(selected) ?: data.days.first()
     val rows = data.scheduleOf(day.id)
     val current = if (day.id == todayId) CurrentScheduleFinder.find(rows, now.toLocalTime()).current else null
@@ -56,7 +58,8 @@ fun ScheduleContent(data: TripData, now: LocalDateTime, dayArg: String?, flags: 
 
     Column(Modifier.fillMaxSize()) {
         AppTopBar("일정")
-        DayChips(data.days, selected, { if (it != null) selected = it }, todayId = todayId)
+        DayChips(data.days, selected, { if (it != null) selected = it }, todayId = todayId, preLabel = if (data.pretrip.isNotEmpty()) "사전" else null)
+        if (selected == "pre") { PreTripList(data, flags, onToggleDone); return@Column }
         LazyColumn(state = listState, contentPadding = PaddingValues(start = 12.dp, end = 16.dp, top = 12.dp, bottom = 24.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             item {
                 Column(Modifier.padding(start = 4.dp, bottom = 6.dp)) {
@@ -68,6 +71,35 @@ fun ScheduleContent(data: TripData, now: LocalDateTime, dayArg: String?, flags: 
             }
             items(rows, key = { it.id }) { r ->
                 ScheduleRow(data, r, isCurrent = r.id == current?.id, done = "done:${r.id}" in flags) { onToggleDone("done:${r.id}") }
+            }
+        }
+    }
+}
+
+/** 사전 일정(여행 전 할 일): 날짜·시각·할 일·위챗 문장 바로가기. 완료 표시는 일정과 같은 flags("done:<id>") */
+@Composable
+fun PreTripList(data: TripData, flags: Set<String>, onToggleDone: (String) -> Unit) {
+    val actions = kr.koasis.travelyunnan.ui.nav.LocalActions.current
+    LazyColumn(contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        item {
+            Text("사전 일정 · 출발 전에 할 일", style = MaterialTheme.typography.titleLarge)
+            Text("완료하면 '했다'를 누른다", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
+        }
+        items(data.pretrip, key = { it.id }) { x ->
+            val ok = "done:${x.id}" in flags
+            val tl = data.templateLink(x.templateLinkId)
+            Card(Modifier.fillMaxWidth()) {
+                Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Text("${x.dateLabel} ${x.time}" + if (ok) "  · 완료" else "", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
+                    Text(x.title, style = MaterialTheme.typography.titleMedium)
+                    Text(x.detail, style = MaterialTheme.typography.bodyMedium)
+                    x.tips.forEach { Text("· $it", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(top = 6.dp)) {
+                        if (tl != null) Button(onClick = { actions.openTemplates(tl.templateId, tl.id) }) { Text("위챗: 가이드 첫 연락 문장") }
+                        OutlinedButton(onClick = { onToggleDone("done:${x.id}") }) { Text(if (ok) "완료 취소" else "했다") }
+                    }
+                    if (x.notificationId != null) Text("캘린더 알림 파일(교통·열차·알림)에 ${x.dateLabel} ${x.time} 알림이 들어 있다.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
+                }
             }
         }
     }

@@ -3,6 +3,7 @@ package kr.koasis.travelyunnan
 import kr.koasis.travelyunnan.data.db.TripDoc
 import kr.koasis.travelyunnan.domain.DocRules
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 /** 문서함 분류·일차 추정과 정렬(웹 tests/docs.test.ts 와 같은 사례) */
@@ -101,5 +102,22 @@ class DocRulesTest {
         assertEquals("这个要两份。", kr.koasis.travelyunnan.ui.meal.composeTabOrder(emptyList(), 2, emptyList(), emptyList()))
         assertEquals("我要一瓶矿泉水、一小瓶鹤庆乾酒。", kr.koasis.travelyunnan.ui.meal.composeTabOrder(emptyList(), 0, listOf(d("矿泉水") to 1, d("鹤庆乾酒") to 1), emptyList()))
         assertEquals(listOf("beer", "liquor", "drink"), listOf(d("冰啤酒"), d("鹤庆乾酒"), d("冰美式")).map { kr.koasis.travelyunnan.ui.meal.tabOf(it) })
+        assertEquals(listOf("음식", "요청사항", "음료", "맥주", "술"), kr.koasis.travelyunnan.ui.meal.ORDER_TABS.map { it.second })
+    }
+
+    @Test fun pretripAndGuideBooking() {
+        val d = TripDataHolder.data
+        val p = d.pretrip.single()
+        assertEquals("2026-12-15", p.date); assertEquals("옥룡설산 가이드 연락", p.title); assertEquals("tl-08", p.templateLinkId)
+        assertTrue(p.date < d.days.first().date)
+        // 예약자·예약 번호는 저장소 밖 private.json 에서 들어온다(시험 값으로 확인)
+        val T = kr.koasis.travelyunnan.domain.Templates
+        T.setGuideBooking("HONG GILDONG", "TEST123")
+        val zh = T.guide.render(emptyMap())
+        assertTrue(zh.contains("预订人：HONG GILDONG") && zh.contains("订单号（Booking reference）：TEST123"))
+        assertEquals("TEST123", T.guide.contact?.bookingRef)
+        assertTrue(T.guideConfirm.render(emptyMap()).contains("订单号TEST123"))
+        T.setGuideBooking(null, null)
+        assertTrue(!T.guide.render(emptyMap()).contains("订单号"))
     }
 }
