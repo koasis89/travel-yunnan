@@ -150,6 +150,14 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   await page.goto(base + '#/schedule?day=D3')
   ok('일정 식당 칩(천천선)', await page.isVisible('.linkchip:has-text("천천선")'))
 
+  // 고산병 병원·새 가게·쿠폰 팁
+  await page.goto(base + '#/emergency'); await page.waitForSelector('[data-testid=hospital]')
+  ok('고산병 병원(리장시 인민병원)', (await page.textContent('[data-testid=hospital]')).includes('丽江市人民医院'))
+  ok('병원 지도 = 공유 링크', (await page.getAttribute('[data-testid=hospital] a:has-text("지도")', 'href')) === 'https://surl.amap.com/jNlnaOmd1fJ')
+  await page.click('text=병원에서 보여줄 문장'); ok('병원 문장 카드', await page.isVisible('text=想看急诊，吸氧'))
+  await page.goto(base + '#/eats'); ok('쿠폰 팁·숙소 번호 복사', await page.isVisible('[data-testid=copy-lodging-phone]'))
+  await page.goto(base + '#/eats/sanerjiusi'); ok('3294 첨차관 택시 카드', await page.isVisible('a:has-text("택시 카드")'))
+
   // 주문 문장: 음료
   await page.goto(base + '#/menu?food=过桥米线'); await page.waitForSelector('[data-testid=drink]')
   await page.click('[data-testid=drink]:has-text("冰啤酒")'); await page.click('[data-testid=drink]:has-text("冰啤酒")'); await page.click('[data-testid=drink]:has-text("矿泉水")')

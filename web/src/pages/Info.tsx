@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Hospital, MessageSquareText, Mountain, Phone, ShieldAlert, Siren } from 'lucide-react'
-import { Banner, Section, TopBar } from '../components/ui'
+import { CarTaxiFront, Copy, Hospital, MapPin, Maximize2, MessageSquareText, Mountain, Phone, ShieldAlert, Siren } from 'lucide-react'
+import { Banner, Section, ShowCard, TopBar, copyText } from '../components/ui'
+import type { Hospital as HospitalInfo } from '../domain/types'
 import { useData } from '../store/data'
 import { useStored } from '../store/local'
 
@@ -77,9 +78,33 @@ export function Emergency() {
         </div>
       </div>))}
       <div className="pad tiny faint" style={{ marginTop: 8 }}>{data.emergency.note}</div>
+      {data.emergency.hospitals.length > 0 && <><Section>고산병 병원(산소 치료)</Section>
+        <div className="stack pad">{data.emergency.hospitals.map((h) => <HospitalCard key={h.id} h={h} />)}</div></>}
       <Section>고산병</Section>
       <div className="stack pad">{data.emergency.altitude.map((a, i) => <Banner key={i} icon={<Mountain size={18} />}>{a}</Banner>)}</div>
       <div className="pad" style={{ marginTop: 12 }}><Banner tone="rose" icon={<ShieldAlert size={18} />}>여권 정보는 웹에 저장하지 않는다. 안드로이드 앱의 긴급·여권 화면이나 종이 사본을 쓴다.</Banner></div>
+    </div>
+  )
+}
+
+function HospitalCard({ h }: { h: HospitalInfo }) {
+  const [show, setShow] = useState(false)
+  if (show) return (
+    <ShowCard header="병원 접수처에 보여주세요" onClose={() => setShow(false)} actions={<button className="btn" onClick={() => copyText(h.phrases.map((p) => p.zh).join('\n'))}><Copy size={16} />복사</button>}>
+      {h.phrases.map((p) => <div key={p.zh} style={{ marginBottom: 14 }}><div className="sub zh">{p.zh}</div><div className="note">{p.ko}</div></div>)}
+    </ShowCard>
+  )
+  return (
+    <div className="card stack" data-testid="hospital" style={{ gap: 6 }}>
+      <div className="bold">{h.nameKo} <span className="small muted">{h.region}</span></div>
+      <div className="zh bold" style={{ fontSize: '1.2em' }}>{h.nameZh}</div>
+      <div className="small zh">{h.addrZh}</div>
+      <div className="small">{h.note}</div>
+      <div className="wrap">
+        <Link className="btn primary" to={`/taxi/place/${h.placeId}`}><CarTaxiFront size={16} />택시 카드</Link>
+        <a className="btn" href={h.amapUrl} target="_blank" rel="noreferrer"><MapPin size={16} />지도</a>
+        <button className="btn" onClick={() => setShow(true)}><Maximize2 size={16} />병원에서 보여줄 문장</button>
+      </div>
     </div>
   )
 }

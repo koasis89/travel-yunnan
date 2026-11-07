@@ -211,6 +211,7 @@ data class Restaurant(
     val imageNote: String = "",
     val keywords: List<String> = emptyList(),
     val amapUrl: String? = null,
+    val placeId: String? = null,
 )
 
 @Serializable
@@ -273,7 +274,18 @@ data class MealsFile(val version: String = "", val items: List<Meal> = emptyList
 data class EmergencyContact(val id: String, val group: String = "", val name: String, val phone: String, val note: String = "")
 
 @Serializable
-data class EmergencyFile(val version: String = "", val note: String = "", val contacts: List<EmergencyContact> = emptyList(), val altitude: List<String> = emptyList())
+data class EmergencyFile(val version: String = "", val note: String = "", val contacts: List<EmergencyContact> = emptyList(), val altitude: List<String> = emptyList(), val hospitals: List<Hospital> = emptyList())
+
+@Serializable
+data class ShowPhrase(val zh: String, val ko: String = "")
+
+/** 고산병 병원(산소 치료) */
+@Serializable
+data class Hospital(val id: String, val nameKo: String = "", val nameZh: String = "", val addrZh: String = "", val placeId: String = "",
+    val amapUrl: String = "", val region: String = "", val note: String = "", val phrases: List<ShowPhrase> = emptyList())
+
+@Serializable
+data class RestaurantsFile(val version: String = "", val tips: List<String> = emptyList())
 
 @Serializable
 data class Hotspot(

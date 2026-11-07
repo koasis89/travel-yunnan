@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { CarTaxiFront, Lightbulb, MapPin, Maximize2, MessageSquareText, ShoppingBasket, UtensilsCrossed, Wallet } from 'lucide-react'
-import { DayChips, ShowCard, TopBar } from '../components/ui'
+import { CarTaxiFront, Copy, Lightbulb, MapPin, Maximize2, MessageSquareText, ShoppingBasket, UtensilsCrossed, Wallet } from 'lucide-react'
+import { Banner, DayChips, ShowCard, TopBar, copyText } from '../components/ui'
 import { useData, useNow } from '../store/data'
 import { resolvePhase } from '../domain/tripTime'
 import { isTaxiable } from '../domain/cards'
@@ -36,6 +36,9 @@ export function Eats() {
     <div className="page">
       <TopBar title="맛집 안내" />
       <DayChips days={data.days} selected={day} todayId={todayId} allLabel="전체" onSelect={(id) => setSp(id ? { day: id } : {}, { replace: true })} />
+      {(() => { const l = data.lodging(data.day(day ?? todayId ?? '')?.lodgingId) ?? data.lodgings.find((x) => x.phones.length); const ph = l?.phones[0]; return (
+        <div className="pad stack" style={{ marginTop: 8 }}>{data.restaurantTips.map((t) => <Banner key={t} icon={<Lightbulb size={18} />}>{t}
+          {ph && <div style={{ marginTop: 6 }}><button className="btn" data-testid="copy-lodging-phone" style={{ whiteSpace: "normal", textAlign: "left", maxWidth: "100%" }} onClick={() => copyText(ph, '숙소 전화번호를 복사했다')}><Copy size={16} />숙소 번호 복사 · {l!.nameKo.split('(')[0].trim()} {ph}</button></div>}</Banner>)}</div>) })()}
       {regions.map((g) => (
         <div key={g}><div className="section">{g}</div>
           <div className="stack pad">{list.filter((r) => r.region === g).map((r) => <EatCard key={r.id} r={r} />)}</div></div>
@@ -52,6 +55,7 @@ export function EatView() {
   const [sel, setSel] = useState<Record<string, number>>({})
   if (!r) return <div className="page"><TopBar title="맛집" /><div className="pad muted">찾을 수 없다</div></div>
   const taxiOpt = r.optionIds.map((i) => data.mealOption(i)?.[1]).find((o) => o && isTaxiable(o))
+  const taxiPlace = !taxiOpt && r.placeId ? data.place(r.placeId) : undefined
   if (board) return (
     <ShowCard header="종업원에게 보여주세요(가리키며 주문)" onClose={() => setBoard(false)} actions={<span className="small">음식을 가리키며 '这个(이거)'라고 말한다</span>}>
       <div className="note">{r.nameZh}</div>
@@ -76,6 +80,7 @@ export function EatView() {
         </div>
         <div className="row" style={{ gap: 8, flexWrap: 'wrap' }}>
           {taxiOpt && <Link className="btn primary" to={`/taxi/meal/${taxiOpt.id}`}><CarTaxiFront size={18} />택시 카드</Link>}
+          {taxiPlace && <Link className="btn primary" to={`/taxi/place/${taxiPlace.id}`}><CarTaxiFront size={18} />택시 카드</Link>}
           {r.amapUrl && <a className="btn" href={r.amapUrl} target="_blank" rel="noreferrer"><MapPin size={18} />지도</a>}
           <button className="btn" onClick={() => setBoard(true)}><Maximize2 size={18} />메뉴판 크게</button>
         </div>

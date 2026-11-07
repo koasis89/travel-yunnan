@@ -51,7 +51,20 @@ fun EatsScreen(vm: AppViewModel, data: TripData, dayArg: String?) {
     Column(Modifier.fillMaxSize()) {
         AppTopBar("맛집 안내", onBack = actions.back)
         DayChips(data.days, day, { day = it }, allLabel = "전체", todayId = todayId)
+        val ctx = LocalContext.current
         LazyColumn(contentPadding = PaddingValues(bottom = 24.dp)) {
+            item {
+                val l = data.lodging(data.day(day ?: todayId)?.lodgingId) ?: data.lodgings.firstOrNull { it.phones.isNotEmpty() }
+                val ph = l?.phones?.firstOrNull()
+                data.restaurantTips.forEach { t ->
+                    Card(Modifier.padding(horizontal = 16.dp, vertical = 6.dp).fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)) {
+                        Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                            Text(t, style = MaterialTheme.typography.bodyMedium)
+                            if (ph != null) SmallAction(Icons.Filled.ContentCopy, "숙소 번호 복사 · $ph") { External.copy(ctx, ph, "숙소 전화번호를 복사했다") }
+                        }
+                    }
+                }
+            }
             list.map { it.region }.distinct().forEach { g ->
                 item(key = "g-$g") { SectionTitle(g) }
                 items(list.filter { it.region == g }, key = { it.id }) { r ->
@@ -81,6 +94,7 @@ fun EatScreen(data: TripData, id: String) {
     val sel = remember(id) { mutableStateMapOf<String, Int>() }
     if (r == null) { Column { AppTopBar("맛집", onBack = actions.back); Text("찾을 수 없다", Modifier.padding(16.dp)) }; return }
     val taxiOpt = r.optionIds.mapNotNull { data.mealOption(it)?.second }.firstOrNull { TaxiCards.isTaxiable(it) }
+    val taxiPlace = if (taxiOpt == null) data.place(r.placeId) else null
     if (board) {
         ShowCardScreen(
             lines = listOf(ShowLine(r.nameZh, ShowStyle.Small)) + r.menu.flatMap { listOf(ShowLine(it.zh, ShowStyle.Name), ShowLine(it.ko, ShowStyle.Small)) },
@@ -104,6 +118,7 @@ fun EatScreen(data: TripData, id: String) {
                     Text("${r.kind} · 1인 ${r.perPerson}(참고) · ${r.slots.joinToString(" · ")}", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                         taxiOpt?.let { o -> SmallAction(Icons.Filled.LocalTaxi, "택시 카드") { actions.openTaxi(TargetType.meal, o.id) } }
+                        taxiPlace?.let { p -> SmallAction(Icons.Filled.LocalTaxi, "택시 카드") { actions.openTaxi(TargetType.place, p.id) } }
                         r.amapUrl?.let { u -> SmallAction(Icons.Filled.Map, "지도") { External.openUrl(ctx, u) } }
                         SmallAction(Icons.Filled.Fullscreen, "메뉴판 크게") { board = true }
                     }

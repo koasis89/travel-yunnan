@@ -201,6 +201,15 @@ class S6Test {
         assertEquals(listOf("汽锅鸡" to 1, "野生菌" to 2), kr.koasis.travelyunnan.ui.meal.decodeFoods(enc))
     }
 
+    @Test fun hospitalAndNewShops() {
+        val d = TripDataHolder.data
+        val h = d.emergency.hospitals.single()
+        assertEquals("丽江市人民医院", h.nameZh); assertEquals("https://surl.amap.com/jNlnaOmd1fJ", h.amapUrl)
+        assertTrue(d.place(h.placeId) != null && h.phrases.size >= 2)
+        assertEquals("sanerjiusi", d.restaurant("sanerjiusi")?.placeId)
+        assertTrue(d.restaurantTips.any { it.contains("大众点评") })
+    }
+
     @Test fun restaurantsLinked() {
         val d = TripDataHolder.data
         assertTrue(d.restaurants.size >= 20)

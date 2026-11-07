@@ -1044,6 +1044,53 @@
       "amapUrl": "https://uri.amap.com/search?keyword=%E6%9D%9F%E6%B2%B3%E5%BA%97&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
     },
     {
+      "id": "wadang",
+      "region": "리장",
+      "nameKo": "와당운가 루프톱 카페(瓦當雲咖)",
+      "nameZh": "瓦當雲咖 wadang coffee·eaves 全景屋顶咖啡",
+      "optionIds": [],
+      "dayIds": [
+        "D2",
+        "D4"
+      ],
+      "slots": [
+        "D2·D4 카페"
+      ],
+      "kind": "루프톱 카페",
+      "placeId": "wadang",
+      "summary": "1·2층과 루프톱이 있는 전망 카페. 실내가 나무·벽돌로 꾸며져 분위기가 좋다는 후기가 있다(사용자 제공 블로그 화면). 정확한 위치는 아직 확인하지 못했다.",
+      "menu": [
+        {
+          "zh": "美式咖啡",
+          "ko": "아메리카노",
+          "desc": ""
+        },
+        {
+          "zh": "拿铁",
+          "ko": "라테",
+          "desc": ""
+        },
+        {
+          "zh": "云南小粒咖啡",
+          "ko": "윈난 원두 커피",
+          "desc": ""
+        }
+      ],
+      "tips": [
+        "위치 확인 필요: 지도 버튼은 이름 검색 링크다. 고덕지도 공유 링크를 받으면 바꿔 넣는다"
+      ],
+      "perPerson": "약 ¥30~45",
+      "hours": "현장 확인",
+      "keywords": [
+        "瓦當雲咖",
+        "와당"
+      ],
+      "image": null,
+      "credit": null,
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "amapUrl": "https://uri.amap.com/search?keyword=%E7%93%A6%E7%95%B6%E9%9B%B2%E5%92%96&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
+    },
+    {
       "id": "yintong",
       "region": "샹그릴라",
       "nameKo": "은동 편민소흡",
@@ -1261,6 +1308,63 @@
         "塔罗"
       ],
       "amapUrl": "https://uri.amap.com/search?keyword=%E5%A1%94%E7%BD%97%E8%97%8F%E9%A4%90%E5%90%A7&city=%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "sanerjiusi",
+      "region": "샹그릴라",
+      "nameKo": "3294 티베트 첨차관(叁贰玖肆)",
+      "nameZh": "叁贰玖肆3294·藏式甜茶馆",
+      "optionIds": [],
+      "dayIds": [
+        "D6",
+        "D7"
+      ],
+      "slots": [
+        "D6 간식"
+      ],
+      "kind": "야크 요거트·티베트 단차",
+      "placeId": "sanerjiusi",
+      "summary": "독극종고성 안의 티베트식 첨차(甜茶) 찻집. 중국 리뷰 앱 평점 4.8로, \"샹그릴라에 오면 놓치면 안 되는 야크 요거트\" 가게로 꼽힌다(사용자 제공 후기 화면).",
+      "menu": [
+        {
+          "zh": "牦牛酸奶",
+          "ko": "야크 요거트",
+          "desc": "쌀보리(青稞)·견과 토핑을 얹은 진한 요거트",
+          "image": "eats/eat-yakyogurt.jpg"
+        },
+        {
+          "zh": "甜茶",
+          "ko": "티베트 첨차(밀크티)",
+          "desc": "달콤한 티베트식 밀크티"
+        },
+        {
+          "zh": "鲜奶",
+          "ko": "우유",
+          "desc": "따뜻하게 마시기 좋다"
+        }
+      ],
+      "tips": [
+        "영업 10:00~23:00(리뷰 앱 기준) · 주소 独克宗古城池廊硕18号",
+        "1인 약 ¥14"
+      ],
+      "perPerson": "약 ¥14",
+      "hours": "10:00~23:00",
+      "keywords": [
+        "3294",
+        "叁贰玖肆"
+      ],
+      "image": "eats/eat-yakyogurt.jpg",
+      "credit": {
+        "title": "Yak Yogurt",
+        "author": "feserc",
+        "license": "CC BY 2.0",
+        "url": "https://www.flickr.com/photos/42602676@N00/3509087283"
+      },
+      "imageNote": "대표 음식 참고 사진(이 식당 사진이 아님)",
+      "amapUrl": "https://uri.amap.com/search?keyword=%E5%8F%81%E8%B4%B0%E7%8E%96%E8%82%863294%E8%97%8F%E5%BC%8F%E7%94%9C%E8%8C%B6%E9%A6%86&city=%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E&src=travelyunnan&callnative=1"
     }
+  ],
+  "tips": [
+    "대중점평(大众点评)·메이투안 쿠폰은 중국 휴대폰 번호를 입력해야 할인되는 경우가 많다. 숙소 전화번호를 적어 두면 좋다(하이디라오 등)"
   ]
 }

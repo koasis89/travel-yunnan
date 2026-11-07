@@ -250,6 +250,27 @@
       "nameZh": "一瓦堂咖啡店",
       "addrZh": "云南省丽江市玉龙纳西族自治县白沙古镇街尾村",
       "amapUrl": "https://surl.amap.com/1ZGvMhI4fh"
+    },
+    {
+      "id": "lijiang_hospital",
+      "nameKo": "리장시 인민병원(고산병 산소 치료)",
+      "nameZh": "丽江市人民医院",
+      "addrZh": "云南省丽江市古城区福慧街522号",
+      "amapUrl": "https://surl.amap.com/jNlnaOmd1fJ"
+    },
+    {
+      "id": "sanerjiusi",
+      "nameKo": "3294 티베트 첨차관",
+      "nameZh": "叁贰玖肆3294藏式甜茶馆",
+      "addrZh": "云南省迪庆藏族自治州香格里拉市建塘镇独克宗古城池廊硕18号",
+      "amapUrl": "https://uri.amap.com/search?keyword=%E5%8F%81%E8%B4%B0%E7%8E%96%E8%82%863294%E8%97%8F%E5%BC%8F%E7%94%9C%E8%8C%B6%E9%A6%86&city=%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E&src=travelyunnan&callnative=1"
+    },
+    {
+      "id": "wadang",
+      "nameKo": "와당운가 루프톱 카페",
+      "nameZh": "瓦當雲咖",
+      "addrZh": "丽江 瓦當雲咖（位置待确认）",
+      "amapUrl": "https://uri.amap.com/search?keyword=%E7%93%A6%E7%95%B6%E9%9B%B2%E5%92%96&city=%E4%B8%BD%E6%B1%9F&src=travelyunnan&callnative=1"
     }
   ]
 }

@@ -29,6 +29,8 @@ def clean(s: str) -> str:
 
 def city_of(*texts: str) -> str:
     t = " ".join(x or "" for x in texts)
+    if re.search(r"瓦當雲咖", t):
+        return "丽江"
     if re.search(r"丽江|리장|白沙|束河|玉龙|백사|수허|옥룡|古城区", t):
         return "丽江"
     if re.search(r"香格里拉|迪庆|虎跳峡|샹그릴라|호도협|独克宗|松赞", t):
@@ -90,7 +92,8 @@ def main(d: Path):
     rest = load("restaurants.json")
     mo = {o["id"]: o for m in meals["items"] for o in m["options"]}
     for r in rest["items"]:
-        r["amapUrl"] = next((mo[i]["amapUrl"] for i in r["optionIds"] if mo.get(i, {}).get("amapUrl")), None) or search_url(r["nameZh"].split("/")[0].strip(), city_of(r["nameZh"], r["region"]))
+        r["amapUrl"] = next((mo[i]["amapUrl"] for i in r["optionIds"] if mo.get(i, {}).get("amapUrl")), None) or \
+            (place[r["placeId"]]["amapUrl"] if r.get("placeId") in place else None) or search_url(r["nameZh"].split("/")[0].strip(), city_of(r["nameZh"], r["region"]))
     save("restaurants.json", rest)
 
     out = ["# 고덕지도(Amap) 링크 모음", "",

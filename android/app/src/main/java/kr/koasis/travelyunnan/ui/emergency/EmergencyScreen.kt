@@ -123,6 +123,10 @@ fun EmergencyContent(
             item {
                 Text(data.emergency.note, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(horizontal = 16.dp))
             }
+            if (data.emergency.hospitals.isNotEmpty()) {
+                item { SectionTitle("고산병 병원(산소 치료)") }
+                items(data.emergency.hospitals.size) { i -> HospitalCard(data.emergency.hospitals[i]) }
+            }
             item { SectionTitle("고산병") }
             item {
                 Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -183,6 +187,36 @@ private fun PassportEditor(departure: LocalDate, load: () -> SecureData, save: (
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Button(onClick = { save(d); saved = true }) { Icon(Icons.Filled.Save, null); Spacer(Modifier.width(6.dp)); Text(if (saved) "저장됨" else "저장") }
             OutlinedButton(onClick = onLock) { Icon(Icons.Filled.Lock, null); Spacer(Modifier.width(6.dp)); Text("잠그기") }
+        }
+    }
+}
+
+
+@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
+@Composable
+private fun HospitalCard(h: kr.koasis.travelyunnan.data.json.Hospital) {
+    val actions = kr.koasis.travelyunnan.ui.nav.LocalActions.current
+    val ctx = androidx.compose.ui.platform.LocalContext.current
+    var show by remember { mutableStateOf(false) }
+    if (show) {
+        androidx.compose.ui.window.Dialog(onDismissRequest = { show = false }, properties = androidx.compose.ui.window.DialogProperties(usePlatformDefaultWidth = false)) {
+            kr.koasis.travelyunnan.ui.common.ShowCardScreen(
+                lines = h.phrases.flatMap { listOf(kr.koasis.travelyunnan.ui.common.ShowLine(it.zh, kr.koasis.travelyunnan.ui.common.ShowStyle.Sub), kr.koasis.travelyunnan.ui.common.ShowLine(it.ko, kr.koasis.travelyunnan.ui.common.ShowStyle.Small)) },
+                onClose = { show = false }, header = "병원 접수처에 보여주세요",
+            ) {}
+        }
+    }
+    Card(Modifier.padding(horizontal = 16.dp, vertical = 6.dp).fillMaxWidth()) {
+        Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+            Text("${h.nameKo}  ·  ${h.region}", style = MaterialTheme.typography.titleMedium)
+            Text(h.nameZh, style = MaterialTheme.typography.titleLarge)
+            Text(h.addrZh, style = MaterialTheme.typography.bodyMedium)
+            Text(h.note, style = MaterialTheme.typography.bodySmall)
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                kr.koasis.travelyunnan.ui.common.SmallAction(Icons.Filled.LocalTaxi, "택시 카드") { actions.openTaxi(kr.koasis.travelyunnan.domain.TargetType.place, h.placeId) }
+                kr.koasis.travelyunnan.ui.common.SmallAction(Icons.Filled.Map, "지도") { kr.koasis.travelyunnan.util.External.openUrl(ctx, h.amapUrl) }
+                kr.koasis.travelyunnan.ui.common.SmallAction(Icons.Filled.Fullscreen, "병원에서 보여줄 문장") { show = true }
+            }
         }
     }
 }
