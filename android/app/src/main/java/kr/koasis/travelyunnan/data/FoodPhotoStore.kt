@@ -27,13 +27,44 @@ object FoodPhotoStore {
             if (c.moveToFirst()) c.getString(0) else null
         } ?: uri.lastPathSegment.orEmpty()
 
-    /** zip 또는 사진들을 넣는다. 같은 이름은 덮어쓴다. 반환: 넣은 장 수 */
-    fun import(ctx: Context, uris: List<Uri>, onProgress: (Int) -> Unit = {}): Int {
+    /**
+     * 워드(docx) 안 그림을 문서 순서대로: '1. 납배골 훠궈 …'처럼 번호로 시작하는 문단이 묶음, 그 아래 그림이 묶음 안 순서
+     * → id docx-<묶음 2자리>-<순서 2자리> 와 docx 안 경로(웹 docxImages 와 같은 규칙)
+     */
+    fun docxImages(documentXml: String, relsXml: String): List<Pair<String, String>> {
+        val rid = Regex("Id=\"(rId\\d+)\"[^>]*Target=\"([^\"]+)\"").findAll(relsXml).associate { it.groupValues[1] to it.groupValues[2] }
+        val out = mutableListOf<Pair<String, String>>(); var g = 0; var k = 0
+        for (p in Regex("<w:p[ >][\\s\\S]*?</w:p>").findAll(documentXml)) {
+            val t = Regex("<w:t[^>]*>([^<]*)</w:t>").findAll(p.value).joinToString("") { it.groupValues[1] }.trim()
+            Regex("^(\\d+)\\.\\s").find(t)?.let { g = it.groupValues[1].toInt(); k = 0 }
+            for (m in Regex("r:embed=\"(rId\\d+)\"").findAll(p.value)) {
+                k++; val target = rid[m.groupValues[1]] ?: continue
+                out += "docx-%02d-%02d".format(g, k) to "word/" + target.removePrefix("/").removePrefix("word/")
+            }
+        }
+        return out
+    }
+
+    /** zip·워드(docx)·사진들을 넣는다. 같은 이름은 덮어쓴다. docxAllow: 워드에서 넣을 사진 id. 반환: 넣은 장 수 */
+    fun import(ctx: Context, uris: List<Uri>, docxAllow: Set<String> = emptySet(), onProgress: (Int) -> Unit = {}): Int {
         var n = 0
         for (u in uris) {
             val name = displayName(ctx, u)
             val mime = ctx.contentResolver.getType(u).orEmpty()
-            if (name.endsWith(".zip", true) || mime.contains("zip")) {
+            if (name.endsWith(".docx", true) || mime.contains("wordprocessingml")) {
+                val tmp = File.createTempFile("food", ".docx", ctx.cacheDir)
+                try {
+                    ctx.contentResolver.openInputStream(u)?.use { ins -> tmp.outputStream().use { ins.copyTo(it) } }
+                    java.util.zip.ZipFile(tmp).use { z ->
+                        fun text(path: String) = z.getEntry(path)?.let { e -> z.getInputStream(e).use { it.readBytes().decodeToString() } }.orEmpty()
+                        for ((id, media) in docxImages(text("word/document.xml"), text("word/_rels/document.xml.rels"))) {
+                            if (docxAllow.isNotEmpty() && id !in docxAllow) continue
+                            val e = z.getEntry(media) ?: continue
+                            if (save(ctx, id, z.getInputStream(e).use { it.readBytes() })) { n++; onProgress(n) }
+                        }
+                    }
+                } finally { tmp.delete() }
+            } else if (name.endsWith(".zip", true) || mime.contains("zip")) {
                 ctx.contentResolver.openInputStream(u)?.use { ins ->
                     ZipInputStream(ins.buffered()).use { z ->
                         while (true) {

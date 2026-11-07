@@ -22,8 +22,8 @@ android {
         applicationId = "kr.koasis.travelyunnan"
         minSdk = 26
         targetSdk = 35
-        versionCode = 36
-        versionName = "1.6.3"
+        versionCode = 37
+        versionName = "1.6.4"
         // 영수증 인식(ML Kit) 네이티브 라이브러리가 CPU 종류마다 약 11MB 라서 실제 휴대폰용(ARM)만 넣는다(에뮬레이터 x86 제외)
         ndk { abiFilters += listOf("arm64-v8a", "armeabi-v7a") }
     }

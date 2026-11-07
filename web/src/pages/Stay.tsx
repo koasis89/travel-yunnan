@@ -6,7 +6,8 @@ import { useData, useNow } from '../store/data'
 import { useStored } from '../store/local'
 import { resolvePhase } from '../domain/tripTime'
 import { isTaxiable, optKo, optZh } from '../domain/cards'
-import { FoodPhotos } from './FoodPhotos'
+import { FoodPhotos, LocalPhoto } from './FoodPhotos'
+import { usePhotoIds } from '../store/foodPhotos'
 import { DRINKS, DRINK_REQUESTS, composeMultiOrder, decodeFoods, type Drink } from '../domain/drinks'
 
 /** 하단 탭 "숙소·식사": 숙소 / 식사 / 음식 도감 / 음식 사진 */
@@ -21,7 +22,7 @@ export function Stay() {
           <button key={k} className={`chip ${tab === k ? 'on' : ''}`} onClick={() => setSp({ tab: k }, { replace: true })}>{t}</button>
         ))}
       </div>
-      {tab === 'lodging' ? <Lodgings focus={sp.get('id')} /> : tab === 'meals' ? <Meals dayArg={sp.get('day')} /> : tab === 'photos' ? <FoodPhotos /> : <Foods />}
+      {tab === 'lodging' ? <Lodgings focus={sp.get('id')} /> : tab === 'meals' ? <Meals dayArg={sp.get('day')} /> : tab === 'photos' ? <FoodPhotos foodId={sp.get('food')} onClearFood={() => setSp({ tab: 'photos' }, { replace: true })} /> : <Foods />}
     </div>
   )
 }
@@ -108,7 +109,7 @@ function Meals({ dayArg }: { dayArg: string | null }) {
 }
 
 function Foods() {
-  const data = useData()
+  const data = useData(); const have = usePhotoIds() ?? []; const nav = useNavigate()
   const regions = useMemo(() => [...new Set(data.foods.map((f) => f.region))], [data])
   const [region, setRegion] = useState(regions[0])
   return (<>
@@ -117,12 +118,18 @@ function Foods() {
     <div className="stack pad">
       {data.foods.filter((f) => f.region === region).map((f) => (
         <Link key={f.id} to={`/menu?food=${encodeURIComponent(f.nameZh)}`} className="card food" style={{ textDecoration: 'none', color: 'inherit' }}>
-          {f.image ? <img className="ph" src={`${import.meta.env.BASE_URL}images/${f.image}`} alt={f.nameKo} loading="lazy" /> : <div className="ph zh">{f.nameZh.slice(0, 2)}</div>}
+          {(() => {
+            const mine = data.photoIdsForFood(f.id, have)
+            return f.image ? <img className="ph" src={`${import.meta.env.BASE_URL}images/${f.image}`} alt={f.nameKo} loading="lazy" />
+              : mine[0] ? <LocalPhoto className="ph" id={mine[0]} alt={f.nameKo} /> : <div className="ph zh">{f.nameZh.slice(0, 2)}</div>
+          })()}
           <div className="grow">
             <div className="bold zh" style={{ fontSize: '1.2em' }}>{f.nameZh}</div>
             <div className="small" style={{ color: 'var(--primary)' }}>{f.nameKo}</div>
             <div className="small">{f.description}</div>
             {f.imageKind === '참고 이미지' && <div className="tiny faint">참고 이미지(같은 종류의 다른 사진)</div>}
+            {data.photoIdsForFood(f.id, have).length > 0 && <span className="tiny" style={{ color: 'var(--primary)', textDecoration: 'underline' }} data-testid="food-more-photos"
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); nav(`/stay?tab=photos&food=${f.id}`) }}>사진 {data.photoIdsForFood(f.id, have).length}장 보기</span>}
           </div>
         </Link>
       ))}

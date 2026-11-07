@@ -7,8 +7,10 @@ import { clearPhotos, getPhoto, importPhotos, usePhotoIds } from '../store/foodP
 type Filter = 'all' | 'named' | 'unknown'
 
 /** 숙소·식사 → 음식 사진: 이 기기에 넣은 리장 음식 사진을 1줄 3장 격자로 보고, 누르면 크게 본다 */
-export function FoodPhotos() {
-  const data = useData(); const ids = usePhotoIds()
+export function FoodPhotos({ foodId, onClearFood }: { foodId?: string | null; onClearFood?: () => void }) {
+  const data = useData(); const all = usePhotoIds()
+  const ids = all && foodId ? data.photoIdsForFood(foodId, all) : all
+  const food = foodId ? data.foods.find((f) => f.id === foodId) : undefined
   const [filter, setFilter] = useState<Filter>('all')
   const [open, setOpen] = useState<number | null>(null)
   const [busy, setBusy] = useState<string | null>(null)
@@ -24,26 +26,27 @@ export function FoodPhotos() {
     if (!files.length) return
     setBusy('사진을 여는 중…')
     try {
-      const n = await importPhotos(files, (d, t) => setBusy(`사진 넣는 중… ${d}/${t}`))
+      const n = await importPhotos(files, (d, t) => setBusy(`사진 넣는 중… ${d}/${t}`), data.docxPhotoIds)
       toast(n ? `사진 ${n}장을 넣었다` : '넣을 사진을 찾지 못했다')
     } catch { toast('사진을 넣지 못했다') } finally { setBusy(null) }
   }
   const picker = (
-    <label className="btn primary" data-testid="photo-add"><ImagePlus size={18} />{busy ?? '사진 묶음(zip)·사진 넣기'}
-      <input type="file" accept=".zip,application/zip,image/*" multiple hidden disabled={busy != null}
+    <label className="btn primary" data-testid="photo-add"><ImagePlus size={18} />{busy ?? '사진 묶음(zip·워드)·사진 넣기'}
+      <input type="file" accept=".zip,application/zip,.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*" multiple hidden disabled={busy != null}
         onChange={(e) => { add([...(e.target.files ?? [])]); e.target.value = '' }} /></label>
   )
 
   if (ids === null) return <div className="pad muted">불러오는 중…</div>
   if (!ids.length) return (
     <div className="pad stack">
-      <Banner icon={<ImagePlus size={18} />}>받아 둔 <b>리장 음식 사진 묶음(zip)</b>을 한 번 넣으면 이 휴대폰에만 저장되어 인터넷 없이 본다. 사진을 보고 음식 이름을 알 수 있는 것은 이름을 붙여 보여 준다.</Banner>
+      <Banner icon={<ImagePlus size={18} />}>받아 둔 <b>리장 음식 사진 묶음(zip)</b>이나 <b>음식별 사진 워드(docx)</b>를 한 번 넣으면 이 휴대폰에만 저장되어 인터넷 없이 본다. 사진을 보고 음식 이름을 알 수 있는 것은 이름을 붙여 보여 준다.</Banner>
       {picker}
       <p className="tiny faint" style={{ margin: 0 }}>남이 찍은 사진(携程 등)이 섞여 있어 앱·웹 서버에는 올리지 않는다. 사진은 기기마다 한 번씩 넣는다.</p>
     </div>
   )
   return (
     <div>
+      {food && <div className="pad row" style={{ paddingBottom: 0 }}><span className="bold grow">{food.nameKo} <span className="zh">{food.nameZh}</span> 사진</span><button className="chip on" onClick={onClearFood}>모든 사진 보기</button></div>}
       <div className="chips" data-testid="photo-filter">
         {([['all', `전체 ${sorted.length}`], ['named', `이름 있음 ${namedCount}`], ['unknown', `이름 모름 ${sorted.length - namedCount}`]] as [Filter, string][]).map(([k, t]) =>
           <button key={k} className={`chip ${filter === k ? 'on' : ''}`} onClick={() => setFilter(k)}>{t}</button>)}
@@ -69,6 +72,12 @@ function useBlobUrl(id: string, kind: 'thumb' | 'full') {
     return () => { on = false; if (u) URL.revokeObjectURL(u); setUrl(null) }
   }, [id, kind])
   return url
+}
+
+/** 기기에 넣은 사진 한 장(목록용 작은 그림) */
+export function LocalPhoto({ id, className, alt }: { id: string; className?: string; alt: string }) {
+  const url = useBlobUrl(id, 'thumb')
+  return url ? <img className={className} src={url} alt={alt} /> : <div className={className} />
 }
 
 function Thumb({ id, label, onClick }: { id: string; label?: string; onClick: () => void }) {

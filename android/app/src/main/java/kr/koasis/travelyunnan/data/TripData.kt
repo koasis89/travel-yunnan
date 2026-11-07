@@ -69,7 +69,14 @@ class TripData(
     fun restaurantsFor(r: Schedule) = restaurants.filter { x -> r.dayId in x.dayIds && x.keywords.any { k -> "${r.from} ${r.via} ${r.to} ${r.tip}".contains(k) } }
     fun sight(id: String?) = id?.let { k -> sights.firstOrNull { it.id == k } }
     private val foodPhotoMap by lazy { foodPhotos.items.associateBy { it.file } }
-    fun foodPhotoName(id: String) = foodPhotoMap[id]
+    val foodPhotoFood by lazy { foodPhotos.docx.associate { it.id to it.foodId } }
+    /** 사진 이름: zip 사진은 이름표, 워드 사진은 연결된 음식 도감 이름 */
+    fun foodPhotoName(id: String): kr.koasis.travelyunnan.data.json.FoodPhotoName? = foodPhotoMap[id]
+        ?: foodPhotoFood[id]?.let { fid -> foods.firstOrNull { it.id == fid } }?.let { kr.koasis.travelyunnan.data.json.FoodPhotoName(id, it.nameKo, it.nameZh) }
+    /** 그 음식의 기기 사진 id(워드 사진). alsoFor 로 같은 음식 사진을 함께 쓴다(웹 photoIdsForFood) */
+    fun photoIdsForFood(foodId: String, have: List<String>) = have.filter { id ->
+        val f = foodPhotoFood[id]; f != null && (f == foodId || f == foodPhotos.alsoFor[foodId])
+    }
     fun blogsFor(sightId: String) = blogs.filter { sightId in it.sightIds }
     fun sightsOf(dayId: String) = sights.filter { dayId in it.dayIds }
     /** 일정 행에 관련된 관광지: 그 일차 관광지 중 키워드가 행 글에 들어 있는 것(웹 sightsFor 와 같음) */

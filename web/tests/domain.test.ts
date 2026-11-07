@@ -173,3 +173,14 @@ describe('주문 문장: 여러 음식', () => {
     expect(decodeFoods(encodeFoods([['汽锅鸡', 1], ['野生菌', 2]]))).toEqual([['汽锅鸡', 1], ['野生菌', 2]])
   })
 })
+
+describe('음식 도감 기기 사진', () => {
+  it('워드 사진만 음식에 연결하고, 샹그릴라 야크 훠궈는 야크 훠궈 사진을 함께 쓴다', () => {
+    const have = ['photo_005', 'docx-01-01', 'docx-02-01', 'docx-12-03']
+    expect(data.photoIdsForFood('food-05', have)).toEqual(['docx-01-01'])
+    expect(data.photoIdsForFood('food-23', have)).toEqual(['docx-02-01'])
+    expect(data.photoIdsForFood('food-15', have)).toEqual([])
+    expect(data.docxPhotoIds.has('docx-12-03')).toBe(false)
+    expect(data.foodPhotoNames['docx-01-01'].nameZh).toBe('腊排骨火锅')
+  })
+})

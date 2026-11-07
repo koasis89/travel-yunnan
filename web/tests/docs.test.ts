@@ -55,3 +55,17 @@ describe('블로그 PDF 찾기', () => {
     expect(docForBlog(b, [doc({ id: 'e', fileName: '다른 글.pdf' })])).toBeUndefined()
   })
 })
+
+import { docxImages } from '../src/store/foodPhotos'
+import { unzipSync } from 'fflate'
+import { readFileSync } from 'node:fs'
+describe('음식별 사진 워드(docx)', () => {
+  it('번호 제목 아래 그림을 docx-묶음-순서 id 로 꺼낸다', () => {
+    const all = unzipSync(new Uint8Array(readFileSync(new URL('./fixtures/food_photos_sample.docx', import.meta.url))))
+    expect(docxImages(all)).toEqual([
+      { id: 'docx-01-01', media: 'word/media/image1.png' },
+      { id: 'docx-01-02', media: 'word/media/image2.png' },
+      { id: 'docx-02-01', media: 'word/media/image3.png' },
+    ])
+  })
+})

@@ -180,7 +180,15 @@ data class Blog(
 data class FoodPhotoName(val file: String, val nameKo: String = "", val nameZh: String = "")
 
 @Serializable
-data class FoodPhotosFile(val restaurant: String = "", val items: List<FoodPhotoName> = emptyList())
+data class DocxPhoto(val id: String, val foodId: String)
+
+@Serializable
+data class FoodPhotosFile(
+    val restaurant: String = "", val items: List<FoodPhotoName> = emptyList(),
+    /** 음식별 사진 워드(docx) 그림 id → 음식 도감 id. 이 밖의 그림은 넣지 않는다 */
+    val docx: List<DocxPhoto> = emptyList(),
+    val alsoFor: Map<String, String> = emptyMap(),
+)
 
 @Serializable
 data class SightsFile(val blogs: List<Blog> = emptyList())

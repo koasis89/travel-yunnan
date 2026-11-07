@@ -42,6 +42,11 @@ export class TripData {
   blogs: Blog[]
   foodPhotoNames: Record<string, { nameKo: string; nameZh: string }>
   foodPhotoRestaurant: string
+  /** 사진 id → 음식 도감 id(워드 사진) */
+  foodPhotoFood: Record<string, string>
+  /** 워드에서 넣을 사진 id(이 밖의 그림은 광고·인물 등이라 건너뛴다) */
+  docxPhotoIds: Set<string>
+  foodAlsoFor: Record<string, string>
   restaurants: Restaurant[]
   version: string
 
@@ -64,6 +69,13 @@ export class TripData {
     this.blogs = (b['sights.json'] as { blogs?: Blog[] })?.blogs ?? []
     const fp = b['food_photos.json'] as { restaurant?: string; items?: { file: string; nameKo: string; nameZh: string }[] } | undefined
     this.foodPhotoNames = Object.fromEntries((fp?.items ?? []).map((x) => [x.file, { nameKo: x.nameKo, nameZh: x.nameZh }]))
+    const fx = b['food_photos.json'] as { docx?: { id: string; foodId: string }[]; alsoFor?: Record<string, string> } | undefined
+    this.foodPhotoFood = Object.fromEntries((fx?.docx ?? []).map((x) => [x.id, x.foodId]))
+    this.docxPhotoIds = new Set(Object.keys(this.foodPhotoFood))
+    this.foodAlsoFor = fx?.alsoFor ?? {}
+    for (const [id, fid] of Object.entries(this.foodPhotoFood)) {
+      const f = this.foods.find((x) => x.id === fid); if (f) this.foodPhotoNames[id] = { nameKo: f.nameKo, nameZh: f.nameZh }
+    }
     this.foodPhotoRestaurant = fp?.restaurant ?? ''
     this.restaurants = it<Restaurant>('restaurants.json')
     this.version = (b['version.json'] as { data?: string })?.data ?? ''
@@ -88,6 +100,8 @@ export class TripData {
   restaurantOfOption = (optionId: string) => this.restaurants.find((r) => r.optionIds.includes(optionId))
   /** 일정 행에 나오는 식당(그 일차 식당 중 이름 키워드가 행 글에 있는 것) */
   restaurantsFor = (r: Schedule) => this.restaurants.filter((x) => x.dayIds.includes(r.dayId) && x.keywords.some((k) => `${r.from} ${r.via} ${r.to} ${r.tip}`.includes(k)))
+  /** 그 음식의 기기 사진 id(워드 사진). alsoFor 로 같은 음식 사진을 함께 쓴다 */
+  photoIdsForFood = (foodId: string, have: string[]) => have.filter((id) => { const f = this.foodPhotoFood[id]; return !!f && (f === foodId || f === this.foodAlsoFor[foodId]) })
   blogsFor = (sightId: string) => this.blogs.filter((x) => x.sightIds.includes(sightId))
   sightsOf = (dayId: string) => this.sights.filter((s) => s.dayIds.includes(dayId))
   /** 일정 행에 관련된 관광지: 그 일차 관광지 중 키워드가 행 글에 들어 있는 것 */

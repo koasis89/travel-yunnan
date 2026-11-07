@@ -61,4 +61,17 @@ class DocRulesTest {
         assertEquals(null, d.foodPhotoName("photo_013"))
         assertEquals("photo_005", kr.koasis.travelyunnan.data.FoodPhotoStore.photoId("리장음식사진/photo_005.webp"))
     }
+
+    @Test fun docxFoodPhotos() {
+        val f = java.io.File("../../web/tests/fixtures/food_photos_sample.docx").takeIf { it.exists() } ?: java.io.File("../web/tests/fixtures/food_photos_sample.docx")
+        java.util.zip.ZipFile(f).use { z ->
+            fun t(p: String) = z.getInputStream(z.getEntry(p)).use { it.readBytes().decodeToString() }
+            assertEquals(listOf("docx-01-01" to "word/media/image1.png", "docx-01-02" to "word/media/image2.png", "docx-02-01" to "word/media/image3.png"),
+                kr.koasis.travelyunnan.data.FoodPhotoStore.docxImages(t("word/document.xml"), t("word/_rels/document.xml.rels")))
+        }
+        val d = TripDataHolder.data
+        assertEquals(listOf("docx-01-01"), d.photoIdsForFood("food-05", listOf("photo_005", "docx-01-01", "docx-02-01")))
+        assertEquals(listOf("docx-02-01"), d.photoIdsForFood("food-23", listOf("photo_005", "docx-01-01", "docx-02-01")))
+        assertEquals("腊排骨火锅", d.foodPhotoName("docx-01-01")?.nameZh)
+    }
 }

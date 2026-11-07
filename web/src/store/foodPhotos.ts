@@ -56,10 +56,43 @@ async function shrink(src: Blob, max: number, q: number): Promise<Blob> {
   return new Promise((res, rej) => c.toBlob((b) => (b ? res(b) : rej(new Error('jpeg'))), 'image/jpeg', q))
 }
 
-/** zip 또는 사진 파일들을 넣는다. 같은 이름은 덮어쓴다. 반환: 넣은 장 수 */
-export async function importPhotos(files: File[], onProgress?: (done: number, total: number) => void): Promise<number> {
+/**
+ * 워드(docx) 안 그림을 문서 순서대로 꺼낸다. '1. 납배골 훠궈 …'처럼 번호로 시작하는 문단이 묶음이고,
+ * 그 아래 그림이 묶음 안 순서다 → id docx-<묶음 2자리>-<순서 2자리>
+ */
+export function docxImages(files: Record<string, Uint8Array>): { id: string; media: string }[] {
+  const dec = new TextDecoder()
+  const doc = files['word/document.xml'] ? dec.decode(files['word/document.xml']) : ''
+  const rels = files['word/_rels/document.xml.rels'] ? dec.decode(files['word/_rels/document.xml.rels']) : ''
+  const rid: Record<string, string> = {}
+  for (const m of rels.matchAll(/Id="(rId\d+)"[^>]*Target="([^"]+)"/g)) rid[m[1]] = m[2]
+  const out: { id: string; media: string }[] = []; let g = 0; let k = 0
+  for (const p of doc.match(/<w:p[ >][\s\S]*?<\/w:p>/g) ?? []) {
+    const t = [...p.matchAll(/<w:t[^>]*>([^<]*)<\/w:t>/g)].map((m) => m[1]).join('').trim()
+    const h = t.match(/^(\d+)\.\s/); if (h) { g = Number(h[1]); k = 0 }
+    for (const m of p.matchAll(/r:embed="(rId\d+)"/g)) {
+      k++; const target = rid[m[1]]
+      if (target) out.push({ id: `docx-${String(g).padStart(2, '0')}-${String(k).padStart(2, '0')}`, media: `word/${target.replace(/^\/?word\//, '')}` })
+    }
+  }
+  return out
+}
+
+/** zip·워드(docx)·사진 파일들을 넣는다. 같은 이름은 덮어쓴다. docxAllow: 워드에서 넣을 사진 id. 반환: 넣은 장 수 */
+export async function importPhotos(files: File[], onProgress?: (done: number, total: number) => void, docxAllow?: Set<string>): Promise<number> {
   const items: { name: string; blob: Blob }[] = []
   for (const f of files) {
+    if (/\.docx$/i.test(f.name) || f.type.includes('wordprocessingml')) {
+      const { unzipSync } = await import('fflate')
+      const all = unzipSync(new Uint8Array(await f.arrayBuffer()))
+      for (const { id, media } of docxImages(all)) {
+        if (docxAllow && !docxAllow.has(id)) continue
+        const bytes = all[media]; if (!bytes) continue
+        const ext = media.split('.').pop()!.toLowerCase()
+        items.push({ name: id, blob: new Blob([bytes as BlobPart], { type: MIME[ext] ?? 'image/jpeg' }) })
+      }
+      continue
+    }
     if (/\.zip$/i.test(f.name) || f.type.includes('zip')) {
       const { unzipSync } = await import('fflate')
       const all = unzipSync(new Uint8Array(await f.arrayBuffer()), { filter: (e) => IMG.test(e.name) && !e.name.includes('__MACOSX') })

@@ -46,12 +46,14 @@ import java.io.File
 
 /** 음식 사진(웹 pages/FoodPhotos.tsx): 이 기기에 넣은 리장 음식 사진을 1줄 3장으로 보고, 누르면 크게 본다 */
 @Composable
-fun FoodPhotosScreen(data: TripData) {
+fun FoodPhotosScreen(data: TripData, foodId: String? = null) {
     val actions = LocalActions.current
     val ctx = LocalContext.current
     val scope = rememberCoroutineScope()
     var version by remember { mutableIntStateOf(0) }
-    val ids by produceState<List<String>?>(null, version) { value = withContext(Dispatchers.IO) { FoodPhotoStore.ids(ctx) } }
+    val all by produceState<List<String>?>(null, version) { value = withContext(Dispatchers.IO) { FoodPhotoStore.ids(ctx) } }
+    val ids = all?.let { a -> foodId?.let { data.photoIdsForFood(it, a) } ?: a }
+    val food = foodId?.let { id -> data.foods.firstOrNull { it.id == id } }
     var filter by remember { mutableStateOf("all") }
     var open by remember { mutableStateOf<Int?>(null) }
     var busy by remember { mutableStateOf<String?>(null) }
@@ -65,20 +67,20 @@ fun FoodPhotosScreen(data: TripData) {
         if (uris.isEmpty()) return@rememberLauncherForActivityResult
         busy = "사진을 여는 중…"
         scope.launch {
-            val n = withContext(Dispatchers.IO) { runCatching { FoodPhotoStore.import(ctx, uris) { busy = "사진 넣는 중… $it" } }.getOrDefault(0) }
+            val n = withContext(Dispatchers.IO) { runCatching { FoodPhotoStore.import(ctx, uris, data.foodPhotoFood.keys) { busy = "사진 넣는 중… $it" } }.getOrDefault(0) }
             busy = null; version++
             Toast.makeText(ctx, if (n > 0) "사진 ${n}장을 넣었다" else "넣을 사진을 찾지 못했다", Toast.LENGTH_SHORT).show()
         }
     }
-    val pick = { picker.launch(arrayOf("application/zip", "application/x-zip-compressed", "image/*")) }
+    val pick = { picker.launch(arrayOf("application/zip", "application/x-zip-compressed", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "image/*")) }
 
     Column(Modifier.fillMaxSize()) {
-        AppTopBar("음식 사진", onBack = actions.back)
+        AppTopBar(food?.let { "${it.nameKo} 사진" } ?: "음식 사진", onBack = actions.back)
         when {
             ids == null -> Text("불러오는 중…", Modifier.padding(16.dp))
             ids!!.isEmpty() -> Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                Text("받아 둔 리장 음식 사진 묶음(zip)을 한 번 넣으면 이 휴대폰에만 저장되어 인터넷 없이 본다. 사진을 보고 음식 이름을 알 수 있는 것은 이름을 붙여 보여 준다.", style = MaterialTheme.typography.bodyMedium)
-                Button(onClick = pick, enabled = busy == null, modifier = Modifier.fillMaxWidth()) { Icon(Icons.Filled.AddPhotoAlternate, null); Spacer(Modifier.width(6.dp)); Text(busy ?: "사진 묶음(zip)·사진 넣기") }
+                Text("받아 둔 리장 음식 사진 묶음(zip)이나 음식별 사진 워드(docx)를 한 번 넣으면 이 휴대폰에만 저장되어 인터넷 없이 본다. 사진을 보고 음식 이름을 알 수 있는 것은 이름을 붙여 보여 준다.", style = MaterialTheme.typography.bodyMedium)
+                Button(onClick = pick, enabled = busy == null, modifier = Modifier.fillMaxWidth()) { Icon(Icons.Filled.AddPhotoAlternate, null); Spacer(Modifier.width(6.dp)); Text(busy ?: "사진 묶음(zip·워드)·사진 넣기") }
                 Text("남이 찍은 사진(携程 등)이 섞여 있어 앱·웹 서버에는 올리지 않는다. 사진은 기기마다 한 번씩 넣는다.", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.outline)
             }
             else -> LazyVerticalGrid(GridCells.Fixed(3), contentPadding = PaddingValues(8.dp), horizontalArrangement = Arrangement.spacedBy(4.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {

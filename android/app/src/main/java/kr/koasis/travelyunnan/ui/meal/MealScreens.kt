@@ -17,6 +17,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -112,27 +113,36 @@ fun FoodsScreen(data: TripData) {
     val actions = LocalActions.current
     val regions = remember(data) { data.foods.map { it.region }.distinct() }
     var region by rememberSaveable { mutableStateOf(regions.first()) }
+    val ctx = androidx.compose.ui.platform.LocalContext.current
+    // 이 기기에 넣은 음식 사진(워드 사진은 음식 도감과 연결된다)
+    val have by produceState(emptyList<String>()) { value = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) { kr.koasis.travelyunnan.data.FoodPhotoStore.ids(ctx) } }
     Column(Modifier.fillMaxSize()) {
         AppTopBar("음식 도감", onBack = actions.back) {
-            IconButton(onClick = actions.openFoodPhotos) { Icon(Icons.Filled.PhotoLibrary, "음식 사진") }
+            IconButton(onClick = { actions.openFoodPhotos(null) }) { Icon(Icons.Filled.PhotoLibrary, "음식 사진") }
             TextButton(onClick = { actions.openMenu(null) }) { Icon(Icons.Filled.RecordVoiceOver, null); Spacer(Modifier.width(4.dp)); Text("주문 문장") }
         }
         LazyRow(contentPadding = PaddingValues(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             items(regions) { r -> FilterChip(region == r, onClick = { region = r }, label = { Text(r) }) }
         }
         LazyColumn(contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            items(data.foods.filter { it.region == region }, key = { it.id }) { f -> FoodCard(data, f) }
+            items(data.foods.filter { it.region == region }, key = { it.id }) { f -> FoodCard(data, f, have) }
         }
     }
 }
 
 @Composable
-private fun FoodCard(data: TripData, f: Food) {
+private fun FoodCard(data: TripData, f: Food, have: List<String>) {
     val actions = LocalActions.current
     val foodName = remember(f) { data.foodNames.firstOrNull { it.zh == f.nameZh } }
     Card(Modifier.clickable { actions.openMenu(foodName?.id) }) {
         Row(Modifier.padding(12.dp)) {
-            val img = f.image?.let { rememberAssetImage(it) }
+            val mine = remember(have) { data.photoIdsForFood(f.id, have) }
+            val ctx = androidx.compose.ui.platform.LocalContext.current
+            val local by produceState<androidx.compose.ui.graphics.ImageBitmap?>(null, mine.firstOrNull()) {
+                value = if (f.image == null) mine.firstOrNull()?.let { id -> kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                    runCatching { android.graphics.BitmapFactory.decodeFile(kr.koasis.travelyunnan.data.FoodPhotoStore.thumb(ctx, id).path)?.asImageBitmap() }.getOrNull() } } else null
+            }
+            val img = f.image?.let { rememberAssetImage(it) } ?: local
             Box(Modifier.size(96.dp).clip(RoundedCornerShape(12.dp)), contentAlignment = Alignment.Center) {
                 if (img != null) Image(img, f.nameKo, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
                 else Text(f.nameZh.take(2), fontSize = 28.sp, color = MaterialTheme.colorScheme.outline)
@@ -143,6 +153,7 @@ private fun FoodCard(data: TripData, f: Food) {
                 Text(f.nameKo + (foodName?.koRead?.takeIf { it.isNotBlank() }?.let { " · $it" } ?: ""), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.primary)
                 Text(f.description, style = MaterialTheme.typography.bodyMedium, maxLines = 4)
                 if (f.imageKind == "참고 이미지") Text("참고 이미지(같은 종류의 다른 사진)", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
+                if (mine.isNotEmpty()) TextButton(onClick = { actions.openFoodPhotos(f.id) }, contentPadding = PaddingValues(0.dp)) { Text("사진 ${mine.size}장 보기") }
             }
         }
     }

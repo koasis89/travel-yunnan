@@ -239,6 +239,17 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   await page.click('[aria-label=닫기]')
   await page.click('[data-testid=photo-filter] >> text=이름 모름')
   ok('이름 모름 거르기(1장)', (await page.locator('[data-testid=photo-cell]').count()) === 1)
+  await page.click('[data-testid=photo-filter] >> text=전체')
+  await page.setInputFiles('[data-testid=photo-add] input', `${fx}/food_photos_sample.docx`)
+  ok('음식별 사진 워드(docx) 넣기(+3장)', await page.waitForFunction(() => document.querySelectorAll('[data-testid=photo-cell]').length === 6, null, { timeout: 20000 }).then(() => true).catch(() => false))
+  ok('워드 사진 이름 = 음식 도감(납배골 훠궈)', await page.isVisible('[data-testid=photo-cell]:has-text("납배골 훠궈")'))
+  await page.goto(base + '#/stay?tab=foods'); await page.waitForSelector('.card.food')
+  const lapai = page.locator('.card.food:has-text("腊排骨火锅")').first()
+  await lapai.locator('[data-testid=food-more-photos]').waitFor({ timeout: 10000 }).catch(() => {})
+  ok('음식 도감 사진 없던 곳 → 기기 사진', await lapai.locator('img.ph').count() === 1 && (await lapai.textContent()).includes('사진 2장 보기'))
+  await lapai.locator('[data-testid=food-more-photos]').click()
+  ok('음식별 사진 모아 보기(2장)', await page.waitForFunction(() => document.querySelectorAll('[data-testid=photo-cell]').length === 2, null, { timeout: 10000 }).then(() => true).catch(() => false))
+  await page.screenshot({ path: `${out}/w29_food_guide_photo.png` })
 
   // 오프라인: 서비스 워커 캐시로 다시 열기
   await page.goto(base); await page.waitForFunction(() => navigator.serviceWorker?.controller != null, null, { timeout: 15000 }).catch(() => {})

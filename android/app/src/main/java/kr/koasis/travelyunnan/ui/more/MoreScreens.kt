@@ -40,7 +40,7 @@ fun MoreScreen() {
         MoreItem(Icons.Filled.Hotel, "숙소", "6곳 카드·체크인 문장·할 일", true) { actions.openLodgings(null) },
         MoreItem(Icons.Filled.Restaurant, "맛집·식사", "끼니별 선택지, 택시 카드, 주문 문장", true) { actions.openMeals(null) },
         MoreItem(Icons.Filled.MenuBook, "음식 도감·메뉴 포인팅", "음식 사진·설명, 주문 문장 만들기", true, actions.openFoods),
-        MoreItem(Icons.Filled.PhotoLibrary, "음식 사진", "리장 음식 사진 모음(zip 넣기), 크게 보기", true, actions.openFoodPhotos),
+        MoreItem(Icons.Filled.PhotoLibrary, "음식 사진", "리장 음식 사진 모음(zip·워드 넣기), 크게 보기", true) { actions.openFoodPhotos(null) },
         MoreItem(Icons.Filled.Train, "교통·열차·알림", "C446·C644 열차, 픽업, 빵차, 일정 알림", true, actions.openTransport),
         MoreItem(Icons.Filled.Landscape, "관광지 안내", "리장고성·옥룡설산·호도협·샹그릴라·쿤밍 사진과 설명", true) { actions.openSights(null) },
         MoreItem(Icons.Filled.Restaurant, "맛집 안내", "식당 메뉴판·평점·사진·주문 문장", true) { actions.openEats(null) },
