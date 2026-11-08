@@ -150,7 +150,7 @@ class S6Test {
         assertTrue(zh.startsWith("你好，我想预订12月21日上午10点，从靠山十九度到"))
         assertTrue(Templates.delivery.render(mapOf("room" to "305")).contains("房间号305"))
         assertFalse(Templates.delivery.render(emptyMap()).contains("房间号"))
-        assertEquals(10, Templates.all.size)
+        assertEquals(11, Templates.all.size)
     }
 
     @Test fun templateLinksAttachToRows() {

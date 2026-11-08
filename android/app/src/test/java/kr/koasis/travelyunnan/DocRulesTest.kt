@@ -150,4 +150,25 @@ class DocRulesTest {
         assertEquals("", ko(""))
         assertEquals("12월 20일 체크인 3명, 얼리체크인 희망", kr.koasis.travelyunnan.domain.Templates.COMEINN.friendNoteKo)
     }
+
+    @Test fun templateNumericDates() {
+        val dt = kr.koasis.travelyunnan.domain.DateText
+        assertEquals("12月20日（周日）上午11点半", dt.zh("12/20 11:30", "datetime"))
+        assertEquals("12월 20일(일) 오전 11시 반", dt.ko("12/20 11:30", "datetime"))
+        assertEquals("12月17日（周四）中午12点27分", dt.zh("12/17 12:27", "datetime"))
+        assertEquals("下午2点左右", dt.zh("14:00", "time", true))
+        assertEquals("下午4点零5分", dt.zh("16:05", "time"))
+        assertEquals("12月18日（周五）", dt.zh("12/18", "date"))
+        assertEquals("明天上午10点", dt.zh("明天上午10点", "datetime"))
+        assertEquals("21", dt.parse("/21 10:30").d)
+        assertEquals(false, dt.isValid("/21 10:30", "datetime"))
+        val T = kr.koasis.travelyunnan.domain.Templates
+        assertTrue(T.shangrila.render(mapOf("date" to "12/21 10:30")).contains("我想预订12月21日（周一）上午10点半，从"))
+        assertTrue(T.shangrila.renderKo(mapOf("date" to "12/21 10:30")).contains("12월 21일(월) 오전 10시 반"))
+        assertTrue(T.comeinnRoute.render(emptyMap()).contains("大概下午2点左右到客栈"))
+        val n = T.all.first { it.id == "tpl-delivery-note" }
+        assertEquals(listOf("我们没有国内手机号，请别打电话，直接让机器人送上来就行。", "我们没有国内手机号，请别打电话，直接放在前台就行。"), n.lines.map { it.zh })
+        // 웹과 같은 값(일정 연결 값은 숫자)
+        assertEquals("12/21 10:30", TripDataHolder.data.templateLinks.first { it.id == "tl-06" }.values["date"])
+    }
 }

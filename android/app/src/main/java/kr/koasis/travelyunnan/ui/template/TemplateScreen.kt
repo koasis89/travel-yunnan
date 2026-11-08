@@ -36,8 +36,17 @@ fun TemplateScreen(data: TripData, idArg: String?, linkArg: String? = null) {
     var values by rememberSaveable(sel, linkArg) { mutableStateOf(if (link != null && link.templateId == sel) link.values else mapOf()) }
     var showMode by rememberSaveable { mutableStateOf(false) }
     val zh = t.render(values)
+    // 한국어 설명 줄: 날짜·시각은 그대로(템플릿이 한국어로 바꾼다), 나머지 중국어 값은 번역 사전으로
+    val koLine = t.renderKo(t.fields.associate { f -> val x = (values[f.key] ?: "").ifBlank { f.default }; f.key to if (f.kind != null) x else kr.koasis.travelyunnan.data.KoGlossDict.ko(x).ifEmpty { x } })
+    var showLine by remember { mutableStateOf<kr.koasis.travelyunnan.domain.TemplateLine?>(null) }
+    showLine?.let { l ->
+        ShowCardScreen(listOf(ShowLine(l.zh, ShowStyle.Long), ShowLine(l.ko, ShowStyle.Small)), onClose = { showLine = null }, header = "배달 기사님께") {
+            SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, l.zh, "문장을 복사했다") }
+        }
+        return
+    }
     if (showMode) {
-        ShowCardScreen(listOf(ShowLine(zh, ShowStyle.Long), ShowLine(t.renderKo(t.fields.associate { f -> val x = (values[f.key] ?: "").ifBlank { f.default }; f.key to kr.koasis.travelyunnan.data.KoGlossDict.ko(x).ifEmpty { x } }), ShowStyle.Small)), onClose = { showMode = false }, header = "매니저에게 보여주세요") {
+        ShowCardScreen(listOf(ShowLine(zh, ShowStyle.Long), ShowLine(koLine, ShowStyle.Small)), onClose = { showMode = false }, header = "매니저에게 보여주세요") {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, zh, "문장을 복사했다") }
                 SmallAction(Icons.AutoMirrored.Filled.Chat, "위챗으로") { External.openWechat(ctx, zh) }
@@ -57,10 +66,25 @@ fun TemplateScreen(data: TripData, idArg: String?, linkArg: String? = null) {
             items(Templates.all, key = { it.id }) { x -> FilterChip(sel == x.id, onClick = { sel = x.id }, label = { Text(x.title) }) }
         }
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)) {
+            if (t.lines.isNotEmpty()) {
+                Text("배달 앱(메이투안 등) 주문할 때 '요청사항(备注)' 칸에 붙여 넣는다. 둘 중 하나를 골라 복사한다.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                t.lines.forEachIndexed { i, l ->
+                    Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)) {
+                        Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                            Text(if (i == 0) "① 로봇 배달 호텔" else "② 프런트에 맡김", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
+                            Text(l.zh, fontSize = 19.sp, lineHeight = 28.sp)
+                            Text(l.ko, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, l.zh, "복사했다. 배달 앱 요청사항에 붙여넣는다") }
+                                SmallAction(Icons.Filled.Fullscreen, "크게") { showLine = l }
+                            }
+                        }
+                    }
+                }
+            } else Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)) {
                 Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(zh, fontSize = 19.sp, lineHeight = 28.sp)
-                    Text(t.renderKo(t.fields.associate { f -> val x = (values[f.key] ?: "").ifBlank { f.default }; f.key to kr.koasis.travelyunnan.data.KoGlossDict.ko(x).ifEmpty { x } }), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(koLine, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, zh, "문장을 복사했다") }
                         SmallAction(Icons.AutoMirrored.Filled.Chat, "위챗으로") { External.openWechat(ctx, zh) }
@@ -95,15 +119,47 @@ fun TemplateScreen(data: TripData, idArg: String?, linkArg: String? = null) {
                     }
                 }
             }
-            SectionTitle("바꿀 값")
+            if (t.fields.isNotEmpty()) SectionTitle("바꿀 값")
             t.fields.forEach { f ->
+                if (f.kind != null) { DateTimeFields(f, values[f.key] ?: "") { values = values + (f.key to it) }; return@forEach }
                 OutlinedTextField(
                     value = values[f.key] ?: "", onValueChange = { values = values + (f.key to it) },
                     label = { Text(f.label) }, placeholder = { Text(f.default) }, supportingText = (listOf(kr.koasis.travelyunnan.data.KoGlossDict.ko((values[f.key] ?: "").ifBlank { f.default }), f.hint).filter { it.isNotBlank() }.joinToString("\n")).takeIf { it.isNotBlank() }?.let { s -> { Text(s) } },
                     modifier = Modifier.fillMaxWidth(),
                 )
             }
-            Text("비워 두면 기본값이 들어간다. 중국어 그대로 입력해도 되고, 숫자·시각만 바꿔도 된다.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
+            if (t.fields.isNotEmpty()) Text("날짜·시각은 숫자만 넣는다(시각은 24시간, 예: 14시 30분). 비워 두면 기본값이 들어간다.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
         }
+    }
+}
+
+/** 날짜·시각을 숫자 칸(월·일·시·분)으로 받는다(웹 DateTimeInput). 아래에 중국어·한국어로 어떻게 들어가는지 보여 준다 */
+@Composable
+private fun DateTimeFields(f: kr.koasis.travelyunnan.domain.TemplateField, value: String, onChange: (String) -> Unit) {
+    val dt = kr.koasis.travelyunnan.domain.DateText
+    val kind = f.kind ?: return
+    val cur = dt.parse(value); val def = dt.parse(f.default)
+    val p = if (value.isBlank()) def else cur
+    val boxes = buildList {
+        if (kind != "time") { add(Triple("mo", "월", p.mo)); add(Triple("d", "일", p.d)) }
+        if (kind != "date") { add(Triple("h", "시", p.h)); add(Triple("mi", "분", p.mi)) }
+    }
+    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        Text(f.label + if (f.hint.isNotBlank()) " · ${f.hint}" else "", style = MaterialTheme.typography.labelLarge)
+        Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
+            boxes.forEach { (k, label, v) ->
+                OutlinedTextField(v, { x ->
+                    val n = x.filter { it.isDigit() }.take(2)
+                    val np = when (k) { "mo" -> p.copy(mo = n); "d" -> p.copy(d = n); "h" -> p.copy(h = n); else -> p.copy(mi = n) }
+                    onChange(dt.join(kind, np))
+                }, modifier = Modifier.width(64.dp), singleLine = true,
+                    keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number),
+                    textStyle = MaterialTheme.typography.titleMedium.copy(textAlign = androidx.compose.ui.text.style.TextAlign.Center))
+                Text(label)
+            }
+        }
+        val eff = if (dt.isValid(value, kind)) value else f.default
+        Text("${dt.zh(eff, kind, f.approx)} · ${dt.ko(eff, kind)}" + if (value.isNotBlank() && !dt.isValid(value, kind)) " (칸을 다 채우면 바뀐다)" else "",
+            style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
     }
 }

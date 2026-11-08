@@ -263,6 +263,15 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   ok('밀크티 주문 문장(당도·온도)', await page.isVisible('text=你好，我要一杯生椰拿铁，少糖，热的。'))
   await page.screenshot({ path: `${out}/w31_milktea_order.png` })
 
+  // 템플릿 날짜·시각 숫자 칸 + 배달 요청사항(문장별 복사)
+  await page.goto(base + '#/templates?link=tl-06'); await page.waitForSelector('[data-testid=dt-date]', { timeout: 5000 }).catch(() => {})
+  ok('템플릿 날짜·시각 숫자 칸 4개', (await page.locator('[data-testid=dt-date] input').count()) === 4 && await page.isVisible('text=12月21日（周一）上午10点半'))
+  await page.fill('[aria-label="출발 날짜·시각 시"]', '9'); await page.fill('[aria-label="출발 날짜·시각 분"]', '0')
+  ok('숫자 바꾸면 문장 바뀜(上午9点)', await page.isVisible('text=12月21日（周一）上午9点，从') && await page.isVisible('text=12월 21일(월) 오전 9시'))
+  await page.goto(base + '#/templates?id=tpl-delivery-note'); await page.waitForSelector('[data-testid=delivery-note]', { timeout: 5000 }).catch(() => {})
+  ok('배달 요청사항 2문장·각각 복사', (await page.locator('[data-testid=delivery-note]').count()) === 2 && (await page.locator('[data-testid=delivery-note] button:has-text("복사")').count()) === 2 && await page.isVisible('text=直接让机器人送上来就行'))
+  await page.screenshot({ path: `${out}/w34_delivery_note.png` })
+
   // 중국어 아래 한국어 번역
   await page.goto(base + '#/stay?tab=lodging'); await page.waitForSelector('text=물라뉴 탕수 호텔')
   ok('숙소 주소 아래 한국어 번역', (await page.locator('[data-testid=ko-gloss]').count()) >= 5 && await page.isVisible('text=윈난성 디칭 티베트족 자치주 샹그릴라시 젠탕진 동왕로 77-83호 (구산골목 3호)'))

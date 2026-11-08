@@ -9,7 +9,7 @@
       "templateId": "tpl-pickup",
       "label": "물라뉴 호텔에 픽업·짐 운반 요청",
       "values": {
-        "date": "12月17日 12:27",
+        "date": "12/17 12:27",
         "where": "丽江站",
         "persons": "3个人，3个行李箱"
       }
@@ -31,7 +31,7 @@
       "templateId": "tpl-pickup",
       "label": "호텔에 하차 지점·짐 운반 확인",
       "values": {
-        "date": "今天 12:27",
+        "date": "12/17 12:27",
         "where": "丽江站，大约13:00到古城",
         "persons": "3个人，3个行李箱"
       }
@@ -44,7 +44,7 @@
       "label": "호도협 Come Inn 직행 전용차 예약 요청",
       "values": {
         "from": "白沙古镇 Rishine Villa（日沐山）",
-        "date": "明天（12月20日）上午11点半",
+        "date": "12/20 11:30",
         "to": "虎跳峡本地湾 行者民宿·Come Inn（中途客栈旁边）",
         "persons": "3"
       }
@@ -66,7 +66,7 @@
       "templateId": "tpl-shangrila",
       "label": "샹그릴라 빵차 예약 요청",
       "values": {
-        "date": "明天（12月21日）上午10点半",
+        "date": "12/21 10:30",
         "from": "虎跳峡本地湾 行者民宿·Come Inn（中途客栈旁边）",
         "to": "香格里拉 建塘镇东旺路77-83号 格拉丹措Oura Villa民宿（不在古城里面）",
         "persons": "3"

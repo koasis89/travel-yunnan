@@ -250,3 +250,37 @@ describe('중국어 아래 한국어 번역(ko_gloss)', () => {
     expect(data.ko('')).toBe('')
   })
 })
+
+import { isDT, joinDT, koDT, parseDT, zhDT } from '../src/domain/dateText'
+import { DELIVERY_NOTES } from '../src/domain/templates'
+describe('템플릿 날짜·시각 숫자 입력', () => {
+  it('숫자 → 중국어·한국어(요일 포함)', () => {
+    expect(zhDT('12/20 11:30', 'datetime')).toBe('12月20日（周日）上午11点半')
+    expect(koDT('12/20 11:30', 'datetime')).toBe('12월 20일(일) 오전 11시 반')
+    expect(zhDT('12/17 12:27', 'datetime')).toBe('12月17日（周四）中午12点27分')
+    expect(zhDT('14:00', 'time', true)).toBe('下午2点左右')
+    expect(zhDT('16:05', 'time')).toBe('下午4点零5分')
+    expect(koDT('19:00', 'time')).toBe('저녁 7시')
+    expect(zhDT('12/18', 'date')).toBe('12月18日（周五）')
+  })
+  it('칸 나누기·합치기, 숫자 아닌 값은 그대로', () => {
+    expect(parseDT('12/21 10:30')).toEqual({ mo: '12', d: '21', h: '10', mi: '30' })
+    expect(parseDT('/21 10:30').d).toBe('21')
+    expect(joinDT('datetime', { mo: '12', d: '21', h: '9', mi: '5' })).toBe('12/21 9:5')
+    expect(zhDT('12/21 9:5', 'datetime')).toBe('12月21日（周一）上午9点零5分')
+    expect(isDT('/21 10:30', 'datetime')).toBe(false)
+    expect(zhDT('明天上午10点', 'datetime')).toBe('明天上午10点')
+  })
+  it('템플릿 본문·한국어 줄에 숫자 값이 바뀌어 들어간다', () => {
+    const t = templateById('tpl-shangrila')!
+    expect(t.render({ date: '12/21 10:30' })).toContain('我想预订12月21日（周一）上午10点半，从')
+    expect(t.renderKo({ date: '12/21 10:30' })).toContain('12월 21일(월) 오전 10시 반')
+    expect(templateById('tpl-comeinn-route')!.render({})).toContain('大概下午2点左右到客栈')
+    expect(templateById('tpl-tiger')!.fields.find((f) => f.key === 'date')!.kind).toBe('datetime')
+  })
+  it('배달 요청사항 문장 2개(로봇·프런트)', () => {
+    const t = templateById('tpl-delivery-note')!
+    expect(t.lines!.map((l) => l.zh)).toEqual(['我们没有国内手机号，请别打电话，直接让机器人送上来就行。', '我们没有国内手机号，请别打电话，直接放在前台就行。'])
+    expect(DELIVERY_NOTES.every((l) => l.ko)).toBe(true)
+  })
+})

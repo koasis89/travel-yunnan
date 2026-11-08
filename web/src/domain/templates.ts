@@ -1,6 +1,9 @@
-export interface TemplateField { key: string; label: string; def: string; hint?: string }
+import { koDT, zhDT, type DateKind } from './dateText'
+
+/** kind: 날짜·시각은 숫자로만 받는다(dateText.ts). approx: 시각 뒤에 '左右' */
+export interface TemplateField { key: string; label: string; def: string; hint?: string; kind?: DateKind; approx?: boolean }
 export interface Contact { name: string; wechat: string; email?: string; friendNote: string; friendNoteKo?: string; booker?: string; bookingRef?: string; note?: string }
-export interface Template { id: string; title: string; fields: TemplateField[]; render: (v: Record<string, string>) => string; renderKo: (v: Record<string, string>) => string; contact?: Contact }
+export interface Template { id: string; title: string; fields: TemplateField[]; render: (v: Record<string, string>) => string; renderKo: (v: Record<string, string>) => string; contact?: Contact; lines?: { zh: string; ko: string }[] }
 
 /** 12/18 옥룡설산 투어 가이드·기사(바우처 기준). 연락은 위챗, 메일은 참고. 바우처의 +86 긴 번호는 깨진 값이라 쓰지 않는다 */
 /**
@@ -13,16 +16,26 @@ const FRIEND_NOTE = '12月18日玉龙雪山一日游 3位客人'
 const FRIEND_NOTE_KO = '12월 18일 옥룡설산 일일투어 3명'
 export const GUIDE: Contact = { name: '옥룡설산 투어 가이드·기사', wechat: '18088479095', email: '2487812697@qq.com', friendNote: FRIEND_NOTE, friendNoteKo: FRIEND_NOTE_KO, booker: '', bookingRef: '' }
 
-const val = (v: Record<string, string>, f: TemplateField[], k: string) => (v[k]?.trim() ? v[k] : f.find((x) => x.key === k)!.def)
+const raw = (v: Record<string, string>, f: TemplateField[], k: string) => (v[k]?.trim() ? v[k] : f.find((x) => x.key === k)!.def)
+/** 중국어 본문용 값(날짜·시각은 숫자 → 중국어) */
+const val = (v: Record<string, string>, f: TemplateField[], k: string) => {
+  const x = f.find((y) => y.key === k)!; const r = raw(v, f, k)
+  return x.kind ? zhDT(r, x.kind, x.approx) : r
+}
+/** 한국어 설명용 값(날짜·시각은 숫자 → 한국어) */
+const vk = (v: Record<string, string>, f: TemplateField[], k: string) => {
+  const x = f.find((y) => y.key === k)!; const r = raw(v, f, k)
+  return x.kind ? koDT(r, x.kind) : r
+}
 
 const tigerF: TemplateField[] = [
   { key: 'from', label: '출발지', def: '白沙古镇 Rishine Villa（日沐山）', hint: '숙소 중국어명' },
-  { key: 'date', label: '날짜·시각', def: '12月20日（周日）上午11点半', hint: '예: 明天上午11点半' },
+  { key: 'date', label: '출발 날짜·시각', def: '12/20 11:30', kind: 'datetime' },
   { key: 'to', label: '목적지', def: '虎跳峡本地湾 行者民宿·Come Inn（中途客栈旁边）' },
   { key: 'persons', label: '인원', def: '3' },
 ]
 const shangF: TemplateField[] = [
-  { key: 'date', label: '출발 시각', def: '明天上午10点半', hint: '예: 12月21日上午10点半' },
+  { key: 'date', label: '출발 날짜·시각', def: '12/21 10:30', kind: 'datetime' },
   { key: 'from', label: '출발지', def: '靠山十九度' },
   { key: 'to', label: '도착지', def: '香格里拉 建塘镇东旺路77-83号 格拉丹措Oura Villa民宿（不在古城里面）' },
   { key: 'persons', label: '인원', def: '3' },
@@ -32,14 +45,19 @@ const delivF: TemplateField[] = [
   { key: 'room', label: '방 번호', def: '', hint: '체크인 후 입력' },
 ]
 const pickF: TemplateField[] = [
-  { key: 'date', label: '도착 시각', def: '12月17日 12:27', hint: '열차 도착 시각' },
+  { key: 'date', label: '도착 날짜·시각', def: '12/17 12:27', hint: '열차 도착 시각', kind: 'datetime' },
   { key: 'where', label: '도착 장소', def: '丽江站' },
   { key: 'persons', label: '인원·짐', def: '3个人，3个行李箱' },
+]
+/** 배달 앱(메이투안 등) 요청사항 칸에 붙이는 문장. 하나씩 따로 복사한다 */
+export const DELIVERY_NOTES = [
+  { zh: '我们没有国内手机号，请别打电话，直接让机器人送上来就行。', ko: '국내 전화번호가 없으니 전화하지 말고, 바로 로봇으로 올려 보내 주세요.' },
+  { zh: '我们没有国内手机号，请别打电话，直接放在前台就行。', ko: '국내 전화번호가 없으니 전화하지 말고, 프런트에 맡겨 주세요.' },
 ]
 /** 예약자·예약 번호 줄(값이 있는 것만) */
 const bookingLines = (booker: string, ref: string) => (booker ? `预订人：${booker}\n` : '') + (ref ? `订单号（Booking reference）：${ref}\n` : '')
 const guideF: TemplateField[] = [
-  { key: 'date', label: '투어 날짜', def: '12月18日' },
+  { key: 'date', label: '투어 날짜', def: '12/18', kind: 'date' },
   { key: 'tour', label: '투어 이름', def: '玉龙雪山+蓝月谷一日游（含大索道、印象丽江）' },
   { key: 'persons', label: '인원', def: '3位成人' },
   { key: 'booker', label: '대표 예약자(영문)', def: '', hint: '예: HONG GILDONG' },
@@ -50,38 +68,40 @@ const guideF: TemplateField[] = [
 export const TEMPLATES: Template[] = [
   { id: 'tpl-tiger', title: '호도협 Come Inn 직행 전용차 예약 요청', fields: tigerF,
     render: (v) => `你好，我想预订${val(v, tigerF, 'date')}的包车，${val(v, tigerF, 'persons')}个人，带行李箱。\n• 出发：${val(v, tigerF, 'from')}\n• 到达：${val(v, tigerF, 'to')}\n请问一辆车的总费用是多少钱？大概要开多久？请写在微信上，谢谢！`,
-    renderKo: (v) => `${val(v, tigerF, 'date')} ${val(v, tigerF, 'from')}에서 ${val(v, tigerF, 'to')}까지 전용차 예약 요청(${val(v, tigerF, 'persons')}명, 캐리어 포함). 차 1대 총비용과 걸리는 시간 문의, 위챗으로 답장 요청.` },
+    renderKo: (v) => `${vk(v, tigerF, 'date')} ${vk(v, tigerF, 'from')}에서 ${vk(v, tigerF, 'to')}까지 전용차 예약 요청(${vk(v, tigerF, 'persons')}명, 캐리어 포함). 차 1대 총비용과 걸리는 시간 문의, 위챗으로 답장 요청.` },
   { id: 'tpl-shangrila', title: '샹그릴라 빵차 예약 요청', fields: shangF,
     render: (v) => `你好，我想预订${val(v, shangF, 'date')}，从${val(v, shangF, 'from')}到${val(v, shangF, 'to')}的包车，${val(v, shangF, 'persons')}个人，行李一起。请问一辆车的费用是多少钱？请写在微信上，谢谢！`,
-    renderKo: (v) => `${val(v, shangF, 'date')} ${val(v, shangF, 'from')}에서 ${val(v, shangF, 'to')}까지 ${val(v, shangF, 'persons')}명 빵차(짐 포함) 예약 요청, 차 1대 비용 문의.` },
+    renderKo: (v) => `${vk(v, shangF, 'date')} ${vk(v, shangF, 'from')}에서 ${vk(v, shangF, 'to')}까지 ${vk(v, shangF, 'persons')}명 빵차(짐 포함) 예약 요청, 차 1대 비용 문의.` },
   { id: 'tpl-delivery', title: '배달 주소 요청(프런트)', fields: delivF,
     render: (v) => `麻烦帮我们写一下送到我们住的酒店房间的收货地址，酒店是${val(v, delivF, 'hotel')}` + (v.room?.trim() ? `，房间号${v.room.trim()}` : '') + '。我们没有国内手机号，请别打电话，直接放在前台就行。',
     renderKo: () => '메이투안 배달용 수령 주소(호텔명·방 번호)를 적어 달라는 요청. 중국 번호가 없으니 전화 말고 프런트에 맡겨 달라고 덧붙인다.' },
+  { id: 'tpl-delivery-note', title: '배달 요청사항(전화 대신 로봇·프런트)', fields: [], lines: DELIVERY_NOTES,
+    render: () => DELIVERY_NOTES.map((x) => x.zh).join('\n'), renderKo: () => DELIVERY_NOTES.map((x) => x.ko).join('\n') },
   { id: 'tpl-pickup', title: '숙소 픽업·짐 운반 요청', fields: pickF,
     render: (v) => `你好，我们${val(v, pickF, 'date')}到${val(v, pickF, 'where')}，${val(v, pickF, 'persons')}。请问可以安排接送吗？古城里车进不去的话，请告诉我们在哪里下车，麻烦帮忙运一下行李。谢谢！`,
-    renderKo: (v) => `${val(v, pickF, 'date')} ${val(v, pickF, 'where')} 도착(${val(v, pickF, 'persons')}). 픽업 가능 여부와 고성 밖 하차 지점, 짐 운반을 요청한다.` },
+    renderKo: (v) => `${vk(v, pickF, 'date')} ${vk(v, pickF, 'where')} 도착(${vk(v, pickF, 'persons')}). 픽업 가능 여부와 고성 밖 하차 지점, 짐 운반을 요청한다.` },
 ]
-const confirmF: TemplateField[] = [{ key: 'date', label: '날짜', def: '明天（12月18日）' }, { key: 'where', label: '집합 장소', def: '四方街' }]
+const confirmF: TemplateField[] = [{ key: 'date', label: '투어 날짜', def: '12/18', kind: 'date' }, { key: 'where', label: '집합 장소', def: '四方街' }]
 const arriveF: TemplateField[] = [{ key: 'where', label: '지금 있는 곳', def: '四方街', hint: '예: 四方街科贡坊旁边' }, { key: 'wear', label: '옷차림', def: '黑色羽绒服', hint: '예: 红色外套' }]
 const lateF: TemplateField[] = [{ key: 'min', label: '늦는 시간(분)', def: '10' }]
 const dropF: TemplateField[] = [{ key: 'to', label: '내릴 곳', def: '古城大水车附近的停车场（离我们的酒店最近）' }]
 
 TEMPLATES.push({ id: 'tpl-guide', title: '옥룡설산 가이드 첫 연락(12/15까지)', fields: guideF, contact: GUIDE,
   render: (v) => `您好！我们预订了${val(v, guideF, 'date')}的${val(v, guideF, 'tour')}，${val(v, guideF, 'persons')}。\n${bookingLines(val(v, guideF, 'booker'), val(v, guideF, 'ref'))}我们住在${val(v, guideF, 'hotel')}。\n请问：\n1. 那天几点、在四方街哪里集合？\n2. 回来时可以送到离酒店最近的停车点（大水车附近）吗？\n请在微信上联系我们，谢谢！`,
-  renderKo: (v) => `${val(v, guideF, 'date')} 옥룡설산 투어 예약자(${val(v, guideF, 'persons')}${val(v, guideF, 'booker') ? `, 대표 예약자 ${val(v, guideF, 'booker')}` : ''}${val(v, guideF, 'ref') ? `, 예약 번호 ${val(v, guideF, 'ref')}` : ''}), 숙소는 ${val(v, guideF, 'hotel')}. ① 몇 시에 사방가 어디서 만나는지 ② 돌아올 때 호텔에서 가장 가까운 차량 지점(대수차 근처)에 내려 줄 수 있는지 묻고, 위챗으로 연락을 요청한다.` })
+  renderKo: (v) => `${vk(v, guideF, 'date')} 옥룡설산 투어 예약자(${vk(v, guideF, 'persons')}${vk(v, guideF, 'booker') ? `, 대표 예약자 ${vk(v, guideF, 'booker')}` : ''}${vk(v, guideF, 'ref') ? `, 예약 번호 ${vk(v, guideF, 'ref')}` : ''}), 숙소는 ${vk(v, guideF, 'hotel')}. ① 몇 시에 사방가 어디서 만나는지 ② 돌아올 때 호텔에서 가장 가까운 차량 지점(대수차 근처)에 내려 줄 수 있는지 묻고, 위챗으로 연락을 요청한다.` })
 TEMPLATES.push(
   { id: 'tpl-guide-confirm', title: '가이드 전날 확인(12/17)', fields: confirmF, contact: GUIDE,
     render: (v) => `您好！我们是${val(v, confirmF, 'date')}玉龙雪山+蓝月谷一日游的客人，3位成人${GUIDE_BOOKING.ref ? `（预订人${GUIDE_BOOKING.booker}，订单号${GUIDE_BOOKING.ref}）` : ''}。请问几点在${val(v, confirmF, 'where')}哪个位置集合？我们会提前10分钟到。谢谢！`,
-    renderKo: (v) => `${val(v, confirmF, 'date')} 옥룡설산 투어 손님 3명이다${GUIDE_BOOKING.ref ? `(예약자 ${GUIDE_BOOKING.booker}, 예약 번호 ${GUIDE_BOOKING.ref})` : ''}. 몇 시에 ${val(v, confirmF, 'where')} 어디서 모이는지 묻고, 10분 일찍 가겠다고 알린다.` },
+    renderKo: (v) => `${vk(v, confirmF, 'date')} 옥룡설산 투어 손님 3명이다${GUIDE_BOOKING.ref ? `(예약자 ${GUIDE_BOOKING.booker}, 예약 번호 ${GUIDE_BOOKING.ref})` : ''}. 몇 시에 ${vk(v, confirmF, 'where')} 어디서 모이는지 묻고, 10분 일찍 가겠다고 알린다.` },
   { id: 'tpl-guide-arrive', title: '픽업 장소 도착(12/18)', fields: arriveF, contact: GUIDE,
     render: (v) => `您好，我们3个人已经到${val(v, arriveF, 'where')}了，穿着${val(v, arriveF, 'wear')}。${GUIDE_BOOKING.ref ? `订单号${GUIDE_BOOKING.ref}（${GUIDE_BOOKING.booker}）。` : ''}请问您在哪里？`,
-    renderKo: (v) => `우리 3명이 ${val(v, arriveF, 'where')}에 도착했고 ${val(v, arriveF, 'wear')}을(를) 입고 있다. 어디 계신지 묻는다.` },
+    renderKo: (v) => `우리 3명이 ${vk(v, arriveF, 'where')}에 도착했고 ${vk(v, arriveF, 'wear')}을(를) 입고 있다. 어디 계신지 묻는다.` },
   { id: 'tpl-guide-late', title: '픽업 늦을 때(12/18)', fields: lateF, contact: GUIDE,
     render: (v) => `不好意思，我们会晚到${val(v, lateF, 'min')}分钟左右，请稍等一下，谢谢！`,
-    renderKo: (v) => `죄송하다, ${val(v, lateF, 'min')}분쯤 늦으니 조금만 기다려 달라.` },
+    renderKo: (v) => `죄송하다, ${vk(v, lateF, 'min')}분쯤 늦으니 조금만 기다려 달라.` },
   { id: 'tpl-guide-dropoff', title: '복귀 하차 지점 요청(12/18)', fields: dropF, contact: GUIDE,
     render: (v) => `师傅您好，回程的时候可以把我们送到${val(v, dropF, 'to')}吗？古城里面车进不去。谢谢！`,
-    renderKo: (v) => `돌아갈 때 ${val(v, dropF, 'to')}에 내려 달라고 부탁한다(고성 안은 차가 못 들어간다).` },
+    renderKo: (v) => `돌아갈 때 ${vk(v, dropF, 'to')}에 내려 달라고 부탁한다(고성 안은 차가 못 들어간다).` },
 )
 /** 데이터 묶음의 private.json 값으로 가이드 예약자·예약 번호를 채운다(TripData 가 부른다) */
 export function setGuideBooking(booker?: string, ref?: string) {
@@ -95,13 +115,13 @@ export function setGuideBooking(booker?: string, ref?: string) {
 /** D5 Come Inn(호도협 본지만): 중도객잔에서 가는 길·위치 문의. 위챗 ID 는 숙소 전화번호로 찾는다(시골 객잔은 대개 같다) */
 export const COMEINN: Contact = { name: 'Come Inn(行者民宿·本地湾店) 숙소', wechat: '18987966608', friendNote: '12月20日入住 3位客人 想提前入住', friendNoteKo: '12월 20일 체크인 3명, 얼리체크인 희망', note: '위챗 ID 는 숙소 전화번호로 검색한다(시골 객잔은 대개 같다). 안 나오면 예약한 앱(아고다 등)의 숙소 메시지로 같은 문장을 보낸다.' }
 const comeF: TemplateField[] = [
-  { key: 'date', label: '체크인 날짜', def: '12月20日' },
-  { key: 'arrive', label: '도착 시각(차로)', def: '下午2点左右', hint: '예: 下午1点半' },
-  { key: 'van', label: '차마객잔 빵차 시각', def: '下午4点半', hint: '예: 下午5点' },
+  { key: 'date', label: '체크인 날짜', def: '12/20', kind: 'date' },
+  { key: 'arrive', label: '도착 시각(차로, 대략)', def: '14:00', kind: 'time', approx: true },
+  { key: 'van', label: '차마객잔 빵차 시각', def: '16:30', kind: 'time' },
 ]
 TEMPLATES.push({ id: 'tpl-comeinn-route', title: 'Come Inn 얼리체크인·빵차 요청(D5)', fields: comeF, contact: COMEINN,
   render: (v) => `您好！我们是${val(v, comeF, 'date')}入住行者民宿·Come Inn（本地湾店）的客人，3位。我们从白沙坐包车过来，大概${val(v, comeF, 'arrive')}到客栈。\n请问：\n1. 可以提前入住吗？放好行李休息一下，然后从客栈徒步去茶马客栈。\n2. ${val(v, comeF, 'van')}可以帮我们叫一辆面包车，从茶马客栈接我们回客栈吗？大概多少钱？\n3. 可以发一个微信位置给我们吗？（司机好找）\n谢谢！`,
-  renderKo: (v) => `${val(v, comeF, 'date')} 체크인하는 3명이다. 백사에서 전용차로 ${val(v, comeF, 'arrive')}쯤 도착한다. ① 얼리체크인이 되는지(짐 두고 쉬었다가 숙소에서 차마객잔까지 걷는다) ② ${val(v, comeF, 'van')}에 차마객잔에서 숙소로 돌아올 빵차를 불러 줄 수 있는지, 요금은 얼마인지 ③ 기사가 찾기 쉽게 위챗 위치를 보내 달라고 부탁한다.` })
+  renderKo: (v) => `${vk(v, comeF, 'date')} 체크인하는 3명이다. 백사에서 전용차로 ${vk(v, comeF, 'arrive')}쯤 도착한다. ① 얼리체크인이 되는지(짐 두고 쉬었다가 숙소에서 차마객잔까지 걷는다) ② ${vk(v, comeF, 'van')}에 차마객잔에서 숙소로 돌아올 빵차를 불러 줄 수 있는지, 요금은 얼마인지 ③ 기사가 찾기 쉽게 위챗 위치를 보내 달라고 부탁한다.` })
 
 export const templateById = (id?: string | null) => TEMPLATES.find((t) => t.id === id)
 

@@ -1,7 +1,7 @@
 {
   "name": "travel-yunnan-web",
   "private": true,
-  "version": "1.7.4",
+  "version": "1.7.5",
   "type": "module",
   "scripts": {
     "encrypt": "node scripts/encrypt-data.mjs",
