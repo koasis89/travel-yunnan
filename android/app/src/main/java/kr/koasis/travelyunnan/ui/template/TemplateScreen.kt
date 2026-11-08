@@ -37,7 +37,7 @@ fun TemplateScreen(data: TripData, idArg: String?, linkArg: String? = null) {
     var showMode by rememberSaveable { mutableStateOf(false) }
     val zh = t.render(values)
     if (showMode) {
-        ShowCardScreen(listOf(ShowLine(zh, ShowStyle.Long), ShowLine(t.renderKo(values), ShowStyle.Small)), onClose = { showMode = false }, header = "매니저에게 보여주세요") {
+        ShowCardScreen(listOf(ShowLine(zh, ShowStyle.Long), ShowLine(t.renderKo(t.fields.associate { f -> val x = (values[f.key] ?: "").ifBlank { f.default }; f.key to kr.koasis.travelyunnan.data.KoGlossDict.ko(x).ifEmpty { x } }), ShowStyle.Small)), onClose = { showMode = false }, header = "매니저에게 보여주세요") {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, zh, "문장을 복사했다") }
                 SmallAction(Icons.AutoMirrored.Filled.Chat, "위챗으로") { External.openWechat(ctx, zh) }
@@ -60,7 +60,7 @@ fun TemplateScreen(data: TripData, idArg: String?, linkArg: String? = null) {
             Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)) {
                 Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(zh, fontSize = 19.sp, lineHeight = 28.sp)
-                    Text(t.renderKo(values), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(t.renderKo(t.fields.associate { f -> val x = (values[f.key] ?: "").ifBlank { f.default }; f.key to kr.koasis.travelyunnan.data.KoGlossDict.ko(x).ifEmpty { x } }), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, zh, "문장을 복사했다") }
                         SmallAction(Icons.AutoMirrored.Filled.Chat, "위챗으로") { External.openWechat(ctx, zh) }
@@ -83,7 +83,10 @@ fun TemplateScreen(data: TripData, idArg: String?, linkArg: String? = null) {
                         }
                         Text("친구 추가: 위챗 → 오른쪽 위 ⊕ → 친구 추가(添加朋友) → 검색창에 ID 붙여넣기 → 요청 메시지에 아래 문장", style = MaterialTheme.typography.bodySmall)
                         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            Text(c.friendNote, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
+                            Column(Modifier.weight(1f)) {
+                                Text(c.friendNote, style = MaterialTheme.typography.bodyMedium)
+                                if (c.friendNoteKo.isNotBlank()) Text(c.friendNoteKo, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            }
                             SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, c.friendNote, "친구 요청 문장을 복사했다") }
                         }
                         if (c.note.isNotBlank()) Text(c.note, style = MaterialTheme.typography.bodySmall)
@@ -96,7 +99,7 @@ fun TemplateScreen(data: TripData, idArg: String?, linkArg: String? = null) {
             t.fields.forEach { f ->
                 OutlinedTextField(
                     value = values[f.key] ?: "", onValueChange = { values = values + (f.key to it) },
-                    label = { Text(f.label) }, placeholder = { Text(f.default) }, supportingText = if (f.hint.isNotBlank()) ({ Text(f.hint) }) else null,
+                    label = { Text(f.label) }, placeholder = { Text(f.default) }, supportingText = (listOf(kr.koasis.travelyunnan.data.KoGlossDict.ko((values[f.key] ?: "").ifBlank { f.default }), f.hint).filter { it.isNotBlank() }.joinToString("\n")).takeIf { it.isNotBlank() }?.let { s -> { Text(s) } },
                     modifier = Modifier.fillMaxWidth(),
                 )
             }

@@ -38,12 +38,13 @@ fun NumberCardContent(onSpeak: (String) -> Boolean) {
         Column(Modifier.weight(1f).fillMaxWidth().padding(horizontal = 24.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
             Text("¥ ${"%,d".format(n)}", fontSize = 72.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center, lineHeight = 80.sp)
             Text("${reading}块", fontSize = 34.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.primary, textAlign = TextAlign.Center, lineHeight = 44.sp)
+            Text("${"%,d".format(n)}위안", style = MaterialTheme.typography.titleMedium)
             Text(ChineseNumber.pinyinHint(n), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Spacer(Modifier.height(12.dp))
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 FilledTonalButton(onClick = { onSpeak("${reading}块") }) { Icon(Icons.AutoMirrored.Filled.VolumeUp, null); Spacer(Modifier.width(4.dp)); Text("읽기") }
                 FilledTonalButton(onClick = { onSpeak("太贵了，便宜一点吧。") }) { Text("太贵了 · 便宜一点 (비싸요, 깎아 주세요)") }
-                FilledTonalButton(onClick = { onSpeak("${reading}块，可以吗？") }) { Text("${reading}块，可以吗? (…위안 괜찮아요?)") }
+                FilledTonalButton(onClick = { onSpeak("${reading}块，可以吗？") }) { Text("${reading}块，可以吗? (${"%,d".format(n)}위안 괜찮아요?)") }
             }
         }
         // 키패드

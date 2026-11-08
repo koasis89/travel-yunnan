@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import kr.koasis.travelyunnan.data.KoGlossDict
 import kr.koasis.travelyunnan.data.json.Day
 import kr.koasis.travelyunnan.ui.theme.ShowText
 import kr.koasis.travelyunnan.util.External
@@ -65,6 +66,13 @@ fun SectionTitle(text: String, modifier: Modifier = Modifier) {
         Spacer(Modifier.width(8.dp))
         Text(text, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onBackground)
     }
+}
+
+/** 중국어 아래 작은 한국어 번역(사전에 있을 때만). 이미 한국어가 함께 보이는 곳에는 쓰지 않는다 */
+@Composable
+fun KoGloss(zh: String?, modifier: Modifier = Modifier) {
+    val ko = KoGlossDict.ko(zh)
+    if (ko.isNotEmpty()) Text(ko, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = modifier)
 }
 
 @Composable

@@ -124,6 +124,11 @@ class TripData(
                 fun s(k: String) = (o[k] as? kotlinx.serialization.json.JsonPrimitive)?.content
                 kr.koasis.travelyunnan.domain.Templates.setGuideBooking(s("guideBooker"), s("guideRef"))
             } ?: kr.koasis.travelyunnan.domain.Templates.setGuideBooking(null, null)
+            // 중국어 → 한국어 번역 사전(없으면 빈 사전)
+            KoGlossDict.items = runCatching {
+                ((kotlinx.serialization.json.Json.parseToJsonElement(read("ko_gloss.json")) as kotlinx.serialization.json.JsonObject)["items"] as kotlinx.serialization.json.JsonObject)
+                    .mapValues { (it.value as kotlinx.serialization.json.JsonPrimitive).content }
+            }.getOrDefault(emptyMap())
             val days = items("days.json", Day.serializer())
             val phrases = json.decodeFromString(PhrasesFile.serializer(), read("phrases.json"))
             val lodgings = json.decodeFromString(LodgingsFile.serializer(), read("lodgings.json"))

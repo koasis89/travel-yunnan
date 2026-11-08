@@ -1,5 +1,5 @@
 export interface TemplateField { key: string; label: string; def: string; hint?: string }
-export interface Contact { name: string; wechat: string; email?: string; friendNote: string; booker?: string; bookingRef?: string; note?: string }
+export interface Contact { name: string; wechat: string; email?: string; friendNote: string; friendNoteKo?: string; booker?: string; bookingRef?: string; note?: string }
 export interface Template { id: string; title: string; fields: TemplateField[]; render: (v: Record<string, string>) => string; renderKo: (v: Record<string, string>) => string; contact?: Contact }
 
 /** 12/18 옥룡설산 투어 가이드·기사(바우처 기준). 연락은 위챗, 메일은 참고. 바우처의 +86 긴 번호는 깨진 값이라 쓰지 않는다 */
@@ -10,7 +10,8 @@ export interface Template { id: string; title: string; fields: TemplateField[]; 
  */
 export const GUIDE_BOOKING = { booker: '', ref: '' }
 const FRIEND_NOTE = '12月18日玉龙雪山一日游 3位客人'
-export const GUIDE: Contact = { name: '옥룡설산 투어 가이드·기사', wechat: '18088479095', email: '2487812697@qq.com', friendNote: FRIEND_NOTE, booker: '', bookingRef: '' }
+const FRIEND_NOTE_KO = '12월 18일 옥룡설산 일일투어 3명'
+export const GUIDE: Contact = { name: '옥룡설산 투어 가이드·기사', wechat: '18088479095', email: '2487812697@qq.com', friendNote: FRIEND_NOTE, friendNoteKo: FRIEND_NOTE_KO, booker: '', bookingRef: '' }
 
 const val = (v: Record<string, string>, f: TemplateField[], k: string) => (v[k]?.trim() ? v[k] : f.find((x) => x.key === k)!.def)
 
@@ -87,11 +88,12 @@ export function setGuideBooking(booker?: string, ref?: string) {
   GUIDE_BOOKING.booker = (booker ?? '').trim(); GUIDE_BOOKING.ref = (ref ?? '').trim()
   GUIDE.booker = GUIDE_BOOKING.booker; GUIDE.bookingRef = GUIDE_BOOKING.ref
   GUIDE.friendNote = GUIDE_BOOKING.ref ? `${FRIEND_NOTE} 订单号${GUIDE_BOOKING.ref}` : FRIEND_NOTE
+  GUIDE.friendNoteKo = GUIDE_BOOKING.ref ? `${FRIEND_NOTE_KO} 예약번호 ${GUIDE_BOOKING.ref}` : FRIEND_NOTE_KO
   for (const f of guideF) { if (f.key === 'booker') f.def = GUIDE_BOOKING.booker; if (f.key === 'ref') f.def = GUIDE_BOOKING.ref }
 }
 
 /** D5 Come Inn(호도협 본지만): 중도객잔에서 가는 길·위치 문의. 위챗 ID 는 숙소 전화번호로 찾는다(시골 객잔은 대개 같다) */
-export const COMEINN: Contact = { name: 'Come Inn(行者民宿·本地湾店) 숙소', wechat: '18987966608', friendNote: '12月20日入住 3位客人 想提前入住', note: '위챗 ID 는 숙소 전화번호로 검색한다(시골 객잔은 대개 같다). 안 나오면 예약한 앱(아고다 등)의 숙소 메시지로 같은 문장을 보낸다.' }
+export const COMEINN: Contact = { name: 'Come Inn(行者民宿·本地湾店) 숙소', wechat: '18987966608', friendNote: '12月20日入住 3位客人 想提前入住', friendNoteKo: '12월 20일 체크인 3명, 얼리체크인 희망', note: '위챗 ID 는 숙소 전화번호로 검색한다(시골 객잔은 대개 같다). 안 나오면 예약한 앱(아고다 등)의 숙소 메시지로 같은 문장을 보낸다.' }
 const comeF: TemplateField[] = [
   { key: 'date', label: '체크인 날짜', def: '12月20日' },
   { key: 'arrive', label: '도착 시각(차로)', def: '下午2点左右', hint: '예: 下午1点半' },

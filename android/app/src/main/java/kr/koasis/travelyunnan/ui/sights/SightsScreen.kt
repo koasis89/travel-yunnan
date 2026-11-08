@@ -1,5 +1,6 @@
 package kr.koasis.travelyunnan.ui.sights
 
+import kr.koasis.travelyunnan.ui.common.KoGloss
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import kotlinx.coroutines.launch
@@ -249,7 +250,7 @@ fun AmapLinksScreen(data: TripData) {
                 items(rows.filter { it.group == g }, key = { it.url }) { r ->
                     ListItem(
                         headlineContent = { Text(r.nameKo + if (r.exact) "  · 정확" else "") },
-                        supportingContent = { Text(listOf(r.nameZh, r.addrZh).filter { it.isNotBlank() }.joinToString("\n")) },
+                        supportingContent = { Column { Text(listOf(r.nameZh, r.addrZh).filter { it.isNotBlank() }.joinToString("\n")); KoGloss(r.addrZh) } },
                         trailingContent = { IconButton(onClick = { External.copy(ctx, kr.koasis.travelyunnan.domain.AmapLinks.text(r), "이름·주소·링크를 복사했다") }) { Icon(Icons.Filled.ContentCopy, "복사") } },
                         modifier = Modifier.clickable { External.openUrl(ctx, r.url) },
                     )

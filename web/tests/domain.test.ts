@@ -231,3 +231,22 @@ describe('밀크티 종류', () => {
     expect(milkTeaOrder('生椰拿铁', '', '')).toBe('你好，我要一杯生椰拿铁。')
   })
 })
+
+describe('중국어 아래 한국어 번역(ko_gloss)', () => {
+  const zhOnly = (x?: string) => !!x && /[\u4e00-\u9fff]/.test(x) && !/[가-힣]/.test(x)
+  it('숙소·장소·병원·식사 주소와 일정 목적지(중국어만)는 모두 번역이 있다', () => {
+    const need = [
+      ...data.lodgings.flatMap((l) => [l.addrZh, l.nameZh]), ...data.places.map((p) => p.addrZh), ...data.emergency.hospitals.map((h) => h.addrZh),
+      ...data.meals.flatMap((m) => m.options.flatMap((o) => [o.addrZh, o.menu])),
+      ...data.schedule.flatMap((r) => [r.from, r.via, r.to]),
+      ...data.restaurants.flatMap((r) => (r.ratings ?? []).flatMap((g) => [g.name, g.addr, g.label])),
+    ].filter(zhOnly) as string[]
+    expect(need.length).toBeGreaterThan(50)
+    expect(need.filter((z) => !data.ko(z))).toEqual([])
+  })
+  it('번역에는 한자가 남지 않는다', () => {
+    expect(Object.entries(data.koGloss).filter(([, k]) => /[\u4e00-\u9fff]/.test(k))).toEqual([])
+    expect(data.ko('丽江站')).toBe('리장역')
+    expect(data.ko('')).toBe('')
+  })
+})

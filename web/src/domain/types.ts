@@ -48,6 +48,8 @@ export class TripData {
   sights: Sight[]
   pretrip: PreTrip[]
   milktea: MilkTea
+  /** 중국어만 있는 화면 글자의 한국어 번역(data/ko_gloss.json) */
+  koGloss: Record<string, string>
   blogs: Blog[]
   foodPhotoNames: Record<string, { nameKo: string; nameZh: string }>
   foodPhotoRestaurant: string
@@ -88,6 +90,7 @@ export class TripData {
     this.foodPhotoRestaurant = fp?.restaurant ?? ''
     this.restaurants = it<Restaurant>('restaurants.json')
     this.pretrip = it<PreTrip>('pretrip.json')
+    this.koGloss = (b['ko_gloss.json'] as { items?: Record<string, string> })?.items ?? {}
     const mt = b['milktea.json'] as Partial<MilkTea> | undefined
     this.milktea = { items: mt?.items ?? [], sugar: mt?.sugar ?? [], ice: mt?.ice ?? [] }
     // 개인 정보(저장소 밖에서 빌드 때 암호화해 넣은 값)
@@ -117,6 +120,8 @@ export class TripData {
   restaurantsFor = (r: Schedule) => this.restaurants.filter((x) => x.dayIds.includes(r.dayId) && x.keywords.some((k) => `${r.from} ${r.via} ${r.to} ${r.tip}`.includes(k)))
   /** 그 음식의 기기 사진 id(워드 사진). alsoFor 로 같은 음식 사진을 함께 쓴다 */
   photoIdsForFood = (foodId: string, have: string[]) => have.filter((id) => { const f = this.foodPhotoFood[id]; return !!f && (f === foodId || f === this.foodAlsoFor[foodId]) })
+  /** 중국어 → 한국어 번역(없으면 빈칸) */
+  ko = (zh?: string | null) => (zh ? this.koGloss[zh.trim()] ?? '' : '')
   blogsFor = (sightId: string) => this.blogs.filter((x) => x.sightIds.includes(sightId))
   sightsOf = (dayId: string) => this.sights.filter((s) => s.dayIds.includes(dayId))
   /** 일정 행에 관련된 관광지: 그 일차 관광지 중 키워드가 행 글에 들어 있는 것 */

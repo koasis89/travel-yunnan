@@ -1,5 +1,6 @@
 package kr.koasis.travelyunnan.ui.map
 
+import kr.koasis.travelyunnan.ui.common.KoGloss
 import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -309,6 +310,7 @@ fun HotspotSheetContent(info: HotspotInfo, onDismiss: () -> Unit) {
             Text(info.title, style = MaterialTheme.typography.titleLarge)
             if (info.zh.isNotBlank()) Text(info.zh, fontSize = 22.sp, fontWeight = TextWeight.SemiBold)
             if (info.addrZh.isNotBlank()) Text(info.addrZh, style = MaterialTheme.typography.bodyLarge)
+            KoGloss(info.addrZh)
             if (info.note.isNotBlank()) Text(info.note, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
         item {
@@ -338,7 +340,7 @@ fun HotspotSheetContent(info: HotspotInfo, onDismiss: () -> Unit) {
                     Text("${m.dayId} ${m.slot}", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary, modifier = Modifier.width(118.dp))
                     Column(Modifier.weight(1f)) {
                         Text(o.koName(), style = MaterialTheme.typography.bodyMedium)
-                        if (o.menu.isNotBlank()) Text("추천: ${o.menu}", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        if (o.menu.isNotBlank()) Text("추천: ${o.menu}" + kr.koasis.travelyunnan.data.KoGlossDict.ko(o.menu).let { if (it.isNotEmpty()) " ($it)" else "" }, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 }
             }

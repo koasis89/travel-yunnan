@@ -1,5 +1,6 @@
 package kr.koasis.travelyunnan.ui.emergency
 
+import kr.koasis.travelyunnan.ui.common.KoGloss
 import android.view.WindowManager
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK
@@ -211,6 +212,7 @@ private fun HospitalCard(h: kr.koasis.travelyunnan.data.json.Hospital) {
             Text("${h.nameKo}  ·  ${h.region}", style = MaterialTheme.typography.titleMedium)
             Text(h.nameZh, style = MaterialTheme.typography.titleLarge)
             Text(h.addrZh, style = MaterialTheme.typography.bodyMedium)
+            KoGloss(h.addrZh)
             Text(h.note, style = MaterialTheme.typography.bodySmall)
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 kr.koasis.travelyunnan.ui.common.SmallAction(Icons.Filled.LocalTaxi, "택시 카드") { actions.openTaxi(kr.koasis.travelyunnan.domain.TargetType.place, h.placeId) }

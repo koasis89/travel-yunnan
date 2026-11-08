@@ -30,7 +30,7 @@ export function MilkTea() {
     <div className="page">
       <TopBar title="밀크티 종류" />
       <div className="chips" data-testid="milktea-brands">
-        {mt.items.map((x) => <button key={x.id} className={`chip ${brand === x.id ? 'on' : ''}`} onClick={() => setBrand(x.id)}><span className="zh">{x.nameZh}</span></button>)}
+        {mt.items.map((x) => <button key={x.id} className={`chip ${brand === x.id ? 'on' : ''}`} onClick={() => setBrand(x.id)}><span className="zh">{x.nameZh}</span> <span className="tiny">{x.nameKo}</span></button>)}
       </div>
       <div className="pad" style={{ paddingTop: 4 }}>
         <div className="card" style={{ borderLeft: `6px solid ${b.color}` }}>

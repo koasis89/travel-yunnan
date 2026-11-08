@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Bus, Car, CarTaxiFront, CheckCircle2, Clock, Footprints, Landmark, MapPin, UtensilsCrossed, MessageSquareText, Mountain, PenLine, TrainFront } from 'lucide-react'
-import { DayChips, TopBar } from '../components/ui'
+import { DayChips, Ko, TopBar } from '../components/ui'
 import { DayDocsLink } from './Docs'
 import { useData, useNow } from '../store/data'
 import { useStored } from '../store/local'
@@ -111,7 +111,9 @@ function RowCard({ r, isCurrent, isDone, toggle }: { r: Row; isCurrent: boolean;
           {isDone && <CheckCircle2 size={20} color="var(--primary)" />}
         </div>
         {title && <div className="bold" style={{ marginTop: 2 }}>{title}</div>}
+        {[r.from, r.to].some((x) => data.ko(x)) && <div className="tiny muted ko-gloss" data-testid="ko-gloss">{[r.from, r.to].filter((x) => x && x !== '-').map((x) => data.ko(x) || x).join(' → ')}</div>}
         {r.via && r.via !== '-' && <div className="small muted">경유: {r.via}</div>}
+        <Ko zh={r.via} />
         {r.transport && r.transport !== '-' && <div className="row small" style={{ marginTop: 2 }}>{transportIcon(r.transport)}{[r.transport, r.duration].filter((x) => x && x !== '-').join(' · ')}</div>}
         {r.tip && r.tip !== '-' && <div className="small" style={{ marginTop: 4 }}>{r.tip}</div>}
         {(links.length > 0 || msg || tpls.length > 0 || r.amapUrl || sights.length > 0 || eats.length > 0) && (

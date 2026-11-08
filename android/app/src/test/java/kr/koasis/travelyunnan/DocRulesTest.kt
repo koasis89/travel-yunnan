@@ -137,4 +137,17 @@ class DocRulesTest {
         assertEquals("你好，我要一杯伯牙绝弦，少糖，热的。", kr.koasis.travelyunnan.ui.meal.milkTeaOrder("伯牙绝弦", "少糖", "热的"))
         assertEquals("你好，我要一杯生椰拿铁。", kr.koasis.travelyunnan.ui.meal.milkTeaOrder("生椰拿铁", "", ""))
     }
+
+    @Test fun koGloss() {
+        val d = TripDataHolder.data
+        val ko = kr.koasis.travelyunnan.data.KoGlossDict::ko
+        val zhOnly = { x: String -> x.any { it in '\u4e00'..'\u9fff' } && x.none { it in '가'..'힣' } }
+        val need = (d.lodgings.flatMap { listOf(it.addrZh, it.nameZh) } + d.emergency.hospitals.map { it.addrZh } +
+            d.schedule.flatMap { listOf(it.from, it.via, it.to) }).filter(zhOnly)
+        assertTrue(need.size >= 10)
+        assertEquals(emptyList<String>(), need.filter { ko(it).isEmpty() })
+        assertEquals("리장역", ko("丽江站"))
+        assertEquals("", ko(""))
+        assertEquals("12월 20일 체크인 3명, 얼리체크인 희망", kr.koasis.travelyunnan.domain.Templates.COMEINN.friendNoteKo)
+    }
 }

@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CarTaxiFront, Copy, Hospital, MapPin, Maximize2, MessageSquareText, Mountain, Phone, ShieldAlert, Siren } from 'lucide-react'
-import { Banner, Section, ShowCard, TopBar, copyText } from '../components/ui'
+import { Banner, Ko, Section, ShowCard, TopBar, copyText } from '../components/ui'
 import type { Hospital as HospitalInfo } from '../domain/types'
 import { useData } from '../store/data'
 import { useStored } from '../store/local'
@@ -99,6 +99,7 @@ function HospitalCard({ h }: { h: HospitalInfo }) {
       <div className="bold">{h.nameKo} <span className="small muted">{h.region}</span></div>
       <div className="zh bold" style={{ fontSize: '1.2em' }}>{h.nameZh}</div>
       <div className="small zh">{h.addrZh}</div>
+      <Ko zh={h.addrZh} />
       <div className="small">{h.note}</div>
       <div className="wrap">
         <Link className="btn primary" to={`/taxi/place/${h.placeId}`}><CarTaxiFront size={16} />택시 카드</Link>

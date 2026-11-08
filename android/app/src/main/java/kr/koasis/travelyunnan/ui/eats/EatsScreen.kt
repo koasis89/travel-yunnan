@@ -131,9 +131,10 @@ fun EatScreen(data: TripData, id: String) {
                     r.ratings.forEach { g ->
                         Card(Modifier.padding(horizontal = 16.dp, vertical = 4.dp).fillMaxWidth()) {
                             Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                                Text(listOfNotNull(g.score?.let { "★ %.1f".format(it) }, g.reviews?.let { "리뷰 ${it}건" }, "1인 ${g.price}", g.label).joinToString("  ·  "),
+                                Text(listOfNotNull(g.score?.let { "★ %.1f".format(it) }, g.reviews?.let { "리뷰 ${it}건" }, "1인 ${g.price}", g.label?.let { l -> kr.koasis.travelyunnan.data.KoGlossDict.ko(l).let { k -> if (k.isNotEmpty()) "$l ($k)" else l } }).joinToString("  ·  "),
                                     style = MaterialTheme.typography.titleMedium, color = androidx.compose.ui.graphics.Color(0xFFE08A00))
                                 Text("${g.name} · ${g.addr}", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                listOf(g.name, g.addr).map { kr.koasis.travelyunnan.data.KoGlossDict.ko(it) }.filter { it.isNotEmpty() }.takeIf { it.isNotEmpty() }?.let { Text(it.joinToString(" · "), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline) }
                                 g.note?.let { Text(it, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline) }
                                 FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                                     g.popular.forEach { p ->

@@ -1,5 +1,6 @@
 package kr.koasis.travelyunnan.ui.lodging
 
+import kr.koasis.travelyunnan.ui.common.KoGloss
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -68,7 +69,9 @@ private fun LodgingCard(data: TripData, l: Lodging, flags: Set<String>, onToggle
             }
             Text(l.nameKo, style = MaterialTheme.typography.titleLarge)
             if (l.nameZh.isNotBlank()) Text(l.nameZh, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Normal)
+            KoGloss(l.nameZh)
             Text(l.addrZh, style = MaterialTheme.typography.bodyLarge)
+            KoGloss(l.addrZh)
             if (l.addrEn.isNotBlank()) Text(l.addrEn, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Text(l.room, style = MaterialTheme.typography.bodyMedium)
             if (l.bookingNo.isNotBlank()) Text("예약번호 ${l.bookingNo} · ${l.bookedBy}", style = MaterialTheme.typography.bodyMedium)

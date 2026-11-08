@@ -23,9 +23,10 @@ export function Taxi() {
       {card.siblings.length > 0 && <div style={{ width: '100%' }} className="small bold">다른 선택지</div>}
       {card.siblings.map((o) => <button key={o.id} className="chip" onClick={() => setCur(o.id)}>{optKo(o).split('(')[0]}</button>)}
     </>}>
-      {head && <><div className="head zh">{head.zh.replace(/。$/, '')}</div><div className="note">{head.pinyin}</div></>}
+      {head && <><div className="head zh">{head.zh.replace(/。$/, '')}</div><div className="note">{head.pinyin}{head.ko ? ` · ${head.ko}` : ''}</div></>}
       <div className="name zh">{card.nameZh}</div>
       {card.addrZh && <div className="addr zh">{card.addrZh}</div>}
+      {data.ko(card.addrZh) && <div className="note" data-testid="ko-gloss">{data.ko(card.addrZh)}</div>}
       {card.helpers.map((h) => <div key={h.id}><div className="sub zh">{h.zh}</div><div className="note sub helperko">{h.ko}</div></div>)}
       {card.phones.length > 0 && <div className="sub">☎ {card.phones.join('  ')}</div>}
       <div className="note">{card.nameKo}{card.bookingInfo ? `\n예약 ${card.bookingInfo}` : ''}</div>

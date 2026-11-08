@@ -34,9 +34,10 @@ fun TaxiScreen(data: TripData, type: TargetType?, id: String, appInstalled: (Str
     val target = card.addrZh.ifBlank { card.nameZh }
 
     val lines = buildList {
-        head?.let { add(ShowLine(it.zh.trimEnd('。'), ShowStyle.Sub)); add(ShowLine(it.pinyin, ShowStyle.Small)) }
+        head?.let { add(ShowLine(it.zh.trimEnd('。'), ShowStyle.Sub)); add(ShowLine(if (it.ko.isNotBlank()) "${it.pinyin} · ${it.ko}" else it.pinyin, ShowStyle.Small)) }
         add(ShowLine(card.nameZh, ShowStyle.Name))
         add(ShowLine(card.addrZh, ShowStyle.Address))
+        kr.koasis.travelyunnan.data.KoGlossDict.ko(card.addrZh).takeIf { it.isNotEmpty() }?.let { add(ShowLine(it, ShowStyle.Small)) }
         card.helpers.forEach { add(ShowLine(it.zh, ShowStyle.Sub)); add(ShowLine(it.ko, ShowStyle.Small)) }
         if (card.phones.isNotEmpty()) add(ShowLine("☎ " + card.phones.joinToString("  "), ShowStyle.Sub))
         add(ShowLine(card.nameKo + if (card.bookingInfo.isNotBlank()) "\n예약 ${card.bookingInfo}" else "", ShowStyle.Small))

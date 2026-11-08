@@ -92,9 +92,10 @@ export function EatView() {
               {g.score != null && <span className="bold" style={{ fontSize: '1.4em', color: '#e08a00' }}><Star size={18} fill="#e08a00" color="#e08a00" /> {g.score.toFixed(1)}</span>}
               {g.reviews != null && <span className="small muted">리뷰 {g.reviews.toLocaleString()}건</span>}
               <span className="small">1인 {g.price}</span>
-              {g.label && <span className="tiny muted">· {g.label}</span>}
+              {g.label && <span className="tiny muted">· {g.label}{data.ko(g.label) ? ` (${data.ko(g.label)})` : ''}</span>}
             </div>
             <div className="tiny muted zh">{g.name} · {g.addr}</div>
+            {(data.ko(g.name) || data.ko(g.addr)) && <div className="tiny faint ko-gloss" data-testid="ko-gloss">{[data.ko(g.name), data.ko(g.addr)].filter(Boolean).join(' · ')}</div>}
             {g.note && <div className="tiny faint">{g.note}</div>}
             {g.popular.length > 0 && <div className="wrap">{g.popular.map((p) => { const n = sel[p.zh] ?? 0; return (
               <button key={p.zh} className={`chip ${n ? 'on' : ''}`} data-testid="popular" onClick={() => setSel((x) => ({ ...x, [p.zh]: ((x[p.zh] ?? 0) + 1) % 4 }))}><span className="zh">{p.zh}</span> {p.ko}{n ? ` ×${n}` : ''}</button>) })}</div>}

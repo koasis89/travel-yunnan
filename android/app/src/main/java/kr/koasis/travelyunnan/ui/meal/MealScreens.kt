@@ -1,5 +1,6 @@
 package kr.koasis.travelyunnan.ui.meal
 
+import kr.koasis.travelyunnan.ui.common.KoGloss
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -89,7 +90,8 @@ private fun MealCard(data: TripData, m: Meal) {
                     Text("${"①②③"[i]} ${o.koName()}", style = MaterialTheme.typography.titleMedium)
                     if (o.nameKo.isNotBlank() && o.zhName().isNotBlank()) Text(o.zhName(), style = MaterialTheme.typography.bodyMedium)
                     if (o.addrZh.isNotBlank()) Text(o.addrZh, style = MaterialTheme.typography.bodyMedium)
-                    if (o.menu.isNotBlank()) Text("추천: ${o.menu}", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    KoGloss(o.addrZh)
+                    if (o.menu.isNotBlank()) Text("추천: ${o.menu}" + kr.koasis.travelyunnan.data.KoGlossDict.ko(o.menu).let { if (it.isNotEmpty()) " ($it)" else "" }, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                         data.restaurantOfOption(o.id)?.let { r -> SmallAction(Icons.Filled.MenuBook, "식당 정보·메뉴판") { actions.openEat(r.id) } }
                         if (TaxiCards.isTaxiable(o)) SmallAction(Icons.Filled.LocalTaxi, "택시 카드") { actions.openTaxi(TargetType.meal, o.id) }

@@ -3,7 +3,7 @@ package kr.koasis.travelyunnan.domain
 /** 위챗 메시지 템플릿(S6-2). 변수 값을 치환해 중국어 본문과 한국어 설명을 만든다. */
 data class TemplateField(val key: String, val label: String, val default: String, val hint: String = "")
 
-data class Contact(val name: String, val wechat: String, val email: String = "", val friendNote: String = "", val booker: String = "", val bookingRef: String = "", val note: String = "")
+data class Contact(val name: String, val wechat: String, val email: String = "", val friendNote: String = "", val friendNoteKo: String = "", val booker: String = "", val bookingRef: String = "", val note: String = "")
 
 data class Template(val id: String, val title: String, val fields: List<TemplateField>, val render: (Map<String, String>) -> String, val renderKo: (Map<String, String>) -> String, val contact: Contact? = null)
 
@@ -18,8 +18,10 @@ object Templates {
     @Volatile var guideRef = ""; private set
     fun setGuideBooking(booker: String?, ref: String?) { guideBooker = booker.orEmpty().trim(); guideRef = ref.orEmpty().trim() }
     private const val FRIEND_NOTE = "12月18日玉龙雪山一日游 3位客人"
+    private const val FRIEND_NOTE_KO = "12월 18일 옥룡설산 일일투어 3명"
     val GUIDE: Contact get() = Contact("옥룡설산 투어 가이드·기사", "18088479095", "2487812697@qq.com",
-        if (guideRef.isNotBlank()) "$FRIEND_NOTE 订单号$guideRef" else FRIEND_NOTE, guideBooker, guideRef)
+        if (guideRef.isNotBlank()) "$FRIEND_NOTE 订单号$guideRef" else FRIEND_NOTE,
+        if (guideRef.isNotBlank()) "$FRIEND_NOTE_KO 예약번호 $guideRef" else FRIEND_NOTE_KO, guideBooker, guideRef)
     /** 예약자·예약 번호 줄(값이 있는 것만) */
     private fun bookingLines(booker: String, ref: String) = (if (booker.isNotBlank()) "预订人：$booker\n" else "") + (if (ref.isNotBlank()) "订单号（Booking reference）：$ref\n" else "")
 
@@ -112,7 +114,7 @@ object Templates {
         { _, x -> "돌아갈 때 ${x("to")}에 내려 달라고 부탁한다(고성 안은 차가 못 들어간다)." })
 
     /** D5 Come Inn(호도협 본지만): 중도객잔에서 가는 길·위치 문의(웹 tpl-comeinn-route 와 같다) */
-    val COMEINN = Contact("Come Inn(行者民宿·本地湾店) 숙소", "18987966608", friendNote = "12月20日入住 3位客人 想提前入住",
+    val COMEINN = Contact("Come Inn(行者民宿·本地湾店) 숙소", "18987966608", friendNote = "12月20日入住 3位客人 想提前入住", friendNoteKo = "12월 20일 체크인 3명, 얼리체크인 희망",
         note = "위챗 ID 는 숙소 전화번호로 검색한다(시골 객잔은 대개 같다). 안 나오면 예약한 앱(아고다 등)의 숙소 메시지로 같은 문장을 보낸다.")
     /** D5 Come Inn: 얼리체크인 + 차마객잔 → 숙소 빵차 요청(웹 tpl-comeinn-route 와 같다) */
     val comeinnRoute: Template = run {

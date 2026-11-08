@@ -28,6 +28,7 @@ def main():
         shutil.copy(REPO / "data" / name, OUT / name)
         print(f"copy {name}")
     run(REPO / "tools" / "amap_links.py", OUT)
+    run(REPO / "tools" / "ko_gloss.py", OUT)
     run(REPO / "tools" / "validate.py", OUT)
 
 

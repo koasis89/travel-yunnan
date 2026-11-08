@@ -1,5 +1,6 @@
 package kr.koasis.travelyunnan.ui.schedule
 
+import kr.koasis.travelyunnan.ui.common.KoGloss
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -155,7 +156,10 @@ private fun ScheduleCard(r: Schedule, isCurrent: Boolean, done: Boolean, onLongP
             }
             val title = listOf(r.from, r.to).filter { it.isNotBlank() && it != "-" }.joinToString(" → ")
             if (title.isNotBlank()) Text(title, style = MaterialTheme.typography.titleMedium)
+            val ft = listOf(r.from, r.to).filter { it.isNotBlank() && it != "-" }
+            if (ft.any { kr.koasis.travelyunnan.data.KoGlossDict.ko(it).isNotEmpty() }) Text(ft.joinToString(" → ") { kr.koasis.travelyunnan.data.KoGlossDict.ko(it).ifEmpty { it } }, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             if (r.via.isNotBlank() && r.via != "-") Text("경유: ${r.via}", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            KoGloss(r.via)
             if (r.transport.isNotBlank() && r.transport != "-") Row {
                 Icon(transportIcon(r.transport), null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp))
                 Text(listOf(r.transport, r.duration).filter { it.isNotBlank() && it != "-" }.joinToString(" · "), style = MaterialTheme.typography.bodyMedium)

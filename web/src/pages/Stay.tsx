@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { BookOpen, CarTaxiFront, Copy, MapPin, MessageSquareText, Check, Maximize2, Minus, Plus, Users } from 'lucide-react'
-import { Banner, DayChips, ShowCard, TopBar, copyText } from '../components/ui'
+import { Banner, DayChips, Ko, ShowCard, TopBar, copyText } from '../components/ui'
 import { useData, useNow } from '../store/data'
 import { useStored } from '../store/local'
 import { resolvePhase } from '../domain/tripTime'
@@ -38,7 +38,9 @@ function Lodgings({ focus }: { focus: string | null }) {
           <div className="row"><span className="small bold" style={{ color: 'var(--primary)' }}>{l.dates.map((d) => d.slice(5).replace('-', '/')).join('~')} · {l.nights}박 · {l.region}</span><span className="grow" /><span className="tag">{l.status}</span></div>
           <h3 style={{ marginTop: 6 }}>{l.nameKo}</h3>
           {l.nameZh && <div className="zh">{l.nameZh}</div>}
+          <Ko zh={l.nameZh} />
           <div className="zh" style={{ fontSize: '1.05em' }}>{l.addrZh}</div>
+          <Ko zh={l.addrZh} />
           {l.addrEn && <div className="tiny faint">{l.addrEn}</div>}
           <div className="small" style={{ marginTop: 4 }}>{l.room}</div>
           {l.bookingNo && <div className="small">예약번호 {l.bookingNo} · {l.bookedBy}</div>}
@@ -90,7 +92,8 @@ function Meals({ dayArg }: { dayArg: string | null }) {
                 <div className="bold">{'①②③'[i]} {optKo(o)}</div>
                 {o.nameKo && <div className="small zh">{optZh(o)}</div>}
                 {o.addrZh && <div className="small zh">{o.addrZh}</div>}
-                {o.menu && <div className="small muted">추천: {o.menu}</div>}
+                <Ko zh={o.addrZh} />
+                {o.menu && <div className="small muted">추천: {o.menu}{data.ko(o.menu) ? ` (${data.ko(o.menu)})` : ''}</div>}
                 <div className="wrap" style={{ marginTop: 8 }}>
                   {data.restaurantOfOption(o.id) && <Link className="btn" data-testid="eat-link" to={`/eats/${data.restaurantOfOption(o.id)!.id}`}><BookOpen size={16} />식당 정보·메뉴판</Link>}
                   {isTaxiable(o) && <Link className="btn" to={`/taxi/meal/${o.id}`}><CarTaxiFront size={16} />택시 카드</Link>}

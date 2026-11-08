@@ -263,6 +263,17 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   ok('밀크티 주문 문장(당도·온도)', await page.isVisible('text=你好，我要一杯生椰拿铁，少糖，热的。'))
   await page.screenshot({ path: `${out}/w31_milktea_order.png` })
 
+  // 중국어 아래 한국어 번역
+  await page.goto(base + '#/stay?tab=lodging'); await page.waitForSelector('text=물라뉴 탕수 호텔')
+  ok('숙소 주소 아래 한국어 번역', (await page.locator('[data-testid=ko-gloss]').count()) >= 5 && await page.isVisible('text=윈난성 디칭 티베트족 자치주 샹그릴라시 젠탕진 동왕로 77-83호 (구산골목 3호)'))
+  await page.goto(base + '#/taxi/lodging/oura'); await page.waitForSelector('text=东旺路77-83号', { timeout: 5000 }).catch(() => {})
+  ok('택시 카드 주소 한국어 번역', (await page.locator('[data-testid=ko-gloss]').count()) === 1)
+  await page.goto(base + '#/number'); await page.waitForSelector('text=一百五十块')
+  ok('숫자 카드 위안 표시', await page.isVisible('text=150위안 괜찮아요?'))
+  await page.goto(base + '#/emergency'); await page.waitForSelector('[data-testid=hospital]', { timeout: 5000 }).catch(() => {})
+  ok('병원 주소 한국어 번역', (await page.locator('[data-testid=hospital] [data-testid=ko-gloss]').count()) >= 1)
+  await page.screenshot({ path: `${out}/w33_ko_gloss_info.png` })
+
   // 택시 카드 '지도' 버튼 = 만든 고덕지도 링크
   await page.goto(base + '#/taxi/lodging/mulanyu'); await page.waitForSelector('text=丽江沐蘭遇の汤宿')
   ok('택시 카드(숙소) 지도 = 고덕지도 링크', ((await page.getAttribute('a.btn:has-text("지도")', 'href')) || '').startsWith('https://uri.amap.com/search'))

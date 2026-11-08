@@ -1,3 +1,4 @@
+import { useData } from '../store/data'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, Phone, X } from 'lucide-react'
@@ -120,4 +121,10 @@ export function ShowCard({ header, onClose, children, actions }: { header: strin
       {chrome && actions && <div className="actions" onClick={(e) => e.stopPropagation()}><div className="wrap">{actions}</div></div>}
     </div>
   )
+}
+
+/** 중국어 아래 작은 한국어 번역(번역 사전에 있을 때만). 이미 한국어가 함께 보이는 곳에는 쓰지 않는다 */
+export function Ko({ zh, className = 'tiny muted' }: { zh?: string | null; className?: string }) {
+  const k = useData().ko(zh)
+  return k ? <div className={`${className} ko-gloss`} data-testid="ko-gloss">{k}</div> : null
 }
