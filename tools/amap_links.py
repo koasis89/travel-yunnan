@@ -53,7 +53,11 @@ def main(d: Path):
     rows = {"숙소": [], "관광지·장소": [], "식당": []}
 
     lod = load("lodgings.json")
+    # 숙소 id 와 같은 장소(places.json)에 공유받은 정확한 링크가 있으면 그것을 쓴다(예: oura)
+    shared = {p["id"]: p["amapUrl"] for p in load("places.json")["items"] if "surl.amap.com" in (p.get("amapUrl") or "")}
     for l in lod["items"]:
+        if l["id"] in shared:
+            l["amapUrl"] = shared[l["id"]]
         if not l.get("nameZh"):
             continue
         name = l["nameZh"]

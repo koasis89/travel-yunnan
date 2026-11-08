@@ -235,6 +235,14 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   await page.goto(base + '#/schedule?day=D4'); await page.click('.linkchip:has-text("호도협 Come Inn 직행 전용차")')
   ok('D4 전용차 문장 = 11시 반 Come Inn 직행(상호도협 없음)', await page.waitForSelector('text=上午11点半', { timeout: 5000 }).then(() => true).catch(() => false) && !(await page.textContent('body')).includes('上虎跳峡景区'))
 
+  // D6 Oura Villa: 고성 안이 아니라 시내 북쪽 — 고성·대불사는 택시, 고덕지도 공유 링크
+  await page.goto(base + '#/schedule?day=D6'); await page.waitForSelector('text=독극종고성(사방가) 고성 식당', { timeout: 5000 }).catch(() => {})
+  const d6 = await page.textContent('body')
+  ok('D6 숙소→고성 택시(도보 20~25분)·대불사 1.8km', d6.includes('약 5~10분(도보 20~25분)') && d6.includes('대불사·마니차까지 도보 약 1.8km') && !d6.includes('대형 마니차 바로 옆'))
+  await page.goto(base + '#/taxi/lodging/oura'); await page.waitForSelector('text=东旺路77-83号', { timeout: 5000 }).catch(() => {})
+  ok('Oura Villa 택시 카드 주소·지도 = 공유 링크', await page.isVisible('text=东旺路77-83号') && (await page.getAttribute('a.btn:has-text("지도") >> nth=0', 'href')) === 'https://surl.amap.com/gzk17mG495L')
+  await page.goto(base + '#/sights/prayer_wheel'); ok('대불사 지도 = 공유 링크', (await page.getAttribute('a:has-text("지도에서 보기")', 'href')) === 'https://surl.amap.com/lHdr9stCf9n')
+
   // 택시 카드 '지도' 버튼 = 만든 고덕지도 링크
   await page.goto(base + '#/taxi/lodging/mulanyu'); await page.waitForSelector('text=丽江沐蘭遇の汤宿')
   ok('택시 카드(숙소) 지도 = 고덕지도 링크', ((await page.getAttribute('a.btn:has-text("지도")', 'href')) || '').startsWith('https://uri.amap.com/search'))

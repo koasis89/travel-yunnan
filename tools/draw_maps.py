@@ -604,40 +604,45 @@ def map05():
 
 # ---------------------------------------------------------------- map03 샹그릴라
 def map03():
-    """도식 배치(실제 축척 아님)"""
-    f = Fig("map03", "D6·D7 샹그릴라 (12/21~22)", "D6 13:30 빵차 도착 → 송찬림사 → 대형 마니차 야경 · D7 06:10 샌딩 → 07:22 C644",
+    """도식 배치(실제 축척 아님). 숙소 Oura Villa 는 고성 안이 아니라 시내 북쪽(小龟山 근처) — 고덕지도 공유 위치 기준"""
+    f = Fig("map03", "D6·D7 샹그릴라 (12/21~22)", "D6 13:30 빵차 → 숙소(시내 북쪽) → 택시로 고성 점심 → 송찬림사 → 대형 마니차 야경 → 택시 복귀 · D7 06:10 샌딩",
             (0, 100), (0, 100), map_h=820, panels=[("inset", 330)])
-    sz, ou, sq, st = (42, 86), (40, 50), (60, 54), (30, 14)
-    f.ax.add_patch(Circle((24, 90), 5, fc=WATER, ec="none", alpha=0.7, zorder=1))
-    f.ax.text(24, 82, "라무양호", fontsize=13, color="#3d78b3", ha="center")
+    sz, ou, sq, st = (40, 88), (52, 58), (64, 30), (22, 22)
+    f.ax.add_patch(Circle((22, 92), 5, fc=WATER, ec="none", alpha=0.7, zorder=1))
+    f.ax.text(22, 84, "라무양호", fontsize=13, color="#3d78b3", ha="center")
     f.place(sz, "송찬림사 (작은 포탈라궁)\n15:20~17:20 · 입장 ¥115", "place", "r",
             H("송찬림사(작은 포탈라궁)", "place", "songzanlin", ["송찬림사"], "噶丹·松赞林寺", "계단 146개 천천히, 입장 ¥115"))
-    f.place(ou, "Oura Villa (숙소)", "lodging", "l",
-            H("Oura Villa (숙소)", "lodging", "oura", ["Oura Villa", "숙소"], note="龟山巷3号 · 대불사·대형 마니차 바로 옆"))
-    f.place(sq, "독극종고성 사방가", "place", "r",
-            H("독극종고성 사방가", "place", "dukezong", ["사방가", "고성", "대형 마니차", "대불사"], "独克宗古城 四方街",
-              "야크훠궈·고기파이·야크우유 에그타르트"), size=16)
+    f.place(ou, "Oura Villa (숙소)\n시내 북쪽 · 小龟山 근처", "lodging", "r",
+            H("Oura Villa (숙소)", "lodging", "oura", ["Oura Villa", "숙소"], note="东旺路77-83号(龟山巷3号) · 고성 안 아님. 대불사까지 도보 약 1.8km, 택시 5~10분"))
+    f.place(sq, "독극종고성 · 대불사(대형 마니차)", "place", "r",
+            H("독극종고성 · 대불사", "place", "dukezong", ["사방가", "고성", "대형 마니차", "대불사", "월광광장"], "独克宗古城 月光广场",
+              "숙소에서 택시 5~10분(도보 1.5~1.8km). 야크훠궈·고기파이·야크우유 에그타르트"), size=16)
     f.place(st, "샹그릴라역\nD7 07:22 C644 → 쿤밍", "place", "r",
             H("샹그릴라역", "place", "shangrila_station", ["샹그릴라역"], "香格里拉站", "D7 07:22 C644 → 쿤밍 12:50. 06:10 숙소 샌딩"))
-    f.seg((96, 6), ou, "car", rad=-0.2, lw=4)
-    f.tag((80, 26), "D6 13:30 빵차 도착\n(호도협에서 3시간)", "car", size=14.5)
-    f.seg(ou, sz, "taxi", rad=-0.35)
-    f.tag((24, 68), "D6 15:00\n택시 20분", "taxi", size=14.5)
-    f.seg(sz, sq, "taxi", rad=-0.3)
-    f.tag((64, 72), "17:20 택시 20분", "taxi", size=14.5)
-    f.seg(ou, st, "taxi", rad=0.25, lw=4)
-    f.tag((22, 34), "D7 06:10\n샌딩 25분", "taxi", size=14.5)
-    f.seg(st, (8, 2), "train")
+    f.seg((96, 70), ou, "car", rad=0.2, lw=4)
+    f.tag((84, 78), "D6 13:30 빵차 도착\n(호도협에서 3시간)", "car", size=14.5)
+    f.seg(ou, sq, "taxi", rad=0.18, lw=3.2)
+    f.tag((76, 47), "14:00 택시 5~10분\n(도보 20~25분, 1.5km)", "taxi", size=14)
+    f.seg(sq, sz, "taxi", rad=-0.45)
+    f.tag((22, 58), "15:00 고성 → 송찬림사\n택시 20분", "taxi", size=14)
+    f.seg(sz, sq, "taxi", rad=-0.25)
+    f.tag((54, 76), "17:20 택시 20분\n→ 월광광장", "taxi", size=14)
+    f.seg(sq, ou, "taxi", rad=0.18, lw=3.2, dashed=(0, (4, 3)))
+    f.tag((44, 40), "20:30 저녁 뒤\n택시로 숙소(점선)", "taxi", size=14)
+    f.seg(ou, st, "taxi", rad=0.3, lw=4)
+    f.tag((20, 36), "D7 06:10\n샌딩 25분", "taxi", size=14.5)
+    f.seg(st, (6, 6), "train")
     f.legend(["car", "taxi", "train"], "upper right")
     pa = f.panels[0]
-    pa.text(34, 12, "고성 안 (숙소 주변, 도보 5~10분)", fontsize=18, fontweight="bold", color=INK, va="top")
+    pa.text(34, 12, "고성·대불사 안 (택시는 월광광장에서 내리고 걷는다)", fontsize=18, fontweight="bold", color=INK, va="top")
     pa.add_patch(FancyBboxPatch((34, 56), W - 68, 255, boxstyle="round,pad=0,rounding_size=14", fc=LAND, ec="#d9d4c7"))
-    pts = {"ou": (300, 210), "bud": (300, 120), "sq": (640, 190), "yue": (820, 120), "food": (900, 250)}
-    pa.plot(*zip(pts["ou"], pts["bud"]), color=C["walk"], lw=4)
-    pa.plot(*zip(pts["ou"], pts["sq"], pts["yue"]), color=C["night"], lw=4)
-    for k, t, col, dy in [("ou", "Oura Villa", KIND["lodging"], 26), ("bud", "대불사 · 대형 마니차(구산공원)\n17:40 일몰·야경", C["walk"], -40),
-                          ("sq", "사방가 · 14:00 늦은 점심", KIND["place"], 30), ("yue", "월광광장 19:00", C["night"], -30),
-                          ("food", "야크훠궈·고기파이·에그타르트", KIND["meal"], 26)]:
+    pts = {"yue": (230, 200), "bud": (230, 110), "sq": (620, 190), "food": (880, 120), "taxi": (95, 268)}
+    pa.plot(*zip(pts["taxi"], pts["yue"]), color=C["taxi"], lw=4, ls=(0, (4, 3)))
+    pa.plot(*zip(pts["yue"], pts["bud"]), color=C["walk"], lw=4)
+    pa.plot(*zip(pts["yue"], pts["sq"], pts["food"]), color=C["night"], lw=4)
+    for k, t, col, dy in [("taxi", "택시 (숙소에서 5~10분)", C["taxi"], 24), ("yue", "월광광장 19:00", C["night"], 28),
+                          ("bud", "대불사 · 대형 마니차(구산공원)\n17:40 일몰·야경", C["walk"], -40),
+                          ("sq", "사방가 · 14:00 늦은 점심", KIND["place"], 30), ("food", "야크훠궈·고기파이·에그타르트", KIND["meal"], -30)]:
         pa.plot(*pts[k], "o", ms=13, color=col, mec="white", mew=2)
         pa.text(pts[k][0], pts[k][1] + dy, t, ha="center", va="center", fontsize=15.5, color=INK)
     f.save("map03_shangrila.png")

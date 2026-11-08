@@ -91,7 +91,8 @@
       "id": "dukezong",
       "nameKo": "독극종고성 대불사(대형 마니차)",
       "nameZh": "独克宗古城 大佛寺",
-      "addrZh": "云南省迪庆藏族自治州香格里拉市建塘镇 独克宗古城 龟山公园 大佛寺"
+      "addrZh": "云南省迪庆藏族自治州香格里拉市 独克宗古城 龟山公园(东北角) 大佛寺",
+      "amapUrl": "https://surl.amap.com/lHdr9stCf9n"
     },
     {
       "id": "cuihu",
@@ -287,6 +288,13 @@
       "nameKo": "팡진메이 계두량분(먹거리 장터)",
       "nameZh": "胖金妹鸡豆凉粉店",
       "addrZh": "云南省丽江市玉龙纳西族自治县白沙镇白沙综合广场美食集市5号摊位"
+    },
+    {
+      "id": "oura",
+      "nameKo": "Oura Villa(숙소)",
+      "nameZh": "香格里拉·格拉丹措Oura Villa民宿(独克宗古城大佛寺转经筒店)",
+      "addrZh": "迪庆藏族自治州香格里拉市建塘镇东旺路77-83号",
+      "amapUrl": "https://surl.amap.com/gzk17mG495L"
     }
   ]
 }

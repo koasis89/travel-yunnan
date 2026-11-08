@@ -23,7 +23,7 @@ const tigerF: TemplateField[] = [
 const shangF: TemplateField[] = [
   { key: 'date', label: '출발 시각', def: '明天上午10点半', hint: '예: 12月21日上午10点半' },
   { key: 'from', label: '출발지', def: '靠山十九度' },
-  { key: 'to', label: '도착지', def: '香格里拉 独克宗古城 龟山巷3号（Oura Villa）' },
+  { key: 'to', label: '도착지', def: '香格里拉 建塘镇东旺路77-83号 格拉丹措Oura Villa民宿（不在古城里面）' },
   { key: 'persons', label: '인원', def: '3' },
 ]
 const delivF: TemplateField[] = [

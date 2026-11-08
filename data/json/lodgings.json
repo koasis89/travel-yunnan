@@ -102,10 +102,10 @@
         "2026-12-21"
       ],
       "nights": 1,
-      "region": "샹그릴라 독극종",
-      "nameKo": "Geladan Tso Oura Villa (대불사·대형 마니차 인근)",
+      "region": "샹그릴라 시내(독극종고성 북쪽)",
+      "nameKo": "Geladan Tso Oura Villa (시내 북쪽, 고성까지 택시 5~10분)",
       "nameZh": "香格里拉•格拉丹措Oura Villa民宿(独克宗古城大佛寺转经筒店)",
-      "addrZh": "云南省迪庆藏族自治州香格里拉市建塘镇龟山巷3号",
+      "addrZh": "云南省迪庆藏族自治州香格里拉市建塘镇东旺路77-83号（龟山巷3号）",
       "addrEn": "No. 3 Guishan Lane, Jiantang Town, Shangri-La",
       "phones": [
         "+86-15398639869",
@@ -116,9 +116,9 @@
       "bookedBy": "JONGHOON KO",
       "priceKrw": 73790,
       "status": "예약 완료",
-      "note": "픽업·샌딩 서비스. D7 06:10 샹그릴라역 샌딩 요청(C644 07:22, 조식 전 출발)",
+      "note": "픽업·샌딩 서비스. D7 06:10 샹그릴라역 샌딩 요청(C644 07:22, 조식 전 출발). 위치: 고덕지도 기준 고성 안이 아니라 시내 북쪽(小龟山 근처) — 대불사·마니차까지 도보 약 1.8km(25~30분), 고성 입구 약 1.5km(20~25분). 이름의 \"大佛寺转经筒店\"은 지점명일 뿐",
       "confirmed": true,
-      "amapUrl": "https://uri.amap.com/search?keyword=%E9%A6%99%E6%A0%BC%E9%87%8C%E6%8B%89%E2%80%A2%E6%A0%BC%E6%8B%89%E4%B8%B9%E6%8E%AAOura%20Villa%E6%B0%91%E5%AE%BF%28%E7%8B%AC%E5%85%8B%E5%AE%97%E5%8F%A4%E5%9F%8E%E5%A4%A7%E4%BD%9B%E5%AF%BA%E8%BD%AC%E7%BB%8F%E7%AD%92%E5%BA%97%29&city=%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E&src=travelyunnan&callnative=1"
+      "amapUrl": "https://surl.amap.com/gzk17mG495L"
     },
     {
       "id": "kunming2",

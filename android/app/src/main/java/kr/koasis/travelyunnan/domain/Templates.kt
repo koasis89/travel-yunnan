@@ -47,7 +47,7 @@ object Templates {
         val f = listOf(
             TemplateField("date", "출발 시각", "明天上午10点半", "예: 12月21日上午10点半"),
             TemplateField("from", "출발지", "靠山十九度"),
-            TemplateField("to", "도착지", "香格里拉 独克宗古城 龟山巷3号（Oura Villa）"),
+            TemplateField("to", "도착지", "香格里拉 建塘镇东旺路77-83号 格拉丹措Oura Villa民宿（不在古城里面）"),
             TemplateField("persons", "인원", "3"),
         )
         Template("tpl-shangrila", "샹그릴라 빵차 예약 요청", f,
