@@ -107,7 +107,8 @@ class DocRulesTest {
 
     @Test fun pretripAndGuideBooking() {
         val d = TripDataHolder.data
-        val p = d.pretrip.single()
+        assertEquals(5, d.pretrip.size); assertTrue(d.pretrip.all { it.date < d.days.first().date })
+        val p = d.pretrip.single { it.id == "p-01" }
         assertEquals("2026-12-15", p.date); assertEquals("옥룡설산 가이드 연락", p.title); assertEquals("tl-08", p.templateLinkId)
         assertTrue(p.date < d.days.first().date)
         // 예약자·예약 번호는 저장소 밖 private.json 에서 들어온다(시험 값으로 확인)
@@ -170,5 +171,20 @@ class DocRulesTest {
         assertEquals(listOf("我们没有国内手机号，请别打电话，直接让机器人送上来就行。", "我们没有国内手机号，请别打电话，直接放在前台就行。"), n.lines.map { it.zh })
         // 웹과 같은 값(일정 연결 값은 숫자)
         assertEquals("12/21 10:30", TripDataHolder.data.templateLinks.first { it.id == "tl-06" }.values["date"])
+    }
+
+    @Test fun checklists() {
+        val d = TripDataHolder.data
+        assertTrue(d.days.all { d.nextDayOf(it.id) != null })
+        assertTrue(d.nextDayOf("D2")!!.items.any { "산소캔" in it.text })
+        assertTrue(d.nextDayOf("D1")!!.items.any { "기차 반입 금지" in it.text })
+        val ids = d.checklists.nextDay.flatMap { it.items } + d.checklists.departure.items + d.pretrip.flatMap { it.checklist }
+        assertEquals(ids.size, ids.map { it.id }.toSet().size)
+        assertEquals("/arrival-card", d.pretrip.first { it.id == "p-04" }.link)
+        val f = d.checklists.arrivalCard.fields
+        assertEquals(listOf("입국 정보", "머무를 호텔", "출국 정보"), f.map { it.group }.distinct())
+        assertTrue(f.first { it.label == "상세 주소(중국어)" }.value.contains(d.lodging("kunming1")!!.addrZh))
+        assertEquals(false, f.first { it.label == "입국 사유" }.copy)
+        assertEquals("flightIn", f.first { it.label == "입국 항공편" }.input)
     }
 }

@@ -184,7 +184,30 @@ data class MilkTeaFile(val items: List<MilkTeaBrand> = emptyList(), val sugar: L
 data class PreTrip(
     val id: String, val date: String = "", val dateLabel: String = "", val time: String = "", val title: String = "",
     val detail: String = "", val tips: List<String> = emptyList(), val templateLinkId: String? = null, val notificationId: String? = null,
+    val checklist: List<CheckItem> = emptyList(), val link: String? = null,
 )
+
+/** 체크리스트 항목(data/checklists.json, pretrip.json). 체크 상태는 flags 'chk:<id>' */
+@Serializable
+data class CheckItem(val id: String, val text: String)
+
+@Serializable
+data class ArrivalStep(val title: String, val desc: String = "")
+
+@Serializable
+data class ArrivalField(val group: String, val label: String, val value: String = "", val note: String = "", val copy: Boolean = true, val input: String? = null)
+
+@Serializable
+data class ArrivalCardInfo(val title: String = "", val summary: String = "", val steps: List<ArrivalStep> = emptyList(), val notes: List<String> = emptyList(), val fields: List<ArrivalField> = emptyList())
+
+@Serializable
+data class DepartureList(val title: String = "", val items: List<CheckItem> = emptyList())
+
+@Serializable
+data class NextDayList(val dayId: String, val nextId: String = "", val title: String = "", val items: List<CheckItem> = emptyList())
+
+@Serializable
+data class ChecklistsFile(val arrivalCard: ArrivalCardInfo = ArrivalCardInfo(), val departure: DepartureList = DepartureList(), val nextDay: List<NextDayList> = emptyList())
 
 /** 관광지 블로그 글(sights.json blogs) */
 @Serializable

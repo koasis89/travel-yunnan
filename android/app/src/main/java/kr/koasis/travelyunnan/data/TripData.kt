@@ -44,6 +44,7 @@ class TripData(
     val blogs: List<kr.koasis.travelyunnan.data.json.Blog> = emptyList(),
     val pretrip: List<kr.koasis.travelyunnan.data.json.PreTrip> = emptyList(),
     val milktea: kr.koasis.travelyunnan.data.json.MilkTeaFile = kr.koasis.travelyunnan.data.json.MilkTeaFile(),
+    val checklists: ChecklistsFile = ChecklistsFile(),
     val foodPhotos: kr.koasis.travelyunnan.data.json.FoodPhotosFile = kr.koasis.travelyunnan.data.json.FoodPhotosFile(),
 ) {
     private val dayById = days.associateBy { it.id }
@@ -73,6 +74,8 @@ class TripData(
     private val foodPhotoMap by lazy { foodPhotos.items.associateBy { it.file } }
     val foodPhotoFood by lazy { foodPhotos.docx.associate { it.id to it.foodId } }
     /** 사진 이름: zip 사진은 이름표, 워드 사진은 연결된 음식 도감 이름 */
+    /** 그날 일정 맨 아래 '다음날 준비' 체크리스트 */
+    fun nextDayOf(dayId: String): NextDayList? = checklists.nextDay.firstOrNull { it.dayId == dayId }
     fun foodPhotoName(id: String): kr.koasis.travelyunnan.data.json.FoodPhotoName? = foodPhotoMap[id]
         ?: foodPhotoFood[id]?.let { fid -> foods.firstOrNull { it.id == fid } }?.let { kr.koasis.travelyunnan.data.json.FoodPhotoName(id, it.nameKo, it.nameZh) }
     /** 그 음식의 기기 사진 id(워드 사진). alsoFor 로 같은 음식 사진을 함께 쓴다(웹 photoIdsForFood) */
@@ -165,6 +168,7 @@ class TripData(
                 restaurantTips = runCatching { json.decodeFromString(RestaurantsFile.serializer(), read("restaurants.json")).tips }.getOrDefault(emptyList()),
                 ratingsNote = runCatching { json.decodeFromString(RestaurantsFile.serializer(), read("restaurants.json")).ratingsNote }.getOrDefault(""),
                 foodPhotos = runCatching { json.decodeFromString(kr.koasis.travelyunnan.data.json.FoodPhotosFile.serializer(), read("food_photos.json")) }.getOrDefault(kr.koasis.travelyunnan.data.json.FoodPhotosFile()),
+                checklists = runCatching { json.decodeFromString(ChecklistsFile.serializer(), read("checklists.json")) }.getOrDefault(ChecklistsFile()),
                 milktea = runCatching { json.decodeFromString(kr.koasis.travelyunnan.data.json.MilkTeaFile.serializer(), read("milktea.json")) }.getOrDefault(kr.koasis.travelyunnan.data.json.MilkTeaFile()),
                 pretrip = runCatching { items("pretrip.json", kr.koasis.travelyunnan.data.json.PreTrip.serializer()).items }.getOrDefault(emptyList()),
                 blogs = runCatching { json.decodeFromString(kr.koasis.travelyunnan.data.json.SightsFile.serializer(), read("sights.json")).blogs }.getOrDefault(emptyList()),

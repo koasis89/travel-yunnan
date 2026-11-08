@@ -73,6 +73,15 @@ fun ScheduleContent(data: TripData, now: LocalDateTime, dayArg: String?, flags: 
             items(rows, key = { it.id }) { r ->
                 ScheduleRow(data, r, isCurrent = r.id == current?.id, done = "done:${r.id}" in flags) { onToggleDone("done:${r.id}") }
             }
+            // 맨 아래: 다음날 소지품·주의사항 체크리스트
+            data.nextDayOf(day.id)?.let { nd ->
+                item(key = "nextday") {
+                    val next = data.day(nd.nextId)
+                    kr.koasis.travelyunnan.ui.common.CheckListCard("🧳 ${nd.title}",
+                        next?.let { "${it.id} ${it.dateLabel} · ${it.route} 준비 — 다음날 소지품·주의사항" } ?: "오늘 소지품·주의사항",
+                        nd.items, flags, onToggleDone, Modifier.padding(top = 8.dp, start = 4.dp))
+                }
+            }
         }
     }
 }
@@ -95,13 +104,18 @@ fun PreTripList(data: TripData, flags: Set<String>, onToggleDone: (String) -> Un
                     Text(x.title, style = MaterialTheme.typography.titleMedium)
                     Text(x.detail, style = MaterialTheme.typography.bodyMedium)
                     x.tips.forEach { Text("· $it", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+                    if (x.checklist.isNotEmpty()) kr.koasis.travelyunnan.ui.common.CheckListCard(null, null, x.checklist, flags, onToggleDone, Modifier.padding(top = 6.dp))
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(top = 6.dp)) {
+                        if (x.link == "/arrival-card") Button(onClick = actions.openArrivalCard) { Text("방법·붙여 넣을 값") }
                         if (tl != null) Button(onClick = { actions.openTemplates(tl.templateId, tl.id) }) { Text("위챗: 가이드 첫 연락 문장") }
                         OutlinedButton(onClick = { onToggleDone("done:${x.id}") }) { Text(if (ok) "완료 취소" else "했다") }
                     }
                     if (x.notificationId != null) Text("캘린더 알림 파일(교통·열차·알림)에 ${x.dateLabel} ${x.time} 알림이 들어 있다.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
                 }
             }
+        }
+        if (data.checklists.departure.items.isNotEmpty()) item(key = "departure") {
+            kr.koasis.travelyunnan.ui.common.CheckListCard(data.checklists.departure.title, null, data.checklists.departure.items, flags, onToggleDone)
         }
     }
 }

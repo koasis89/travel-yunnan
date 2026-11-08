@@ -263,6 +263,21 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   ok('밀크티 주문 문장(당도·온도)', await page.isVisible('text=你好，我要一杯生椰拿铁，少糖，热的。'))
   await page.screenshot({ path: `${out}/w31_milktea_order.png` })
 
+  // 체크리스트: 일정 맨 아래 다음날 준비, 사전 일정 체크·출국 당일, 입국신고 QR 화면
+  await page.goto(base + '#/schedule?day=D2'); await page.waitForSelector('[data-testid=nextday-check]', { timeout: 5000 }).catch(() => {})
+  ok('D2 맨 아래 내일 옥룡설산 준비(산소캔)', await page.isVisible('text=내일 옥룡설산 투어(4,506m)') && await page.isVisible('text=산소캔 1인 1~2개 구매'))
+  await page.click('[data-testid=nextday-check] [data-testid=check-item] >> nth=0')
+  await page.reload(); await page.waitForSelector('[data-testid=nextday-check]', { timeout: 5000 }).catch(() => {})
+  ok('체크 저장(새로고침 후 유지)', await page.isChecked('[data-testid=nextday-check] input[type=checkbox] >> nth=0'))
+  await page.screenshot({ path: `${out}/w35_nextday_check.png`, fullPage: true })
+  await page.goto(base + '#/schedule?day=pre'); await page.waitForSelector('[data-testid=pretrip]', { timeout: 5000 }).catch(() => {})
+  ok('사전 일정 5개·체크리스트·출국 당일', (await page.locator('[data-testid=pretrip]').count()) === 5 && (await page.locator('[data-testid=pretrip-check]').count()) >= 4 && await page.isVisible('[data-testid=departure-check]') && await page.isVisible('text=eSIM 구매'))
+  await page.click('text=방법·붙여 넣을 값'); await page.waitForSelector('[data-testid=arrival-step]', { timeout: 5000 }).catch(() => {})
+  ok('입국신고 QR 화면: 순서 7단계·값 복사', (await page.locator('[data-testid=arrival-step]').count()) === 7 && await page.isVisible('text=云南省昆明市官渡区永平路7号 格菲酒店(昆明火车站北广场店)') && (await page.locator('[data-testid=arrival-field] button:has-text("복사")').count()) >= 8)
+  await page.fill('[data-testid=arrival-field] input >> nth=0', 'ab 123')
+  ok('항공편 입력(대문자·공백 제거)', (await page.inputValue('[data-testid=arrival-field] input >> nth=0')) === 'AB123')
+  await page.screenshot({ path: `${out}/w36_arrival_card.png`, fullPage: true })
+
   // 템플릿 날짜·시각 숫자 칸 + 배달 요청사항(문장별 복사)
   await page.goto(base + '#/templates?link=tl-06'); await page.waitForSelector('[data-testid=dt-date]', { timeout: 5000 }).catch(() => {})
   ok('템플릿 날짜·시각 숫자 칸 4개', (await page.locator('[data-testid=dt-date] input').count()) === 4 && await page.isVisible('text=12月21日（周一）上午10点半'))

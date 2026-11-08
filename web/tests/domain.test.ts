@@ -284,3 +284,28 @@ describe('템플릿 날짜·시각 숫자 입력', () => {
     expect(DELIVERY_NOTES.every((l) => l.ko)).toBe(true)
   })
 })
+
+describe('체크리스트(사전 일정·입국신고 QR·다음날 준비)', () => {
+  it('일정마다(D1~D8) 다음날 준비 체크리스트, 항목 id 는 겹치지 않는다', () => {
+    expect(data.days.map((d) => !!data.nextDayOf(d.id))).toEqual(data.days.map(() => true))
+    const ids = [...data.checklists.nextDay.flatMap((x) => x.items), ...data.checklists.departure.items, ...data.pretrip.flatMap((p) => p.checklist ?? [])].map((x) => x.id)
+    expect(new Set(ids).size).toBe(ids.length)
+    expect(data.nextDayOf('D2')!.items.some((x) => x.text.includes('산소캔'))).toBe(true)
+    expect(data.nextDayOf('D1')!.items.some((x) => x.text.includes('기차 반입 금지'))).toBe(true)
+    expect(data.nextDayOf('D6')!.items.some((x) => x.text.includes('여권'))).toBe(true)
+  })
+  it('사전 일정: 입국 전 준비·eSIM·입국신고 QR', () => {
+    const t = data.pretrip.map((p) => p.title)
+    expect(t).toEqual(expect.arrayContaining(['중국 입국 전 준비', 'eSIM 구매', '알리페이 입국신고 QR 만들기', '옥룡설산 가이드 연락']))
+    expect(data.pretrip.find((p) => p.id === 'p-04')!.link).toBe('/arrival-card')
+    expect(data.pretrip.map((p) => p.date)).toEqual([...data.pretrip.map((p) => p.date)].sort())
+  })
+  it('입국신고 값: 입국·호텔·출국, 첫 숙소 주소', () => {
+    const f = data.checklists.arrivalCard.fields
+    expect([...new Set(f.map((x) => x.group))]).toEqual(['입국 정보', '머무를 호텔', '출국 정보'])
+    expect(f.find((x) => x.label === '입국 일자')!.value).toBe('20261216')
+    expect(f.find((x) => x.label === '출국 일자')!.value).toBe('20261223')
+    expect(f.find((x) => x.label === '상세 주소(중국어)')!.value).toContain(data.lodging('kunming1')!.addrZh)
+    expect(data.checklists.arrivalCard.steps).toHaveLength(7)
+  })
+})

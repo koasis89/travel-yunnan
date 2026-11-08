@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { Bus, Car, CarTaxiFront, CheckCircle2, Clock, Footprints, Landmark, MapPin, UtensilsCrossed, MessageSquareText, Mountain, PenLine, TrainFront } from 'lucide-react'
-import { DayChips, Ko, TopBar } from '../components/ui'
+import { Bus, Car, CarTaxiFront, CheckCircle2, Clock, Footprints, Landmark, MapPin, UtensilsCrossed, MessageSquareText, Mountain, PenLine, QrCode, TrainFront } from 'lucide-react'
+import { CheckList, DayChips, Ko, TopBar } from '../components/ui'
 import { DayDocsLink } from './Docs'
 import { useData, useNow } from '../store/data'
 import { useStored } from '../store/local'
@@ -53,6 +53,7 @@ export function Schedule() {
           </div>
         ))}
       </div>
+      <NextDayPrep dayId={day.id} />
       </>}
     </div>
   )
@@ -76,7 +77,9 @@ export function PreTripList() {
               <h3 style={{ margin: '4px 0' }}>{x.title}</h3>
               <div className="small">{x.detail}</div>
               {x.tips.map((t) => <div key={t} className="tiny muted" style={{ marginTop: 4 }}>· {t}</div>)}
+              {x.checklist && x.checklist.length > 0 && <div style={{ marginTop: 8 }}><CheckList items={x.checklist} testId="pretrip-check" /></div>}
               <div className="wrap" style={{ marginTop: 10 }}>
+                {x.link === '/arrival-card' && <Link className="btn primary" to="/arrival-card"><QrCode size={16} />방법·붙여 넣을 값</Link>}
                 {tl && <Link className="btn primary" to={`/templates?link=${tl.id}`}><PenLine size={16} />위챗: 가이드 첫 연락 문장</Link>}
                 <button className="btn" onClick={() => setDone((d) => (d.includes(x.id) ? d.filter((y) => y !== x.id) : [...d, x.id]))}>{ok ? '완료 취소' : '했다'}</button>
               </div>
@@ -84,8 +87,21 @@ export function PreTripList() {
             </div>
           )
         })}
+        {data.checklists.departure.items.length > 0 && <CheckList title={data.checklists.departure.title} items={data.checklists.departure.items} testId="departure-check" />}
       </div>
     </>
+  )
+}
+
+/** 일정 맨 아래: 다음날 소지품·주의사항 체크리스트 */
+function NextDayPrep({ dayId }: { dayId: string }) {
+  const data = useData(); const nd = data.nextDayOf(dayId)
+  if (!nd) return null
+  const next = nd.nextId ? data.day(nd.nextId) : undefined
+  return (
+    <div style={{ padding: '14px 16px 0' }}>
+      <CheckList title={`🧳 ${nd.title}`} sub={next ? `${next.id} ${next.dateLabel} · ${next.route} 준비 — 다음날 소지품·주의사항` : '오늘 소지품·주의사항'} items={nd.items} testId="nextday-check" />
+    </div>
   )
 }
 

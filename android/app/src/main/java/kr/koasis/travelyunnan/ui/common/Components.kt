@@ -155,3 +155,28 @@ fun EmptyState(text: String) {
         Text(text, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
     }
 }
+
+/** 체크리스트 카드(웹 CheckList): 항목을 누르면 체크. 상태는 flags 'chk:<id>'(기기 저장) */
+@Composable
+fun CheckListCard(title: String?, sub: String?, items: List<kr.koasis.travelyunnan.data.json.CheckItem>, flags: Set<String>, onToggle: (String) -> Unit, modifier: Modifier = Modifier) {
+    if (items.isEmpty()) return
+    val n = items.count { "chk:${it.id}" in flags }
+    Card(modifier.fillMaxWidth()) {
+        Column(Modifier.padding(horizontal = 14.dp, vertical = 10.dp)) {
+            if (title != null) Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(title, style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
+                Text("$n/${items.size}", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.outline)
+            }
+            if (sub != null) Text(sub, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            items.forEach { x ->
+                val on = "chk:${x.id}" in flags
+                Row(Modifier.fillMaxWidth().clickable { onToggle("chk:${x.id}") }.padding(vertical = 2.dp), verticalAlignment = Alignment.Top) {
+                    Checkbox(on, onCheckedChange = { onToggle("chk:${x.id}") }, modifier = Modifier.size(40.dp))
+                    Text(x.text, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(top = 9.dp),
+                        color = if (on) MaterialTheme.colorScheme.outline else MaterialTheme.colorScheme.onSurface,
+                        textDecoration = if (on) androidx.compose.ui.text.style.TextDecoration.LineThrough else null)
+                }
+            }
+        }
+    }
+}

@@ -29,7 +29,15 @@ export interface MilkTeaDrink { id: string; zh: string; pinyin: string; koRead: 
 export interface MilkTeaBrand { id: string; nameZh: string; pinyin: string; nameKo: string; nameEn: string; color: string; drinks: MilkTeaDrink[] }
 export interface MilkTea { items: MilkTeaBrand[]; sugar: [string, string][]; ice: [string, string][] }
 /** 여행 전(사전) 일정: data/pretrip.json */
-export interface PreTrip { id: string; date: string; dateLabel: string; time: string; title: string; detail: string; tips: string[]; templateLinkId?: string; notificationId?: string }
+export interface CheckItem { id: string; text: string }
+export interface PreTrip { id: string; date: string; dateLabel: string; time: string; title: string; detail: string; tips: string[]; templateLinkId?: string; notificationId?: string; checklist?: CheckItem[]; link?: string }
+export interface ArrivalField { group: string; label: string; value: string; note?: string; copy?: boolean; input?: string }
+export interface NextDayList { dayId: string; nextId: string; title: string; items: CheckItem[] }
+export interface Checklists {
+  arrivalCard: { title: string; summary: string; steps: { title: string; desc: string }[]; notes: string[]; fields: ArrivalField[] }
+  departure: { title: string; items: CheckItem[] }
+  nextDay: NextDayList[]
+}
 export interface Hospital { id: string; nameKo: string; nameZh: string; addrZh: string; placeId: string; amapUrl: string; region: string; note: string; phrases: { zh: string; ko: string }[] }
 export interface EmergencyContact { id: string; group: string; name: string; phone: string; note: string }
 
@@ -47,6 +55,8 @@ export class TripData {
   ratingsNote: string
   sights: Sight[]
   pretrip: PreTrip[]
+  /** 체크리스트(입국신고 QR·출국 당일·일정마다 다음날 준비) — data/checklists.json */
+  checklists: Checklists
   milktea: MilkTea
   /** 중국어만 있는 화면 글자의 한국어 번역(data/ko_gloss.json) */
   koGloss: Record<string, string>
@@ -90,6 +100,11 @@ export class TripData {
     this.foodPhotoRestaurant = fp?.restaurant ?? ''
     this.restaurants = it<Restaurant>('restaurants.json')
     this.pretrip = it<PreTrip>('pretrip.json')
+    const cl = b['checklists.json'] as Partial<Checklists> | undefined
+    this.checklists = {
+      arrivalCard: cl?.arrivalCard ?? { title: '', summary: '', steps: [], notes: [], fields: [] },
+      departure: cl?.departure ?? { title: '', items: [] }, nextDay: cl?.nextDay ?? [],
+    }
     this.koGloss = (b['ko_gloss.json'] as { items?: Record<string, string> })?.items ?? {}
     const mt = b['milktea.json'] as Partial<MilkTea> | undefined
     this.milktea = { items: mt?.items ?? [], sugar: mt?.sugar ?? [], ice: mt?.ice ?? [] }
@@ -122,6 +137,8 @@ export class TripData {
   photoIdsForFood = (foodId: string, have: string[]) => have.filter((id) => { const f = this.foodPhotoFood[id]; return !!f && (f === foodId || f === this.foodAlsoFor[foodId]) })
   /** 중국어 → 한국어 번역(없으면 빈칸) */
   ko = (zh?: string | null) => (zh ? this.koGloss[zh.trim()] ?? '' : '')
+  /** 그날 일정 맨 아래에 보일 '다음날 준비' 체크리스트 */
+  nextDayOf = (dayId: string) => this.checklists.nextDay.find((x) => x.dayId === dayId)
   blogsFor = (sightId: string) => this.blogs.filter((x) => x.sightIds.includes(sightId))
   sightsOf = (dayId: string) => this.sights.filter((s) => s.dayIds.includes(dayId))
   /** 일정 행에 관련된 관광지: 그 일차 관광지 중 키워드가 행 글에 들어 있는 것 */

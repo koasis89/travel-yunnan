@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { BookOpen, ChevronRight, FolderOpen, Landmark, MapPinned, UtensilsCrossed, Hash, Info, ListChecks, LogOut, MessageSquareText, Receipt, Settings as SettingsIcon, Siren, TrainFront, TriangleAlert, Download, RefreshCw, CupSoda } from 'lucide-react'
+import { BookOpen, ChevronRight, FolderOpen, Landmark, MapPinned, UtensilsCrossed, Hash, Info, ListChecks, LogOut, MessageSquareText, Receipt, Settings as SettingsIcon, Siren, TrainFront, TriangleAlert, Download, RefreshCw, CupSoda, QrCode } from 'lucide-react'
 import { useState, type ReactNode } from 'react'
 import { DayChips, TopBar, toast } from '../components/ui'
 import { checkUpdate, reinstallApp } from '../store/update'
@@ -18,6 +18,7 @@ const items: [string, string, string, ReactNode][] = [
   ['/emergency', '긴급 연락처', '영사콜센터·대사관·110·120', <Siren size={20} />],
   ['/templates', '위챗 메시지 템플릿', '빵차·픽업·배달 요청문', <MessageSquareText size={20} />],
   ['/menu', '주문 문장 만들기', '음식·수량·요청 조합', <BookOpen size={20} />],
+  ['/arrival-card', '입국신고 QR(알리페이)', '중국 입국신고서 작성 순서 · 입국·호텔·출국 값 복사', <QrCode size={20} />],
   ['/milktea', '밀크티 종류', '브랜드별 추천 BEST 5 · 당도·얼음 주문 문장', <CupSoda size={20} />],
   ['/number', '숫자 카드', '금액을 크게, 중국어 읽기', <Hash size={20} />],
   ['/settings', '설정', '큰 글씨, 날짜 지정 모드', <SettingsIcon size={20} />],

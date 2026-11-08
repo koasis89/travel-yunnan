@@ -23,7 +23,7 @@ EATS_OUT = REPO / "web" / "public" / "images" / "eats"
 INCLUDE = [
     "days.json", "schedule.json", "lodgings.json", "lodging_todos.json", "meals.json", "foods.json",
     "transport.json", "budget.json", "rates.json", "weather.json", "packing.json", "notes.json",
-    "places.json", "place_links.json", "template_links.json", "notifications.json", "emergency.json", "sights.json", "restaurants.json", "food_photos.json", "pretrip.json", "milktea.json", "ko_gloss.json",
+    "places.json", "place_links.json", "template_links.json", "notifications.json", "emergency.json", "sights.json", "restaurants.json", "food_photos.json", "pretrip.json", "milktea.json", "ko_gloss.json", "checklists.json",
 ]
 # 회화 중 택시 카드·숙소 할 일·일정 장문에 쓰이는 문장만 남긴다
 PHRASE_KEEP_PREFIX = ("px-001", "px-002", "px-003", "px-004", "px-005", "px-006", "px-007", "px-008", "px-009", "msg-")

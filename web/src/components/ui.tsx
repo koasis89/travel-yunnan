@@ -1,4 +1,5 @@
 import { useData } from '../store/data'
+import { useStored } from '../store/local'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, Phone, X } from 'lucide-react'
@@ -127,4 +128,29 @@ export function ShowCard({ header, onClose, children, actions }: { header: strin
 export function Ko({ zh, className = 'tiny muted' }: { zh?: string | null; className?: string }) {
   const k = useData().ko(zh)
   return k ? <div className={`${className} ko-gloss`} data-testid="ko-gloss">{k}</div> : null
+}
+
+/** 체크리스트 카드: 항목을 누르면 체크(기기 저장, 일정 완료 표시와 같은 'done' 저장소에 'chk:<id>') */
+export function CheckList({ title, sub, items, testId = 'checklist' }: { title?: string; sub?: string; items: { id: string; text: string }[]; testId?: string }) {
+  const [done, setDone] = useStored<string[]>('done', [])
+  if (!items.length) return null
+  const n = items.filter((x) => done.includes(`chk:${x.id}`)).length
+  return (
+    <div className="card" data-testid={testId} style={{ padding: '12px 14px' }}>
+      {title && <div className="row"><span className="bold">{title}</span><span className="grow" /><span className="tiny muted">{n}/{items.length}</span></div>}
+      {sub && <div className="tiny muted">{sub}</div>}
+      <div className="stack" style={{ gap: 2, marginTop: title ? 6 : 0 }}>
+        {items.map((x) => {
+          const k = `chk:${x.id}`; const on = done.includes(k)
+          return (
+            <label key={x.id} className="row" data-testid="check-item" style={{ alignItems: 'flex-start', gap: 10, padding: '6px 0', cursor: 'pointer' }}>
+              <input type="checkbox" checked={on} onChange={() => setDone((d) => (d.includes(k) ? d.filter((y) => y !== k) : [...d, k]))}
+                style={{ width: 20, height: 20, marginTop: 1, flex: 'none', accentColor: 'var(--primary)' }} />
+              <span className="small" style={{ textDecoration: on ? 'line-through' : 'none', opacity: on ? 0.55 : 1 }}>{x.text}</span>
+            </label>
+          )
+        })}
+      </div>
+    </div>
+  )
 }

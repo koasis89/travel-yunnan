@@ -114,6 +114,8 @@ class ScreenshotTest {
 
     @Test fun menu_point() = shot("14_menu_point") { MenuPointContent(data, "fn-030") {} }
     @Test fun milk_tea() = shot("30_milk_tea") { kr.koasis.travelyunnan.ui.meal.MilkTeaScreen(data) }
+    @Test fun arrival_card() = shot("31_arrival_card") { kr.koasis.travelyunnan.ui.schedule.ArrivalCardScreen(data) }
+    @Test fun pretrip_checklists() = shot("32_pretrip") { ScheduleContent(data, LocalDateTime.parse("2026-11-08T21:00"), "pre", setOf("chk:p02-01", "chk:p02-02")) {} }
 
     @Test fun transport() = shot("15_transport") {
         TransportContent(data, LocalDateTime.parse("2026-12-16T20:00"), setOf("n-03"), hasPermission = true, canExact = true, {}, {}, {})

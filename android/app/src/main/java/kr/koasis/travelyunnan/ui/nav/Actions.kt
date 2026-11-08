@@ -18,6 +18,7 @@ data class Actions(
     val openFoods: () -> Unit = {},
     val openFoodPhotos: (String?) -> Unit = {},
     val openMilkTea: () -> Unit = {},
+    val openArrivalCard: () -> Unit = {},
     val openMenu: (String?) -> Unit = {},
     val openTransport: () -> Unit = {},
     val openExpense: () -> Unit = {},
@@ -55,6 +56,7 @@ object Routes {
     const val MEALS = "meals?day={day}"
     const val FOODS = "foods"
     const val MILKTEA = "milktea"
+    const val ARRIVAL = "arrival-card"
     const val FOOD_PHOTOS = "foodphotos?food={food}"
     fun foodPhotos(food: String?) = "foodphotos" + (food?.let { "?food=$it" } ?: "")
     const val MENU = "menu?food={food}"
