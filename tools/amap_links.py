@@ -57,8 +57,9 @@ def main(d: Path):
         if not l.get("nameZh"):
             continue
         name = l["nameZh"]
-        # 이름이 길거나 '|' 가 섞인 숙소는 주소로 찾는 편이 정확하다
-        kw = clean(l["addrZh"]) if ("|" in name or len(name) > 24) and CJK.search(l.get("addrZh", "")) else name
+        # '|' 가 섞인 숙소 이름은 검색이 안 돼 주소로 찾는다. 나머지는 이름(지점명 포함)으로 찾는다 —
+        # 시골 주소(예: 本地湾9号)는 고덕지도가 마을 중심으로 잡아 엉뚱한 곳이 나오기 쉽다
+        kw = clean(l["addrZh"]) if "|" in name and CJK.search(l.get("addrZh", "")) else name
         l["amapUrl"] = l.get("amapUrl") or search_url(kw, city_of(l["addrZh"], l.get("region", "")))
         if l["id"] not in {r[0] for r in rows["숙소"]}:
             rows["숙소"].append((l["id"], l["nameKo"], name, clean(l["addrZh"]), l["amapUrl"]))

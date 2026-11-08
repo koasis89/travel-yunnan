@@ -92,9 +92,9 @@
       "bookedBy": "JONGHOON KO",
       "priceKrw": 57808,
       "status": "예약 확정",
-      "note": "전용 주차장·짐 보관·모닝콜. 트윈룸 → 3인 엑스트라베드 확인. D6 샹그릴라 빵차 예약 요청",
+      "note": "전용 주차장·짐 보관·모닝콜. 트윈룸 → 3인 엑스트라베드 확인. D6 샹그릴라 빵차 예약 요청. 위치: 고덕지도 기준 중도객잔에서 약 200m(半山居客栈 남쪽 60m) — 구글지도 Come Inn 핀은 틀림",
       "confirmed": true,
-      "amapUrl": "https://uri.amap.com/search?keyword=%E4%BA%91%E5%8D%97%E7%9C%81%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E%E9%A6%99%E6%A0%BC%E9%87%8C%E6%8B%89%E5%B8%82%E8%99%8E%E8%B7%B3%E5%B3%A1%E9%95%87%E6%B0%B8%E8%83%9C%E6%9D%91%E6%9C%AC%E5%9C%B0%E6%B9%BE9%E5%8F%B7&city=%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E&src=travelyunnan&callnative=1"
+      "amapUrl": "https://uri.amap.com/search?keyword=%E8%A1%8C%E8%80%85%E6%B0%91%E5%AE%BF%C2%B7Come%20Inn%E7%B2%BE%E5%93%81%E8%A7%82%E6%99%AF%E6%B0%91%E5%AE%BF%28%E8%99%8E%E8%B7%B3%E5%B3%A1%E6%9C%AC%E5%9C%B0%E6%B9%BE%E5%BA%97%29&city=%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E&src=travelyunnan&callnative=1"
     },
     {
       "id": "oura",
@@ -118,7 +118,7 @@
       "status": "예약 완료",
       "note": "픽업·샌딩 서비스. D7 06:10 샹그릴라역 샌딩 요청(C644 07:22, 조식 전 출발)",
       "confirmed": true,
-      "amapUrl": "https://uri.amap.com/search?keyword=%E4%BA%91%E5%8D%97%E7%9C%81%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E%E9%A6%99%E6%A0%BC%E9%87%8C%E6%8B%89%E5%B8%82%E5%BB%BA%E5%A1%98%E9%95%87%E9%BE%9F%E5%B1%B1%E5%B7%B73%E5%8F%B7&city=%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E&src=travelyunnan&callnative=1"
+      "amapUrl": "https://uri.amap.com/search?keyword=%E9%A6%99%E6%A0%BC%E9%87%8C%E6%8B%89%E2%80%A2%E6%A0%BC%E6%8B%89%E4%B8%B9%E6%8E%AAOura%20Villa%E6%B0%91%E5%AE%BF%28%E7%8B%AC%E5%85%8B%E5%AE%97%E5%8F%A4%E5%9F%8E%E5%A4%A7%E4%BD%9B%E5%AF%BA%E8%BD%AC%E7%BB%8F%E7%AD%92%E5%BA%97%29&city=%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E&src=travelyunnan&callnative=1"
     },
     {
       "id": "kunming2",

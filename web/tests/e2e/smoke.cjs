@@ -226,6 +226,12 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   await page.evaluate(() => localStorage.setItem('yn.settings', JSON.stringify({ override: '2026-12-20T12:30', bigFont: false, cnyRate: null, cash: 0 })))
   await page.reload(); await page.waitForSelector('text=바로가기', { timeout: 15000 }).catch(() => {})
 
+  // D5 Come Inn: 중도객잔에서 약 200m, 가는 길 문의 위챗 문장
+  await page.goto(base + '#/schedule?day=D5'); await page.waitForSelector('text=약 5~10분(약 200m)', { timeout: 5000 }).catch(() => {})
+  ok('D5 Come Inn 약 200m·구글 핀 주의', await page.isVisible('text=약 5~10분(약 200m)') && (await page.textContent('body')).includes('구글지도의 Come Inn 핀'))
+  await page.click('.linkchip:has-text("Come Inn에 가는 길")')
+  ok('Come Inn 가는 길 문의 문장·숙소 위챗', await page.waitForSelector('text=从中途客栈怎么走到你们客栈', { timeout: 5000 }).then(() => true).catch(() => false) && await page.isVisible('[data-testid=contact-card] >> text=18987966608'))
+
   // 택시 카드 '지도' 버튼 = 만든 고덕지도 링크
   await page.goto(base + '#/taxi/lodging/mulanyu'); await page.waitForSelector('text=丽江沐蘭遇の汤宿')
   ok('택시 카드(숙소) 지도 = 고덕지도 링크', ((await page.getAttribute('a.btn:has-text("지도")', 'href')) || '').startsWith('https://uri.amap.com/search'))

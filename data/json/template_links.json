@@ -122,6 +122,14 @@
       "templateId": "tpl-guide-dropoff",
       "label": "기사에게 복귀 하차 지점 요청(대수차 주차장)",
       "values": {}
+    },
+    {
+      "id": "tl-13",
+      "dayId": "D5",
+      "timeStart": "15:00",
+      "templateId": "tpl-comeinn-route",
+      "label": "Come Inn에 가는 길·위치 문의(중도객잔에서)",
+      "values": {}
     }
   ]
 }

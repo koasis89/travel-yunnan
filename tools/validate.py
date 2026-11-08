@@ -122,7 +122,7 @@ def main(d):
     for x in data.get("template_links.json", {}).get("items", []):
         if (x["dayId"], x["timeStart"]) not in sched_keys:
             errors.append(f"template_links {x['id']}: 일정 행 없음 {x['dayId']} {x['timeStart']}")
-        if x["templateId"] not in {"tpl-tiger", "tpl-shangrila", "tpl-delivery", "tpl-pickup", "tpl-guide", "tpl-guide-confirm", "tpl-guide-arrive", "tpl-guide-late", "tpl-guide-dropoff"}:
+        if x["templateId"] not in {"tpl-tiger", "tpl-shangrila", "tpl-delivery", "tpl-pickup", "tpl-guide", "tpl-guide-confirm", "tpl-guide-arrive", "tpl-guide-late", "tpl-guide-dropoff", "tpl-comeinn-route"}:
             errors.append(f"template_links {x['id']}: 템플릿 {x['templateId']} 없음")
     for x in items("place_links.json"):
         t, k = x["type"], x["key"]

@@ -86,6 +86,7 @@ fun TemplateScreen(data: TripData, idArg: String?, linkArg: String? = null) {
                             Text(c.friendNote, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
                             SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, c.friendNote, "친구 요청 문장을 복사했다") }
                         }
+                        if (c.note.isNotBlank()) Text(c.note, style = MaterialTheme.typography.bodySmall)
                         if (c.email.isNotBlank()) Text("이메일(참고): ${c.email} · 연락은 위챗으로 한다. 바우처의 '+86 3180884…' 긴 번호는 깨진 값이다.",
                             style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
                     }

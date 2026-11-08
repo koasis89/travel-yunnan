@@ -120,4 +120,13 @@ class DocRulesTest {
         T.setGuideBooking(null, null)
         assertTrue(!T.guide.render(emptyMap()).contains("订单号"))
     }
+
+    @Test fun comeInnRoute() {
+        val t = kr.koasis.travelyunnan.domain.Templates.all.first { it.id == "tpl-comeinn-route" }
+        assertTrue(t.render(emptyMap()).contains("从中途客栈怎么走到你们客栈"))
+        assertEquals("18987966608", t.contact?.wechat)
+        val d = TripDataHolder.data
+        assertTrue(d.templateLinks.any { it.id == "tl-13" && it.dayId == "D5" && it.templateId == "tpl-comeinn-route" })
+        assertTrue(d.lodging("comeinn")!!.amapUrl!!.contains("keyword=%E8%A1%8C%E8%80%85%E6%B0%91%E5%AE%BF"))
+    }
 }

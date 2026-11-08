@@ -50,6 +50,7 @@ export function Templates() {
               <span className="zh small">{t.contact.friendNote}</span>
               <button className="btn ghost" onClick={() => copyText(t.contact!.friendNote, '친구 요청 문장을 복사했다')}><Copy size={16} />요청 문장 복사</button>
             </div>
+            {t.contact.note && <div className="tiny muted">{t.contact.note}</div>}
             {t.contact.email && <div className="tiny faint">이메일(참고): {t.contact.email} · 연락은 위챗으로 한다. 바우처의 '+86 3180884…' 긴 번호는 깨진 값이다.</div>}
           </div>
         )}

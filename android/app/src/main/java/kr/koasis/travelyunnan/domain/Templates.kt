@@ -3,7 +3,7 @@ package kr.koasis.travelyunnan.domain
 /** 위챗 메시지 템플릿(S6-2). 변수 값을 치환해 중국어 본문과 한국어 설명을 만든다. */
 data class TemplateField(val key: String, val label: String, val default: String, val hint: String = "")
 
-data class Contact(val name: String, val wechat: String, val email: String = "", val friendNote: String = "", val booker: String = "", val bookingRef: String = "")
+data class Contact(val name: String, val wechat: String, val email: String = "", val friendNote: String = "", val booker: String = "", val bookingRef: String = "", val note: String = "")
 
 data class Template(val id: String, val title: String, val fields: List<TemplateField>, val render: (Map<String, String>) -> String, val renderKo: (Map<String, String>) -> String, val contact: Contact? = null)
 
@@ -117,5 +117,14 @@ object Templates {
         { _, x -> "师傅您好，回程的时候可以把我们送到${x("to")}吗？古城里面车进不去。谢谢！" },
         { _, x -> "돌아갈 때 ${x("to")}에 내려 달라고 부탁한다(고성 안은 차가 못 들어간다)." })
 
-    val all: List<Template> get() = listOf(tigerLeaping, shangrila, delivery, pickup, guide, guideConfirm, guideArrive, guideLate, guideDropoff)
+    /** D5 Come Inn(호도협 본지만): 중도객잔에서 가는 길·위치 문의(웹 tpl-comeinn-route 와 같다) */
+    val COMEINN = Contact("Come Inn(行者民宿·本地湾店) 숙소", "18987966608", friendNote = "12月20日入住 3位客人",
+        note = "위챗 ID 는 숙소 전화번호로 검색한다(시골 객잔은 대개 같다). 안 나오면 예약한 앱(아고다 등)의 숙소 메시지로 같은 문장을 보낸다.")
+    val comeinnRoute: Template = run {
+        val f = listOf(TemplateField("date", "체크인 날짜", "12月20日"), TemplateField("arrive", "중도객잔 도착 시각", "下午3点左右", "예: 下午2点半"))
+        Template("tpl-comeinn-route", "Come Inn 가는 길 문의(D5)", f, contact = COMEINN,
+            render = { m -> "您好！我们是${v(m, "date", f)}入住行者民宿·Come Inn（本地湾店）的客人，3位。我们从茶马客栈徒步过来，${v(m, "arrive", f)}到中途客栈。\n请问：\n1. 从中途客栈怎么走到你们客栈？大概走几分钟？\n2. 可以发一个微信位置给我们吗？\n另外，我们的大行李由司机先送到你们客栈，麻烦帮忙收一下。谢谢！" },
+            renderKo = { m -> "${v(m, "date", f)} 체크인하는 3명이다. 차마객잔에서 걸어와 ${v(m, "arrive", f)} 중도객잔에 도착한다. ① 중도객잔에서 숙소까지 어떻게 가는지, 몇 분 걸리는지 ② 위챗 위치를 보내 달라고 묻고, 큰 짐은 기사가 먼저 갖다 주니 받아 달라고 부탁한다." })
+    }
+    val all: List<Template> get() = listOf(tigerLeaping, shangrila, delivery, pickup, guide, guideConfirm, guideArrive, guideLate, guideDropoff, comeinnRoute)
 }
