@@ -52,6 +52,7 @@ private val TABS = listOf(
     Tab(Routes.SCHEDULE, "schedule", "일정", Icons.Filled.CalendarMonth),
     Tab(Routes.PHRASES, "phrases", "회화", Icons.Filled.Translate),
     Tab(Routes.MAPS, "maps", "지도", Icons.Filled.Map),
+    Tab(Routes.SEARCH, "search", "검색", Icons.Filled.Search),
     Tab(Routes.MORE, "more", "더보기", Icons.Filled.Menu),
 )
 
@@ -146,6 +147,7 @@ fun AppNav(vm: AppViewModel, initialRoute: String? = null) {
                     MapsScreen(vm, d, it.arguments?.getString("day"))
                 }
                 composable(Routes.MORE) { MoreScreen() }
+                composable(Routes.SEARCH) { kr.koasis.travelyunnan.ui.search.SearchScreen(d) }
                 composable(Routes.TAXI) {
                     val type = runCatching { TargetType.valueOf(it.arguments?.getString("type") ?: "") }.getOrNull()
                     TaxiScreen(d, type, it.arguments?.getString("id").orEmpty())

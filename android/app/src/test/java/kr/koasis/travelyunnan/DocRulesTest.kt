@@ -196,4 +196,15 @@ class DocRulesTest {
         assertTrue(r.routes[0].url.startsWith("https://uri.amap.com/navigation?from=102.722334,25.018203"))
         assertTrue(d.schedule.any { it.dayId == "D7" && "龙华" in it.to })
     }
+
+    @Test fun search() {
+        val idx = kr.koasis.travelyunnan.domain.SearchIndex.build(TripDataHolder.data)
+        val S = kr.koasis.travelyunnan.domain.SearchIndex
+        assertTrue(S.search(idx, "산소캔").any { it.kind == "체크리스트" })
+        assertEquals(kr.koasis.travelyunnan.domain.SearchTarget.Eat("longhua"), S.search(idx, "龙华").first().target)
+        assertEquals("관광지", S.search(idx, "사방가").first().kind)
+        assertTrue(S.search(idx, "로봇").any { it.target == kr.koasis.travelyunnan.domain.SearchTarget.Template("tpl-delivery-note") })
+        assertTrue(S.search(idx, "여권 기차").all { "여권" in it.text && "기차" in it.text })
+        assertTrue(S.search(idx, "  ").isEmpty())
+    }
 }

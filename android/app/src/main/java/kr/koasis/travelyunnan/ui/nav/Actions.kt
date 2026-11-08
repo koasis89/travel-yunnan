@@ -57,6 +57,7 @@ object Routes {
     const val FOODS = "foods"
     const val MILKTEA = "milktea"
     const val ARRIVAL = "arrival-card"
+    const val SEARCH = "search"
     const val FOOD_PHOTOS = "foodphotos?food={food}"
     fun foodPhotos(food: String?) = "foodphotos" + (food?.let { "?food=$it" } ?: "")
     const val MENU = "menu?food={food}"

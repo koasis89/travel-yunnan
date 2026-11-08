@@ -321,3 +321,31 @@ describe('쿤밍 딤섬: 용화찻집(龙华茶楼 顺城店)', () => {
     expect(r.amapUrl).toContain('position=102.708475,25.035825')
   })
 })
+
+import { buildSearchIndex, searchIndex } from '../src/domain/search'
+describe('통합 검색', () => {
+  const idx = buildSearchIndex(data)
+  it('여러 종류에서 찾는다(한국어·중국어·번역)', () => {
+    const kinds = (q: string) => new Set(searchIndex(idx, q).map((h) => h.kind))
+    expect([...kinds('산소캔')]).toEqual(expect.arrayContaining(['체크리스트']))
+    expect([...kinds('딤섬')]).toEqual(expect.arrayContaining(['식당']))
+    expect([...kinds('과교미선')]).toEqual(expect.arrayContaining(['식당', '음식']))
+    expect(searchIndex(idx, '龙华').some((h) => h.to === '/eats/longhua')).toBe(true)
+    expect(searchIndex(idx, '로봇').some((h) => h.to === '/templates?id=tpl-delivery-note')).toBe(true)
+    expect(searchIndex(idx, '입국신고').some((h) => h.to === '/arrival-card')).toBe(true)
+  })
+  it('띄어 쓴 낱말은 모두 들어가야 하고, 빈 검색은 결과 없음', () => {
+    const a = searchIndex(idx, '여권 기차')
+    expect(a.length).toBeGreaterThan(0)
+    expect(a.every((h) => h.text.includes('여권') && h.text.includes('기차'))).toBe(true)
+    expect(searchIndex(idx, '   ')).toEqual([])
+    expect(searchIndex(idx, '사방가')[0].title).toContain('사방가')
+  })
+})
+describe('통합 검색 순서', () => {
+  it('이름이 맞는 대상(식당·관광지)이 일정보다 앞', () => {
+    const idx = buildSearchIndex(data)
+    expect(searchIndex(idx, '龙华')[0].to).toBe('/eats/longhua')
+    expect(searchIndex(idx, '사방가')[0].kind).toBe('관광지')
+  })
+})

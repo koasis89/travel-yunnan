@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { HashRouter, NavLink, Route, Routes, useLocation } from 'react-router-dom'
-import { BedDouble, CalendarDays, House, Menu as MenuIcon } from 'lucide-react'
+import { BedDouble, CalendarDays, House, Menu as MenuIcon, Search as SearchIcon } from 'lucide-react'
 import { TripData } from './domain/types'
 import { DataProvider, useSettings } from './store/data'
 import { logout, savedEmail, unlock } from './store/vault'
@@ -17,6 +17,7 @@ import { NumberCard, Templates } from './pages/Tools'
 import { More, Settings } from './pages/More'
 import { MilkTea } from './pages/MilkTea'
 import { ArrivalCard } from './pages/ArrivalCard'
+import { Search } from './pages/Search'
 import { DocView, Docs } from './pages/Docs'
 import { SightView, Sights } from './pages/Sights'
 import { AmapLinks } from './pages/AmapLinks'
@@ -26,6 +27,7 @@ const TABS = [
   { to: '/', label: '오늘', icon: House, end: true },
   { to: '/schedule', label: '일정', icon: CalendarDays },
   { to: '/stay', label: '숙소·식사', icon: BedDouble },
+  { to: '/search', label: '검색', icon: SearchIcon },
   { to: '/more', label: '더보기', icon: MenuIcon },
 ]
 
@@ -87,6 +89,7 @@ export default function App() {
             <Route path="/menu" element={<Menu />} />
             <Route path="/milktea" element={<MilkTea />} />
             <Route path="/arrival-card" element={<ArrivalCard />} />
+            <Route path="/search" element={<Search />} />
             <Route path="/taxi/:type/:id" element={<Taxi />} />
             <Route path="/show/:id" element={<ShowPhrase />} />
             <Route path="/transport" element={<Transport />} />
