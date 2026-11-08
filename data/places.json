@@ -311,6 +311,13 @@
       "nameZh": "上坐传统过桥米线(顺城购物中心店)",
       "addrZh": "昆明市五华区东风西路11号顺城购物中心K座4楼01号",
       "amapUrl": "https://surl.amap.com/gQLmR7I1ofTW"
+    },
+    {
+      "id": "longhua",
+      "nameKo": "용화찻집(순성점) 광둥식 딤섬",
+      "nameZh": "龙华茶楼(顺城店)",
+      "addrZh": "昆明市五华区东风西路11号顺城购物中心K座4楼",
+      "amapUrl": "https://uri.amap.com/marker?position=102.708475,25.035825&name=%E9%BE%99%E5%8D%8E%E8%8C%B6%E6%A5%BC%28%E9%A1%BA%E5%9F%8E%E5%BA%97%29&src=travelyunnan&callnative=1"
     }
   ]
 }

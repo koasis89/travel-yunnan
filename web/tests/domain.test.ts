@@ -309,3 +309,15 @@ describe('체크리스트(사전 일정·입국신고 QR·다음날 준비)', ()
     expect(data.checklists.arrivalCard.steps).toHaveLength(7)
   })
 })
+
+describe('쿤밍 딤섬: 용화찻집(龙华茶楼 顺城店)', () => {
+  it('식당·D7 저녁 칩·호텔→찻집 경로', () => {
+    const r = data.restaurants.find((x) => x.id === 'longhua')!
+    expect(r.nameZh).toBe('龙华茶楼(顺城店)')
+    expect(r.menu.map((m) => m.zh)).toContain('水晶虾饺')
+    expect(r.routes!.map((x) => x.url)).toEqual([expect.stringContaining('uri.amap.com/navigation?from=102.722334,25.018203'), expect.stringContaining('to_poiid=B0L1YZDA04')])
+    const d7 = data.scheduleOf('D7').find((x) => x.to.includes('龙华'))!
+    expect(data.restaurantsFor(d7).map((x) => x.id)).toEqual(expect.arrayContaining(['shangzuo', 'longhua']))
+    expect(r.amapUrl).toContain('position=102.708475,25.035825')
+  })
+})

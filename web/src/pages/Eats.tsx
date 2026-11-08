@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { CarTaxiFront, Copy, Lightbulb, Star, MapPin, Maximize2, MessageSquareText, ShoppingBasket, UtensilsCrossed, Wallet } from 'lucide-react'
+import { CarTaxiFront, Copy, Lightbulb, Star, MapPin, Maximize2, MessageSquareText, ShoppingBasket, UtensilsCrossed, Wallet, Route } from 'lucide-react'
 import { Banner, DayChips, ShowCard, TopBar, copyText } from '../components/ui'
 import { useData, useNow } from '../store/data'
 import { resolvePhase } from '../domain/tripTime'
@@ -82,10 +82,11 @@ export function EatView() {
           {taxiOpt && <Link className="btn primary" to={`/taxi/meal/${taxiOpt.id}`}><CarTaxiFront size={18} />택시 카드</Link>}
           {taxiPlace && <Link className="btn primary" to={`/taxi/place/${taxiPlace.id}`}><CarTaxiFront size={18} />택시 카드</Link>}
           {r.amapUrl && <a className="btn" href={r.amapUrl} target="_blank" rel="noreferrer"><MapPin size={18} />지도</a>}
+          {r.routes?.map((x) => <a key={x.url} className="btn" data-testid="eat-route" href={x.url} target="_blank" rel="noreferrer" title={x.note}><Route size={18} />{x.label}</a>)}
           <button className="btn" onClick={() => setBoard(true)}><Maximize2 size={18} />메뉴판 크게</button>
         </div>
       </div>
-      {(r.ratings?.length ?? 0) > 0 && <><div className="section">평점·여행자 인기 메뉴 (씨트립)</div>
+      {(r.ratings?.length ?? 0) > 0 && <><div className="section">평점·여행자 인기 메뉴 ({[...new Set(r.ratings!.map((g) => g.source.replace(/\(.*\)/, '')))].join('·')})</div>
         <div className="pad stack">{r.ratings!.map((g) => (
           <div key={g.name} className="card stack" data-testid="rating" style={{ gap: 6 }}>
             <div className="row" style={{ gap: 8, alignItems: 'baseline', flexWrap: 'wrap' }}>

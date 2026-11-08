@@ -123,11 +123,12 @@ fun EatScreen(data: TripData, id: String) {
                         taxiOpt?.let { o -> SmallAction(Icons.Filled.LocalTaxi, "택시 카드") { actions.openTaxi(TargetType.meal, o.id) } }
                         taxiPlace?.let { p -> SmallAction(Icons.Filled.LocalTaxi, "택시 카드") { actions.openTaxi(TargetType.place, p.id) } }
                         r.amapUrl?.let { u -> SmallAction(Icons.Filled.Map, "지도") { External.openUrl(ctx, u) } }
+                        r.routes.forEach { x -> SmallAction(Icons.Filled.Directions, x.label) { External.openUrl(ctx, x.url) } }
                         SmallAction(Icons.Filled.Fullscreen, "메뉴판 크게") { board = true }
                     }
                 }
                 if (r.ratings.isNotEmpty()) {
-                    SectionTitle("평점·여행자 인기 메뉴 (씨트립)")
+                    SectionTitle("평점·여행자 인기 메뉴 (" + r.ratings.map { it.source.substringBefore("(") }.distinct().joinToString("·") + ")")
                     r.ratings.forEach { g ->
                         Card(Modifier.padding(horizontal = 16.dp, vertical = 4.dp).fillMaxWidth()) {
                             Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {

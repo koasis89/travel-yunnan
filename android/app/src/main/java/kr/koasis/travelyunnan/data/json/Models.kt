@@ -287,7 +287,12 @@ data class Restaurant(
     val amapUrl: String? = null,
     val placeId: String? = null,
     val ratings: List<Rating> = emptyList(),
+    val routes: List<RouteLink> = emptyList(),
 )
+
+/** 식당 길찾기 링크(고덕지도 경로) */
+@Serializable
+data class RouteLink(val label: String, val url: String, val note: String = "")
 
 @Serializable
 data class Place(

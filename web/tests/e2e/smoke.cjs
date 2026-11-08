@@ -263,6 +263,11 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   ok('밀크티 주문 문장(당도·온도)', await page.isVisible('text=你好，我要一杯生椰拿铁，少糖，热的。'))
   await page.screenshot({ path: `${out}/w31_milktea_order.png` })
 
+  // 쿤밍 딤섬: 용화찻집 — 경로 버튼(호텔→찻집)
+  await page.goto(base + '#/eats/longhua'); await page.waitForSelector('text=龙华茶楼(顺城店)', { timeout: 5000 }).catch(() => {})
+  ok('용화찻집 식당·경로 버튼 2개', (await page.locator('[data-testid=eat-route]').count()) === 2 && ((await page.getAttribute('[data-testid=eat-route] >> nth=1', 'href')) || '').includes('amap.com/ssr/embed/dir') && await page.isVisible('text=평점·여행자 인기 메뉴 (고덕지도)'))
+  await page.screenshot({ path: `${out}/w37_longhua.png` })
+
   // 체크리스트: 일정 맨 아래 다음날 준비, 사전 일정 체크·출국 당일, 입국신고 QR 화면
   await page.goto(base + '#/schedule?day=D2'); await page.waitForSelector('[data-testid=nextday-check]', { timeout: 5000 }).catch(() => {})
   ok('D2 맨 아래 내일 옥룡설산 준비(산소캔)', await page.isVisible('text=내일 옥룡설산 투어(4,506m)') && await page.isVisible('text=산소캔 1인 1~2개 구매'))

@@ -187,4 +187,13 @@ class DocRulesTest {
         assertEquals(false, f.first { it.label == "입국 사유" }.copy)
         assertEquals("flightIn", f.first { it.label == "입국 항공편" }.input)
     }
+
+    @Test fun longhuaDimSum() {
+        val d = TripDataHolder.data
+        val r = d.restaurants.first { it.id == "longhua" }
+        assertEquals("龙华茶楼(顺城店)", r.nameZh)
+        assertEquals(2, r.routes.size)
+        assertTrue(r.routes[0].url.startsWith("https://uri.amap.com/navigation?from=102.722334,25.018203"))
+        assertTrue(d.schedule.any { it.dayId == "D7" && "龙华" in it.to })
+    }
 }
