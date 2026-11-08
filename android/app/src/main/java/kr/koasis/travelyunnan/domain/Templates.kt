@@ -29,24 +29,18 @@ object Templates {
     val tigerLeaping: Template = run {
         val f = listOf(
             TemplateField("from", "출발지", "白沙古镇 Rishine Villa（日沐山）", "숙소 중국어명"),
-            TemplateField("date", "날짜", "12月20日（周日）早上9点", "예: 明天早上9点"),
-            TemplateField("wait", "상호도협 대기", "1到1.5小时"),
-            TemplateField("to", "최종 목적지", "茶马客栈"),
-            TemplateField("luggage", "짐 보낼 곳", "中途客栈附近的“靠山十九度 (COME INN) 客栈”"),
+            TemplateField("date", "날짜·시각", "12月20日（周日）上午11点半", "예: 明天上午11点半"),
+            TemplateField("to", "목적지", "虎跳峡本地湾 行者民宿·Come Inn（中途客栈旁边）"),
             TemplateField("persons", "인원", "3"),
         )
-        Template("tpl-tiger", "호도협 전용차 예약 요청", f,
+        Template("tpl-tiger", "호도협 Come Inn 직행 전용차 예약 요청", f,
             render = { m ->
-                "你好，我想预订去虎跳峡徒步的包车，${v(m, "persons", f)}个人。行程如下：\n" +
-                    "• 出发：${v(m, "from", f)}，${v(m, "date", f)}\n" +
-                    "• 经停：上虎跳峡景区，停留${v(m, "wait", f)}\n" +
-                    "• 终点：${v(m, "to", f)}\n" +
-                    "另外，我们的行李箱到达${v(m, "to", f)}后，需要托运到${v(m, "luggage", f)}。\n" +
-                    "请问这样包一辆车的总费用是多少钱？请写在微信上，谢谢！"
+                "你好，我想预订${v(m, "date", f)}的包车，${v(m, "persons", f)}个人，带行李箱。\n" +
+                    "• 出发：${v(m, "from", f)}\n" +
+                    "• 到达：${v(m, "to", f)}\n" +
+                    "请问一辆车的总费用是多少钱？大概要开多久？请写在微信上，谢谢！"
             },
-            renderKo = { m ->
-                "호도협 트레킹 전용차 예약 요청(${v(m, "persons", f)}명). 출발 ${v(m, "from", f)} ${v(m, "date", f)}, 상호도협 ${v(m, "wait", f)} 대기 후 ${v(m, "to", f)}까지. 짐은 ${v(m, "luggage", f)}로 탁송. 차 1대 총비용 문의, 위챗으로 답장 요청."
-            })
+            renderKo = { m -> "${v(m, "date", f)} ${v(m, "from", f)}에서 ${v(m, "to", f)}까지 전용차 예약 요청(${v(m, "persons", f)}명, 캐리어 포함). 차 1대 총비용과 걸리는 시간 문의, 위챗으로 답장 요청." })
     }
 
     val shangrila: Template = run {
@@ -118,13 +112,18 @@ object Templates {
         { _, x -> "돌아갈 때 ${x("to")}에 내려 달라고 부탁한다(고성 안은 차가 못 들어간다)." })
 
     /** D5 Come Inn(호도협 본지만): 중도객잔에서 가는 길·위치 문의(웹 tpl-comeinn-route 와 같다) */
-    val COMEINN = Contact("Come Inn(行者民宿·本地湾店) 숙소", "18987966608", friendNote = "12月20日入住 3位客人",
+    val COMEINN = Contact("Come Inn(行者民宿·本地湾店) 숙소", "18987966608", friendNote = "12月20日入住 3位客人 想提前入住",
         note = "위챗 ID 는 숙소 전화번호로 검색한다(시골 객잔은 대개 같다). 안 나오면 예약한 앱(아고다 등)의 숙소 메시지로 같은 문장을 보낸다.")
+    /** D5 Come Inn: 얼리체크인 + 차마객잔 → 숙소 빵차 요청(웹 tpl-comeinn-route 와 같다) */
     val comeinnRoute: Template = run {
-        val f = listOf(TemplateField("date", "체크인 날짜", "12月20日"), TemplateField("arrive", "중도객잔 도착 시각", "下午3点左右", "예: 下午2点半"))
-        Template("tpl-comeinn-route", "Come Inn 가는 길 문의(D5)", f, contact = COMEINN,
-            render = { m -> "您好！我们是${v(m, "date", f)}入住行者民宿·Come Inn（本地湾店）的客人，3位。我们从茶马客栈徒步过来，${v(m, "arrive", f)}到中途客栈。\n请问：\n1. 从中途客栈怎么走到你们客栈？大概走几分钟？\n2. 可以发一个微信位置给我们吗？\n另外，我们的大行李由司机先送到你们客栈，麻烦帮忙收一下。谢谢！" },
-            renderKo = { m -> "${v(m, "date", f)} 체크인하는 3명이다. 차마객잔에서 걸어와 ${v(m, "arrive", f)} 중도객잔에 도착한다. ① 중도객잔에서 숙소까지 어떻게 가는지, 몇 분 걸리는지 ② 위챗 위치를 보내 달라고 묻고, 큰 짐은 기사가 먼저 갖다 주니 받아 달라고 부탁한다." })
+        val f = listOf(
+            TemplateField("date", "체크인 날짜", "12月20日"),
+            TemplateField("arrive", "도착 시각(차로)", "下午2点左右", "예: 下午1点半"),
+            TemplateField("van", "차마객잔 빵차 시각", "下午4点半", "예: 下午5点"),
+        )
+        Template("tpl-comeinn-route", "Come Inn 얼리체크인·빵차 요청(D5)", f, contact = COMEINN,
+            render = { m -> "您好！我们是${v(m, "date", f)}入住行者民宿·Come Inn（本地湾店）的客人，3位。我们从白沙坐包车过来，大概${v(m, "arrive", f)}到客栈。\n请问：\n1. 可以提前入住吗？放好行李休息一下，然后从客栈徒步去茶马客栈。\n2. ${v(m, "van", f)}可以帮我们叫一辆面包车，从茶马客栈接我们回客栈吗？大概多少钱？\n3. 可以发一个微信位置给我们吗？（司机好找）\n谢谢！" },
+            renderKo = { m -> "${v(m, "date", f)} 체크인하는 3명이다. 백사에서 전용차로 ${v(m, "arrive", f)}쯤 도착한다. ① 얼리체크인이 되는지(짐 두고 쉬었다가 숙소에서 차마객잔까지 걷는다) ② ${v(m, "van", f)}에 차마객잔에서 숙소로 돌아올 빵차를 불러 줄 수 있는지, 요금은 얼마인지 ③ 기사가 찾기 쉽게 위챗 위치를 보내 달라고 부탁한다." })
     }
     val all: List<Template> get() = listOf(tigerLeaping, shangrila, delivery, pickup, guide, guideConfirm, guideArrive, guideLate, guideDropoff, comeinnRoute)
 }

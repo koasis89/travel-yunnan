@@ -30,11 +30,11 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   await page.evaluate(() => localStorage.setItem('yn.settings', JSON.stringify({ override: '2026-12-20T12:30', bigFont: false, cnyRate: null, cash: 0 })))
   await page.reload(); await page.waitForSelector('text=바로가기', { timeout: 15000 })
   ok('자동 로그인(재실행 시 이메일 재입력 없음)', true)
-  ok('홈 D5 지금 일정 = 차마객잔→중도객잔', await page.isVisible('text=차마객잔 → 중도객잔(中途客栈)'))
+  ok('홈 D5 지금 일정 = 빌라→Come Inn 직행', await page.isVisible('text=Rishine 빌라 → Come Inn(行者民宿·Come Inn, 本地湾)'))
   await page.screenshot({ path: `${out}/w02_home_d5.png`, fullPage: false })
 
   const shots = [
-    ['#/schedule?day=D4', 'w03_schedule_d4', 'text=위챗: 호도협 전용차 예약 요청'],
+    ['#/schedule?day=D4', 'w03_schedule_d4', 'text=위챗: 호도협 Come Inn 직행 전용차 예약 요청'],
     ['#/taxi/lodging/mulanyu', 'w04_taxi_mulanyu', 'text=丽江沐蘭遇の汤宿'],
     ['#/stay?tab=lodging', 'w05_stay_lodging', 'text=물라뉴 탕수 호텔'],
     ['#/stay?tab=meals&day=D2', 'w06_meals', 'text=田村·酸汤牦牛肉火锅'],
@@ -74,7 +74,7 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   await page.goto(base + '#/transport')
   const [dl] = await Promise.all([page.waitForEvent('download'), page.click('text=캘린더 파일 받기')])
   const ics = require('fs').readFileSync(await dl.path(), 'utf8')
-  ok('캘린더 파일 15건', (ics.match(/BEGIN:VEVENT/g) || []).length === 15)
+  ok('캘린더 파일 16건', (ics.match(/BEGIN:VEVENT/g) || []).length === 16)
 
   // 체크 저장 유지
   await page.goto(base + '#/packing'); await page.locator('.check input').first().check(); await page.reload()
@@ -159,7 +159,7 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   await page.goto(base + '#/stay?tab=meals&day=D2'); await page.click('[data-testid=eat-link] >> nth=0')
   ok('식사 → 식당 정보', await page.waitForSelector('[data-testid=menu-item]', { timeout: 5000 }).then(() => true).catch(() => false))
   await page.goto(base + '#/eats/tiancun'); await page.waitForSelector('[data-testid=menu-item]')
-  ok('메뉴 사진 표시', await page.evaluate(() => [...document.querySelectorAll('[data-testid=menu-item] img')].some((i) => i.complete && i.naturalWidth > 50)))
+  ok('메뉴 사진 표시', await page.waitForFunction(() => [...document.querySelectorAll('[data-testid=menu-item] img')].some((i) => i.complete && i.naturalWidth > 50), null, { timeout: 10000 }).then(() => true).catch(() => false))
   await page.click('[data-testid=menu-item] >> nth=0'); await page.click('[data-testid=menu-item] >> nth=1'); await page.click('[data-testid=menu-item] >> nth=1')
   await page.screenshot({ path: `${out}/w34_eat_pick.png` })
   await page.click('[data-testid=make-order]')
@@ -226,11 +226,14 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   await page.evaluate(() => localStorage.setItem('yn.settings', JSON.stringify({ override: '2026-12-20T12:30', bigFont: false, cnyRate: null, cash: 0 })))
   await page.reload(); await page.waitForSelector('text=바로가기', { timeout: 15000 }).catch(() => {})
 
-  // D5 Come Inn: 중도객잔에서 약 200m, 가는 길 문의 위챗 문장
-  await page.goto(base + '#/schedule?day=D5'); await page.waitForSelector('text=약 5~10분(약 200m)', { timeout: 5000 }).catch(() => {})
-  ok('D5 Come Inn 약 200m·구글 핀 주의', await page.isVisible('text=약 5~10분(약 200m)') && (await page.textContent('body')).includes('구글지도의 Come Inn 핀'))
-  await page.click('.linkchip:has-text("Come Inn에 가는 길")')
-  ok('Come Inn 가는 길 문의 문장·숙소 위챗', await page.waitForSelector('text=从中途客栈怎么走到你们客栈', { timeout: 5000 }).then(() => true).catch(() => false) && await page.isVisible('[data-testid=contact-card] >> text=18987966608'))
+  // D5: 11:30 빌라 → Come Inn 직행, 14:30 차마객잔까지 트레킹, 16:30 빵차 복귀
+  await page.goto(base + '#/schedule?day=D5'); await page.waitForSelector('text=차마객잔 → Come Inn', { timeout: 5000 }).catch(() => {})
+  const d5 = await page.textContent('body')
+  ok('D5 새 일정(직행·얼리체크인·차마객잔 트레킹·빵차 복귀)', ['11:30~14:00', '14:00~14:30', '14:30~16:30', '16:30~17:10'].every((t) => d5.includes(t)) && d5.includes('얼리체크인') && !d5.includes('상호도협 → 상호도협'))
+  await page.click('.linkchip:has-text("Come Inn에 얼리체크인·빵차 다시 확인")')
+  ok('Come Inn 얼리체크인·빵차 문장·숙소 위챗', await page.waitForSelector('text=可以提前入住吗', { timeout: 5000 }).then(() => true).catch(() => false) && await page.isVisible('text=从茶马客栈接我们回客栈') && await page.isVisible('[data-testid=contact-card] >> text=18987966608'))
+  await page.goto(base + '#/schedule?day=D4'); await page.click('.linkchip:has-text("호도협 Come Inn 직행 전용차")')
+  ok('D4 전용차 문장 = 11시 반 Come Inn 직행(상호도협 없음)', await page.waitForSelector('text=上午11点半', { timeout: 5000 }).then(() => true).catch(() => false) && !(await page.textContent('body')).includes('上虎跳峡景区'))
 
   // 택시 카드 '지도' 버튼 = 만든 고덕지도 링크
   await page.goto(base + '#/taxi/lodging/mulanyu'); await page.waitForSelector('text=丽江沐蘭遇の汤宿')

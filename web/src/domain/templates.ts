@@ -16,10 +16,8 @@ const val = (v: Record<string, string>, f: TemplateField[], k: string) => (v[k]?
 
 const tigerF: TemplateField[] = [
   { key: 'from', label: '출발지', def: '白沙古镇 Rishine Villa（日沐山）', hint: '숙소 중국어명' },
-  { key: 'date', label: '날짜', def: '12月20日（周日）早上9点', hint: '예: 明天早上9点' },
-  { key: 'wait', label: '상호도협 대기', def: '1到1.5小时' },
-  { key: 'to', label: '최종 목적지', def: '茶马客栈' },
-  { key: 'luggage', label: '짐 보낼 곳', def: '中途客栈附近的“靠山十九度 (COME INN) 客栈”' },
+  { key: 'date', label: '날짜·시각', def: '12月20日（周日）上午11点半', hint: '예: 明天上午11点半' },
+  { key: 'to', label: '목적지', def: '虎跳峡本地湾 行者民宿·Come Inn（中途客栈旁边）' },
   { key: 'persons', label: '인원', def: '3' },
 ]
 const shangF: TemplateField[] = [
@@ -49,9 +47,9 @@ const guideF: TemplateField[] = [
 ]
 
 export const TEMPLATES: Template[] = [
-  { id: 'tpl-tiger', title: '호도협 전용차 예약 요청', fields: tigerF,
-    render: (v) => `你好，我想预订去虎跳峡徒步的包车，${val(v, tigerF, 'persons')}个人。行程如下：\n• 出发：${val(v, tigerF, 'from')}，${val(v, tigerF, 'date')}\n• 经停：上虎跳峡景区，停留${val(v, tigerF, 'wait')}\n• 终点：${val(v, tigerF, 'to')}\n另外，我们的行李箱到达${val(v, tigerF, 'to')}后，需要托运到${val(v, tigerF, 'luggage')}。\n请问这样包一辆车的总费用是多少钱？请写在微信上，谢谢！`,
-    renderKo: (v) => `호도협 트레킹 전용차 예약 요청(${val(v, tigerF, 'persons')}명). 출발 ${val(v, tigerF, 'from')} ${val(v, tigerF, 'date')}, 상호도협 ${val(v, tigerF, 'wait')} 대기 후 ${val(v, tigerF, 'to')}까지. 짐은 ${val(v, tigerF, 'luggage')}로 탁송. 차 1대 총비용 문의, 위챗으로 답장 요청.` },
+  { id: 'tpl-tiger', title: '호도협 Come Inn 직행 전용차 예약 요청', fields: tigerF,
+    render: (v) => `你好，我想预订${val(v, tigerF, 'date')}的包车，${val(v, tigerF, 'persons')}个人，带行李箱。\n• 出发：${val(v, tigerF, 'from')}\n• 到达：${val(v, tigerF, 'to')}\n请问一辆车的总费用是多少钱？大概要开多久？请写在微信上，谢谢！`,
+    renderKo: (v) => `${val(v, tigerF, 'date')} ${val(v, tigerF, 'from')}에서 ${val(v, tigerF, 'to')}까지 전용차 예약 요청(${val(v, tigerF, 'persons')}명, 캐리어 포함). 차 1대 총비용과 걸리는 시간 문의, 위챗으로 답장 요청.` },
   { id: 'tpl-shangrila', title: '샹그릴라 빵차 예약 요청', fields: shangF,
     render: (v) => `你好，我想预订${val(v, shangF, 'date')}，从${val(v, shangF, 'from')}到${val(v, shangF, 'to')}的包车，${val(v, shangF, 'persons')}个人，行李一起。请问一辆车的费用是多少钱？请写在微信上，谢谢！`,
     renderKo: (v) => `${val(v, shangF, 'date')} ${val(v, shangF, 'from')}에서 ${val(v, shangF, 'to')}까지 ${val(v, shangF, 'persons')}명 빵차(짐 포함) 예약 요청, 차 1대 비용 문의.` },
@@ -93,11 +91,15 @@ export function setGuideBooking(booker?: string, ref?: string) {
 }
 
 /** D5 Come Inn(호도협 본지만): 중도객잔에서 가는 길·위치 문의. 위챗 ID 는 숙소 전화번호로 찾는다(시골 객잔은 대개 같다) */
-export const COMEINN: Contact = { name: 'Come Inn(行者民宿·本地湾店) 숙소', wechat: '18987966608', friendNote: '12月20日入住 3位客人', note: '위챗 ID 는 숙소 전화번호로 검색한다(시골 객잔은 대개 같다). 안 나오면 예약한 앱(아고다 등)의 숙소 메시지로 같은 문장을 보낸다.' }
-const comeF: TemplateField[] = [{ key: 'date', label: '체크인 날짜', def: '12月20日' }, { key: 'arrive', label: '중도객잔 도착 시각', def: '下午3点左右', hint: '예: 下午2点半' }]
-TEMPLATES.push({ id: 'tpl-comeinn-route', title: 'Come Inn 가는 길 문의(D5)', fields: comeF, contact: COMEINN,
-  render: (v) => `您好！我们是${val(v, comeF, 'date')}入住行者民宿·Come Inn（本地湾店）的客人，3位。我们从茶马客栈徒步过来，${val(v, comeF, 'arrive')}到中途客栈。\n请问：\n1. 从中途客栈怎么走到你们客栈？大概走几分钟？\n2. 可以发一个微信位置给我们吗？\n另外，我们的大行李由司机先送到你们客栈，麻烦帮忙收一下。谢谢！`,
-  renderKo: (v) => `${val(v, comeF, 'date')} 체크인하는 3명이다. 차마객잔에서 걸어와 ${val(v, comeF, 'arrive')} 중도객잔에 도착한다. ① 중도객잔에서 숙소까지 어떻게 가는지, 몇 분 걸리는지 ② 위챗 위치를 보내 달라고 묻고, 큰 짐은 기사가 먼저 갖다 주니 받아 달라고 부탁한다.` })
+export const COMEINN: Contact = { name: 'Come Inn(行者民宿·本地湾店) 숙소', wechat: '18987966608', friendNote: '12月20日入住 3位客人 想提前入住', note: '위챗 ID 는 숙소 전화번호로 검색한다(시골 객잔은 대개 같다). 안 나오면 예약한 앱(아고다 등)의 숙소 메시지로 같은 문장을 보낸다.' }
+const comeF: TemplateField[] = [
+  { key: 'date', label: '체크인 날짜', def: '12月20日' },
+  { key: 'arrive', label: '도착 시각(차로)', def: '下午2点左右', hint: '예: 下午1点半' },
+  { key: 'van', label: '차마객잔 빵차 시각', def: '下午4点半', hint: '예: 下午5点' },
+]
+TEMPLATES.push({ id: 'tpl-comeinn-route', title: 'Come Inn 얼리체크인·빵차 요청(D5)', fields: comeF, contact: COMEINN,
+  render: (v) => `您好！我们是${val(v, comeF, 'date')}入住行者民宿·Come Inn（本地湾店）的客人，3位。我们从白沙坐包车过来，大概${val(v, comeF, 'arrive')}到客栈。\n请问：\n1. 可以提前入住吗？放好行李休息一下，然后从客栈徒步去茶马客栈。\n2. ${val(v, comeF, 'van')}可以帮我们叫一辆面包车，从茶马客栈接我们回客栈吗？大概多少钱？\n3. 可以发一个微信位置给我们吗？（司机好找）\n谢谢！`,
+  renderKo: (v) => `${val(v, comeF, 'date')} 체크인하는 3명이다. 백사에서 전용차로 ${val(v, comeF, 'arrive')}쯤 도착한다. ① 얼리체크인이 되는지(짐 두고 쉬었다가 숙소에서 차마객잔까지 걷는다) ② ${val(v, comeF, 'van')}에 차마객잔에서 숙소로 돌아올 빵차를 불러 줄 수 있는지, 요금은 얼마인지 ③ 기사가 찾기 쉽게 위챗 위치를 보내 달라고 부탁한다.` })
 
 export const templateById = (id?: string | null) => TEMPLATES.find((t) => t.id === id)
 

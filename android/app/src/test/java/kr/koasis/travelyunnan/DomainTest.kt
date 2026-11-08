@@ -43,9 +43,12 @@ class DomainTest {
     }
 
     @Test fun d5_trekking() {
-        val s = nowState("2026-12-20T12:30")
-        assertEquals("차마객잔", s.current?.from)
-        assertTrue(s.current!!.to.contains("중도객잔"))
+        // 11:30 빌라 → Come Inn 직행, 14:30 Come Inn → 차마객잔 트레킹, 16:30 빵차 복귀
+        val car = nowState("2026-12-20T12:30").current!!
+        assertEquals("Rishine 빌라", car.from); assertTrue(car.to.contains("Come Inn"))
+        val walk = nowState("2026-12-20T15:00").current!!
+        assertEquals("Come Inn", walk.from); assertTrue(walk.to.contains("차마객잔")); assertEquals("도보", walk.transport)
+        assertTrue(nowState("2026-12-20T16:45").current!!.transport.contains("빵차"))
     }
 
     @Test fun d8_evening_airportMove() {
@@ -87,7 +90,7 @@ class DomainTest {
     @Test fun scheduleLinks_lodgingAndMessages() {
         val arrival = data.scheduleOf("D2").first { it.to.contains("물라뉴") }
         assertTrue(ScheduleLinks.find(data, arrival).any { it.type == TargetType.lodging && it.id == "mulanyu" })
-        val d4 = data.schedule.first { it.message?.contains("虎跳峡徒步") == true }
+        val d4 = data.schedule.first { it.message?.contains("行者民宿·Come Inn（中途客栈旁边）的包车") == true }
         assertEquals("msg-001", ScheduleLinks.messagePhrase(data, d4)?.id)
         val d6 = data.schedule.first { it.message?.contains("香格里拉的包车") == true }
         assertEquals("msg-002", ScheduleLinks.messagePhrase(data, d6)?.id)
@@ -120,7 +123,7 @@ class DomainTest {
         val csv = kr.koasis.travelyunnan.ui.expense.expensesCsv(list, 200.0)
         assertTrue(csv.lines().size == 2 && csv.contains("20000") && csv.contains("\"a,b\""))
         assertEquals("식비", kr.koasis.travelyunnan.ui.expense.budgetKey("식비(맛집·식사 계획)"))
-        assertEquals(15, data.notifications.size)
+        assertEquals(16, data.notifications.size)
         assertTrue(data.notifications.all { kr.koasis.travelyunnan.notify.TripNotifier.epochMillis(it.at) > 0 })
     }
 
@@ -153,8 +156,10 @@ class S6Test {
     @Test fun templateLinksAttachToRows() {
         val d = TripDataHolder.data
         val d4 = d.scheduleOf("D4").first { it.timeStart == "17:30" }
-        assertEquals(listOf("tpl-tiger"), d.templatesFor(d4).map { it.templateId })
-        val d5 = d.scheduleOf("D5").first { it.timeStart == "15:15" }
+        assertEquals(setOf("tpl-tiger", "tpl-comeinn-route"), d.templatesFor(d4).map { it.templateId }.toSet())
+        // D5: 11:30 빌라 → Come Inn 직행, 전용차 문장에 Come Inn(본지만)·11시 반
+        assertTrue(Templates.tigerLeaping.render(d.templatesFor(d4).first { it.templateId == "tpl-tiger" }.values).let { it.contains("上午11点半") && it.contains("本地湾") && !it.contains("上虎跳") })
+        val d5 = d.scheduleOf("D5").first { it.timeStart == "17:10" }
         val sh = d.templatesFor(d5).single()
         assertTrue(Templates.shangrila.render(sh.values).contains("上午10点半"))
         val d1 = d.scheduleOf("D1").first { it.timeStart == "23:40" }

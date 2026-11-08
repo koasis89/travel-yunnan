@@ -123,10 +123,10 @@ class DocRulesTest {
 
     @Test fun comeInnRoute() {
         val t = kr.koasis.travelyunnan.domain.Templates.all.first { it.id == "tpl-comeinn-route" }
-        assertTrue(t.render(emptyMap()).contains("从中途客栈怎么走到你们客栈"))
+        assertTrue(t.render(emptyMap()).let { it.contains("可以提前入住吗") && it.contains("从茶马客栈接我们回客栈") })
         assertEquals("18987966608", t.contact?.wechat)
         val d = TripDataHolder.data
-        assertTrue(d.templateLinks.any { it.id == "tl-13" && it.dayId == "D5" && it.templateId == "tpl-comeinn-route" })
+        assertTrue(d.templateLinks.any { it.id == "tl-14" && it.dayId == "D5" && it.timeStart == "10:30" && it.templateId == "tpl-comeinn-route" })
         assertTrue(d.lodging("comeinn")!!.amapUrl!!.contains("keyword=%E8%A1%8C%E8%80%85%E6%B0%91%E5%AE%BF"))
     }
 }

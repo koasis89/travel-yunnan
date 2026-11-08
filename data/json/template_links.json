@@ -41,12 +41,11 @@
       "dayId": "D4",
       "timeStart": "17:30",
       "templateId": "tpl-tiger",
-      "label": "호도협 전용차 예약 요청",
+      "label": "호도협 Come Inn 직행 전용차 예약 요청",
       "values": {
         "from": "白沙古镇 Rishine Villa（日沐山）",
-        "date": "明天（12月20日）早上9点",
-        "wait": "1到1.5小时",
-        "to": "茶马客栈",
+        "date": "明天（12月20日）上午11点半",
+        "to": "虎跳峡本地湾 行者民宿·Come Inn（中途客栈旁边）",
         "persons": "3"
       }
     },
@@ -63,12 +62,12 @@
     {
       "id": "tl-06",
       "dayId": "D5",
-      "timeStart": "15:15",
+      "timeStart": "17:10",
       "templateId": "tpl-shangrila",
       "label": "샹그릴라 빵차 예약 요청",
       "values": {
         "date": "明天（12月21日）上午10点半",
-        "from": "靠山十九度（Come Inn）",
+        "from": "虎跳峡本地湾 行者民宿·Come Inn（中途客栈旁边）",
         "to": "香格里拉 独克宗古城 龟山巷3号（Oura Villa）",
         "persons": "3"
       }
@@ -125,10 +124,18 @@
     },
     {
       "id": "tl-13",
-      "dayId": "D5",
-      "timeStart": "15:00",
+      "dayId": "D4",
+      "timeStart": "17:30",
       "templateId": "tpl-comeinn-route",
-      "label": "Come Inn에 가는 길·위치 문의(중도객잔에서)",
+      "label": "Come Inn에 얼리체크인·차마객잔 빵차 요청",
+      "values": {}
+    },
+    {
+      "id": "tl-14",
+      "dayId": "D5",
+      "timeStart": "10:30",
+      "templateId": "tpl-comeinn-route",
+      "label": "Come Inn에 얼리체크인·빵차 다시 확인",
       "values": {}
     }
   ]

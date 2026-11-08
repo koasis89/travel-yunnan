@@ -500,19 +500,27 @@
       "options": [
         {
           "id": "D5-02-1",
-          "name": "상호도협 매점",
+          "name": "Come Inn 식당(간단 점심, 운영 확인)",
           "nameZh": "",
-          "addrZh": "上虎跳景区",
-          "amapUrl": "https://uri.amap.com/search?keyword=%E4%B8%8A%E8%99%8E%E8%B7%B3%E6%99%AF%E5%8C%BA&city=%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E&src=travelyunnan&callnative=1",
-          "menu": "햄버거·소시지"
+          "addrZh": "行者民宿·Come Inn(本地湾)",
+          "amapUrl": "https://uri.amap.com/search?keyword=%E8%A1%8C%E8%80%85%E6%B0%91%E5%AE%BF%C2%B7Come%20Inn%28%E6%9C%AC%E5%9C%B0%E6%B9%BE%29&city=%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E&src=travelyunnan&callnative=1",
+          "menu": "볶음밥·면·간식"
         },
         {
           "id": "D5-02-2",
-          "name": "중도객잔 2층 카페(타이거벅스)",
+          "name": "중도객잔 식당(납서 가정식)",
           "nameZh": "",
-          "addrZh": "中途客栈(虎跳峡本地湾)",
-          "amapUrl": "https://uri.amap.com/search?keyword=%E4%B8%AD%E9%80%94%E5%AE%A2%E6%A0%88%28%E8%99%8E%E8%B7%B3%E5%B3%A1%E6%9C%AC%E5%9C%B0%E6%B9%BE%29&city=%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E&src=travelyunnan&callnative=1",
-          "menu": "커피·간식"
+          "addrZh": "中途客栈",
+          "amapUrl": "https://uri.amap.com/search?keyword=%E4%B8%AD%E9%80%94%E5%AE%A2%E6%A0%88&city=%E8%BF%AA%E5%BA%86%E8%97%8F%E6%97%8F%E8%87%AA%E6%B2%BB%E5%B7%9E&src=travelyunnan&callnative=1",
+          "menu": ""
+        },
+        {
+          "id": "D5-02-3",
+          "name": "빌라에서 싸 온 간식",
+          "nameZh": "",
+          "addrZh": "",
+          "amapUrl": null,
+          "menu": ""
         }
       ],
       "budgetCny": 150,

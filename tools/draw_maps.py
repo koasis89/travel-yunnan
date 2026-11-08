@@ -527,13 +527,13 @@ def map_d4():
 
 # ---------------------------------------------------------------- map05 호도협
 def map05():
-    f = Fig("map05", "D5 호도협 경로 (12/20)", "트레킹은 차마객잔 → 중도객잔 평탄 구간(약 5km, 2시간)만. 28밴드 급경사는 제외",
+    f = Fig("map05", "D5 호도협 경로 (12/20)", "11:30 빌라 → Come Inn 직행·얼리체크인 → 차마객잔까지 평탄 트레킹(약 5km) → 빵차로 복귀",
             (20, 940), (40, 420), invert_y=True, map_h=600, panels=[("profile", 470)])
     ax = f.ax
     xs, ys = zip(*[(60, 320), (220, 330), (350, 352), (620, 364), (920, 370)])
     ax.plot(xs, ys, color=WATER, lw=12, zorder=1)
     ax.text(780, 392, "금사강(진사강)", color="#3d78b3", fontsize=15, ha="center")
-    ax.text(470, 55, "▲ 합파설산 (트레일 쪽, 북쪽)", fontsize=14, color=MUTED, ha="center")
+    ax.text(310, 55, "▲ 합파설산 (트레일 쪽, 북쪽)", fontsize=14, color=MUTED, ha="center")
     ax.text(470, 412, "▲ 옥룡설산 (강 건너, 남쪽)", fontsize=14, color=MUTED, ha="center")
     P = {"qt": (97, 268), "up": (255, 310), "chama": (431, 148), "view": (527, 160), "zt": (622, 171),
          "come": (662, 131), "gy": (690, 198), "tina": (757, 265), "nx": (213, 210), "b28": (315, 108), "zh": (840, 306)}
@@ -546,28 +546,31 @@ def map05():
         f.label(P[k], t, pos, size=14, color="#7a808a", box=False)
     ax.text(250, 175, "제외: 28밴드 급경사", fontsize=13.5, color="#7a808a")
     ax.text(700, 238, "제외: 티나객잔 하산", fontsize=13.5, color="#7a808a")
+    # ① 11:30 빌라 → 교두 → Come Inn 직행(짐 함께, 개략 경로)
     f.seg((40, 400), P["qt"], "car", lw=4)
-    f.tag((70, 412), "09:00 Rishine 빌라 출발", "car", ha="left", size=14)
-    f.seg(P["qt"], P["up"], "car", lw=4)
-    f.seg(P["up"], P["chama"], "car", rad=-0.2, lw=4)
-    f.tag((330, 255), "11:30 차로\n차마객잔까지", "car", size=14)
-    ax.plot(*zip(P["chama"], P["view"], P["zt"]), color=C["walk"], lw=8, zorder=4, solid_capstyle="round")
-    f.tag((520, 215), "12:00~14:00 트레킹 약 5km (평탄)", "walk", size=16)
-    f.seg(P["zt"], P["come"], "walk", lw=4)
-    f.seg((672, 120), (800, 52), "car", rad=-0.2, lw=4)
-    f.tag((835, 150), "D6 10:30 빵차\n→ 샹그릴라 약 3시간", "car", size=14)
-    ax.plot([P["up"][0], 450, 690, P["come"][0]], [P["up"][1], 296, 265, P["come"][1]], color=C["car"], lw=2, ls=":", zorder=2)
-    ax.text(480, 312, "큰 짐은 차량으로 Come Inn 전달", fontsize=13.5, color=C["car"], ha="center")
-    f.place(P["qt"], "교두 검표소\n입장 ¥45", "poi", "l", H("교두 검표소", "poi", None, ["교두"], "桥头 检票口", "호도협 입구. 입장 ¥45"), size=15)
-    f.place(P["up"], "상호도협\n10:30~11:30", "place", "b",
-            H("상호도협", "place", "upper_tiger", ["상호도협"], "上虎跳峡", "에스컬레이터 왕복 ¥70, 호도석 전망대, 매점 점심"), size=15)
-    f.place(P["chama"], "차마객잔 (출발)", "place", "t",
-            H("차마객잔 (트레킹 시작)", "place", "chama", ["차마객잔"], "茶马客栈", "D5 12:00 출발. 짐은 차량으로 Come Inn 전달"), size=15.5)
+    f.tag((70, 412), "11:30 Rishine 빌라 출발(짐 함께)", "car", ha="left", size=14)
+    ax.plot([P["qt"][0], 330, 560, 700, P["come"][0]], [P["qt"][1], 300, 290, 230, P["come"][1]], color=C["car"], lw=4, zorder=3, solid_capstyle="round")
+    f.tag((470, 268), "전용차로 Come Inn 직행 · 14:00쯤 도착(약 2시간 30분, 개략)", "car", size=14)
+    # ② 14:30~16:30 Come Inn → 중도객잔 → 차마객잔 트레킹
+    f.seg(P["come"], P["zt"], "walk", lw=4)
+    ax.plot(*zip(P["zt"], P["view"], P["chama"]), color=C["walk"], lw=8, zorder=4, solid_capstyle="round")
+    f.tag((520, 212), "← 14:30~16:30 트레킹 약 5km (평탄)", "walk", size=16)
+    # ③ 16:30 차마객잔 → Come Inn 빵차
+    f.seg(P["chama"], P["come"], "car", rad=-0.55, lw=3.2, dashed=(0, (4, 3)))
+    f.tag((600, 62), "16:30 빵차로 Come Inn 복귀 (약 40분)", "car", size=14)
+    f.seg((700, 96), (860, 50), "car", rad=-0.2, lw=4)
+    f.tag((930, 205), "D6 10:30 빵차\n→ 샹그릴라 약 3시간", "car", size=14, ha="right")
+    f.place(P["qt"], "교두 검표소\n입장 ¥45", "poi", "l", H("교두 검표소", "poi", None, ["교두"], "桥头 检票口", "호도협 입구. 입장 ¥45(현장 확인)"), size=15)
+    ax.plot(*P["up"], "o", ms=9, color=gray, zorder=3)
+    ax.text(P["up"][0], 382, "상호도협(이번엔 안 들름)", fontsize=13.5, color="#7a808a", ha="center")
+    f.hot(P["up"], **H("상호도협", "place", "upper_tiger", ["상호도협"], "上虎跳峡", "이번 D5 일정에서는 들르지 않는다(Come Inn 직행)"))
+    f.place(P["chama"], "차마객잔 (트레킹 끝·빵차)", "place", "t",
+            H("차마객잔 (트레킹 끝)", "place", "chama", ["차마객잔"], "茶马客栈", "D5 16:30 도착 → Come Inn 이 불러 준 빵차로 복귀"), size=15.5)
     f.place(P["view"], "협곡 전망", "poi", "b", H("협곡 전망", "poi", None, ["하이트레일"], "", "등고선길 중간. 절벽길 주의"), size=14)
-    f.place(P["zt"], "중도객잔 (도착)", "place", "b",
-            H("중도객잔 (트레킹 끝)", "place", "zhongtu", ["중도객잔"], "中途客栈", "D5 14:00 도착. 2층 카페 휴식"), size=15.5)
-    f.place(P["come"], "Come Inn (숙소)", "lodging", "t",
-            H("Come Inn (숙박)", "lodging", "comeinn", ["Come Inn", "본지만"], note="본지만 9호. D6 10:30 빵차 출발"), size=15.5, off=16)
+    f.place(P["zt"], "중도객잔", "place", "b",
+            H("중도객잔", "place", "zhongtu", ["중도객잔"], "中途客栈", "Come Inn 에서 약 200m. 트레킹은 여기서 차마객잔 방향으로"), size=15.5)
+    f.place(P["come"], "Come Inn (숙소)\n14:00 얼리체크인", "lodging", "r",
+            H("Come Inn (숙박)", "lodging", "comeinn", ["Come Inn", "본지만"], note="본지만 9호, 중도객잔 옆. 14:00 얼리체크인, D6 10:30 빵차 출발"), size=15.5, off=16)
     for k in ("gy", "tina", "nx", "b28", "zh"):
         z = {"gy": H("관음폭포", "poi", None, ["관음폭포"], "观音瀑布", "제외 구간"),
              "tina": H("티나객잔", "poi", None, ["티나객잔"], "Tina's 客栈", "빵차 대안: 티나객잔 → 샹그릴라 버스 ¥55/인"),
@@ -585,7 +588,7 @@ def map05():
     Yy = lambda m: 430 - (m - 1700) * 0.33  # noqa: E731
     pa.fill_between([X(p[0]) for p in prof], [Yy(p[1]) for p in prof], [Yy(1700)] * len(prof), color="#eceef1", zorder=0)
     pa.plot([X(p[0]) for p in prof], [Yy(p[1]) for p in prof], color=gray, lw=3, ls=(0, (3, 2)))
-    pa.plot([X(9), X(14)], [Yy(2330), Yy(2345)], color=C["walk"], lw=8, solid_capstyle="round")
+    pa.plot([X(9), X(14)], [Yy(2330), Yy(2345)], color=C["walk"], lw=8, solid_capstyle="round")  # 이번엔 중도객잔 → 차마객잔 방향
     for km, m, t in prof:
         hl = t in ("차마객잔", "중도객잔")
         pa.plot(X(km), Yy(m), "o", ms=10 if hl else 7, color=C["walk"] if hl else gray)
