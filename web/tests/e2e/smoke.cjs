@@ -127,7 +127,7 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
 
   // 관광지: 사진·출처·택시 카드
   await page.goto(base + '#/sights/glacier'); await page.waitForSelector('figcaption')
-  ok('관광지 사진 표시', await page.evaluate(() => { const i = document.querySelector('figure img'); return !!i && i.complete && i.naturalWidth > 100 }))
+  ok('관광지 사진 표시', await page.waitForFunction(() => { const i = document.querySelector('figure img'); return !!i && i.complete && i.naturalWidth > 100 }, null, { timeout: 10000 }).then(() => true).catch(() => false))
   ok('관광지 사진 출처(라이선스)', (await page.textContent('figcaption')).includes('CC BY'))
   await page.click('text=택시 카드'); ok('관광지 → 택시 카드', await page.waitForSelector('text=玉龙雪山大索道', { timeout: 5000 }).then(() => true).catch(() => false))
 
