@@ -127,6 +127,6 @@ class DocRulesTest {
         assertEquals("18987966608", t.contact?.wechat)
         val d = TripDataHolder.data
         assertTrue(d.templateLinks.any { it.id == "tl-14" && it.dayId == "D5" && it.timeStart == "10:30" && it.templateId == "tpl-comeinn-route" })
-        assertTrue(d.lodging("comeinn")!!.amapUrl!!.contains("keyword=%E8%A1%8C%E8%80%85%E6%B0%91%E5%AE%BF"))
+        assertEquals("https://surl.amap.com/4zvUETfO416", d.lodging("comeinn")!!.amapUrl)
     }
 }

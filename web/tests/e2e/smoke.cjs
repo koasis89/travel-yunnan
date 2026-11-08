@@ -242,6 +242,17 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   await page.goto(base + '#/taxi/lodging/oura'); await page.waitForSelector('text=东旺路77-83号', { timeout: 5000 }).catch(() => {})
   ok('Oura Villa 택시 카드 주소·지도 = 공유 링크', await page.isVisible('text=东旺路77-83号') && (await page.getAttribute('a.btn:has-text("지도") >> nth=0', 'href')) === 'https://surl.amap.com/gzk17mG495L')
   await page.goto(base + '#/sights/prayer_wheel'); ok('대불사 지도 = 공유 링크', (await page.getAttribute('a:has-text("지도에서 보기")', 'href')) === 'https://surl.amap.com/lHdr9stCf9n')
+  await page.goto(base + '#/schedule?day=D7'); await page.waitForSelector('.linkchip', { timeout: 5000 }).catch(() => {})
+  ok('D7 저녁 식당 칩: 上坐 과교미선', await page.isVisible('.linkchip:has-text("상좌 전통 과교미선")'))
+  await page.goto(base + '#/eats/shangzuo'); await page.waitForSelector('[data-testid=rating]', { timeout: 5000 }).catch(() => {})
+  ok('上坐 식당 정보·지도 = 공유 링크', (await page.textContent('body')).includes('上坐传统过桥米线') && (await page.locator('a[href="https://surl.amap.com/gQLmR7I1ofTW"]').count()) > 0)
+  await page.goto(base + '#/taxi/lodging/comeinn'); await page.waitForSelector('text=半山居客栈南侧60米', { timeout: 5000 }).catch(() => {})
+  for (const [id, url] of [['zhongtu', 'https://surl.amap.com/kFLiMqd1w1zp'], ['chama', 'https://surl.amap.com/gMKvhpor9KS']]) {
+    await page.goto(base + `#/taxi/place/${id}`); await page.waitForSelector('a.btn:has-text("지도")', { timeout: 5000 }).catch(() => {})
+    ok(`${id} 택시 카드 지도 = 공유 링크`, (await page.getAttribute('a.btn:has-text("지도") >> nth=0', 'href')) === url)
+  }
+  await page.goto(base + '#/taxi/lodging/comeinn'); await page.waitForSelector('text=半山居客栈南侧60米', { timeout: 5000 }).catch(() => {})
+  ok('Come Inn 택시 카드 주소·지도 = 공유 링크', await page.isVisible('text=半山居客栈南侧60米') && (await page.getAttribute('a.btn:has-text("지도") >> nth=0', 'href')) === 'https://surl.amap.com/4zvUETfO416')
 
   // 택시 카드 '지도' 버튼 = 만든 고덕지도 링크
   await page.goto(base + '#/taxi/lodging/mulanyu'); await page.waitForSelector('text=丽江沐蘭遇の汤宿')

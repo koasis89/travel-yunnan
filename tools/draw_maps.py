@@ -568,7 +568,7 @@ def map05():
             H("차마객잔 (트레킹 끝)", "place", "chama", ["차마객잔"], "茶马客栈", "D5 16:30 도착 → Come Inn 이 불러 준 빵차로 복귀"), size=15.5)
     f.place(P["view"], "협곡 전망", "poi", "b", H("협곡 전망", "poi", None, ["하이트레일"], "", "등고선길 중간. 절벽길 주의"), size=14)
     f.place(P["zt"], "중도객잔", "place", "b",
-            H("중도객잔", "place", "zhongtu", ["중도객잔"], "中途客栈", "Come Inn 에서 약 200m. 트레킹은 여기서 차마객잔 방향으로"), size=15.5)
+            H("중도객잔", "place", "zhongtu", ["중도객잔"], "中途客栈", "Come Inn 에서 약 120m(도보 3~5분). 트레킹은 여기서 차마객잔 방향으로"), size=15.5)
     f.place(P["come"], "Come Inn (숙소)\n14:00 얼리체크인", "lodging", "r",
             H("Come Inn (숙박)", "lodging", "comeinn", ["Come Inn", "본지만"], note="본지만 9호, 중도객잔 옆. 14:00 얼리체크인, D6 10:30 빵차 출발"), size=15.5, off=16)
     for k in ("gy", "tina", "nx", "b28", "zh"):
