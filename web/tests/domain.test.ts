@@ -22,7 +22,10 @@ describe('일차·현재 일정 (앱 DomainTest 와 동일)', () => {
   })
   it('D1 22:30 공항 도착', () => { const s = nowAt('2026-12-16T22:30'); expect(s.current?.id).toBe('D1-01'); expect(s.next?.id).toBe('D1-02') })
   it('D3 05:50 투어 픽업', () => { const s = nowAt('2026-12-18T05:50'); expect(s.current?.timeStart).toBe('05:00'); expect(s.next?.transport).toContain('투어 차량') })
-  it('D5 12:30 트레킹', () => { const s = nowAt('2026-12-20T12:30'); expect(s.current?.from).toBe('차마객잔'); expect(s.current?.to).toContain('중도객잔') })
+  it('D5 12:30 Come Inn 직행 · 15:00 차마객잔 트레킹', () => {
+    const car = nowAt('2026-12-20T12:30').current!; expect(car.from).toBe('Rishine 빌라'); expect(car.to).toContain('Come Inn')
+    const walk = nowAt('2026-12-20T15:00').current!; expect(walk.from).toBe('Come Inn'); expect(walk.to).toContain('차마객잔')
+  })
   it('D8 19:45 공항 이동', () => {
     expect(nowAt('2026-12-23T19:45').current?.timeStart).toBe('19:30')
     const m = nextMove('2026-12-23T19:00', data.days, rows)
@@ -55,7 +58,7 @@ describe('택시 카드·링크', () => {
   it('일정 링크·장문', () => {
     const arrival = rows('D2').find((r) => r.to.includes('물라뉴'))!
     expect(scheduleLinks(data, arrival).some((l) => l.type === 'lodging' && l.id === 'mulanyu')).toBe(true)
-    expect(messagePhrase(data, data.schedule.find((r) => r.message?.includes('虎跳峡徒步'))!)?.id).toBe('msg-001')
+    expect(messagePhrase(data, data.schedule.find((r) => r.message?.includes('行者民宿·Come Inn（中途客栈旁边）的包车'))!)?.id).toBe('msg-001')
     expect(messagePhrase(data, data.schedule.find((r) => r.message?.includes('香格里拉的包车'))!)?.id).toBe('msg-002')
   })
   it('쿤밍 두 번째 숙박은 D7 예약으로 연결', () => {
@@ -66,7 +69,7 @@ describe('택시 카드·링크', () => {
 
 describe('템플릿·숫자·경비·캘린더', () => {
   it('일정 배치 템플릿', () => {
-    const d5 = rows('D5').find((r) => r.timeStart === '15:15')!
+    const d5 = rows('D5').find((r) => r.timeStart === '17:10')!
     const link = data.templatesFor(d5)[0]
     expect(templateById(link.templateId)!.render(link.values)).toContain('上午10点半')
     const d1 = rows('D1').find((r) => r.timeStart === '23:40')!
@@ -87,10 +90,10 @@ describe('템플릿·숫자·경비·캘린더', () => {
     expect(csv.split('\n')).toHaveLength(2); expect(csv).toContain('20000'); expect(csv).toContain('"a,b"')
     expect(budgetKey('식비(맛집·식사 계획)')).toBe('식비')
   })
-  it('캘린더 파일 15건(가이드 연락·D7 저녁 포함)', () => {
+  it('캘린더 파일 16건(가이드 연락·D5 트레킹·D7 저녁 포함)', () => {
     const ics = buildIcs(data.notifications)
     expect(ics.match(/BEGIN:VEVENT/g)).toHaveLength(data.notifications.length)
-    expect(data.notifications.length).toBe(15)
+    expect(data.notifications.length).toBe(16)
     expect(ics).toContain('DTSTART;TZID=Asia/Shanghai:20261217T063000')
   })
 })
@@ -216,5 +219,15 @@ describe('주문 문장(탭·수량)', () => {
     expect(composeTabOrder([], 0, [], [])).toBe('你好，我要点菜。')
     expect(composeTabOrder([['汽锅鸡', 8]], 0, [], [])).toBe('我要8份汽锅鸡。')
     expect([tabOf(d('冰啤酒')), tabOf(d('鹤庆乾酒')), tabOf(d('普洱茶')), tabOf(d('冰美式'))]).toEqual(['beer', 'liquor', 'drink', 'drink'])
+  })
+})
+
+import { milkTeaOrder } from '../src/pages/MilkTea'
+describe('밀크티 종류', () => {
+  it('6개 브랜드 × 5잔, 주문 문장에 당도·얼음', () => {
+    expect(data.milktea.items.map((b) => b.nameZh)).toEqual(['霸王茶姬', '喜茶', '茶百道', '瑞幸咖啡', '蜜雪冰城', '奈雪的茶'])
+    expect(data.milktea.items.every((b) => b.drinks.length === 5 && b.drinks.every((d) => d.zh && d.pinyin && d.koRead && d.desc))).toBe(true)
+    expect(milkTeaOrder('伯牙绝弦', '少糖', '热的')).toBe('你好，我要一杯伯牙绝弦，少糖，热的。')
+    expect(milkTeaOrder('生椰拿铁', '', '')).toBe('你好，我要一杯生椰拿铁。')
   })
 })

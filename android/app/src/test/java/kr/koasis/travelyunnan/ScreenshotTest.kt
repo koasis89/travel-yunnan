@@ -113,6 +113,7 @@ class ScreenshotTest {
     @Test fun foods() = shot("13_foods") { FoodsScreen(data) }
 
     @Test fun menu_point() = shot("14_menu_point") { MenuPointContent(data, "fn-030") {} }
+    @Test fun milk_tea() = shot("30_milk_tea") { kr.koasis.travelyunnan.ui.meal.MilkTeaScreen(data) }
 
     @Test fun transport() = shot("15_transport") {
         TransportContent(data, LocalDateTime.parse("2026-12-16T20:00"), setOf("n-03"), hasPermission = true, canExact = true, {}, {}, {})

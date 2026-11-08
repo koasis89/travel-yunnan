@@ -83,6 +83,7 @@ fun AppNav(vm: AppViewModel, initialRoute: String? = null) {
             openMeals = { go(Routes.meals(it)) },
             openFoods = { go(Routes.FOODS) },
             openFoodPhotos = { go(Routes.foodPhotos(it)) },
+            openMilkTea = { go(Routes.MILKTEA) },
             openMenu = { go(Routes.menu(it)) },
             openTransport = { go(Routes.TRANSPORT) },
             openExpense = { go(Routes.EXPENSE) },
@@ -159,6 +160,7 @@ fun AppNav(vm: AppViewModel, initialRoute: String? = null) {
                     MealsScreen(vm, d, it.arguments?.getString("day"))
                 }
                 composable(Routes.FOODS) { FoodsScreen(d) }
+                composable(Routes.MILKTEA) { kr.koasis.travelyunnan.ui.meal.MilkTeaScreen(d) }
                 composable(Routes.FOOD_PHOTOS, arguments = listOf(navArgument("food") { type = NavType.StringType; nullable = true })) {
                     kr.koasis.travelyunnan.ui.meal.FoodPhotosScreen(d, it.arguments?.getString("food"))
                 }

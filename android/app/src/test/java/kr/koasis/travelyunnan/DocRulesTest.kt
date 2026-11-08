@@ -129,4 +129,12 @@ class DocRulesTest {
         assertTrue(d.templateLinks.any { it.id == "tl-14" && it.dayId == "D5" && it.timeStart == "10:30" && it.templateId == "tpl-comeinn-route" })
         assertEquals("https://surl.amap.com/4zvUETfO416", d.lodging("comeinn")!!.amapUrl)
     }
+
+    @Test fun milkTea() {
+        val m = TripDataHolder.data.milktea
+        assertEquals(listOf("霸王茶姬", "喜茶", "茶百道", "瑞幸咖啡", "蜜雪冰城", "奈雪的茶"), m.items.map { it.nameZh })
+        assertTrue(m.items.all { b -> b.drinks.size == 5 && b.drinks.all { it.zh.isNotBlank() && it.koRead.isNotBlank() && it.desc.isNotBlank() } })
+        assertEquals("你好，我要一杯伯牙绝弦，少糖，热的。", kr.koasis.travelyunnan.ui.meal.milkTeaOrder("伯牙绝弦", "少糖", "热的"))
+        assertEquals("你好，我要一杯生椰拿铁。", kr.koasis.travelyunnan.ui.meal.milkTeaOrder("生椰拿铁", "", ""))
+    }
 }

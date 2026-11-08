@@ -43,6 +43,7 @@ class TripData(
     val ratingsNote: String = "",
     val blogs: List<kr.koasis.travelyunnan.data.json.Blog> = emptyList(),
     val pretrip: List<kr.koasis.travelyunnan.data.json.PreTrip> = emptyList(),
+    val milktea: kr.koasis.travelyunnan.data.json.MilkTeaFile = kr.koasis.travelyunnan.data.json.MilkTeaFile(),
     val foodPhotos: kr.koasis.travelyunnan.data.json.FoodPhotosFile = kr.koasis.travelyunnan.data.json.FoodPhotosFile(),
 ) {
     private val dayById = days.associateBy { it.id }
@@ -159,6 +160,7 @@ class TripData(
                 restaurantTips = runCatching { json.decodeFromString(RestaurantsFile.serializer(), read("restaurants.json")).tips }.getOrDefault(emptyList()),
                 ratingsNote = runCatching { json.decodeFromString(RestaurantsFile.serializer(), read("restaurants.json")).ratingsNote }.getOrDefault(""),
                 foodPhotos = runCatching { json.decodeFromString(kr.koasis.travelyunnan.data.json.FoodPhotosFile.serializer(), read("food_photos.json")) }.getOrDefault(kr.koasis.travelyunnan.data.json.FoodPhotosFile()),
+                milktea = runCatching { json.decodeFromString(kr.koasis.travelyunnan.data.json.MilkTeaFile.serializer(), read("milktea.json")) }.getOrDefault(kr.koasis.travelyunnan.data.json.MilkTeaFile()),
                 pretrip = runCatching { items("pretrip.json", kr.koasis.travelyunnan.data.json.PreTrip.serializer()).items }.getOrDefault(emptyList()),
                 blogs = runCatching { json.decodeFromString(kr.koasis.travelyunnan.data.json.SightsFile.serializer(), read("sights.json")).blogs }.getOrDefault(emptyList()),
                 hotspots = runCatching { items("map_hotspots.json", Hotspot.serializer()).items }.getOrDefault(emptyList()),

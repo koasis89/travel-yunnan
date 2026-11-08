@@ -24,6 +24,10 @@ export interface Sight { id: string; region: string; nameKo: string; nameZh: str
 export interface MenuItem { zh: string; ko: string; desc: string; image?: string }
 export interface Rating { source: string; name: string; score: number | null; reviews: number | null; price: string; addr: string; popular: { zh: string; ko: string }[]; label?: string; note?: string }
 export interface Restaurant { id: string; region: string; nameKo: string; nameZh: string; optionIds: string[]; dayIds: string[]; slots: string[]; kind: string; summary: string; menu: MenuItem[]; tips: string[]; perPerson: string; hours: string; image: string | null; credit: SightCredit | null; imageNote: string; keywords: string[]; amapUrl?: string | null; placeId?: string | null; ratings?: Rating[] }
+/** 밀크티 종류: data/milktea.json */
+export interface MilkTeaDrink { id: string; zh: string; pinyin: string; koRead: string; desc: string }
+export interface MilkTeaBrand { id: string; nameZh: string; pinyin: string; nameKo: string; nameEn: string; color: string; drinks: MilkTeaDrink[] }
+export interface MilkTea { items: MilkTeaBrand[]; sugar: [string, string][]; ice: [string, string][] }
 /** 여행 전(사전) 일정: data/pretrip.json */
 export interface PreTrip { id: string; date: string; dateLabel: string; time: string; title: string; detail: string; tips: string[]; templateLinkId?: string; notificationId?: string }
 export interface Hospital { id: string; nameKo: string; nameZh: string; addrZh: string; placeId: string; amapUrl: string; region: string; note: string; phrases: { zh: string; ko: string }[] }
@@ -43,6 +47,7 @@ export class TripData {
   ratingsNote: string
   sights: Sight[]
   pretrip: PreTrip[]
+  milktea: MilkTea
   blogs: Blog[]
   foodPhotoNames: Record<string, { nameKo: string; nameZh: string }>
   foodPhotoRestaurant: string
@@ -83,6 +88,8 @@ export class TripData {
     this.foodPhotoRestaurant = fp?.restaurant ?? ''
     this.restaurants = it<Restaurant>('restaurants.json')
     this.pretrip = it<PreTrip>('pretrip.json')
+    const mt = b['milktea.json'] as Partial<MilkTea> | undefined
+    this.milktea = { items: mt?.items ?? [], sugar: mt?.sugar ?? [], ice: mt?.ice ?? [] }
     // 개인 정보(저장소 밖에서 빌드 때 암호화해 넣은 값)
     const pv = b['private.json'] as { guideBooker?: string; guideRef?: string } | undefined
     setGuideBooking(pv?.guideBooker, pv?.guideRef)

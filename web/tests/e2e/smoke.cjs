@@ -254,6 +254,15 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   await page.goto(base + '#/taxi/lodging/comeinn'); await page.waitForSelector('text=半山居客栈南侧60米', { timeout: 5000 }).catch(() => {})
   ok('Come Inn 택시 카드 주소·지도 = 공유 링크', await page.isVisible('text=半山居客栈南侧60米') && (await page.getAttribute('a.btn:has-text("지도") >> nth=0', 'href')) === 'https://surl.amap.com/4zvUETfO416')
 
+  // 더보기 → 밀크티 종류: 브랜드 6개 × 5잔, 당도·얼음 골라 주문 문장
+  await page.goto(base + '#/more'); await page.click('text=밀크티 종류'); await page.waitForSelector('[data-testid=milktea-drink]', { timeout: 5000 }).catch(() => {})
+  ok('밀크티 브랜드 6개·첫 브랜드 5잔', (await page.locator('[data-testid=milktea-brands] button').count()) === 6 && (await page.locator('[data-testid=milktea-drink]').count()) === 5 && await page.isVisible('text=伯牙绝弦'))
+  await page.click('[data-testid=milktea-brands] >> text=瑞幸咖啡'); ok('브랜드 바꾸기(루이싱 生椰拿铁)', await page.isVisible('text=生椰拿铁') && await page.isVisible('text=코코넛 밀크에 에스프레소를 더한 대표 라떼'))
+  await page.click('[data-testid=milktea-sugar] >> text=少糖'); await page.click('[data-testid=milktea-ice] >> text=热的')
+  await page.click('[data-testid=milktea-drink]:has-text("生椰拿铁") >> text=주문')
+  ok('밀크티 주문 문장(당도·온도)', await page.isVisible('text=你好，我要一杯生椰拿铁，少糖，热的。'))
+  await page.screenshot({ path: `${out}/w31_milktea_order.png` })
+
   // 택시 카드 '지도' 버튼 = 만든 고덕지도 링크
   await page.goto(base + '#/taxi/lodging/mulanyu'); await page.waitForSelector('text=丽江沐蘭遇の汤宿')
   ok('택시 카드(숙소) 지도 = 고덕지도 링크', ((await page.getAttribute('a.btn:has-text("지도")', 'href')) || '').startsWith('https://uri.amap.com/search'))

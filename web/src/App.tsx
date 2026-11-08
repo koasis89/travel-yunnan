@@ -15,6 +15,7 @@ import { Expense } from './pages/Expense'
 import { Emergency, Notes, Packing } from './pages/Info'
 import { NumberCard, Templates } from './pages/Tools'
 import { More, Settings } from './pages/More'
+import { MilkTea } from './pages/MilkTea'
 import { DocView, Docs } from './pages/Docs'
 import { SightView, Sights } from './pages/Sights'
 import { AmapLinks } from './pages/AmapLinks'
@@ -83,6 +84,7 @@ export default function App() {
             <Route path="/lodgings" element={<Stay />} />
             <Route path="/meals" element={<StayMeals />} />
             <Route path="/menu" element={<Menu />} />
+            <Route path="/milktea" element={<MilkTea />} />
             <Route path="/taxi/:type/:id" element={<Taxi />} />
             <Route path="/show/:id" element={<ShowPhrase />} />
             <Route path="/transport" element={<Transport />} />
