@@ -372,7 +372,7 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
       if (req.method() === 'POST') { const b = JSON.parse(req.postData() || '{}'); posts.push(b); return route.fulfill({ contentType: 'application/json', body: JSON.stringify(b.token === 'k-test' ? { ok: true, id: 'x' } : { ok: false, error: 'token' }) }) }
       return route.fulfill({ contentType: 'application/json', body: JSON.stringify(new URL(req.url()).searchParams.get('token') === 'k-test' ? { ok: true, folder: '윈난 여행 앱 백업' } : { ok: false, error: 'token' }) })
     })
-    ok('문서함: 드라이브 설정 안내 링크', await page.isVisible('[data-testid=drive-setup-link]'))
+    ok('문서함: 드라이브 설정 안내 링크 또는(기본값 있으면) 백업 줄', await page.isVisible('[data-testid=drive-setup-link]') || await page.isVisible('[data-testid=drive-bar]'))
     await page.goto(base + '#/settings'); await page.waitForSelector('[data-testid=drive-settings]', { timeout: 5000 }).catch(() => {})
     await page.fill('[data-testid=drive-settings] input >> nth=0', 'https://script.google.com/macros/s/TEST/exec')
     await page.fill('[data-testid=drive-settings] input >> nth=1', 'k-test')
