@@ -4,11 +4,11 @@ package kr.koasis.travelyunnan.domain
 /** kind: "date"·"time"·"datetime" 이면 숫자로만 받는다(DateText). approx: 시각 뒤에 左右 */
 data class TemplateField(val key: String, val label: String, val default: String, val hint: String = "", val kind: String? = null, val approx: Boolean = false)
 
-data class TemplateLine(val zh: String, val ko: String)
+data class TemplateLine(val zh: String, val ko: String, val label: String = "")
 
 data class Contact(val name: String, val wechat: String, val email: String = "", val friendNote: String = "", val friendNoteKo: String = "", val booker: String = "", val bookingRef: String = "", val note: String = "")
 
-data class Template(val id: String, val title: String, val fields: List<TemplateField>, val render: (Map<String, String>) -> String, val renderKo: (Map<String, String>) -> String, val contact: Contact? = null, val lines: List<TemplateLine> = emptyList())
+data class Template(val id: String, val title: String, val fields: List<TemplateField>, val render: (Map<String, String>) -> String, val renderKo: (Map<String, String>) -> String, val contact: Contact? = null, val lines: List<TemplateLine> = emptyList(), val linesNote: String = "")
 
 object Templates {
     /** 12/18 옥룡설산 투어 가이드·기사(바우처 기준). 연락은 위챗, 메일은 참고. 바우처의 +86 긴 번호는 깨진 값 */
@@ -45,11 +45,35 @@ object Templates {
 
     /** 배달 앱(메이투안 등) 요청사항 칸에 붙이는 문장. 하나씩 따로 복사한다(웹 DELIVERY_NOTES) */
     val DELIVERY_NOTES = listOf(
-        TemplateLine("我们没有国内手机号，请别打电话，直接让机器人送上来就行。", "국내 전화번호가 없으니 전화하지 말고, 바로 로봇으로 올려 보내 주세요."),
-        TemplateLine("我们没有国内手机号，请别打电话，直接放在前台就行。", "국내 전화번호가 없으니 전화하지 말고, 프런트에 맡겨 주세요."),
+        TemplateLine("我们没有国内手机号，请别打电话，直接让机器人送上来就行。", "국내 전화번호가 없으니 전화하지 말고, 바로 로봇으로 올려 보내 주세요.", "① 로봇 배달 호텔"),
+        TemplateLine("我们没有国内手机号，请别打电话，直接放在前台就行。", "국내 전화번호가 없으니 전화하지 말고, 프런트에 맡겨 주세요.", "② 프런트에 맡김"),
     )
+    /** 위챗 친구 추가·QR·아이디 주고받기(웹 WECHAT_QR_LINES) */
+    val WECHAT_QR_LINES = listOf(
+        TemplateLine("可以加个微信吗？", "위챗 친구 추가해도 될까요?", "친구 추가 부탁"),
+        TemplateLine("我扫你，还是你扫我？", "제가 스캔할까요, 당신이 스캔할래요?", "누가 스캔할지"),
+        TemplateLine("请打开你的微信二维码。", "위챗 QR코드를 열어 주세요", "상대 QR 열어 달라"),
+        TemplateLine("请扫我的二维码。", "제 QR코드를 스캔해 주세요", "내 QR 보여 줄 때"),
+        TemplateLine("你的微信号是多少？", "위챗 아이디가 뭐예요?", "아이디 묻기"),
+        TemplateLine("我加你了，请通过一下。", "친구 신청했어요, 수락해 주세요", "신청 후"),
+        TemplateLine("搜不到你的微信，可以用手机号加吗？", "위챗이 검색이 안 돼요, 전화번호로 추가해도 될까요?", "검색 안 될 때"),
+        TemplateLine("请把位置发到微信上。", "위치를 위챗으로 보내 주세요", "위치 받기"),
+    )
+    val wechatQr = Template("tpl-wechat-qr", "위챗 친구 추가·QR 주고받기", emptyList(),
+        render = { WECHAT_QR_LINES.joinToString("\n") { it.zh } }, renderKo = { WECHAT_QR_LINES.joinToString("\n") { it.ko } }, lines = WECHAT_QR_LINES,
+        linesNote = "상대에게 화면을 보여 주거나(크게) 복사해 보낸다. 위챗 QR: 내 QR은 위챗 → 나(我) → 오른쪽 위 QR, 스캔은 위챗 오른쪽 위 ⊕ → 扫一扫.")
+    val wechatHello: Template = run {
+        val f = listOf(
+            TemplateField("date", "날짜", "12/20", kind = "date"),
+            TemplateField("about", "무슨 일로(중국어)", "包车", "예: 包车(전용차) · 入住(숙박) · 一日游(투어)"),
+        )
+        Template("tpl-wechat-hello", "위챗 친구 추가 후 첫 인사", f,
+            render = { m -> "你好！我是刚才加你微信的韩国游客，${v(m, "date", f)}${v(m, "about", f)}的客人，我们一共3个人。我们没有中国手机号，请用微信联系我们，打字就行，我们用翻译看。谢谢！" },
+            renderKo = { m -> "안녕하세요! 방금 위챗 친구 추가한 한국인 여행객이다. ${vk(m, "date", f)} ${vk(m, "about", f)} 손님이고 모두 3명. 중국 번호가 없으니 위챗으로, 글로 연락해 달라(번역해서 본다)." })
+    }
     val deliveryNote = Template("tpl-delivery-note", "배달 요청사항(전화 대신 로봇·프런트)", emptyList(),
-        render = { DELIVERY_NOTES.joinToString("\n") { it.zh } }, renderKo = { DELIVERY_NOTES.joinToString("\n") { it.ko } }, lines = DELIVERY_NOTES)
+        render = { DELIVERY_NOTES.joinToString("\n") { it.zh } }, renderKo = { DELIVERY_NOTES.joinToString("\n") { it.ko } }, lines = DELIVERY_NOTES,
+        linesNote = "배달 앱(메이투안 등) 주문할 때 '요청사항(备注)' 칸에 붙여 넣는다. 둘 중 하나를 골라 복사한다.")
 
     val tigerLeaping: Template = run {
         val f = listOf(
@@ -150,5 +174,5 @@ object Templates {
             render = { m -> "您好！我们是${v(m, "date", f)}入住行者民宿·Come Inn（本地湾店）的客人，3位。我们从白沙坐包车过来，大概${v(m, "arrive", f)}到客栈。\n请问：\n1. 可以提前入住吗？放好行李休息一下，然后从客栈徒步去茶马客栈。\n2. ${v(m, "van", f)}可以帮我们叫一辆面包车，从茶马客栈接我们回客栈吗？大概多少钱？\n3. 可以发一个微信位置给我们吗？（司机好找）\n谢谢！" },
             renderKo = { m -> "${vk(m, "date", f)} 체크인하는 3명이다. 백사에서 전용차로 ${vk(m, "arrive", f)}쯤 도착한다. ① 얼리체크인이 되는지(짐 두고 쉬었다가 숙소에서 차마객잔까지 걷는다) ② ${vk(m, "van", f)}에 차마객잔에서 숙소로 돌아올 빵차를 불러 줄 수 있는지, 요금은 얼마인지 ③ 기사가 찾기 쉽게 위챗 위치를 보내 달라고 부탁한다." })
     }
-    val all: List<Template> get() = listOf(tigerLeaping, shangrila, delivery, deliveryNote, pickup, guide, guideConfirm, guideArrive, guideLate, guideDropoff, comeinnRoute)
+    val all: List<Template> get() = listOf(tigerLeaping, shangrila, delivery, deliveryNote, wechatQr, wechatHello, pickup, guide, guideConfirm, guideArrive, guideLate, guideDropoff, comeinnRoute)
 }

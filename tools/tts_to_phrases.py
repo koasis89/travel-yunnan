@@ -11,7 +11,7 @@
 
 보강 데이터:
   - data/phrases_override.csv : zh,ko,koRead  (한국어 뜻·한글 발음)
-  - data/phrases_extra.json   : 엑셀 유의사항·숙소·상세일정에 있던 문장과 위챗 장문
+  - data/phrases_extra.json   : 엑셀 유의사항·숙소·상세일정에 있던 문장과 위챗 장문, words(단어장 보강)
 """
 import csv
 import json
@@ -121,6 +121,11 @@ def main(src, outdir):
                     if any(f["zh"] == zh for f in food_names):
                         continue
                     food_names.append({"id": f"fn-{len(food_names) + 1:03d}", "zh": zh, "pinyin": py, "kind": kind})
+
+    # 보강 단어(phrases_extra.json 의 words): 단어장 뒤에 붙인다
+    for w in extra.get("words", []):
+        if not any(x["zh"] == w["zh"] for x in words):
+            words.append({"id": w["id"], "zh": w["zh"], "pinyin": w.get("pinyin", ""), "ko": w.get("ko", ""), "koRead": w.get("koRead", "")})
 
     # 보강 문장(엑셀 유래) 추가
     for e in extra.get("items", []):

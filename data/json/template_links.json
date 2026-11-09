@@ -137,6 +137,30 @@
       "templateId": "tpl-comeinn-route",
       "label": "Come Inn에 얼리체크인·빵차 다시 확인",
       "values": {}
+    },
+    {
+      "id": "tl-15",
+      "dayId": "D1",
+      "timeStart": "22:50",
+      "templateId": "tpl-wechat-qr",
+      "label": "디디 기사와 위챗 QR 주고받기",
+      "values": {}
+    },
+    {
+      "id": "tl-16",
+      "dayId": "D4",
+      "timeStart": "17:30",
+      "templateId": "tpl-wechat-qr",
+      "label": "빌라 프런트·기사 위챗 QR 주고받기",
+      "values": {}
+    },
+    {
+      "id": "tl-17",
+      "dayId": "D5",
+      "timeStart": "17:10",
+      "templateId": "tpl-wechat-qr",
+      "label": "빵차 기사 위챗 QR 주고받기",
+      "values": {}
     }
   ]
 }

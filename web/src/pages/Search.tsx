@@ -27,6 +27,8 @@ export function Search() {
   const all = useMemo(() => searchIndex(index, q), [index, q])
   const kinds = KIND_ORDER.filter((k) => all.some((h) => h.kind === k))
   const shown = kind ? all.filter((h) => h.kind === kind) : all
+  /** 결과를 누르기 전에 검색어를 주소에 바로 남긴다(뒤로 오면 그대로) */
+  const flush = () => { if ((sp.get('q') ?? '') !== text) setSp(text ? (kind ? { q: text, k: kind } : { q: text }) : {}, { replace: true }) }
   const set = (nq: string, nk = '') => { setText(nq); setSp(nq ? (nk ? { q: nq, k: nk } : { q: nq }) : {}, { replace: true }) }
   return (
     <div className="page">
@@ -57,7 +59,7 @@ export function Search() {
           ? <div className="pad muted">찾는 내용이 없다. 낱말을 줄이거나 다르게 써 본다.</div>
           : <div className="pad" style={{ paddingTop: 4 }}><div className="card flat" style={{ padding: 0 }}>
               {shown.map((h, i) => (
-                <Link key={`${h.to}-${h.title}-${i}`} to={h.to} className="li" data-testid="search-hit" style={{ textDecoration: 'none', color: 'inherit', alignItems: 'flex-start', gap: 10 }}>
+                <Link key={`${h.to}-${h.title}-${i}`} to={h.to} onClick={flush} className="li" data-testid="search-hit" style={{ textDecoration: 'none', color: 'inherit', alignItems: 'flex-start', gap: 10 }}>
                   <span className="tag" style={{ flex: 'none', marginTop: 2 }}>{h.kind}</span>
                   <div className="grow" style={{ minWidth: 0 }}>
                     <div className="bold" style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{h.title}</div>

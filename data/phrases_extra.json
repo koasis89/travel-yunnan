@@ -789,6 +789,203 @@
       ],
       "after": "px-006",
       "source": "물라뉴 탕수 호텔: 체크인 때 체크아웃 짐 운반 미리 요청"
+    },
+    {
+      "id": "px-020",
+      "zh": "可以加个微信吗？",
+      "pinyin": "kě yǐ jiā gè wēi xìn ma",
+      "ko": "위챗 친구 추가해도 될까요?",
+      "koRead": "커이 지아 거 웨이신 마?",
+      "categories": [
+        "basic",
+        "car",
+        "hotel"
+      ],
+      "source": "위챗 친구 추가·QR·아이디 주고받기(사용자 요청)"
+    },
+    {
+      "id": "px-021",
+      "zh": "你的微信号是多少？",
+      "pinyin": "nǐ de wēi xìn hào shì duō shao",
+      "ko": "위챗 아이디가 뭐예요?",
+      "koRead": "니 더 웨이신하오 스 뚜어샤오?",
+      "categories": [
+        "basic"
+      ],
+      "source": "위챗 친구 추가·QR·아이디 주고받기(사용자 요청)"
+    },
+    {
+      "id": "px-022",
+      "zh": "我扫你，还是你扫我？",
+      "pinyin": "wǒ sǎo nǐ, hái shì nǐ sǎo wǒ",
+      "ko": "제가 스캔할까요, 당신이 스캔할래요?",
+      "koRead": "워 싸오 니, 하이스 니 싸오 워?",
+      "categories": [
+        "basic"
+      ],
+      "source": "위챗 친구 추가·QR·아이디 주고받기(사용자 요청)"
+    },
+    {
+      "id": "px-023",
+      "zh": "请打开你的微信二维码。",
+      "pinyin": "qǐng dǎ kāi nǐ de wēi xìn èr wéi mǎ",
+      "ko": "위챗 QR코드를 열어 주세요",
+      "koRead": "칭 따카이 니 더 웨이신 얼웨이마",
+      "categories": [
+        "basic"
+      ],
+      "source": "위챗 친구 추가·QR·아이디 주고받기(사용자 요청)"
+    },
+    {
+      "id": "px-024",
+      "zh": "我扫你的二维码吧。",
+      "pinyin": "wǒ sǎo nǐ de èr wéi mǎ ba",
+      "ko": "제가 당신 QR코드를 스캔할게요",
+      "koRead": "워 싸오 니 더 얼웨이마 바",
+      "categories": [
+        "basic"
+      ],
+      "source": "위챗 친구 추가·QR·아이디 주고받기(사용자 요청)"
+    },
+    {
+      "id": "px-025",
+      "zh": "请扫我的二维码。",
+      "pinyin": "qǐng sǎo wǒ de èr wéi mǎ",
+      "ko": "제 QR코드를 스캔해 주세요",
+      "koRead": "칭 싸오 워 더 얼웨이마",
+      "categories": [
+        "basic"
+      ],
+      "source": "위챗 친구 추가·QR·아이디 주고받기(사용자 요청)"
+    },
+    {
+      "id": "px-026",
+      "zh": "我的微信号是这个。",
+      "pinyin": "wǒ de wēi xìn hào shì zhè ge",
+      "ko": "제 위챗 아이디는 이거예요",
+      "koRead": "워 더 웨이신하오 스 쩌거",
+      "categories": [
+        "basic"
+      ],
+      "source": "위챗 친구 추가·QR·아이디 주고받기(사용자 요청)"
+    },
+    {
+      "id": "px-027",
+      "zh": "我加你了，请通过一下。",
+      "pinyin": "wǒ jiā nǐ le, qǐng tōng guò yí xià",
+      "ko": "친구 신청했어요, 수락해 주세요",
+      "koRead": "워 지아 니 러, 칭 통궈 이샤",
+      "categories": [
+        "basic",
+        "car",
+        "hotel"
+      ],
+      "source": "위챗 친구 추가·QR·아이디 주고받기(사용자 요청)"
+    },
+    {
+      "id": "px-028",
+      "zh": "扫不出来，请再试一次。",
+      "pinyin": "sǎo bu chū lái, qǐng zài shì yí cì",
+      "ko": "스캔이 안 돼요, 다시 한번 해 주세요",
+      "koRead": "싸오 부 추라이, 칭 짜이 스 이츠",
+      "categories": [
+        "basic"
+      ],
+      "source": "위챗 친구 추가·QR·아이디 주고받기(사용자 요청)"
+    },
+    {
+      "id": "px-029",
+      "zh": "搜不到你的微信，可以用手机号加吗？",
+      "pinyin": "sōu bú dào nǐ de wēi xìn, kě yǐ yòng shǒu jī hào jiā ma",
+      "ko": "위챗이 검색이 안 돼요, 전화번호로 추가해도 될까요?",
+      "koRead": "쏘우 부따오 니 더 웨이신, 커이 용 쇼우지하오 지아 마?",
+      "categories": [
+        "basic"
+      ],
+      "source": "위챗 친구 추가·QR·아이디 주고받기(사용자 요청)"
+    },
+    {
+      "id": "px-030",
+      "zh": "我们用微信联系吧。",
+      "pinyin": "wǒ men yòng wēi xìn lián xì ba",
+      "ko": "위챗으로 연락해요",
+      "koRead": "워먼 용 웨이신 리엔시 바",
+      "categories": [
+        "basic",
+        "car",
+        "hotel"
+      ],
+      "source": "위챗 친구 추가·QR·아이디 주고받기(사용자 요청)"
+    },
+    {
+      "id": "px-031",
+      "zh": "请把位置发到微信上。",
+      "pinyin": "qǐng bǎ wèi zhi fā dào wēi xìn shang",
+      "ko": "위치를 위챗으로 보내 주세요",
+      "koRead": "칭 바 웨이즈 파 따오 웨이신 샹",
+      "categories": [
+        "basic",
+        "car",
+        "hotel"
+      ],
+      "source": "위챗 친구 추가·QR·아이디 주고받기(사용자 요청)"
+    },
+    {
+      "id": "msg-003",
+      "zh": "你好！我是刚才加你微信的韩国游客，我们一共3个人。我们没有中国手机号，请用微信联系我们，打字就行，我们用翻译看。谢谢！",
+      "pinyin": "",
+      "ko": "안녕하세요! 방금 위챗 친구 추가한 한국인 여행객이에요, 모두 3명이에요. 중국 휴대폰 번호가 없으니 위챗으로 연락해 주세요. 글로 써 주시면 번역해서 볼게요. 감사합니다!",
+      "koRead": "",
+      "categories": [
+        "message",
+        "basic"
+      ],
+      "copyOnly": true,
+      "source": "위챗 친구 추가·QR·아이디 주고받기(사용자 요청)"
+    }
+  ],
+  "words": [
+    {
+      "id": "w-053",
+      "zh": "二维码",
+      "pinyin": "èr wéi mǎ",
+      "ko": "QR코드",
+      "koRead": "얼웨이마"
+    },
+    {
+      "id": "w-054",
+      "zh": "扫一扫",
+      "pinyin": "sǎo yi sǎo",
+      "ko": "스캔하기(위챗·알리페이 메뉴)",
+      "koRead": "싸오이싸오"
+    },
+    {
+      "id": "w-055",
+      "zh": "微信号",
+      "pinyin": "wēi xìn hào",
+      "ko": "위챗 아이디",
+      "koRead": "웨이신하오"
+    },
+    {
+      "id": "w-056",
+      "zh": "加好友",
+      "pinyin": "jiā hǎo yǒu",
+      "ko": "친구 추가",
+      "koRead": "지아 하오요우"
+    },
+    {
+      "id": "w-057",
+      "zh": "付款码",
+      "pinyin": "fù kuǎn mǎ",
+      "ko": "결제 QR(내가 보여 주는 것)",
+      "koRead": "푸콴마"
+    },
+    {
+      "id": "w-058",
+      "zh": "收款码",
+      "pinyin": "shōu kuǎn mǎ",
+      "ko": "가게 결제 QR(내가 스캔하는 것)",
+      "koRead": "쇼우콴마"
     }
   ]
 }

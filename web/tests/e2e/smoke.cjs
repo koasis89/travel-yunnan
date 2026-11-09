@@ -292,6 +292,13 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   ok('용화찻집 식당·경로 버튼 2개', (await page.locator('[data-testid=eat-route]').count()) === 2 && ((await page.getAttribute('[data-testid=eat-route] >> nth=1', 'href')) || '').includes('amap.com/ssr/embed/dir') && await page.isVisible('text=평점·여행자 인기 메뉴 (고덕지도)'))
   await page.screenshot({ path: `${out}/w37_longhua.png` })
 
+  // 위챗 친구 추가·QR 주고받기 템플릿 + 일정 연결
+  await page.goto(base + '#/templates?id=tpl-wechat-qr'); await page.waitForSelector('[data-testid=template-line]', { timeout: 5000 }).catch(() => {})
+  ok('위챗 QR 주고받기 8문장·각각 복사', (await page.locator('[data-testid=template-line]').count()) === 8 && await page.isVisible('text=请扫我的二维码。') && await page.isVisible('text=내 QR 보여 줄 때'))
+  await page.screenshot({ path: `${out}/w39_wechat_qr.png`, fullPage: true })
+  await page.goto(base + '#/schedule?day=D5'); await page.waitForSelector('text=위챗: 빵차 기사 위챗 QR 주고받기', { timeout: 5000 }).catch(() => {})
+  ok('D5 일정 칩 → 위챗 QR 주고받기', await page.isVisible('text=위챗: 빵차 기사 위챗 QR 주고받기'))
+
   // 체크리스트: 일정 맨 아래 다음날 준비, 사전 일정 체크·출국 당일, 입국신고 QR 화면
   await page.goto(base + '#/schedule?day=D2'); await page.waitForSelector('[data-testid=nextday-check]', { timeout: 5000 }).catch(() => {})
   ok('D2 맨 아래 내일 옥룡설산 준비(산소캔)', await page.isVisible('text=내일 옥룡설산 투어(4,506m)') && await page.isVisible('text=산소캔 1인 1~2개 구매'))
@@ -312,8 +319,8 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   ok('템플릿 날짜·시각 숫자 칸 4개', (await page.locator('[data-testid=dt-date] input').count()) === 4 && await page.isVisible('text=12月21日（周一）上午10点半'))
   await page.fill('[aria-label="출발 날짜·시각 시"]', '9'); await page.fill('[aria-label="출발 날짜·시각 분"]', '0')
   ok('숫자 바꾸면 문장 바뀜(上午9点)', await page.isVisible('text=12月21日（周一）上午9点，从') && await page.isVisible('text=12월 21일(월) 오전 9시'))
-  await page.goto(base + '#/templates?id=tpl-delivery-note'); await page.waitForSelector('[data-testid=delivery-note]', { timeout: 5000 }).catch(() => {})
-  ok('배달 요청사항 2문장·각각 복사', (await page.locator('[data-testid=delivery-note]').count()) === 2 && (await page.locator('[data-testid=delivery-note] button:has-text("복사")').count()) === 2 && await page.isVisible('text=直接让机器人送上来就行'))
+  await page.goto(base + '#/templates?id=tpl-delivery-note'); await page.waitForSelector('[data-testid=template-line]', { timeout: 5000 }).catch(() => {})
+  ok('배달 요청사항 2문장·각각 복사', (await page.locator('[data-testid=template-line]').count()) === 2 && (await page.locator('[data-testid=template-line] button:has-text("복사")').count()) === 2 && await page.isVisible('text=直接让机器人送上来就行'))
   await page.screenshot({ path: `${out}/w34_delivery_note.png` })
 
   // 중국어 아래 한국어 번역

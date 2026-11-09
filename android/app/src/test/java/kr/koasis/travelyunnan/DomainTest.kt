@@ -150,17 +150,17 @@ class S6Test {
         assertTrue(zh.startsWith("你好，我想预订12月21日上午10点，从靠山十九度到"))
         assertTrue(Templates.delivery.render(mapOf("room" to "305")).contains("房间号305"))
         assertFalse(Templates.delivery.render(emptyMap()).contains("房间号"))
-        assertEquals(11, Templates.all.size)
+        assertEquals(13, Templates.all.size)
     }
 
     @Test fun templateLinksAttachToRows() {
         val d = TripDataHolder.data
         val d4 = d.scheduleOf("D4").first { it.timeStart == "17:30" }
-        assertEquals(setOf("tpl-tiger", "tpl-comeinn-route"), d.templatesFor(d4).map { it.templateId }.toSet())
+        assertEquals(setOf("tpl-tiger", "tpl-comeinn-route", "tpl-wechat-qr"), d.templatesFor(d4).map { it.templateId }.toSet())
         // D5: 11:30 빌라 → Come Inn 직행, 전용차 문장에 Come Inn(본지만)·11시 반
         assertTrue(Templates.tigerLeaping.render(d.templatesFor(d4).first { it.templateId == "tpl-tiger" }.values).let { it.contains("上午11点半") && it.contains("本地湾") && !it.contains("上虎跳") })
         val d5 = d.scheduleOf("D5").first { it.timeStart == "17:10" }
-        val sh = d.templatesFor(d5).single()
+        val sh = d.templatesFor(d5).single { it.templateId == "tpl-shangrila" }
         assertTrue(Templates.shangrila.render(sh.values).contains("上午10点半"))
         val d1 = d.scheduleOf("D1").first { it.timeStart == "23:40" }
         assertEquals(setOf("tpl-pickup", "tpl-delivery"), d.templatesFor(d1).map { it.templateId }.toSet())

@@ -9,6 +9,10 @@ import re
 import sys
 from pathlib import Path
 
+# 위챗 템플릿 id(웹 templates.ts 에서 읽는다. 앱 Templates.kt 와 같게 유지)
+_TS = Path(__file__).resolve().parent.parent / "web" / "src" / "domain" / "templates.ts"
+TEMPLATE_IDS = set(re.findall(r"id: '(tpl-[a-z0-9-]+)'", _TS.read_text(encoding="utf-8"))) if _TS.exists() else set()
+
 REPO = Path(__file__).resolve().parent.parent
 EXPECT_MIN = {
     "days.json": 8, "schedule.json": 60, "lodgings.json": 6, "meals.json": 25, "foods.json": 30,
@@ -122,7 +126,7 @@ def main(d):
     for x in data.get("template_links.json", {}).get("items", []):
         if (x["dayId"], x["timeStart"]) not in sched_keys:
             errors.append(f"template_links {x['id']}: 일정 행 없음 {x['dayId']} {x['timeStart']}")
-        if x["templateId"] not in {"tpl-tiger", "tpl-shangrila", "tpl-delivery", "tpl-pickup", "tpl-guide", "tpl-guide-confirm", "tpl-guide-arrive", "tpl-guide-late", "tpl-guide-dropoff", "tpl-comeinn-route"}:
+        if x["templateId"] not in TEMPLATE_IDS:
             errors.append(f"template_links {x['id']}: 템플릿 {x['templateId']} 없음")
     for x in items("place_links.json"):
         t, k = x["type"], x["key"]

@@ -349,3 +349,14 @@ describe('통합 검색 순서', () => {
     expect(searchIndex(idx, '사방가')[0].kind).toBe('관광지')
   })
 })
+
+describe('위챗 친구 추가·QR 주고받기', () => {
+  it('템플릿 2개(QR 회화 8문장·첫 인사), 일정 연결 3곳', () => {
+    const qr = templateById('tpl-wechat-qr')!
+    expect(qr.lines).toHaveLength(8)
+    expect(qr.lines!.map((l) => l.zh)).toEqual(expect.arrayContaining(['可以加个微信吗？', '请扫我的二维码。']))
+    expect(templateById('tpl-wechat-hello')!.render({ date: '12/17', about: '入住' })).toContain('12月17日（周四）入住的客人')
+    expect(data.templateLinks.filter((x) => x.templateId === 'tpl-wechat-qr').map((x) => x.dayId)).toEqual(['D1', 'D4', 'D5'])
+    expect(templateById('tpl-delivery-note')!.lines!.map((l) => l.label)).toEqual(['① 로봇 배달 호텔', '② 프런트에 맡김'])
+  })
+})

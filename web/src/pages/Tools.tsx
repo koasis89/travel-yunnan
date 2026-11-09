@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { Copy, Delete, Maximize2, MessageSquareText } from 'lucide-react'
+import { Copy, Delete, Maximize2, MessageSquareText, QrCode } from 'lucide-react'
 import { Banner, Ko, ShowCard, TopBar, copyText } from '../components/ui'
 import { useData } from '../store/data'
 import { TEMPLATES, templateById, type TemplateField } from '../domain/templates'
@@ -23,7 +23,7 @@ export function Templates() {
   const want = link?.templateId ?? sp.get('id')
   useEffect(() => { if (want) choose(want) }, [want, link?.id]) // eslint-disable-line react-hooks/exhaustive-deps
   if (showLine) return (
-    <ShowCard header="배달 기사님께" onClose={() => setShowLine(null)} actions={<button className="btn" onClick={() => copyText(showLine.zh, '복사했다')}><Copy size={16} />복사</button>}>
+    <ShowCard header="보여 주세요" onClose={() => setShowLine(null)} actions={<button className="btn" onClick={() => copyText(showLine.zh, '복사했다')}><Copy size={16} />복사</button>}>
       <div className="long zh">{showLine.zh}</div><div className="note">{showLine.ko}</div>
     </ShowCard>
   )
@@ -38,14 +38,14 @@ export function Templates() {
       <div className="chips">{TEMPLATES.map((x) => <button key={x.id} className={`chip ${sel === x.id ? 'on' : ''}`} onClick={() => choose(x.id)}>{x.title}</button>)}</div>
       <div className="pad stack">
         {t.lines ? <>
-          <p className="small muted" style={{ margin: 0 }}>배달 앱(메이투안 등) 주문할 때 '요청사항(备注)' 칸에 붙여 넣는다. 둘 중 하나를 골라 복사한다.</p>
+          {t.linesNote && <p className="small muted" style={{ margin: 0 }}>{t.linesNote}</p>}
           {t.lines.map((l, i) => (
-            <div key={l.zh} className="card mint" data-testid="delivery-note">
-              <div className="small bold" style={{ color: 'var(--primary)' }}>{i === 0 ? '① 로봇 배달 호텔' : '② 프런트에 맡김'}</div>
+            <div key={l.zh} className="card mint" data-testid="template-line">
+              <div className="small bold" style={{ color: 'var(--primary)' }}>{l.label ?? `${i + 1}`}</div>
               <div className="zh" style={{ fontSize: '1.15em', lineHeight: 1.6, marginTop: 4 }}>{l.zh}</div>
               <div className="small" style={{ opacity: .8, marginTop: 6 }}>{l.ko}</div>
               <div className="wrap" style={{ marginTop: 10 }}>
-                <button className="btn" onClick={() => copyText(l.zh, '복사했다. 배달 앱 요청사항에 붙여넣는다')}><Copy size={16} />복사</button>
+                <button className="btn" onClick={() => copyText(l.zh, '복사했다')}><Copy size={16} />복사</button>
                 <button className="btn" onClick={() => setShowLine(l)}><Maximize2 size={16} />크게</button>
               </div>
             </div>
@@ -75,6 +75,7 @@ export function Templates() {
               <span className="small"><span className="zh">{t.contact.friendNote}</span>{t.contact.friendNoteKo && <span className="tiny muted ko-gloss" data-testid="ko-gloss" style={{ display: 'block' }}>{t.contact.friendNoteKo}</span>}</span>
               <button className="btn ghost" onClick={() => copyText(t.contact!.friendNote, '친구 요청 문장을 복사했다')}><Copy size={16} />요청 문장 복사</button>
             </div>
+            <button className="btn ghost" style={{ alignSelf: 'flex-start' }} onClick={() => choose('tpl-wechat-qr')}><QrCode size={16} />QR·아이디 주고받기 회화</button>
             {t.contact.note && <div className="tiny muted">{t.contact.note}</div>}
             {t.contact.email && <div className="tiny faint">이메일(참고): {t.contact.email} · 연락은 위챗으로 한다. 바우처의 '+86 3180884…' 긴 번호는 깨진 값이다.</div>}
           </div>

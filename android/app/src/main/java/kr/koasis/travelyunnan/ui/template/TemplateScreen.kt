@@ -40,7 +40,7 @@ fun TemplateScreen(data: TripData, idArg: String?, linkArg: String? = null) {
     val koLine = t.renderKo(t.fields.associate { f -> val x = (values[f.key] ?: "").ifBlank { f.default }; f.key to if (f.kind != null) x else kr.koasis.travelyunnan.data.KoGlossDict.ko(x).ifEmpty { x } })
     var showLine by remember { mutableStateOf<kr.koasis.travelyunnan.domain.TemplateLine?>(null) }
     showLine?.let { l ->
-        ShowCardScreen(listOf(ShowLine(l.zh, ShowStyle.Long), ShowLine(l.ko, ShowStyle.Small)), onClose = { showLine = null }, header = "배달 기사님께") {
+        ShowCardScreen(listOf(ShowLine(l.zh, ShowStyle.Long), ShowLine(l.ko, ShowStyle.Small)), onClose = { showLine = null }, header = "보여 주세요") {
             SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, l.zh, "문장을 복사했다") }
         }
         return
@@ -67,15 +67,15 @@ fun TemplateScreen(data: TripData, idArg: String?, linkArg: String? = null) {
         }
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             if (t.lines.isNotEmpty()) {
-                Text("배달 앱(메이투안 등) 주문할 때 '요청사항(备注)' 칸에 붙여 넣는다. 둘 중 하나를 골라 복사한다.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                if (t.linesNote.isNotBlank()) Text(t.linesNote, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 t.lines.forEachIndexed { i, l ->
                     Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)) {
                         Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                            Text(if (i == 0) "① 로봇 배달 호텔" else "② 프런트에 맡김", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
+                            Text(l.label.ifBlank { "${i + 1}" }, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
                             Text(l.zh, fontSize = 19.sp, lineHeight = 28.sp)
                             Text(l.ko, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, l.zh, "복사했다. 배달 앱 요청사항에 붙여넣는다") }
+                                SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, l.zh, "복사했다") }
                                 SmallAction(Icons.Filled.Fullscreen, "크게") { showLine = l }
                             }
                         }
@@ -113,6 +113,7 @@ fun TemplateScreen(data: TripData, idArg: String?, linkArg: String? = null) {
                             }
                             SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, c.friendNote, "친구 요청 문장을 복사했다") }
                         }
+                        OutlinedButton(onClick = { sel = "tpl-wechat-qr" }) { Text("QR·아이디 주고받기 회화") }
                         if (c.note.isNotBlank()) Text(c.note, style = MaterialTheme.typography.bodySmall)
                         if (c.email.isNotBlank()) Text("이메일(참고): ${c.email} · 연락은 위챗으로 한다. 바우처의 '+86 3180884…' 긴 번호는 깨진 값이다.",
                             style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)

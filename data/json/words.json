@@ -416,6 +416,54 @@
       "ko": "기차역",
       "koRead": "후어처짠",
       "copyOnly": false
+    },
+    {
+      "id": "w-053",
+      "zh": "二维码",
+      "pinyin": "èr wéi mǎ",
+      "ko": "QR코드",
+      "koRead": "얼웨이마",
+      "copyOnly": false
+    },
+    {
+      "id": "w-054",
+      "zh": "扫一扫",
+      "pinyin": "sǎo yi sǎo",
+      "ko": "스캔하기(위챗·알리페이 메뉴)",
+      "koRead": "싸오이싸오",
+      "copyOnly": false
+    },
+    {
+      "id": "w-055",
+      "zh": "微信号",
+      "pinyin": "wēi xìn hào",
+      "ko": "위챗 아이디",
+      "koRead": "웨이신하오",
+      "copyOnly": false
+    },
+    {
+      "id": "w-056",
+      "zh": "加好友",
+      "pinyin": "jiā hǎo yǒu",
+      "ko": "친구 추가",
+      "koRead": "지아 하오요우",
+      "copyOnly": false
+    },
+    {
+      "id": "w-057",
+      "zh": "付款码",
+      "pinyin": "fù kuǎn mǎ",
+      "ko": "결제 QR(내가 보여 주는 것)",
+      "koRead": "푸콴마",
+      "copyOnly": false
+    },
+    {
+      "id": "w-058",
+      "zh": "收款码",
+      "pinyin": "shōu kuǎn mǎ",
+      "ko": "가게 결제 QR(내가 스캔하는 것)",
+      "koRead": "쇼우콴마",
+      "copyOnly": false
     }
   ]
 }

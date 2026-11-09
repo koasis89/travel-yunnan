@@ -207,4 +207,17 @@ class DocRulesTest {
         assertTrue(S.search(idx, "여권 기차").all { "여권" in it.text && "기차" in it.text })
         assertTrue(S.search(idx, "  ").isEmpty())
     }
+
+    @Test fun wechatQrPhrases() {
+        val d = TripDataHolder.data
+        val basic = d.phrasesIn("basic").map { it.zh }
+        assertTrue(listOf("可以加个微信吗？", "请扫我的二维码。", "我扫你，还是你扫我？", "你的微信号是多少？").all { it in basic })
+        assertTrue(d.phrases.first { it.id == "msg-003" }.let { it.copyOnly && "message" in it.categories })
+        assertEquals("QR코드", d.words.first { it.zh == "二维码" }.ko)
+        val T = kr.koasis.travelyunnan.domain.Templates
+        val qr = T.all.first { it.id == "tpl-wechat-qr" }
+        assertEquals(8, qr.lines.size); assertTrue(qr.lines.all { it.label.isNotBlank() })
+        assertTrue(T.all.first { it.id == "tpl-wechat-hello" }.render(mapOf("date" to "12/17", "about" to "入住")).contains("12月17日（周四）入住的客人"))
+        assertTrue(d.templateLinks.count { it.templateId == "tpl-wechat-qr" } == 3)
+    }
 }

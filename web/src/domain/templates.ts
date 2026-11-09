@@ -3,7 +3,7 @@ import { koDT, zhDT, type DateKind } from './dateText'
 /** kind: 날짜·시각은 숫자로만 받는다(dateText.ts). approx: 시각 뒤에 '左右' */
 export interface TemplateField { key: string; label: string; def: string; hint?: string; kind?: DateKind; approx?: boolean }
 export interface Contact { name: string; wechat: string; email?: string; friendNote: string; friendNoteKo?: string; booker?: string; bookingRef?: string; note?: string }
-export interface Template { id: string; title: string; fields: TemplateField[]; render: (v: Record<string, string>) => string; renderKo: (v: Record<string, string>) => string; contact?: Contact; lines?: { zh: string; ko: string }[] }
+export interface Template { id: string; title: string; fields: TemplateField[]; render: (v: Record<string, string>) => string; renderKo: (v: Record<string, string>) => string; contact?: Contact; lines?: { zh: string; ko: string; label?: string }[]; linesNote?: string }
 
 /** 12/18 옥룡설산 투어 가이드·기사(바우처 기준). 연락은 위챗, 메일은 참고. 바우처의 +86 긴 번호는 깨진 값이라 쓰지 않는다 */
 /**
@@ -51,8 +51,23 @@ const pickF: TemplateField[] = [
 ]
 /** 배달 앱(메이투안 등) 요청사항 칸에 붙이는 문장. 하나씩 따로 복사한다 */
 export const DELIVERY_NOTES = [
-  { zh: '我们没有国内手机号，请别打电话，直接让机器人送上来就行。', ko: '국내 전화번호가 없으니 전화하지 말고, 바로 로봇으로 올려 보내 주세요.' },
-  { zh: '我们没有国内手机号，请别打电话，直接放在前台就行。', ko: '국내 전화번호가 없으니 전화하지 말고, 프런트에 맡겨 주세요.' },
+  { zh: '我们没有国内手机号，请别打电话，直接让机器人送上来就行。', ko: '국내 전화번호가 없으니 전화하지 말고, 바로 로봇으로 올려 보내 주세요.', label: '① 로봇 배달 호텔' },
+  { zh: '我们没有国内手机号，请别打电话，直接放在前台就行。', ko: '국내 전화번호가 없으니 전화하지 말고, 프런트에 맡겨 주세요.', label: '② 프런트에 맡김' },
+]
+/** 위챗 친구 추가·QR·아이디 주고받기(하나씩 보여 주거나 복사) */
+export const WECHAT_QR_LINES = [
+  { zh: '可以加个微信吗？', ko: '위챗 친구 추가해도 될까요?', label: '친구 추가 부탁' },
+  { zh: '我扫你，还是你扫我？', ko: '제가 스캔할까요, 당신이 스캔할래요?', label: '누가 스캔할지' },
+  { zh: '请打开你的微信二维码。', ko: '위챗 QR코드를 열어 주세요', label: '상대 QR 열어 달라' },
+  { zh: '请扫我的二维码。', ko: '제 QR코드를 스캔해 주세요', label: '내 QR 보여 줄 때' },
+  { zh: '你的微信号是多少？', ko: '위챗 아이디가 뭐예요?', label: '아이디 묻기' },
+  { zh: '我加你了，请通过一下。', ko: '친구 신청했어요, 수락해 주세요', label: '신청 후' },
+  { zh: '搜不到你的微信，可以用手机号加吗？', ko: '위챗이 검색이 안 돼요, 전화번호로 추가해도 될까요?', label: '검색 안 될 때' },
+  { zh: '请把位置发到微信上。', ko: '위치를 위챗으로 보내 주세요', label: '위치 받기' },
+]
+const helloF: TemplateField[] = [
+  { key: 'date', label: '날짜', def: '12/20', kind: 'date' },
+  { key: 'about', label: '무슨 일로(중국어)', def: '包车', hint: '예: 包车(전용차) · 入住(숙박) · 一日游(투어)' },
 ]
 /** 예약자·예약 번호 줄(값이 있는 것만) */
 const bookingLines = (booker: string, ref: string) => (booker ? `预订人：${booker}\n` : '') + (ref ? `订单号（Booking reference）：${ref}\n` : '')
@@ -75,7 +90,14 @@ export const TEMPLATES: Template[] = [
   { id: 'tpl-delivery', title: '배달 주소 요청(프런트)', fields: delivF,
     render: (v) => `麻烦帮我们写一下送到我们住的酒店房间的收货地址，酒店是${val(v, delivF, 'hotel')}` + (v.room?.trim() ? `，房间号${v.room.trim()}` : '') + '。我们没有国内手机号，请别打电话，直接放在前台就行。',
     renderKo: () => '메이투안 배달용 수령 주소(호텔명·방 번호)를 적어 달라는 요청. 중국 번호가 없으니 전화 말고 프런트에 맡겨 달라고 덧붙인다.' },
+  { id: 'tpl-wechat-qr', title: '위챗 친구 추가·QR 주고받기', fields: [], lines: WECHAT_QR_LINES,
+    linesNote: '상대에게 화면을 보여 주거나(크게) 복사해 보낸다. 위챗 QR: 내 QR은 위챗 → 나(我) → 오른쪽 위 QR, 스캔은 위챗 오른쪽 위 ⊕ → 扫一扫.',
+    render: () => WECHAT_QR_LINES.map((x) => x.zh).join('\n'), renderKo: () => WECHAT_QR_LINES.map((x) => x.ko).join('\n') },
+  { id: 'tpl-wechat-hello', title: '위챗 친구 추가 후 첫 인사', fields: helloF,
+    render: (v) => `你好！我是刚才加你微信的韩国游客，${val(v, helloF, 'date')}${val(v, helloF, 'about')}的客人，我们一共3个人。我们没有中国手机号，请用微信联系我们，打字就行，我们用翻译看。谢谢！`,
+    renderKo: (v) => `안녕하세요! 방금 위챗 친구 추가한 한국인 여행객이다. ${vk(v, helloF, 'date')} ${vk(v, helloF, 'about')} 손님이고 모두 3명. 중국 번호가 없으니 위챗으로, 글로 연락해 달라(번역해서 본다).` },
   { id: 'tpl-delivery-note', title: '배달 요청사항(전화 대신 로봇·프런트)', fields: [], lines: DELIVERY_NOTES,
+    linesNote: "배달 앱(메이투안 등) 주문할 때 '요청사항(备注)' 칸에 붙여 넣는다. 둘 중 하나를 골라 복사한다.",
     render: () => DELIVERY_NOTES.map((x) => x.zh).join('\n'), renderKo: () => DELIVERY_NOTES.map((x) => x.ko).join('\n') },
   { id: 'tpl-pickup', title: '숙소 픽업·짐 운반 요청', fields: pickF,
     render: (v) => `你好，我们${val(v, pickF, 'date')}到${val(v, pickF, 'where')}，${val(v, pickF, 'persons')}。请问可以安排接送吗？古城里车进不去的话，请告诉我们在哪里下车，麻烦帮忙运一下行李。谢谢！`,
