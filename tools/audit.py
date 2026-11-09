@@ -114,8 +114,14 @@ def main():
 
     # 4. 알림: 열차는 열차 코드 행, 비행기는 공항 행보다 앞서야 한다. 숙소·차량 알림은 시각 검사 생략
     day_date = {d["id"]: d["date"] for d in days}
+    # 사전 일정(pretrip.json)에 묶인 알림은 여행 전 날짜가 맞다
+    pre_ids = {x.get("notificationId") for x in load("pretrip.json")["items"]} if (J / "pretrip.json").exists() else set()
     for n in notif:
         dt = n["at"]
+        if n["id"] in pre_ids:
+            if not dt[:10] < days[0]["date"]:
+                errors.append(f"[알림] {n['id']} 사전 일정 알림이 출발일 이후 {dt}")
+            continue
         if not (days[0]["date"] <= dt[:10] <= days[-1]["date"]):
             errors.append(f"[알림] {n['id']} 여행 기간 밖 {dt}")
         rows = by_day[n["dayId"]]
