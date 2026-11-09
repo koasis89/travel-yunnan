@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Search as SearchIcon, X } from 'lucide-react'
 import { TopBar } from '../components/ui'
@@ -11,13 +11,23 @@ const EXAMPLES = ['여권', '산소캔', '기차', '과교미선', '빵차', '�
 export function Search() {
   const data = useData()
   const [sp, setSp] = useSearchParams()
-  const q = sp.get('q') ?? ''
+  // 입력칸은 자기 값(text)을 바로 쓴다. 주소(?q=)는 입력이 멈춘 뒤에만 바꾼다 —
+  // 글자마다 주소를 바꾸면 휴대폰 한글 입력(자모 조합)이 끊겨 'ㅅㅓㄹ'처럼 풀어진다
+  const [text, setText] = useState(sp.get('q') ?? '')
+  const composing = useRef(false)
+  const [composingTick, setComposingTick] = useState(0)
+  const q = text
   const kind = sp.get('k') ?? ''
+  useEffect(() => {
+    if ((sp.get('q') ?? '') === text) return
+    const t = window.setTimeout(() => { if (!composing.current) setSp(text ? { q: text } : {}, { replace: true }) }, 500)
+    return () => window.clearTimeout(t)
+  }, [text, composingTick]) // eslint-disable-line react-hooks/exhaustive-deps
   const index = useMemo(() => buildSearchIndex(data), [data])
   const all = useMemo(() => searchIndex(index, q), [index, q])
   const kinds = KIND_ORDER.filter((k) => all.some((h) => h.kind === k))
   const shown = kind ? all.filter((h) => h.kind === kind) : all
-  const set = (nq: string, nk = '') => setSp(nq ? (nk ? { q: nq, k: nk } : { q: nq }) : {}, { replace: true })
+  const set = (nq: string, nk = '') => { setText(nq); setSp(nq ? (nk ? { q: nq, k: nk } : { q: nq }) : {}, { replace: true }) }
   return (
     <div className="page">
       <TopBar title="검색" back={false} />
@@ -25,7 +35,10 @@ export function Search() {
         <div className="row" style={{ gap: 8, position: 'relative' }}>
           <SearchIcon size={18} style={{ position: 'absolute', left: 12, opacity: 0.6 }} />
           <input className="input" type="text" enterKeyHint="search" autoFocus data-testid="search-input" placeholder="일정·숙소·식당·관광지·회화·체크리스트…"
-            value={q} onChange={(e) => set(e.target.value)} style={{ paddingLeft: 38, paddingRight: 38 }} />
+            value={text} onChange={(e) => setText(e.target.value)}
+            onCompositionStart={() => { composing.current = true }}
+            onCompositionEnd={(e) => { composing.current = false; setText((e.target as HTMLInputElement).value); setComposingTick((n) => n + 1) }}
+            style={{ paddingLeft: 38, paddingRight: 38 }} />
           {q && <button className="btn ghost" aria-label="지우기" onClick={() => set('')} style={{ position: 'absolute', right: 2, padding: 6 }}><X size={18} /></button>}
         </div>
       </div>

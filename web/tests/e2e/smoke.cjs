@@ -267,6 +267,17 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   await page.goto(base + '#/'); await page.click('.tabbar a:has-text("검색")'); await page.waitForSelector('[data-testid=search-input]', { timeout: 5000 }).catch(() => {})
   const tabs = await page.locator('.tabbar a').allInnerTexts()
   ok('아래 탭 검색(더보기 왼쪽)', tabs.map((t) => t.trim()).join('|') === '오늘|일정|숙소·식사|검색|더보기')
+  // 휴대폰 한글 입력(자모 조합)처럼: 조합 중 글자를 여러 번 바꾼 뒤 확정
+  {
+    const cdp = await page.context().newCDPSession(page)
+    await page.click('[data-testid=search-input]')
+    for (const [steps, done] of [[['ㅅ', '서', '설'], '설'], [['ㅅ', '사', '산'], '산']]) {
+      for (const t of steps) { await cdp.send('Input.imeSetComposition', { text: t, selectionStart: t.length, selectionEnd: t.length }); await page.waitForTimeout(120) }
+      await cdp.send('Input.insertText', { text: done }); await page.waitForTimeout(120)
+    }
+    await page.waitForTimeout(900)
+    ok('한글 조합 입력이 풀어지지 않음(설산)', (await page.inputValue('[data-testid=search-input]')) === '설산' && page.url().includes('q=%EC%84%A4%EC%82%B0'))
+  }
   await page.fill('[data-testid=search-input]', '산소캔')
   ok('검색: 산소캔 → 체크리스트·일정', (await page.locator('[data-testid=search-hit]').count()) >= 2 && await page.isVisible('[data-testid=search-kinds] >> text=체크리스트'))
   await page.screenshot({ path: `${out}/w38_search.png` })
