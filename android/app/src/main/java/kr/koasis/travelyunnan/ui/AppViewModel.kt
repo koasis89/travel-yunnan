@@ -71,7 +71,10 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
 
     val diary: StateFlow<List<DiaryEntry>> = flowOf(Unit).flatMapLatest { dao.diary() }
         .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
-    fun addDiary(e: DiaryEntry) = viewModelScope.launch(Dispatchers.IO) { dao.addDiary(e) }
+    fun addDiary(e: DiaryEntry) = viewModelScope.launch(Dispatchers.IO) {
+        val id = dao.addDiary(e)
+        if (kr.koasis.travelyunnan.data.DriveBackup.ready(driveConfig())) runCatching { backupDiary(e.copy(id = id)) }
+    }
     fun updateDiary(e: DiaryEntry) = viewModelScope.launch(Dispatchers.IO) { dao.updateDiary(e) }
     fun deleteDiary(e: DiaryEntry) = viewModelScope.launch(Dispatchers.IO) { dao.deleteDiary(e) }
 
@@ -83,7 +86,49 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     /** 고른 파일들을 문서함에 복사한다. 하나만 넣으면 그 문서 id 를 돌려준다(정보 편집 화면으로 이동용) */
     suspend fun addDocs(uris: List<android.net.Uri>, defaultDay: String?): List<TripDoc> = withContext(Dispatchers.IO) {
         val days = _data.value?.days.orEmpty()
-        uris.mapNotNull { u -> runCatching { DocStore.import(getApplication(), u, days, defaultDay).also { dao.upsertDoc(it) } }.getOrNull() }
+        val added = uris.mapNotNull { u -> runCatching { DocStore.import(getApplication(), u, days, defaultDay).also { dao.upsertDoc(it) } }.getOrNull() }
+        // 드라이브 백업을 설정했으면 넣자마자 올린다(실패하면 나중에 '드라이브로 백업')
+        if (kr.koasis.travelyunnan.data.DriveBackup.ready(driveConfig())) viewModelScope.launch(Dispatchers.IO) { added.forEach { runCatching { backupDoc(it) } } }
+        added
+    }
+
+    // ---- 구글 드라이브 백업(data/DriveBackup) ----
+    fun driveConfig() = kr.koasis.travelyunnan.data.DriveBackup.config(getApplication())
+    fun saveDriveConfig(c: kr.koasis.travelyunnan.data.DriveBackup.Config?) = kr.koasis.travelyunnan.data.DriveBackup.save(getApplication(), c)
+
+    /** 문서 1건을 드라이브(문서함/D3/…)로. 올렸으면 flags 'drive:doc:<id>' */
+    suspend fun backupDoc(d: TripDoc) = withContext(Dispatchers.IO) {
+        val f = DocStore.original(getApplication(), d)
+        kr.koasis.travelyunnan.data.DriveBackup.upload(driveConfig(), "문서함", d.dayId ?: "공통",
+            kr.koasis.travelyunnan.data.DriveBackup.fileName(d.dayId, d.title, d.id, d.fileName), d.mime, f.readBytes(), listOf(d.kind, d.note).filter { it.isNotBlank() }.joinToString(" · "))
+        dao.setFlag(Flag("drive:doc:${d.id}"))
+    }
+
+    /** 사진 일기 1건(사진 또는 메모)을 드라이브(사진일기/D2/…)로. 올렸으면 flags 'drive:diary:<id>' */
+    suspend fun backupDiary(e: DiaryEntry): Unit = withContext(Dispatchers.IO) {
+        val ctx = getApplication<Application>()
+        val c = driveConfig(); val name = "${e.dayId}_${java.text.SimpleDateFormat("MMdd-HHmm", java.util.Locale.KOREA).format(java.util.Date(e.at))}_${e.id}"
+        if (e.uri != null) {
+            val uri = android.net.Uri.parse(e.uri)
+            val mime = ctx.contentResolver.getType(uri) ?: "image/jpeg"
+            val bytes = ctx.contentResolver.openInputStream(uri)?.use { it.readBytes() } ?: error("사진을 열 수 없다")
+            val ext = android.webkit.MimeTypeMap.getSingleton().getExtensionFromMimeType(mime) ?: "jpg"
+            kr.koasis.travelyunnan.data.DriveBackup.upload(c, "사진일기", e.dayId, "$name.$ext", mime, bytes, e.memo)
+        } else if (e.memo.isNotBlank()) {
+            kr.koasis.travelyunnan.data.DriveBackup.upload(c, "사진일기", e.dayId, "${name}_메모.txt", "text/plain", null, text = e.memo)
+        } else return@withContext
+        dao.setFlag(Flag("drive:diary:${e.id}"))
+    }
+
+    /** 아직 안 올린 문서·사진 일기를 모두 올린다. (올림, 실패) */
+    suspend fun backupAll(docsToo: Boolean = true, diaryToo: Boolean = true, progress: (String) -> Unit = {}): Pair<Int, Int> = withContext(Dispatchers.IO) {
+        val f = flags.value; var ok = 0; var fail = 0
+        val ds = if (docsToo) docs.value.filter { "drive:doc:${it.id}" !in f } else emptyList()
+        val es = if (diaryToo) diary.value.filter { "drive:diary:${it.id}" !in f && (it.uri != null || it.memo.isNotBlank()) } else emptyList()
+        val total = ds.size + es.size; var i = 0
+        ds.forEach { d -> progress("드라이브로 올리는 중 ${++i}/$total"); if (runCatching { backupDoc(d) }.isSuccess) ok++ else fail++ }
+        es.forEach { e -> progress("드라이브로 올리는 중 ${++i}/$total"); if (runCatching { backupDiary(e) }.isSuccess) ok++ else fail++ }
+        ok to fail
     }
     fun updateDoc(d: TripDoc) = viewModelScope.launch(Dispatchers.IO) { dao.upsertDoc(d) }
     fun deleteDoc(d: TripDoc) = viewModelScope.launch(Dispatchers.IO) { dao.deleteDoc(d.id); DocStore.delete(getApplication(), d.id) }

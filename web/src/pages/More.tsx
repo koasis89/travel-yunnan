@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
-import { BookOpen, ChevronRight, FolderOpen, Landmark, MapPinned, UtensilsCrossed, Hash, Info, ListChecks, LogOut, MessageSquareText, Receipt, Settings as SettingsIcon, Siren, TrainFront, TriangleAlert, Download, RefreshCw, CupSoda, QrCode } from 'lucide-react'
+import { BookOpen, ChevronRight, FolderOpen, Landmark, MapPinned, UtensilsCrossed, Hash, Info, ListChecks, LogOut, MessageSquareText, Receipt, Settings as SettingsIcon, Siren, TrainFront, TriangleAlert, Download, RefreshCw, CupSoda, QrCode, CloudUpload } from 'lucide-react'
 import { useState, type ReactNode } from 'react'
 import { DayChips, TopBar, toast } from '../components/ui'
 import { checkUpdate, reinstallApp } from '../store/update'
+import { pingDrive, saveDriveConfig, useDrive } from '../store/drive'
 import { useData, useNow, useSettings } from '../store/data'
 import { shiftHours, tripNow } from '../domain/tripTime'
 
@@ -96,6 +97,31 @@ export function Settings() {
           <div className="wrap" style={{ justifyContent: 'center' }}>{['00', '15', '30', '45'].map((m) => <button key={m} className={`chip ${cur.slice(14) === m ? 'on' : ''}`} onClick={() => setS({ ...s, override: cur.slice(0, 14) + m })}>:{m}</button>)}</div>
         </>}
       </div>
+      <DriveSettings />
     </div>
   )
+}
+
+/** 구글 드라이브 백업 설정: Apps Script 웹 앱 주소·백업 키(이 기기에 저장) */
+function DriveSettings() {
+  const { config, ready } = useDrive()
+  const [url, setUrl] = useState(config.url); const [token, setToken] = useState(config.token)
+  const [msg, setMsg] = useState<string | null>(null)
+  return (<>
+    <div className="section">구글 드라이브 백업</div>
+    <div className="card stack" style={{ margin: '0 16px' }} data-testid="drive-settings">
+      <div className="small muted">문서함 파일을 내 구글 드라이브 폴더에도 저장한다(넣을 때 자동, 문서함의 '드라이브로 백업'으로 한꺼번에). 앱(안드로이드)은 사진 일기도 올린다. 주소는 구글 Apps Script 를 한 번 배포해 얻는다.</div>
+      <label className="small">웹 앱 주소<input className="input" placeholder="https://script.google.com/macros/s/…/exec" value={url} onChange={(e) => setUrl(e.target.value)} /></label>
+      <label className="small">백업 키<input className="input" placeholder="스크립트의 TOKEN 과 같은 값" value={token} onChange={(e) => setToken(e.target.value)} /></label>
+      <div className="wrap">
+        <button className="btn primary" disabled={!url.trim() || !token.trim()} onClick={async () => {
+          saveDriveConfig({ url, token }); setMsg('확인 중…')
+          try { setMsg(`연결됨 · 폴더 「${await pingDrive({ url: url.trim(), token: token.trim() })}」`) } catch (e) { setMsg(`연결 실패: ${(e as Error).message}`) }
+        }}><CloudUpload size={16} />저장·연결 확인</button>
+        {ready && <button className="btn ghost" onClick={() => { saveDriveConfig(null); setUrl(''); setToken(''); setMsg('지웠다') }}>지우기</button>}
+      </div>
+      {msg && <div className="small" data-testid="drive-msg">{msg}</div>}
+      {!msg && ready && <div className="tiny muted">설정됨</div>}
+    </div>
+  </>)
 }

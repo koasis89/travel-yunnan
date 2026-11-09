@@ -1,4 +1,5 @@
 import { setGuideBooking } from './templates'
+import { setDriveDefault } from '../store/drive'
 import type { Blog } from './docs'
 // data/json 구조(앱 Models.kt 와 동일)
 export interface Day { id: string; date: string; dateLabel: string; route: string; summary: string; lodgingLabel: string; lodgingId: string | null; region: string | null; altitude: string | null; tempDay: string | null; tempNight: string | null; outfit: string | null; mapIds: string[] }
@@ -109,8 +110,9 @@ export class TripData {
     const mt = b['milktea.json'] as Partial<MilkTea> | undefined
     this.milktea = { items: mt?.items ?? [], sugar: mt?.sugar ?? [], ice: mt?.ice ?? [] }
     // 개인 정보(저장소 밖에서 빌드 때 암호화해 넣은 값)
-    const pv = b['private.json'] as { guideBooker?: string; guideRef?: string } | undefined
+    const pv = b['private.json'] as { guideBooker?: string; guideRef?: string; driveUrl?: string; driveToken?: string } | undefined
     setGuideBooking(pv?.guideBooker, pv?.guideRef)
+    setDriveDefault(pv?.driveUrl, pv?.driveToken)
     this.version = (b['version.json'] as { data?: string })?.data ?? ''
   }
   day = (id?: string | null) => this.days.find((d) => d.id === id)

@@ -364,6 +364,30 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   ok('일정 D3 문서 바로가기', await page.waitForSelector('[data-testid=day-docs]:has-text("D3 문서 1건")', { timeout: 5000 }).then(() => true).catch(() => false))
   await page.reload(); await page.goto(base + '#/docs')
   ok('새로고침 후 문서 유지', await page.waitForSelector('[data-testid=doc-row]', { timeout: 5000 }).then(async () => (await page.locator('[data-testid=doc-row]').count()) === 2).catch(() => false))
+  // 구글 드라이브 백업(가짜 Apps Script 주소로 확인): 설정 → 연결 확인 → 문서함 한꺼번에 올리기
+  {
+    const posts = []
+    await page.route('https://script.google.com/**', async (route) => {
+      const req = route.request()
+      if (req.method() === 'POST') { const b = JSON.parse(req.postData() || '{}'); posts.push(b); return route.fulfill({ contentType: 'application/json', body: JSON.stringify(b.token === 'k-test' ? { ok: true, id: 'x' } : { ok: false, error: 'token' }) }) }
+      return route.fulfill({ contentType: 'application/json', body: JSON.stringify(new URL(req.url()).searchParams.get('token') === 'k-test' ? { ok: true, folder: '윈난 여행 앱 백업' } : { ok: false, error: 'token' }) })
+    })
+    ok('문서함: 드라이브 설정 안내 링크', await page.isVisible('[data-testid=drive-setup-link]'))
+    await page.goto(base + '#/settings'); await page.waitForSelector('[data-testid=drive-settings]', { timeout: 5000 }).catch(() => {})
+    await page.fill('[data-testid=drive-settings] input >> nth=0', 'https://script.google.com/macros/s/TEST/exec')
+    await page.fill('[data-testid=drive-settings] input >> nth=1', 'k-test')
+    await page.click('[data-testid=drive-settings] >> text=저장·연결 확인')
+    ok('드라이브 연결 확인(폴더 이름)', await page.waitForSelector('text=연결됨 · 폴더 「윈난 여행 앱 백업」', { timeout: 5000 }).then(() => true).catch(() => false))
+    await page.goto(base + '#/docs'); await page.waitForSelector('[data-testid=drive-bar]', { timeout: 5000 }).catch(() => {})
+    await page.click('[data-testid=drive-bar] button')
+    await page.waitForSelector('text=모두 올렸다', { timeout: 10000 }).catch(() => {})
+    ok('문서함 → 드라이브 2건 업로드(폴더·일차·이름)', posts.length === 2 && posts.every((p) => p.folder === '문서함' && p.token === 'k-test' && p.data.length > 100 && /^(D\d|공통)_/.test(p.name)))
+    await page.click('[data-testid=doc-row] >> nth=0'); await page.waitForSelector('[data-testid=drive-doc]', { timeout: 5000 }).catch(() => {})
+    ok('문서 화면: 드라이브에 올렸다 표시', await page.isVisible('text=드라이브에 올렸다'))
+    await page.unroute('https://script.google.com/**')
+    await page.evaluate(() => { localStorage.removeItem('yn.drive'); localStorage.removeItem('yn.drive.done') })
+    await page.goto(base + '#/docs'); await page.waitForSelector('[data-testid=doc-row]', { timeout: 5000 }).catch(() => {})
+  }
   const docHref = await page.locator('[data-testid=doc-row]:has-text("옥룡설산")').getAttribute('href')
 
   // 블로그 후기: 관광지 화면 → PDF 넣기 → 문서함(블로그) → 다시 오면 PDF 보기

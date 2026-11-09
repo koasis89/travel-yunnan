@@ -1,5 +1,7 @@
 package kr.koasis.travelyunnan.ui.more
 
+import androidx.compose.runtime.saveable.rememberSaveable
+import kotlinx.coroutines.launch
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -87,13 +89,40 @@ fun MoreScreen() {
 @Composable
 fun SettingsScreen(vm: AppViewModel, data: TripData) {
     val s by vm.settings.collectAsStateWithLifecycle()
-    SettingsContent(data, s, vm::setBigFont, vm::setTtsSlow, vm::setTtsRepeat, vm::setOverride)
+    SettingsContent(data, s, vm::setBigFont, vm::setTtsSlow, vm::setTtsRepeat, vm::setOverride) { DriveSettings(vm) }
+}
+
+/** 구글 드라이브 백업 설정(웹 설정과 같다): Apps Script 웹 앱 주소·백업 키, 연결 확인 */
+@Composable
+private fun DriveSettings(vm: AppViewModel) {
+    val cur = remember { vm.driveConfig() }
+    var url by rememberSaveable { mutableStateOf(cur.url) }
+    var token by rememberSaveable { mutableStateOf(cur.token) }
+    var msg by remember { mutableStateOf<String?>(null) }
+    val scope = rememberCoroutineScope()
+    HorizontalDivider(Modifier.padding(vertical = 8.dp))
+    SectionTitle("구글 드라이브 백업")
+    Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Text("문서함 파일·사진 일기를 내 구글 드라이브 폴더에도 저장한다(넣을 때 자동, 문서함·사진 일기의 '드라이브로 백업'으로 한꺼번에). 주소는 구글 Apps Script 를 한 번 배포해 얻는다.", style = MaterialTheme.typography.bodySmall)
+        OutlinedTextField(url, { url = it }, label = { Text("웹 앱 주소") }, placeholder = { Text("https://script.google.com/macros/s/…/exec") }, singleLine = true, modifier = Modifier.fillMaxWidth())
+        OutlinedTextField(token, { token = it }, label = { Text("백업 키") }, singleLine = true, modifier = Modifier.fillMaxWidth())
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Button(enabled = url.isNotBlank() && token.isNotBlank(), onClick = {
+                val c = kr.koasis.travelyunnan.data.DriveBackup.Config(url.trim(), token.trim()); vm.saveDriveConfig(c); msg = "확인 중…"
+                scope.launch { msg = runCatching { kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) { kr.koasis.travelyunnan.data.DriveBackup.ping(c) } }.fold({ "연결됨 · 폴더 「$it」" }, { "연결 실패: ${it.message}" }) }
+            }) { Text("저장·연결 확인") }
+            if (cur.url.isNotBlank() || url.isNotBlank()) OutlinedButton(onClick = { vm.saveDriveConfig(null); url = ""; token = ""; msg = "지웠다" }) { Text("지우기") }
+        }
+        msg?.let { Text(it, style = MaterialTheme.typography.bodyMedium) }
+    }
+    Spacer(Modifier.height(24.dp))
 }
 
 @Composable
 fun SettingsContent(
     data: TripData, s: AppSettings,
     setBigFont: (Boolean) -> Unit, setSlow: (Boolean) -> Unit, setRepeat: (Boolean) -> Unit, setOverride: (String?) -> Unit,
+    extra: @Composable () -> Unit = {},
 ) {
     val actions = LocalActions.current
     val current = tripNow(s.overrideDateTime)
@@ -127,6 +156,7 @@ fun SettingsContent(
                 }
             }
         }
+        extra()
         Spacer(Modifier.height(24.dp))
     }
 }

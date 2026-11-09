@@ -43,7 +43,9 @@ fun DiaryScreen(vm: AppViewModel, data: TripData, dayArg: String?) {
     val list by vm.diary.collectAsStateWithLifecycle()
     val now by vm.now.collectAsStateWithLifecycle()
     val ctx = LocalContext.current
-    DiaryContent(data, list, now, dayArg,
+    val flags by vm.flags.collectAsStateWithLifecycle()
+    val backable = list.filter { it.uri != null || it.memo.isNotBlank() }
+    DiaryContent(data, list, now, dayArg, driveBar = { kr.koasis.travelyunnan.ui.common.DriveBar(vm, backable.count { "drive:diary:${it.id}" in flags }, backable.size, docs = false, diary = true) },
         onAdd = { vm.addDiary(it) }, onUpdate = { vm.updateDiary(it) }, onDelete = { vm.deleteDiary(it) },
         persist = { uri -> runCatching { ctx.contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION) } },
         loadImage = { uri -> runCatching { ctx.contentResolver.openInputStream(uri)?.use { android.graphics.BitmapFactory.decodeStream(it)?.asImageBitmap() } }.getOrNull() })
@@ -53,7 +55,7 @@ fun DiaryScreen(vm: AppViewModel, data: TripData, dayArg: String?) {
 fun DiaryContent(
     data: TripData, list: List<DiaryEntry>, now: LocalDateTime, dayArg: String?,
     onAdd: (DiaryEntry) -> Unit, onUpdate: (DiaryEntry) -> Unit, onDelete: (DiaryEntry) -> Unit,
-    persist: (Uri) -> Unit, loadImage: (Uri) -> ImageBitmap?,
+    persist: (Uri) -> Unit, loadImage: (Uri) -> ImageBitmap?, driveBar: @Composable () -> Unit = {},
 ) {
     val actions = LocalActions.current
     val todayId = (DayResolver.resolve(now, data.days) as? TripPhase.OnTrip)?.day?.id
@@ -69,6 +71,7 @@ fun DiaryContent(
             SmallAction(Icons.Filled.AddPhotoAlternate, "사진 추가") { picker.launch(arrayOf("image/*")) }
             SmallAction(Icons.Filled.NoteAdd, "메모 추가") { onAdd(DiaryEntry(dayId = day, memo = "")) }
         }
+        driveBar()
         if (entries.isEmpty()) EmptyState("${day}의 사진·메모가 없다")
         LazyColumn(contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
             items(entries, key = { it.id }) { e -> DiaryCard(e, onUpdate, onDelete, loadImage) }

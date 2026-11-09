@@ -126,6 +126,7 @@ class TripData(
             runCatching { kotlinx.serialization.json.Json.parseToJsonElement(read("private.json")) as kotlinx.serialization.json.JsonObject }.getOrNull()?.let { o ->
                 fun s(k: String) = (o[k] as? kotlinx.serialization.json.JsonPrimitive)?.content
                 kr.koasis.travelyunnan.domain.Templates.setGuideBooking(s("guideBooker"), s("guideRef"))
+                DriveBackup.setDefault(s("driveUrl"), s("driveToken"))
             } ?: kr.koasis.travelyunnan.domain.Templates.setGuideBooking(null, null)
             // 중국어 → 한국어 번역 사전(없으면 빈 사전)
             KoGlossDict.items = runCatching {

@@ -97,6 +97,8 @@ fun DocsScreen(vm: AppViewModel, data: TripData, dayArg: String?) {
                     }
                     busy?.let { Text(it, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.primary) }
                 }
+                val flags by vm.flags.collectAsStateWithLifecycle()
+                kr.koasis.travelyunnan.ui.common.DriveBar(vm, docs.count { "drive:doc:${it.id}" in flags }, docs.size, docs = true, diary = false)
                 DayChips(data.days, day, { day = it }, allLabel = "전체 일차", todayId = todayId)
                 LazyRow(contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                     item { FilterChip(kind == null, onClick = { kind = null }, label = { Text("전체") }) }
@@ -127,7 +129,7 @@ fun DocsScreen(vm: AppViewModel, data: TripData, dayArg: String?) {
                 )
             }
             item {
-                Text("문서는 이 휴대폰 안에만 저장되고 서버로 보내지 않는다. 다른 가족에게는 문서를 열어 공유 버튼으로 보낸다. 앱을 지우면 함께 지워진다.",
+                Text("문서는 이 휴대폰 안에 저장된다. 구글 드라이브 백업을 설정하면 내 드라이브 폴더에도 올린다. 다른 가족에게는 문서를 열어 공유 버튼으로 보낸다. 앱을 지우면 휴대폰 쪽은 함께 지워진다.",
                     style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline, modifier = Modifier.padding(16.dp))
             }
         }
@@ -188,6 +190,20 @@ fun DocViewScreen(vm: AppViewModel, data: TripData, id: String, editArg: Boolean
                 Row(Modifier.padding(16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     OutlinedButton(onClick = ::openOriginal, modifier = Modifier.weight(1f)) { Icon(Icons.Filled.FolderOpen, null); Spacer(Modifier.width(6.dp)); Text("원본 열기") }
                     OutlinedButton(onClick = ::share, modifier = Modifier.weight(1f)) { Icon(Icons.Filled.Share, null); Spacer(Modifier.width(6.dp)); Text("공유") }
+                }
+                if (kr.koasis.travelyunnan.data.DriveBackup.ready(vm.driveConfig())) {
+                    val flags by vm.flags.collectAsStateWithLifecycle()
+                    val done = "drive:doc:${d.id}" in flags
+                    var up by remember { mutableStateOf(false) }
+                    val scope = rememberCoroutineScope()
+                    OutlinedButton(enabled = !done && !up, modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp), onClick = {
+                        up = true
+                        scope.launch {
+                            val r = runCatching { vm.backupDoc(d) }
+                            up = false
+                            android.widget.Toast.makeText(ctx, r.exceptionOrNull()?.let { "올리지 못했다: ${it.message}" } ?: "드라이브에 올렸다", android.widget.Toast.LENGTH_SHORT).show()
+                        }
+                    }) { Icon(Icons.Filled.CloudUpload, null); Spacer(Modifier.width(6.dp)); Text(if (done) "드라이브에 올렸다" else if (up) "올리는 중…" else "드라이브로 올리기") }
                 }
                 Text("그림을 누르면 전체 화면에서 확대한다. 검표원·가이드에게 보여 줄 때는 화면 밝기를 올린다.",
                     style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline, modifier = Modifier.padding(horizontal = 16.dp))

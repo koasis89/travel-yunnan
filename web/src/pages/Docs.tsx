@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { FileText, FolderOpen, Pencil, Plus, Search, Share2, Trash2 } from 'lucide-react'
+import { CloudUpload, FileText, FolderOpen, Pencil, Plus, Search, Share2, Trash2 } from 'lucide-react'
 import { Banner, DayChips, TopBar, toast } from '../components/ui'
 import { useData, useNow } from '../store/data'
 import { resolvePhase } from '../domain/tripTime'
 import { DOC_KINDS, filterDocs, fmtSize, sortDocs, type DocKind, type DocMeta } from '../domain/docs'
 import { addDoc, deleteDoc, getFile, storageUse, updateDoc, useDocs } from '../store/docs'
+import { driveName, driveReady, uploadToDrive, useDrive } from '../store/drive'
 
 const KIND_TONE: Record<DocKind, string> = {
   '바우처': '#6f42c1', '기차표': '#1f4e79', '항공권': '#4b5563', '숙소 예약': '#b4442e', '영수증': '#e09a2b', '보험·신분': '#1f6f6b', '블로그': '#03a94f', '기타': '#6e6a64',
@@ -39,6 +40,7 @@ export function Docs() {
       for (const [i, f] of list.entries()) {
         setBusy(`${list.length > 1 ? `${i + 1}/${list.length} ` : ''}${f.name} 저장 중…${/pdf/i.test(f.type + f.name) ? ' (PDF 쪽을 그림으로 펼친다)' : ''}`)
         last = await addDoc(f, data.days, { dayId: day ?? todayId })
+        if (driveReady()) backupDoc(last).catch(() => { /* 나중에 '드라이브로 백업'으로 다시 */ })
       }
       toast(`${list.length}건을 문서함에 넣었다`)
       if (list.length === 1 && last) nav(`/docs/${last.id}?edit=1`)
@@ -52,6 +54,7 @@ export function Docs() {
         <button className="btn primary block" disabled={!!busy} onClick={() => fileRef.current?.click()}><Plus size={18} />문서 추가 (사진·캡처·PDF)</button>
         <input ref={fileRef} type="file" accept="image/*,application/pdf,.pdf" multiple hidden data-testid="doc-input" onChange={(e) => onFiles(e.target.files)} />
         {busy && <Banner icon={<FileText size={18} />}>{busy}</Banner>}
+        <DriveBackupBar docs={docs ?? []} />
         {error && <Banner tone="rose">이 브라우저는 문서 저장(IndexedDB)을 막고 있다. 시크릿 창이 아닌 일반 창에서 연다.</Banner>}
       </div>
       <DayChips days={data.days} selected={day} todayId={todayId} allLabel="전체 일차" onSelect={(id) => setSp(id ? { day: id } : {}, { replace: true })} />
@@ -146,6 +149,7 @@ export function DocView() {
           <button className="btn block grow" onClick={openOriginal} disabled={!file}><FolderOpen size={18} />원본 열기</button>
           <button className="btn block grow" onClick={share} disabled={!file}><Share2 size={18} />공유·저장</button>
         </div>
+        <DriveDocButton meta={meta} />
         <p className="tiny faint">사진은 두 손가락으로 확대한다. 검표원·가이드에게 보여 줄 때는 화면 밝기를 올린다.</p>
       </div>
     </div>
@@ -189,5 +193,47 @@ export function DayDocsLink({ dayId }: { dayId: string }) {
       <FileText size={26} />
       <div className="grow"><div className="bold">{dayId} 문서 {n}건</div><div className="small muted">{first.slice(0, 3).map((d) => d.title).join(' · ')}</div></div>
     </Link>
+  )
+}
+
+/** 문서 1건을 드라이브(문서함/D3/…)로 올린다 */
+export async function backupDoc(m: DocMeta) {
+  const f = await getFile(m.id)
+  if (!f) throw new Error('파일 없음')
+  return uploadToDrive(`doc:${m.id}`, { folder: '문서함', sub: m.dayId ?? '공통', name: driveName(m.dayId, m.title, m.id, m.fileName), blob: f.blob, memo: [m.kind, m.note].filter(Boolean).join(' · ') })
+}
+
+/** 문서함 위: 드라이브 백업 상태·한꺼번에 올리기(설정 안 했으면 설정 안내) */
+function DriveBackupBar({ docs }: { docs: DocMeta[] }) {
+  const { ready, isUploaded: up } = useDrive()
+  const [run, setRun] = useState<string | null>(null)
+  const left = docs.filter((d) => !up(`doc:${d.id}`))
+  if (!ready) return <Link className="tiny muted" to="/settings" data-testid="drive-setup-link" style={{ textAlign: 'center' }}>구글 드라이브 백업 설정하기 →</Link>
+  async function all() {
+    let ok = 0, fail = 0
+    for (const [i, d] of left.entries()) {
+      setRun(`드라이브로 올리는 중 ${i + 1}/${left.length}`)
+      try { await backupDoc(d); ok++ } catch { fail++ }
+    }
+    setRun(null); toast(fail ? `${ok}건 올림 · ${fail}건 실패(인터넷 확인 후 다시)` : `${ok}건을 드라이브에 올렸다`)
+  }
+  return (
+    <div className="row" data-testid="drive-bar" style={{ gap: 8, justifyContent: 'space-between' }}>
+      <span className="tiny muted"><CloudUpload size={14} style={{ verticalAlign: -2 }} /> 드라이브 백업 {docs.length - left.length}/{docs.length}</span>
+      <button className="btn" disabled={!!run || left.length === 0} onClick={all}><CloudUpload size={16} />{run ?? (left.length ? `드라이브로 백업 (${left.length}건)` : '모두 올렸다')}</button>
+    </div>
+  )
+}
+
+function DriveDocButton({ meta }: { meta: DocMeta }) {
+  const { ready, isUploaded: up } = useDrive()
+  const [busy, setBusy] = useState(false)
+  if (!ready) return null
+  const done = up(`doc:${meta.id}`)
+  return (
+    <button className="btn block" data-testid="drive-doc" disabled={busy || done} onClick={async () => {
+      setBusy(true)
+      try { await backupDoc(meta); toast('드라이브에 올렸다') } catch (e) { toast(`올리지 못했다: ${(e as Error).message}`) } finally { setBusy(false) }
+    }}><CloudUpload size={18} />{done ? '드라이브에 올렸다' : busy ? '올리는 중…' : '드라이브로 올리기'}</button>
   )
 }

@@ -23,6 +23,9 @@
         </intent>
     </queries>
 
+    <!-- 구글 드라이브 백업(사용자가 설정했을 때만, Apps Script 주소로) -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".TravelApp"
         android:allowBackup="false"
