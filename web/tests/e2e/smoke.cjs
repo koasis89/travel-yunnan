@@ -281,6 +281,11 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   await page.fill('[data-testid=search-input]', '산소캔')
   ok('검색: 산소캔 → 체크리스트·일정', (await page.locator('[data-testid=search-hit]').count()) >= 2 && await page.isVisible('[data-testid=search-kinds] >> text=체크리스트'))
   await page.screenshot({ path: `${out}/w38_search.png` })
+  await page.fill('[data-testid=search-input]', '숫자카드')
+  ok('기능 검색: 숫자카드 → 맨 위 기능', /기능/.test(await page.locator('[data-testid=search-hit] >> nth=0').innerText()))
+  await page.click('[data-testid=search-hit] >> nth=0'); await page.waitForSelector('text=一百五十块', { timeout: 5000 }).catch(() => {})
+  ok('기능 검색 결과 → 숫자 카드 화면', page.url().includes('#/number'))
+  await page.goBack(); await page.waitForSelector('[data-testid=search-input]', { timeout: 5000 }).catch(() => {})
   await page.fill('[data-testid=search-input]', '龙华')
   await page.click('[data-testid=search-hit] >> nth=0'); await page.waitForSelector('text=龙华茶楼(顺城店)', { timeout: 5000 }).catch(() => {})
   ok('검색 결과 누르면 그 화면(중국어 검색 → 용화찻집)', page.url().includes('/eats/longhua'))
@@ -370,7 +375,14 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
     await page.route('https://script.google.com/**', async (route) => {
       const req = route.request()
       if (req.method() === 'POST') { const b = JSON.parse(req.postData() || '{}'); posts.push(b); return route.fulfill({ contentType: 'application/json', body: JSON.stringify(b.token === 'k-test' ? { ok: true, id: 'x' } : { ok: false, error: 'token' }) }) }
-      return route.fulfill({ contentType: 'application/json', body: JSON.stringify(new URL(req.url()).searchParams.get('token') === 'k-test' ? { ok: true, folder: '윈난 여행 앱 백업' } : { ok: false, error: 'token' }) })
+      const sp = new URL(req.url()).searchParams
+      if (sp.get('token') !== 'k-test') return route.fulfill({ contentType: 'application/json', body: JSON.stringify({ ok: false, error: 'token' }) })
+      const png = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=='
+      if (sp.get('action') === 'list') return route.fulfill({ contentType: 'application/json', body: JSON.stringify({ ok: true, files: [
+        ...posts.map((p, i) => ({ id: `up${i}`, name: p.name, mime: p.mime, size: 10, sub: p.sub, memo: p.memo, created: 1 })),
+        { id: 'app1', name: 'D5_차마객잔 빵차 영수증_app77.png', mime: 'image/png', size: 70, sub: 'D5', memo: '영수증 · ¥80 위챗페이', created: 2 }] }) })
+      if (sp.get('action') === 'get') return route.fulfill({ contentType: 'application/json', body: JSON.stringify({ ok: true, name: 'D5_차마객잔 빵차 영수증_app77.png', mime: 'image/png', memo: '영수증 · ¥80 위챗페이', data: png }) })
+      return route.fulfill({ contentType: 'application/json', body: JSON.stringify({ ok: true, folder: '윈난 여행 앱 백업' }) })
     })
     ok('문서함: 드라이브 설정 안내 링크 또는(기본값 있으면) 백업 줄', await page.isVisible('[data-testid=drive-setup-link]') || await page.isVisible('[data-testid=drive-bar]'))
     await page.goto(base + '#/settings'); await page.waitForSelector('[data-testid=drive-settings]', { timeout: 5000 }).catch(() => {})
@@ -384,6 +396,17 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
     ok('문서함 → 드라이브 2건 업로드(폴더·일차·이름)', posts.length === 2 && posts.every((p) => p.folder === '문서함' && p.token === 'k-test' && p.data.length > 100 && /^(D\d|공통)_/.test(p.name)))
     await page.click('[data-testid=doc-row] >> nth=0'); await page.waitForSelector('[data-testid=drive-doc]', { timeout: 5000 }).catch(() => {})
     ok('문서 화면: 드라이브에 올렸다 표시', await page.isVisible('text=드라이브에 올렸다'))
+    // 드라이브에서 가져오기: 이 기기가 올린 2건은 빼고, 앱이 올린 1건만 가져온다(제목·일차·분류·메모 복원)
+    await page.goto(base + '#/docs'); await page.waitForSelector('[data-testid=drive-pull]', { timeout: 5000 }).catch(() => {})
+    await page.click('[data-testid=drive-pull]')
+    await page.waitForSelector('[data-testid=doc-row]:has-text("차마객잔 빵차 영수증")', { timeout: 10000 }).catch(() => {})
+    const pulled = page.locator('[data-testid=doc-row]:has-text("차마객잔 빵차 영수증")')
+    ok('드라이브에서 가져오기(앱 문서 1건만, 제목·D5·영수증)', (await page.locator('[data-testid=doc-row]').count()) === 3 && (await pulled.count()) === 1 && /D5/.test(await pulled.innerText()) && /영수증/.test(await pulled.innerText()))
+    await page.click('[data-testid=drive-pull]')
+    ok('다시 가져오면 새 문서 없음', await page.waitForSelector('text=가져올 새 문서가 없다', { timeout: 5000 }).then(() => true).catch(() => false))
+    await pulled.click(); await page.waitForSelector('[aria-label="정보 고치기"]', { timeout: 5000 })
+    await page.click('[aria-label="정보 고치기"]'); await page.click('button[aria-label="삭제"]')
+    await page.waitForSelector('[data-testid=doc-row]', { timeout: 5000 }).catch(() => {})
     await page.unroute('https://script.google.com/**')
     await page.evaluate(() => { localStorage.removeItem('yn.drive'); localStorage.removeItem('yn.drive.done') })
     await page.goto(base + '#/docs'); await page.waitForSelector('[data-testid=doc-row]', { timeout: 5000 }).catch(() => {})

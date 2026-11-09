@@ -85,3 +85,46 @@ export function driveName(dayId: string | null, title: string, id: string, fileN
   const ext = (fileName.match(/\.[A-Za-z0-9]{1,5}$/)?.[0] ?? '').toLowerCase()
   return `${dayId ?? '공통'}_${title.replace(/\s+/g, ' ').trim().slice(0, 60)}_${id}${ext}`
 }
+
+// ---- 드라이브에서 가져오기(웹 문서함): 앱·다른 기기가 올린 문서를 이 기기 문서함으로 ----
+export interface DriveFile { id: string; name: string; mime: string; size: number; sub: string; memo: string; created: number }
+const IMPORTED = 'yn.drive.imported'
+
+/** 백업 폴더(문서함 등)의 파일 목록 */
+export async function listDrive(folder = '문서함'): Promise<DriveFile[]> {
+  const c = driveConfig()
+  const r = await fetch(`${c.url}?token=${encodeURIComponent(c.token)}&action=list&folder=${encodeURIComponent(folder)}`)
+  const j = await r.json() as { ok: boolean; files?: DriveFile[]; error?: string }
+  if (!j.ok) throw new Error(j.error === 'token' ? '백업 키가 맞지 않는다' : j.error ?? '목록을 못 받았다')
+  if (!j.files) throw new Error('드라이브 스크립트가 예전 버전이다. 새 스크립트로 다시 배포한다')
+  return j.files
+}
+
+/** 파일 내려받기 */
+export async function getDriveFile(id: string): Promise<{ name: string; blob: Blob; memo: string }> {
+  const c = driveConfig()
+  const r = await fetch(`${c.url}?token=${encodeURIComponent(c.token)}&action=get&id=${encodeURIComponent(id)}`)
+  const j = await r.json() as { ok: boolean; name?: string; mime?: string; memo?: string; data?: string; error?: string }
+  if (!j.ok || !j.data) throw new Error(j.error === 'token' ? '백업 키가 맞지 않는다' : j.error ?? '내려받지 못했다')
+  const bin = atob(j.data); const buf = new Uint8Array(bin.length)
+  for (let i = 0; i < bin.length; i++) buf[i] = bin.charCodeAt(i)
+  return { name: j.name ?? id, blob: new Blob([buf], { type: j.mime || 'application/octet-stream' }), memo: j.memo ?? '' }
+}
+
+/** 드라이브 이름 'D3_제목_id.pdf' → 일차·제목·원래 id(앱·웹이 올린 이름 규칙). 규칙이 아니면 제목만 */
+export function parseDriveName(name: string): { dayId: string | null; title: string; id: string | null } {
+  const base = name.replace(/\.[A-Za-z0-9]{1,5}$/, '')
+  const m = base.match(/^(D\d+|공통)_(.+)_([A-Za-z0-9-]+)$/)
+  if (!m) return { dayId: null, title: base, id: null }
+  return { dayId: m[1] === '공통' ? null : m[1], title: m[2], id: m[3] }
+}
+
+export function importedMap(): Record<string, string> {
+  try { return JSON.parse(localStorage.getItem(IMPORTED) ?? '{}') as Record<string, string> } catch { return {} }
+}
+/** 드라이브 파일을 이 기기 문서로 가져왔다고 표시(다시 가져오지 않고, 다시 올리지도 않는다) */
+export function markImported(driveId: string, localId: string) {
+  const m = importedMap(); m[driveId] = localId
+  try { localStorage.setItem(IMPORTED, JSON.stringify(m)) } catch { /* 무시 */ }
+  markUploaded(`doc:${localId}`)
+}

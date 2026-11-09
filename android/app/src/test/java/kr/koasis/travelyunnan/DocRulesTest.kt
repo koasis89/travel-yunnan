@@ -220,4 +220,16 @@ class DocRulesTest {
         assertTrue(T.all.first { it.id == "tpl-wechat-hello" }.render(mapOf("date" to "12/17", "about" to "入住")).contains("12月17日（周四）入住的客人"))
         assertTrue(d.templateLinks.count { it.templateId == "tpl-wechat-qr" } == 3)
     }
+
+    @Test fun featureSearch() {
+        val S = kr.koasis.travelyunnan.domain.SearchIndex
+        val idx = S.build(TripDataHolder.data)
+        val F = kr.koasis.travelyunnan.domain.SearchTarget.Feature::class
+        assertEquals(kr.koasis.travelyunnan.domain.SearchTarget.Feature("number"), S.search(idx, "숫자카드").first().target)
+        assertEquals(kr.koasis.travelyunnan.domain.SearchTarget.Feature("diary"), S.search(idx, "사진일기").first().target)
+        assertEquals(kr.koasis.travelyunnan.domain.SearchTarget.Feature("number"), S.search(idx, "흥정").first().target)
+        assertEquals(kr.koasis.travelyunnan.domain.SearchTarget.Feature("expense"), S.search(idx, "지출").first().target)
+        assertTrue(S.FEATURES.map { it.key }.toSet().size == S.FEATURES.size)
+        assertTrue(F.isInstance(S.search(idx, "설정").first().target))
+    }
 }

@@ -73,6 +73,7 @@ fun AppNav(vm: AppViewModel, initialRoute: String? = null) {
     val actions = remember(nav) {
         Actions(
             openTaxi = { t, id -> go(Routes.taxi(t, id)) },
+            openHome = { tab(Routes.HOME) },
             openSchedule = { tab(Routes.schedule(it)) },
             openPhrases = { tab(Routes.phrases(it)) },
             openShow = { go(Routes.show(it)) },

@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { CloudUpload, FileText, FolderOpen, Pencil, Plus, Search, Share2, Trash2 } from 'lucide-react'
+import { CloudDownload, CloudUpload, FileText, FolderOpen, Pencil, Plus, Search, Share2, Trash2 } from 'lucide-react'
 import { Banner, DayChips, TopBar, toast } from '../components/ui'
 import { useData, useNow } from '../store/data'
 import { resolvePhase } from '../domain/tripTime'
 import { DOC_KINDS, filterDocs, fmtSize, sortDocs, type DocKind, type DocMeta } from '../domain/docs'
 import { addDoc, deleteDoc, getFile, storageUse, updateDoc, useDocs } from '../store/docs'
-import { driveName, driveReady, uploadToDrive, useDrive } from '../store/drive'
+import { driveName, driveReady, getDriveFile, importedMap, listDrive, markImported, parseDriveName, uploadToDrive, useDrive } from '../store/drive'
 
 const KIND_TONE: Record<DocKind, string> = {
   '바우처': '#6f42c1', '기차표': '#1f4e79', '항공권': '#4b5563', '숙소 예약': '#b4442e', '영수증': '#e09a2b', '보험·신분': '#1f6f6b', '블로그': '#03a94f', '기타': '#6e6a64',
@@ -205,6 +205,7 @@ export async function backupDoc(m: DocMeta) {
 
 /** 문서함 위: 드라이브 백업 상태·한꺼번에 올리기(설정 안 했으면 설정 안내) */
 function DriveBackupBar({ docs }: { docs: DocMeta[] }) {
+  const data = useData()
   const { ready, isUploaded: up } = useDrive()
   const [run, setRun] = useState<string | null>(null)
   const left = docs.filter((d) => !up(`doc:${d.id}`))
@@ -217,10 +218,33 @@ function DriveBackupBar({ docs }: { docs: DocMeta[] }) {
     }
     setRun(null); toast(fail ? `${ok}건 올림 · ${fail}건 실패(인터넷 확인 후 다시)` : `${ok}건을 드라이브에 올렸다`)
   }
+  /** 드라이브(문서함)에 있는데 이 기기에 없는 문서를 가져온다 */
+  async function pull() {
+    setRun('드라이브 목록을 읽는 중…')
+    try {
+      const files = await listDrive('문서함')
+      const imported = importedMap()
+      const localIds = new Set(docs.map((d) => d.id))
+      const localNames = new Set(docs.map((d) => driveName(d.dayId, d.title, d.id, d.fileName)))
+      const todo = files.filter((f) => !imported[f.id] && !localNames.has(f.name) && !localIds.has(parseDriveName(f.name).id ?? ''))
+      if (!todo.length) { toast('가져올 새 문서가 없다'); return }
+      if (!confirm(`드라이브에서 ${todo.length}건을 이 기기 문서함으로 가져올까?`)) return
+      let ok = 0, fail = 0
+      for (const [i, f] of todo.entries()) {
+        setRun(`가져오는 중 ${i + 1}/${todo.length}`)
+        try { await importOne(f.id, f.sub, f.name, data); ok++ } catch { fail++ }
+      }
+      toast(fail ? `${ok}건 가져옴 · ${fail}건 실패` : `${ok}건을 가져왔다`)
+    } catch (e) { toast(`가져오지 못했다: ${(e as Error).message}`) } finally { setRun(null) }
+  }
   return (
-    <div className="row" data-testid="drive-bar" style={{ gap: 8, justifyContent: 'space-between' }}>
-      <span className="tiny muted"><CloudUpload size={14} style={{ verticalAlign: -2 }} /> 드라이브 백업 {docs.length - left.length}/{docs.length}</span>
-      <button className="btn" disabled={!!run || left.length === 0} onClick={all}><CloudUpload size={16} />{run ?? (left.length ? `드라이브로 백업 (${left.length}건)` : '모두 올렸다')}</button>
+    <div className="stack" data-testid="drive-bar" style={{ gap: 6 }}>
+      <div className="row" style={{ gap: 8, justifyContent: 'space-between' }}>
+        <span className="tiny muted"><CloudUpload size={14} style={{ verticalAlign: -2 }} /> 드라이브 백업 {docs.length - left.length}/{docs.length}</span>
+        <button className="btn" disabled={!!run || left.length === 0} onClick={all}><CloudUpload size={16} />{left.length ? `드라이브로 백업 (${left.length}건)` : '모두 올렸다'}</button>
+      </div>
+      <button className="btn ghost" data-testid="drive-pull" disabled={!!run} onClick={pull}><CloudDownload size={16} />드라이브에서 가져오기(앱·다른 기기 문서)</button>
+      {run && <div className="tiny muted">{run}</div>}
     </div>
   )
 }
@@ -236,4 +260,16 @@ function DriveDocButton({ meta }: { meta: DocMeta }) {
       try { await backupDoc(meta); toast('드라이브에 올렸다') } catch (e) { toast(`올리지 못했다: ${(e as Error).message}`) } finally { setBusy(false) }
     }}><CloudUpload size={18} />{done ? '드라이브에 올렸다' : busy ? '올리는 중…' : '드라이브로 올리기'}</button>
   )
+}
+
+/** 드라이브 파일 1건 → 이 기기 문서함(제목·일차·분류·메모를 이름·설명에서 되살린다) */
+async function importOne(driveId: string, sub: string, name: string, data: ReturnType<typeof useData>) {
+  const { blob, memo } = await getDriveFile(driveId)
+  const p = parseDriveName(name)
+  const meta = await addDoc(new File([blob], name, { type: blob.type }), data.days, { dayId: null })
+  const [k, ...rest] = memo.split(' · ')
+  const kind = (DOC_KINDS as readonly string[]).includes(k) ? (k as DocKind) : meta.kind
+  const dayId = /^D\d+$/.test(sub) ? sub : p.dayId ?? meta.dayId
+  await updateDoc({ ...meta, title: p.title || meta.title, dayId, kind, note: (DOC_KINDS as readonly string[]).includes(k) ? rest.join(' · ') : memo })
+  markImported(driveId, meta.id)
 }

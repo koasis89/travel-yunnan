@@ -360,3 +360,24 @@ describe('위챗 친구 추가·QR 주고받기', () => {
     expect(templateById('tpl-delivery-note')!.lines!.map((l) => l.label)).toEqual(['① 로봇 배달 호텔', '② 프런트에 맡김'])
   })
 })
+
+import { parseDriveName, driveName } from '../src/store/drive'
+describe('드라이브 이름 규칙(올리기 ↔ 가져오기)', () => {
+  it('D3_제목_id.확장자를 되살린다', () => {
+    expect(parseDriveName('D3_옥룡설산 바우처_mabc12-x1y2z.pdf')).toEqual({ dayId: 'D3', title: '옥룡설산 바우처', id: 'mabc12-x1y2z' })
+    expect(parseDriveName('공통_여권 사본_k9.jpg')).toEqual({ dayId: null, title: '여권 사본', id: 'k9' })
+    expect(parseDriveName('그냥사진.jpg')).toEqual({ dayId: null, title: '그냥사진', id: null })
+    const n = driveName('D5', 'Come Inn 영수증', 'ab1-cd2', 'r.PNG')
+    expect(parseDriveName(n)).toEqual({ dayId: 'D5', title: 'Come Inn 영수증', id: 'ab1-cd2' })
+  })
+})
+describe('기능 검색', () => {
+  const idx = buildSearchIndex(data)
+  it('화면 이름·흔한 말로 찾는다', () => {
+    expect(searchIndex(idx, '숫자카드')[0]).toMatchObject({ kind: '기능', to: '/number' })
+    expect(searchIndex(idx, '사진일기')[0]).toMatchObject({ kind: '기능', title: '사진 일기' })
+    expect(searchIndex(idx, '흥정')[0].to).toBe('/number')
+    expect(searchIndex(idx, '지출')[0].to).toBe('/expense')
+    expect(searchIndex(idx, '설정')[0].to).toBe('/settings')
+  })
+})

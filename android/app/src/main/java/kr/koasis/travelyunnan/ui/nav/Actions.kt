@@ -6,6 +6,7 @@ import kr.koasis.travelyunnan.domain.TargetType
 /** 화면 이동 동작. 화면 composable 이 NavController 에 직접 의존하지 않도록 분리한다(테스트 용이). */
 data class Actions(
     val openTaxi: (TargetType, String) -> Unit = { _, _ -> },
+    val openHome: () -> Unit = {},
     val openSchedule: (String?) -> Unit = {},
     val openPhrases: (String?) -> Unit = {},
     val openShow: (String) -> Unit = {},

@@ -25,7 +25,7 @@ import kr.koasis.travelyunnan.ui.common.AppTopBar
 import kr.koasis.travelyunnan.ui.nav.Actions
 import kr.koasis.travelyunnan.ui.nav.LocalActions
 
-private val EXAMPLES = listOf("여권", "산소캔", "기차", "과교미선", "빵차", "사방가", "택시", "딤섬", "알리페이", "고산병")
+private val EXAMPLES = listOf("숫자 카드", "사진 일기", "여권", "산소캔", "기차", "과교미선", "빵차", "사방가", "택시", "딤섬", "알리페이", "고산병")
 
 /** 통합 검색(아래 탭 '검색', 웹 pages/Search.tsx): 앱 안의 일정·숙소·식당·관광지·회화·템플릿 등을 한 번에 찾는다 */
 @OptIn(ExperimentalLayoutApi::class)
@@ -88,4 +88,31 @@ private fun open(a: Actions, t: SearchTarget) = when (t) {
     SearchTarget.Notes -> a.openNotes()
     SearchTarget.Packing -> a.openPacking()
     SearchTarget.Emergency -> a.openEmergency()
+    is SearchTarget.Feature -> when (t.key) {
+        "home" -> a.openHome()
+        "schedule" -> a.openSchedule(null)
+        "pretrip" -> a.openSchedule("pre")
+        "phrases" -> a.openPhrases(null)
+        "maps" -> a.openMaps(null)
+        "lodgings" -> a.openLodgings(null)
+        "meals" -> a.openMeals(null)
+        "foods" -> a.openFoods()
+        "foodphotos" -> a.openFoodPhotos(null)
+        "diary" -> a.openDiary(null)
+        "number" -> a.openNumber()
+        "expense" -> a.openExpense()
+        "docs" -> a.openDocs(null)
+        "transport" -> a.openTransport()
+        "sights" -> a.openSights(null)
+        "eats" -> a.openEats(null)
+        "amap" -> a.openAmapLinks()
+        "packing" -> a.openPacking()
+        "notes" -> a.openNotes()
+        "emergency" -> a.openEmergency()
+        "templates" -> a.openTemplates(null, null)
+        "arrival" -> a.openArrivalCard()
+        "milktea" -> a.openMilkTea()
+        "settings" -> a.openSettings()
+        else -> Unit
+    }
 }
