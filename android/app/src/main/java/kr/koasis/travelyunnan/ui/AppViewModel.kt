@@ -132,7 +132,48 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         ok to fail
     }
     fun updateDoc(d: TripDoc) = viewModelScope.launch(Dispatchers.IO) { dao.upsertDoc(d) }
-    fun deleteDoc(d: TripDoc) = viewModelScope.launch(Dispatchers.IO) { dao.deleteDoc(d.id); DocStore.delete(getApplication(), d.id) }
+    fun deleteDoc(d: TripDoc) = viewModelScope.launch(Dispatchers.IO) {
+        // 드라이브에서 가져오기가 다시 들여오지 않게 기억한다(원래 id·드라이브 이름·가져온 드라이브 파일 id)
+        val imported = flags.value.filter { it.startsWith("drive:imported:") && it.endsWith(":${d.id}") }.map { it.removePrefix("drive:imported:").substringBefore(':') }
+        (listOf(d.id, kr.koasis.travelyunnan.data.DriveBackup.fileName(d.dayId, d.title, d.id, d.fileName)) + imported).forEach { dao.setFlag(Flag("drive:gone:$it")) }
+        dao.deleteDoc(d.id); DocStore.delete(getApplication(), d.id)
+    }
+
+    /** 드라이브(문서함)에 있는데 이 휴대폰에 없는 문서 목록(가져오기 전 확인용) */
+    suspend fun driveToPull(): List<kr.koasis.travelyunnan.data.DriveBackup.DriveFile> = withContext(Dispatchers.IO) {
+        val D = kr.koasis.travelyunnan.data.DriveBackup
+        val f = flags.value; val local = docs.value
+        val imported = f.filter { it.startsWith("drive:imported:") }.map { it.removePrefix("drive:imported:").substringBefore(':') }.toSet()
+        val gone = f.filter { it.startsWith("drive:gone:") }.map { it.removePrefix("drive:gone:") }.toSet()
+        val localIds = local.map { it.id }.toSet()
+        val localNames = local.map { D.fileName(it.dayId, it.title, it.id, it.fileName) }.toSet()
+        D.list(driveConfig(), "문서함").filter { x ->
+            val pid = D.parseName(x.name).id
+            x.id !in imported && x.id !in gone && x.name !in gone && (pid == null || (pid !in gone && pid !in localIds)) && x.name !in localNames
+        }
+    }
+
+    /** 드라이브 문서들을 이 휴대폰 문서함으로. 제목·일차·분류·메모를 이름·설명에서 되살린다. (가져옴, 실패) */
+    suspend fun pullFromDrive(files: List<kr.koasis.travelyunnan.data.DriveBackup.DriveFile>, progress: (String) -> Unit = {}): Pair<Int, Int> = withContext(Dispatchers.IO) {
+        val D = kr.koasis.travelyunnan.data.DriveBackup
+        val days = _data.value?.days.orEmpty(); var ok = 0; var fail = 0
+        files.forEachIndexed { i, x ->
+            progress("가져오는 중 ${i + 1}/${files.size}")
+            runCatching {
+                val (name, mime, bytes) = D.download(driveConfig(), x.id)
+                val p = D.parseName(name)
+                val doc = DocStore.importBytes(getApplication(), name, mime.ifBlank { x.mime }, bytes, days, null)
+                val parts = x.memo.split(" · ")
+                val kind = parts.firstOrNull()?.takeIf { it in kr.koasis.travelyunnan.domain.DocRules.KINDS }
+                val dayId = x.sub.takeIf { Regex("^D\\d+$").matches(it) } ?: p.dayId ?: doc.dayId
+                val fixed = doc.copy(title = p.title.ifBlank { doc.title }, dayId = dayId, kind = kind ?: doc.kind,
+                    note = if (kind != null) parts.drop(1).joinToString(" · ") else x.memo)
+                dao.upsertDoc(fixed)
+                dao.setFlag(Flag("drive:imported:${x.id}:${fixed.id}")); dao.setFlag(Flag("drive:doc:${fixed.id}"))
+            }.onSuccess { ok++ }.onFailure { fail++ }
+        }
+        ok to fail
+    }
 
     fun updateExpense(e: Expense) = viewModelScope.launch(Dispatchers.IO) { dao.updateExpense(e) }
     fun addExpense(e: Expense) = viewModelScope.launch(Dispatchers.IO) { dao.addExpense(e) }

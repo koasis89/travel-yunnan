@@ -42,6 +42,8 @@ class DriveBackupTest {
                                 send(302, "Found", "", "Location: http://127.0.0.1:$port/echo\r\n")
                             }
                             path.startsWith("/echo") -> send(200, "OK", last)
+                            path.contains("action=list") -> send(200, "OK", """{"ok":true,"files":[{"id":"f1","name":"D5_차마객잔 빵차 영수증_web-7a.png","mime":"image/png","size":3,"sub":"D5","memo":"영수증 · ¥80"}]}""")
+                            path.contains("action=get") -> send(200, "OK", """{"ok":true,"name":"D5_차마객잔 빵차 영수증_web-7a.png","mime":"image/png","memo":"영수증 · ¥80","data":"AQID"}""")
                             else -> send(200, "OK", if (path.contains("token=k")) """{"ok":true,"folder":"윈난 여행 앱 백업"}""" else """{"ok":false,"error":"token"}""")
                         }
                     }
@@ -61,7 +63,16 @@ class DriveBackupTest {
             assertEquals("AQID", j["data"]!!.jsonPrimitive.content)
             val err = runCatching { DriveBackup.upload(DriveBackup.Config(url, "bad"), "문서함", null, "x", "text/plain", null, text = "memo") }
             assertEquals("백업 키가 맞지 않는다", err.exceptionOrNull()?.message)
+            val files = DriveBackup.list(DriveBackup.Config(url, "k"))
+            assertEquals(listOf("f1"), files.map { it.id }); assertEquals("D5", files[0].sub)
+            val (name, mime, bytes) = DriveBackup.download(DriveBackup.Config(url, "k"), "f1")
+            assertEquals("D5_차마객잔 빵차 영수증_web-7a.png", name); assertEquals("image/png", mime); assertEquals(listOf<Byte>(1, 2, 3), bytes.toList())
         }
+        assertEquals(DriveBackup.Parsed("D5", "차마객잔 빵차 영수증", "web-7a"), DriveBackup.parseName("D5_차마객잔 빵차 영수증_web-7a.png"))
+        assertEquals(DriveBackup.Parsed(null, "여권 사본", "z9"), DriveBackup.parseName("공통_여권 사본_z9.jpg"))
+        assertEquals(DriveBackup.Parsed(null, "그냥사진", null), DriveBackup.parseName("그냥사진.jpg"))
+        val n = DriveBackup.fileName("D1", "Klook 바우처", "34a87d09-b427", "a.pdf")
+        assertEquals(DriveBackup.Parsed("D1", "Klook 바우처", "34a87d09-b427"), DriveBackup.parseName(n))
         assertEquals("D3_옥룡설산 바우처_ab12.pdf", DriveBackup.fileName("D3", "옥룡설산   바우처", "ab12", "voucher.PDF"))
         assertEquals("공통_여권 사본_z.jpg", DriveBackup.fileName(null, "여권 사본", "z", "a.jpg"))
         assertFalse(DriveBackup.ready(DriveBackup.Config("http://example.com", "k")))

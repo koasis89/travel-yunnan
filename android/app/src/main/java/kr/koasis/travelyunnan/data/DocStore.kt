@@ -37,11 +37,20 @@ object DocStore {
             if (c.moveToFirst()) { name = c.getString(0) ?: name; size = c.getLong(1) }
         }
         val mime = cr.getType(uri) ?: if (name.endsWith(".pdf", true)) "application/pdf" else "application/octet-stream"
+        return save(ctx, name, mime, size, days, defaultDay) { out -> cr.openInputStream(uri)!!.use { it.copyTo(out) } }
+    }
+
+    /** 드라이브에서 내려받은 바이트로 문서를 만든다(드라이브에서 가져오기) */
+    fun importBytes(ctx: Context, name: String, mime: String, bytes: ByteArray, days: List<Day>, defaultDay: String?): TripDoc =
+        save(ctx, name, mime.ifBlank { if (name.endsWith(".pdf", true)) "application/pdf" else "application/octet-stream" }, bytes.size.toLong(), days, defaultDay) { it.write(bytes) }
+
+    private fun save(ctx: Context, name: String, mime: String, size0: Long, days: List<Day>, defaultDay: String?, write: (java.io.OutputStream) -> Unit): TripDoc {
+        var size = size0
         val id = UUID.randomUUID().toString()
         val d = dir(ctx, id).apply { mkdirs() }
         val safe = name.replace(Regex("[\\\\/:*?\"<>|]"), "_")
         val orig = File(d, safe)
-        cr.openInputStream(uri)!!.use { input -> orig.outputStream().use { input.copyTo(it) } }
+        orig.outputStream().use(write)
         if (size <= 0) size = orig.length()
         var pages = 0
         if (mime == "application/pdf") {

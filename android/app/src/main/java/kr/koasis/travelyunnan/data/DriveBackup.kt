@@ -72,6 +72,42 @@ object DriveBackup {
         return o["skipped"]?.jsonPrimitive?.booleanOrNull != true
     }
 
+    data class DriveFile(val id: String, val name: String, val mime: String, val sub: String, val memo: String)
+
+    private fun get(c: Config, query: String): JsonObject {
+        val conn = URL("${c.url}?token=${URLEncoder.encode(c.token, "UTF-8")}&$query").openConnection() as HttpURLConnection
+        conn.connectTimeout = 15000; conn.readTimeout = 120000; conn.instanceFollowRedirects = true
+        val o = read(conn)
+        if (o["ok"]?.jsonPrimitive?.booleanOrNull != true) fail(o)
+        return o
+    }
+
+    /** 백업 폴더(문서함 등)의 파일 목록. 예전 스크립트면 오류 */
+    fun list(c: Config, folder: String = "문서함"): List<DriveFile> {
+        val o = get(c, "action=list&folder=${URLEncoder.encode(folder, "UTF-8")}")
+        val arr = o["files"] as? kotlinx.serialization.json.JsonArray ?: throw IllegalStateException("드라이브 스크립트가 예전 버전이다. 새 스크립트로 다시 배포한다")
+        return arr.map { e ->
+            val f = e.jsonObject
+            fun s(k: String) = (f[k] as? JsonPrimitive)?.content.orEmpty()
+            DriveFile(s("id"), s("name"), s("mime"), s("sub"), s("memo"))
+        }
+    }
+
+    /** 파일 내려받기: (이름, mime, 바이트, 설명) */
+    fun download(c: Config, id: String): Triple<String, String, ByteArray> {
+        val o = get(c, "action=get&id=${URLEncoder.encode(id, "UTF-8")}")
+        val data = o["data"]?.jsonPrimitive?.content ?: throw IllegalStateException("내려받지 못했다")
+        return Triple(o["name"]?.jsonPrimitive?.content ?: id, o["mime"]?.jsonPrimitive?.content.orEmpty(), java.util.Base64.getDecoder().decode(data))
+    }
+
+    /** 'D3_제목_id.pdf' → (일차, 제목, 원래 id). 규칙이 아니면 제목만 */
+    data class Parsed(val dayId: String?, val title: String, val id: String?)
+    fun parseName(name: String): Parsed {
+        val base = name.replace(Regex("\\.[A-Za-z0-9]{1,5}$"), "")
+        val m = Regex("^(D\\d+|공통)_(.+)_([A-Za-z0-9-]+)$").find(base) ?: return Parsed(null, base, null)
+        return Parsed(m.groupValues[1].takeIf { it != "공통" }, m.groupValues[2], m.groupValues[3])
+    }
+
     /** 드라이브에 올릴 파일 이름: D3_제목_id.확장자 */
     fun fileName(dayId: String?, title: String, id: String, original: String): String {
         val ext = Regex("\\.[A-Za-z0-9]{1,5}$").find(original)?.value?.lowercase().orEmpty()
