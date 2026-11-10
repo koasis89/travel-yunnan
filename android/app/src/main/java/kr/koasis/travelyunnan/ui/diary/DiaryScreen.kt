@@ -72,7 +72,7 @@ fun DiaryContent(
             SmallAction(Icons.Filled.NoteAdd, "메모 추가") { onAdd(DiaryEntry(dayId = day, memo = "")) }
         }
         driveBar()
-        if (entries.isEmpty()) EmptyState("${day}의 사진·메모가 없다")
+        if (entries.isEmpty()) EmptyState("${day} 사진·메모 없음")
         LazyColumn(contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
             items(entries, key = { it.id }) { e -> DiaryCard(e, onUpdate, onDelete, loadImage) }
         }

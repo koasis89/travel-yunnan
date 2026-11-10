@@ -53,7 +53,7 @@ async function toBase64(blob: Blob): Promise<string> {
 export async function pingDrive(c: DriveConfig = driveConfig()): Promise<string> {
   const r = await fetch(`${c.url}?token=${encodeURIComponent(c.token)}`)
   const j = await r.json() as { ok: boolean; folder?: string; error?: string }
-  if (!j.ok) throw new Error(j.error === 'token' ? '백업 키가 맞지 않는다' : j.error ?? '연결 실패')
+  if (!j.ok) throw new Error(j.error === 'token' ? '백업 키 불일치' : j.error ?? '연결 실패')
   return j.folder ?? ''
 }
 
@@ -61,12 +61,12 @@ export async function pingDrive(c: DriveConfig = driveConfig()): Promise<string>
 export async function uploadToDrive(key: string, f: { folder: string; sub?: string | null; name: string; blob: Blob; memo?: string }, force = false): Promise<'uploaded' | 'skipped'> {
   if (!force && isUploaded(key)) return 'skipped'
   const c = driveConfig()
-  if (!driveReady()) throw new Error('드라이브 백업이 설정되지 않았다')
+  if (!driveReady()) throw new Error('드라이브 백업 미설정')
   const body = JSON.stringify({ token: c.token, folder: f.folder, sub: f.sub ?? '', name: f.name, mime: f.blob.type || 'application/octet-stream', data: await toBase64(f.blob), memo: f.memo ?? '' })
   // text/plain 이면 사전 확인(preflight) 없이 보낼 수 있다
   const r = await fetch(c.url, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body })
   const j = await r.json() as { ok: boolean; skipped?: boolean; error?: string }
-  if (!j.ok) throw new Error(j.error === 'token' ? '백업 키가 맞지 않는다' : j.error ?? '업로드 실패')
+  if (!j.ok) throw new Error(j.error === 'token' ? '백업 키 불일치' : j.error ?? '업로드 실패')
   markUploaded(key)
   return j.skipped ? 'skipped' : 'uploaded'
 }
@@ -95,8 +95,8 @@ export async function listDrive(folder = '문서함'): Promise<DriveFile[]> {
   const c = driveConfig()
   const r = await fetch(`${c.url}?token=${encodeURIComponent(c.token)}&action=list&folder=${encodeURIComponent(folder)}`)
   const j = await r.json() as { ok: boolean; files?: DriveFile[]; error?: string }
-  if (!j.ok) throw new Error(j.error === 'token' ? '백업 키가 맞지 않는다' : j.error ?? '목록을 못 받았다')
-  if (!j.files) throw new Error('드라이브 스크립트가 예전 버전이다. 새 스크립트로 다시 배포한다')
+  if (!j.ok) throw new Error(j.error === 'token' ? '백업 키 불일치' : j.error ?? '목록 받기 실패')
+  if (!j.files) throw new Error('드라이브 스크립트가 예전 버전입니다 · 새 스크립트로 다시 배포하세요')
   return j.files
 }
 
@@ -105,7 +105,7 @@ export async function getDriveFile(id: string): Promise<{ name: string; blob: Bl
   const c = driveConfig()
   const r = await fetch(`${c.url}?token=${encodeURIComponent(c.token)}&action=get&id=${encodeURIComponent(id)}`)
   const j = await r.json() as { ok: boolean; name?: string; mime?: string; memo?: string; data?: string; error?: string }
-  if (!j.ok || !j.data) throw new Error(j.error === 'token' ? '백업 키가 맞지 않는다' : j.error ?? '내려받지 못했다')
+  if (!j.ok || !j.data) throw new Error(j.error === 'token' ? '백업 키 불일치' : j.error ?? '내려받기 실패')
   const bin = atob(j.data); const buf = new Uint8Array(bin.length)
   for (let i = 0; i < bin.length; i++) buf[i] = bin.charCodeAt(i)
   return { name: j.name ?? id, blob: new Blob([buf], { type: j.mime || 'application/octet-stream' }), memo: j.memo ?? '' }

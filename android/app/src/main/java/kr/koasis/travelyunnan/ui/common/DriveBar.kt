@@ -35,13 +35,13 @@ fun DriveBar(vm: AppViewModel, done: Int, total: Int, docs: Boolean, diary: Bool
             scope.launch {
                 val (ok, fail) = vm.backupAll(docs, diary, force) { run = it }
                 run = null
-                Toast.makeText(ctx, if (fail > 0) "${ok}건 보냄 · ${fail}건 실패(인터넷 확인 후 다시)" else "${ok}건을 드라이브로 보냈다", Toast.LENGTH_SHORT).show()
+                Toast.makeText(ctx, if (fail > 0) "${ok}건 업로드 · ${fail}건 실패(인터넷 연결 후 다시 시도하세요)" else "${ok}건 업로드 완료", Toast.LENGTH_SHORT).show()
             }
         }
         if (done < total) FilledTonalButton(enabled = run == null, onClick = { go(false) }) {
-            Icon(Icons.Filled.CloudUpload, null); Spacer(Modifier.width(6.dp)); Text(run ?: "드라이브로 백업 (${total - done}건)")
+            Icon(Icons.Filled.CloudUpload, null); Spacer(Modifier.width(6.dp)); Text(run ?: "업로드하기 (${total - done}건)")
         } else OutlinedButton(enabled = run == null && total > 0, onClick = { ask = true }) {
-            Icon(Icons.Filled.CloudUpload, null); Spacer(Modifier.width(6.dp)); Text(run ?: "모두 올렸다 · 다시 올리기")
+            Icon(Icons.Filled.CloudUpload, null); Spacer(Modifier.width(6.dp)); Text(run ?: "업로드하기")
         }
         if (docs) {
             var pull by remember { mutableStateOf<List<DriveBackup.DriveFile>?>(null) }
@@ -50,27 +50,27 @@ fun DriveBar(vm: AppViewModel, done: Int, total: Int, docs: Boolean, diary: Bool
                     run = "드라이브 목록을 읽는 중…"
                     val r = runCatching { vm.driveToPull() }
                     run = null
-                    r.onSuccess { if (it.isEmpty()) Toast.makeText(ctx, "가져올 새 문서가 없다", Toast.LENGTH_SHORT).show() else pull = it }
-                        .onFailure { Toast.makeText(ctx, "가져오지 못했다: ${it.message}", Toast.LENGTH_LONG).show() }
+                    r.onSuccess { if (it.isEmpty()) Toast.makeText(ctx, "가져올 새 문서 없음", Toast.LENGTH_SHORT).show() else pull = it }
+                        .onFailure { Toast.makeText(ctx, "가져오기 실패: ${it.message}", Toast.LENGTH_LONG).show() }
                 }
             }) { Icon(Icons.Filled.CloudDownload, null); Spacer(Modifier.width(4.dp)); Text("가져오기") }
             pull?.let { files ->
                 AlertDialog(onDismissRequest = { pull = null },
-                    text = { Text("드라이브에서 ${files.size}건을 이 휴대폰 문서함으로 가져올까?") },
+                    text = { Text("드라이브에서 ${files.size}건을 이 휴대폰 문서함으로 가져올까요?") },
                     confirmButton = { TextButton(onClick = {
                         pull = null
                         scope.launch {
                             val (ok, fail) = vm.pullFromDrive(files) { run = it }
                             run = null
-                            Toast.makeText(ctx, if (fail > 0) "${ok}건 가져옴 · ${fail}건 실패" else "${ok}건을 가져왔다", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(ctx, if (fail > 0) "${ok}건 가져오기 · ${fail}건 실패" else "${ok}건 가져오기 완료", Toast.LENGTH_SHORT).show()
                         }
                     }) { Text("가져오기") } },
                     dismissButton = { TextButton(onClick = { pull = null }) { Text("그만두기") } })
             }
         }
         if (ask) AlertDialog(onDismissRequest = { ask = false },
-            text = { Text("${total}건을 드라이브로 다시 보낼까? 드라이브에 이미 있는 것은 건너뛰고, 지워진 것만 다시 만든다.") },
-            confirmButton = { TextButton(onClick = { ask = false; go(true) }) { Text("다시 올리기") } },
+            text = { Text("${total}건을 드라이브에 다시 업로드할까요? 드라이브에 이미 있는 파일은 건너뛰고, 지워진 파일만 다시 만듭니다..") },
+            confirmButton = { TextButton(onClick = { ask = false; go(true) }) { Text("업로드") } },
             dismissButton = { TextButton(onClick = { ask = false }) { Text("그만두기") } })
     }
 }

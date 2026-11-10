@@ -73,14 +73,14 @@ fun TransportContent(
             item {
                 Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     if (!hasPermission) Column {
-                        InfoBanner("알림 권한이 꺼져 있다. 열차·픽업 알림을 받으려면 허용한다.", Icons.Filled.NotificationsOff, MaterialTheme.colorScheme.tertiaryContainer)
+                        InfoBanner("알림 권한 꺼짐 · 열차·픽업 알림을 받으려면 허용하세요.", Icons.Filled.NotificationsOff, MaterialTheme.colorScheme.tertiaryContainer)
                         TextButton(onClick = onRequestPermission) { Text("알림 권한 허용") }
                     }
                     if (!canExact) Column {
                         InfoBanner("정확한 시각 알림이 꺼져 있어 몇 분 늦을 수 있다. 05:45 픽업처럼 분 단위가 중요하면 켠다.", Icons.Filled.Alarm)
                         TextButton(onClick = onOpenExactSettings) { Text("정확한 알림 허용") }
                     }
-                    Text("현지 시각 기준. 스위치를 끄면 그 알림만 울리지 않는다.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text("현지 시각 기준 · 스위치를 끄면 그 알림만 울리지 않습니다.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
             items(data.notifications, key = { it.id }) { n -> NotificationRow(n, enabled = n.id !in disabled, past = LocalDateTime.parse(n.at).isBefore(now)) { onToggle(n.id) } }

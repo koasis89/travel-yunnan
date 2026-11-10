@@ -44,7 +44,7 @@ export function buildTaxiCard(data: TripData, type: TargetType, id: string): Tax
   const addr = cleanZhAddress(o.addrZh)
   return { type, id: o.id, nameZh: o.nameZh || o.name, addrZh: hasChinese(addr) ? addr : '', nameKo: `${meal.dayId} ${meal.slot} · ${optKo(o)}`,
     phones: [], bookingInfo: '', amapUrl: o.amapUrl, helpers: [],
-    warning: hasChinese(o.name + addr) ? null : '중국어 주소가 없는 선택지다. 지도앱 링크를 이용한다.',
+    warning: hasChinese(o.name + addr) ? null : '중국어 주소가 없는 선택지입니다 · 지도앱 링크를 이용하세요.',
     siblings: meal.options.filter((x) => x.id !== o.id && isTaxiable(x)) }
 }
 

@@ -57,7 +57,7 @@ fun MilkTeaScreen(data: TripData) {
     }
     Column(Modifier.fillMaxSize()) {
         AppTopBar("밀크티 종류", onBack = actions.back)
-        if (b == null) { Text("자료가 없다", Modifier.padding(16.dp)); return@Column }
+        if (b == null) { Text("자료 없음", Modifier.padding(16.dp)); return@Column }
         LazyRow(contentPadding = PaddingValues(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             items(mt.items, key = { it.id }) { x -> FilterChip(brand == x.id, onClick = { brand = x.id }, label = { Text("${x.nameZh} ${x.nameKo}") }) }
         }

@@ -18,19 +18,19 @@ export function Home() {
   const hour = Number(now.slice(11, 13))
   const meal = mealFor(data, day.id, hour)
   const cautions = [...rows.filter((r) => r.tip.includes('★')).map((r) => `${r.timeLabel}  ${r.tip}`), ...data.notes.filter((n) => n.dayIds.includes(day.id)).map((n) => `${n.title}: ${n.body}`)]
-  const status = phase.kind === 'before' ? `출발까지 D-${phase.daysLeft} · 12/16(수) 쿤밍 도착` : phase.kind === 'on' ? `${day.id} · ${day.dateLabel} · ${day.route}` : '여행이 끝났다. 수고했다!'
+  const status = phase.kind === 'before' ? `출발까지 D-${phase.daysLeft} · 12/16(수) 쿤밍 도착` : phase.kind === 'on' ? `${day.id} · ${day.dateLabel} · ${day.route}` : '여행 종료 · 수고하셨습니다!'
   const [, m, d] = now.slice(0, 10).split('-')
 
   return (
     <div className="page">
-      <BrandHeader status={status} sub={`현지 시각 ${Number(m)}/${Number(d)} ${now.slice(11)} · 한국보다 1시간 늦다`} />
+      <BrandHeader status={status} sub={`현지 시각 ${Number(m)}/${Number(d)} ${now.slice(11)} · 한국보다 1시간 늦음`} />
       <div className="stack pad" style={{ marginTop: 12 }}>
-        {settings.override && <Banner icon={<Clock size={18} />}>날짜 지정 모드다. 설정에서 해제하면 실제 시각으로 돌아간다.</Banner>}
+        {settings.override && <Banner icon={<Clock size={18} />}>날짜 지정 모드 · 설정에서 해제하면 실제 시각으로 돌아갑니다.</Banner>}
         {phase.kind === 'before' && data.pretrip.filter((x) => x.date >= now.slice(0, 10)).map((x) => (
           <Link key={x.id} to="/schedule?day=pre" className="card" data-testid="home-pretrip" style={{ textDecoration: 'none', color: 'inherit', borderLeft: '4px solid var(--primary)' }}>
             <div className="tiny bold" style={{ color: 'var(--primary)' }}>사전 일정 · {x.dateLabel} {x.time}</div>
             <div className="bold" style={{ fontSize: '1.1em' }}>{x.title}</div>
-            <div className="tiny muted">위챗 문장·연락처는 눌러서 본다</div>
+            <div className="tiny muted">위챗 문장·연락처는 눌러서 보기</div>
           </Link>
         ))}
         <Link to={`/schedule?day=${day.id}`} className="card mint" style={{ textDecoration: 'none' }}>
@@ -53,7 +53,7 @@ export function Home() {
             <div className="bold" style={{ fontSize: '1.15em' }}>{[st.current.from, st.current.to].filter((x) => x && x !== '-').join(' → ')}</div>
             {st.current.transport && st.current.transport !== '-' && <div className="small">{st.current.transport} · {st.current.duration}</div>}
             {st.current.tip && <div className="small muted">{st.current.tip}</div>}
-          </>) : <div className="muted small">지금 진행 중인 일정이 없다</div>}
+          </>) : <div className="muted small">진행 중인 일정 없음</div>}
           {st.next && <><div className="divider" /><div className="small">다음 &nbsp;{st.next.timeLabel} &nbsp;{[st.next.to, st.next.via, st.next.from].find((x) => x && x !== '-') ?? st.next.tip}</div></>}
         </Link>
       </div>

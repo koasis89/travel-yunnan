@@ -25,18 +25,18 @@ export function Expense() {
     try {
       const r = parseExpensesCsv(await f.text(), list)
       if (r.added.length) setList((l) => [...r.added, ...l].sort((a, b) => b.at - a.at))
-      toast(`${r.added.length}건을 추가했다` + (r.skipped ? ` · 이미 있는 ${r.skipped}건은 건너뛰었다` : '') + (r.bad ? ` · 읽지 못한 줄 ${r.bad}개` : ''))
-    } catch { toast('CSV 를 읽지 못했다') } finally { if (csvRef.current) csvRef.current.value = '' }
+      toast(`${r.added.length}건 추가 완료` + (r.skipped ? ` · 이미 있는 ${r.skipped}건은 중복이라 제외` : '') + (r.bad ? ` · 읽지 못한 줄 ${r.bad}개` : ''))
+    } catch { toast('CSV 읽기 실패') } finally { if (csvRef.current) csvRef.current.value = '' }
   }
   async function onReceipt(f: File | undefined) {
     if (!f) return
-    setOcrMsg('영수증을 읽는 중… 처음 한 번은 인식 데이터(약 6MB)를 받는다')
+    setOcrMsg('영수증 읽는 중… (처음 한 번은 인식 데이터 약 6MB 내려받기)')
     try {
       const { text, thumb } = await readReceipt(f, (m) => { if (m.status.includes('recogniz')) setOcrMsg(`글자 인식 중 ${Math.round(m.progress * 100)}%`) })
       const g = parseReceipt(text, data.days)
       setPrefill({ ...g, photo: thumb }); setAdding(true)
-      toast(g.amount != null ? `¥${g.amount} 를 읽었다. 확인 후 저장한다` : '금액을 찾지 못했다. 직접 입력한다')
-    } catch { toast('영수증을 읽지 못했다. 인터넷 연결 후 다시 시도한다') } finally { setOcrMsg(null); if (fileRef.current) fileRef.current.value = '' }
+      toast(g.amount != null ? `¥${g.amount} 인식 · 확인 후 저장하세요` : '금액 인식 실패 · 직접 입력하세요')
+    } catch { toast('영수증 인식 실패 · 인터넷 연결 후 다시 시도하세요') } finally { setOcrMsg(null); if (fileRef.current) fileRef.current.value = '' }
   }
   const rate = s.cnyRate ?? data.rates.CNY
   const total = list.reduce((a, e) => a + krw(e, rate), 0)
@@ -69,7 +69,7 @@ export function Expense() {
       <Section>지출 내역 ({list.length}건)</Section>
       <div className="pad">
         {editing ? <AddForm key={`edit-${editing.id}`} initial={editing} dayDefault={editing.dayId} days={data.days.map((d) => d.id)}
-            onCancel={() => setEditing(null)} onSave={(e) => { setList((l) => l.map((x) => (x.id === editing.id ? { ...e, id: editing.id, at: editing.at } : x))); setEditing(null); toast('고쳤다') }} />
+            onCancel={() => setEditing(null)} onSave={(e) => { setList((l) => l.map((x) => (x.id === editing.id ? { ...e, id: editing.id, at: editing.at } : x))); setEditing(null); toast('수정 완료') }} />
           : adding ? <AddForm key={prefill?.photo ?? 'manual'} dayDefault={p.kind === 'on' ? p.day.id : 'D1'} days={data.days.map((d) => d.id)} prefill={prefill}
             onCancel={() => { setAdding(false); setPrefill(null) }} onSave={(e) => { setList((l) => [e, ...l]); setAdding(false); setPrefill(null) }} />
           : <><div className="row" data-testid="expense-actions">
@@ -81,7 +81,7 @@ export function Expense() {
         <input ref={fileRef} type="file" accept="image/*" hidden data-testid="receipt-input" onChange={(e) => onReceipt(e.target.files?.[0])} />
         {ocrMsg && <div style={{ marginTop: 10 }}><Banner icon={<Camera size={18} />}>{ocrMsg}</Banner></div>}
         <div className="card flat" style={{ padding: 0, marginTop: 12 }}>
-          {list.length === 0 && <div className="li muted small">아직 기록이 없다</div>}
+          {list.length === 0 && <div className="li muted small">기록 없음</div>}
           {list.map((e) => (
             <div key={e.id} className="li">
               {e.photo && <img src={e.photo} alt="영수증" style={{ width: 44, height: 44, objectFit: 'cover', borderRadius: 10, flex: 'none' }} />}
@@ -113,7 +113,7 @@ function AddForm({ dayDefault, days, onSave, onCancel, prefill, initial }: { day
         <div className="row" style={{ gap: 10 }}>
           <img src={prefill.photo} alt="영수증" style={{ width: 64, height: 64, objectFit: 'cover', borderRadius: 12 }} />
           <div className="grow small"><div className="bold">영수증에서 읽은 값</div>
-            <div className="tiny muted">{prefill.source ? `근거: ${prefill.source}` : '금액 근거를 찾지 못했다'}{prefill.date ? ` · ${prefill.date} ${prefill.time ?? ''}` : ''}</div></div>
+            <div className="tiny muted">{prefill.source ? `근거: ${prefill.source}` : '금액 근거 없음'}{prefill.date ? ` · ${prefill.date} ${prefill.time ?? ''}` : ''}</div></div>
         </div>
       )}
       <div className="row"><input className="input grow" inputMode="decimal" placeholder="금액" value={amount} onChange={(e) => setAmount(e.target.value.replace(/[^\d.]/g, ''))} autoFocus />

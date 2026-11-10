@@ -39,7 +39,7 @@ object DriveBackup {
         return runCatching { Json.parseToJsonElement(text).jsonObject }.getOrElse { throw IllegalStateException("응답을 읽지 못했다($code)") }
     }
     private fun fail(o: JsonObject): Nothing =
-        throw IllegalStateException(if (o["error"]?.jsonPrimitive?.content == "token") "백업 키가 맞지 않는다" else o["error"]?.jsonPrimitive?.content ?: "실패")
+        throw IllegalStateException(if (o["error"]?.jsonPrimitive?.content == "token") "백업 키 불일치" else o["error"]?.jsonPrimitive?.content ?: "실패")
 
     /** 연결 확인: 폴더 이름. 네트워크라 IO 스레드에서 부른다 */
     fun ping(c: Config): String {
@@ -85,7 +85,7 @@ object DriveBackup {
     /** 백업 폴더(문서함 등)의 파일 목록. 예전 스크립트면 오류 */
     fun list(c: Config, folder: String = "문서함"): List<DriveFile> {
         val o = get(c, "action=list&folder=${URLEncoder.encode(folder, "UTF-8")}")
-        val arr = o["files"] as? kotlinx.serialization.json.JsonArray ?: throw IllegalStateException("드라이브 스크립트가 예전 버전이다. 새 스크립트로 다시 배포한다")
+        val arr = o["files"] as? kotlinx.serialization.json.JsonArray ?: throw IllegalStateException("드라이브 스크립트가 예전 버전입니다 · 새 스크립트로 다시 배포하세요")
         return arr.map { e ->
             val f = e.jsonObject
             fun s(k: String) = (f[k] as? JsonPrimitive)?.content.orEmpty()
@@ -96,7 +96,7 @@ object DriveBackup {
     /** 파일 내려받기: (이름, mime, 바이트, 설명) */
     fun download(c: Config, id: String): Triple<String, String, ByteArray> {
         val o = get(c, "action=get&id=${URLEncoder.encode(id, "UTF-8")}")
-        val data = o["data"]?.jsonPrimitive?.content ?: throw IllegalStateException("내려받지 못했다")
+        val data = o["data"]?.jsonPrimitive?.content ?: throw IllegalStateException("내려받기 실패")
         return Triple(o["name"]?.jsonPrimitive?.content ?: id, o["mime"]?.jsonPrimitive?.content.orEmpty(), java.util.Base64.getDecoder().decode(data))
     }
 

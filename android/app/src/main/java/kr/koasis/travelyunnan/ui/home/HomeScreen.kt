@@ -59,13 +59,13 @@ fun HomeContent(data: TripData, now: LocalDateTime, overrideActive: Boolean = fa
             statusLine = when (phase) {
                 is TripPhase.BeforeTrip -> "출발까지 D-${phase.daysLeft} · 12/16(수) 쿤밍 도착"
                 is TripPhase.OnTrip -> "${day.id} · ${day.dateLabel} · ${day.route}"
-                TripPhase.AfterTrip -> "여행이 끝났다. 수고했다!"
+                TripPhase.AfterTrip -> "여행 종료 · 수고하셨습니다!"
             },
-            subLine = "현지 시각 " + now.format(DateTimeFormatter.ofPattern("M/d HH:mm")) + " · 한국보다 1시간 늦다",
+            subLine = "현지 시각 " + now.format(DateTimeFormatter.ofPattern("M/d HH:mm")) + " · 한국보다 1시간 늦음",
         )
         Spacer(Modifier.height(12.dp))
         if (overrideActive) Box(Modifier.padding(horizontal = 16.dp, vertical = 4.dp)) {
-            InfoBanner("날짜 지정 모드다. 설정에서 해제하면 실제 시각으로 돌아간다.", Icons.Filled.Schedule)
+            InfoBanner("날짜 지정 모드 · 설정에서 해제하면 실제 시각으로 돌아갑니다.", Icons.Filled.Schedule)
         }
 
         if (phase is TripPhase.BeforeTrip) data.pretrip.filter { it.date >= now.toLocalDate().toString() }.forEach { x ->
@@ -74,7 +74,7 @@ fun HomeContent(data: TripData, now: LocalDateTime, overrideActive: Boolean = fa
                 Column(Modifier.padding(14.dp)) {
                     Text("사전 일정 · ${x.dateLabel} ${x.time}", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
                     Text(x.title, style = MaterialTheme.typography.titleMedium)
-                    Text("위챗 문장·연락처는 눌러서 본다", style = MaterialTheme.typography.bodySmall)
+                    Text("위챗 문장·연락처는 눌러서 보기", style = MaterialTheme.typography.bodySmall)
                 }
             }
         }
@@ -212,7 +212,7 @@ private fun NowCard(current: Schedule?, next: Schedule?, onClick: () -> Unit) {
                 if (current.tip.isNotBlank()) Text(current.tip, style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 3, overflow = TextOverflow.Ellipsis)
             } else {
-                Text("지금 진행 중인 일정이 없다", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text("진행 중인 일정 없음", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             next?.let {
                 HorizontalDivider(Modifier.padding(vertical = 4.dp))

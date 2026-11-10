@@ -118,12 +118,12 @@ fun DocsScreen(vm: AppViewModel, data: TripData, dayArg: String?) {
                     }
                 }
                 if (askDelete) AlertDialog(onDismissRequest = { askDelete = false },
-                    text = { Text("선택한 ${picked.size}건을 이 휴대폰 문서함에서 지울까? 되돌릴 수 없다(구글 드라이브·다른 기기에는 남는다).") },
+                    text = { Text("선택한 ${picked.size}건을 이 휴대폰 문서함에서 삭제할까요? 되돌릴 수 없습니다(구글 드라이브·다른 기기에는 남습니다).") },
                     confirmButton = { TextButton(onClick = { docs.filter { it.id in picked }.forEach { vm.deleteDoc(it) }; askDelete = false; picking = false; picked = emptySet() }) { Text("지우기") } },
                     dismissButton = { TextButton(onClick = { askDelete = false }) { Text("그만두기") } })
             }
             if (shown.isEmpty()) item {
-                Text(if (docs.isEmpty()) "아직 문서가 없다. 바우처·기차표 예매 확인·숙소 예약 확인·영수증 캡처를 넣어 두면 인터넷이 없어도 바로 꺼내 보여 줄 수 있다." else "조건에 맞는 문서가 없다",
+                Text(if (docs.isEmpty()) "아직 문서가 없다. 바우처·기차표 예매 확인·숙소 예약 확인·영수증 캡처를 넣어 두면 인터넷이 없어도 바로 꺼내 보여 줄 수 있다." else "조건에 맞는 문서 없음",
                     style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(16.dp))
             }
             items(shown, key = { it.id }) { d ->
@@ -164,7 +164,7 @@ fun DocViewScreen(vm: AppViewModel, data: TripData, id: String, editArg: Boolean
     var edit by rememberSaveable { mutableStateOf(editArg) }
     var zoomed by remember { mutableStateOf<File?>(null) }
     if (d == null) {
-        Column(Modifier.fillMaxSize()) { AppTopBar("문서", onBack = actions.back); Text("불러오는 중이거나 삭제된 문서다.", Modifier.padding(16.dp)) }
+        Column(Modifier.fillMaxSize()) { AppTopBar("문서", onBack = actions.back); Text("불러오는 중이거나 삭제된 문서입니다.", Modifier.padding(16.dp)) }
         return
     }
     val pages = remember(d) { DocStore.pages(ctx, d) }
@@ -219,9 +219,9 @@ fun DocViewScreen(vm: AppViewModel, data: TripData, id: String, editArg: Boolean
                         scope.launch {
                             val r = runCatching { vm.backupDoc(d) }
                             up = false
-                            android.widget.Toast.makeText(ctx, r.exceptionOrNull()?.let { "올리지 못했다: ${it.message}" } ?: "드라이브에 올렸다", android.widget.Toast.LENGTH_SHORT).show()
+                            android.widget.Toast.makeText(ctx, r.exceptionOrNull()?.let { "업로드 실패: ${it.message}" } ?: "업로드 완료", android.widget.Toast.LENGTH_SHORT).show()
                         }
-                    }) { Icon(Icons.Filled.CloudUpload, null); Spacer(Modifier.width(6.dp)); Text(if (done) "드라이브에 올렸다" else if (up) "올리는 중…" else "드라이브로 올리기") }
+                    }) { Icon(Icons.Filled.CloudUpload, null); Spacer(Modifier.width(6.dp)); Text(if (done) "업로드 완료" else if (up) "업로드 중…" else "드라이브에 업로드") }
                 }
                 Text("그림을 누르면 전체 화면에서 확대한다. 검표원·가이드에게 보여 줄 때는 화면 밝기를 올린다.",
                     style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline, modifier = Modifier.padding(horizontal = 16.dp))
@@ -254,7 +254,7 @@ private fun DocEdit(d: TripDoc, days: List<String>, onSave: (TripDoc) -> Unit, o
     var day by remember(d.id) { mutableStateOf(d.dayId) }
     var note by remember(d.id) { mutableStateOf(d.note) }
     var confirm by remember { mutableStateOf(false) }
-    if (confirm) AlertDialog(onDismissRequest = { confirm = false }, title = { Text("이 문서를 삭제할까?") }, text = { Text("되돌릴 수 없다.") },
+    if (confirm) AlertDialog(onDismissRequest = { confirm = false }, title = { Text("이 문서를 삭제할까?") }, text = { Text("되돌릴 수 없습니다.") },
         confirmButton = { TextButton(onClick = onDelete) { Text("삭제") } }, dismissButton = { TextButton(onClick = { confirm = false }) { Text("취소") } })
     Card(Modifier.padding(horizontal = 16.dp, vertical = 8.dp).fillMaxWidth()) {
         Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {

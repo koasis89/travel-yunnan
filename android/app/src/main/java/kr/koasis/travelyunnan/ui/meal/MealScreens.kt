@@ -95,7 +95,7 @@ private fun MealCard(data: TripData, m: Meal) {
                     FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                         data.restaurantOfOption(o.id)?.let { r -> SmallAction(Icons.Filled.MenuBook, "식당 정보·메뉴판") { actions.openEat(r.id) } }
                         if (TaxiCards.isTaxiable(o)) SmallAction(Icons.Filled.LocalTaxi, "택시 카드") { actions.openTaxi(TargetType.meal, o.id) }
-                        if (o.addrZh.isNotBlank()) SmallAction(Icons.Filled.ContentCopy, "주소") { External.copy(ctx, o.addrZh, "주소를 복사했다") }
+                        if (o.addrZh.isNotBlank()) SmallAction(Icons.Filled.ContentCopy, "주소") { External.copy(ctx, o.addrZh, "주소 복사 완료") }
                         o.amapUrl?.let { u -> SmallAction(Icons.Filled.Place, "지도") { External.openUrl(ctx, u) } }
                         val food = data.foodNameFor(o.menu)
                         SmallAction(Icons.Filled.RecordVoiceOver, if (food != null) "주문: ${food.zh}" else "주문 문장") { actions.openMenu(food?.id) }
@@ -213,7 +213,7 @@ fun composeFullOrder(food: String?, unit: String, drinks: List<Pair<Drink, Int>>
 @Composable
 fun MenuPointScreen(vm: AppViewModel, data: TripData, foodArg: String?) {
     val ctx = LocalContext.current
-    MenuPointContent(data, foodArg) { text -> if (!vm.speak("menu-${text.hashCode()}", text)) android.widget.Toast.makeText(ctx, "음성 재생을 할 수 없다", android.widget.Toast.LENGTH_SHORT).show() }
+    MenuPointContent(data, foodArg) { text -> if (!vm.speak("menu-${text.hashCode()}", text)) android.widget.Toast.makeText(ctx, "음성 재생 불가", android.widget.Toast.LENGTH_SHORT).show() }
 }
 
 /** 주문 화면 탭(웹 ORDER_TABS): 음식 · 요청사항 · 음료(물·차·윈난 음료·음료수·커피) · 맥주 · 술 */

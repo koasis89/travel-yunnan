@@ -316,7 +316,7 @@ fun HotspotSheetContent(info: HotspotInfo, onDismiss: () -> Unit) {
         item {
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 info.taxi?.let { (t, id) -> SmallAction(Icons.Filled.LocalTaxi, "택시 카드") { onDismiss(); actions.openTaxi(t, id) } }
-                if (info.addrZh.isNotBlank()) SmallAction(Icons.Filled.ContentCopy, "주소 복사") { External.copy(ctx, (info.zh + " " + info.addrZh).trim(), "주소를 복사했다") }
+                if (info.addrZh.isNotBlank()) SmallAction(Icons.Filled.ContentCopy, "주소 복사") { External.copy(ctx, (info.zh + " " + info.addrZh).trim(), "주소 복사 완료") }
                 info.amapUrl?.let { u -> SmallAction(Icons.Filled.Place, "지도") { External.openUrl(ctx, u) } }
                 info.lodging?.let { l -> SmallAction(Icons.Filled.Hotel, "숙소 정보") { onDismiss(); actions.openLodgings(l.id) } }
             }

@@ -84,7 +84,7 @@ export function ToastHost() {
   return msg ? <div className="toast" role="status">{msg}</div> : null
 }
 
-export async function copyText(text: string, label = '복사했다') {
+export async function copyText(text: string, label = '복사 완료') {
   try { await navigator.clipboard.writeText(text) } catch {
     const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select()
     try { document.execCommand('copy') } finally { ta.remove() }

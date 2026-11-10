@@ -84,7 +84,7 @@ object TaxiCards {
             nameKo = "${meal.dayId} ${meal.slot} · ${o.koName()}",
             amapUrl = o.amapUrl,
             siblings = meal.options.filter { it.id != o.id && isTaxiable(it) },
-            warning = if (!hasChinese(o.name + addr)) "중국어 주소가 없는 선택지다. 지도앱 링크를 이용한다." else null,
+            warning = if (!hasChinese(o.name + addr)) "중국어 주소가 없는 선택지입니다 · 지도앱 링크를 이용하세요." else null,
         )
     }
 

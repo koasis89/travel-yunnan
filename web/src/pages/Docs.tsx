@@ -44,9 +44,9 @@ export function Docs() {
         last = await addDoc(f, data.days, { dayId: day ?? todayId })
         if (driveReady()) backupDoc(last).catch(() => { /* 나중에 '드라이브로 백업'으로 다시 */ })
       }
-      toast(`${list.length}건을 문서함에 넣었다`)
+      toast(`${list.length}건 문서함 저장 완료`)
       if (list.length === 1 && last) nav(`/docs/${last.id}?edit=1`)
-    } catch { toast('저장하지 못했다. 저장 공간을 확인한다') } finally { setBusy(null); if (fileRef.current) fileRef.current.value = '' }
+    } catch { toast('저장 실패 · 저장 공간을 확인하세요') } finally { setBusy(null); if (fileRef.current) fileRef.current.value = '' }
   }
 
   return (
@@ -71,9 +71,9 @@ export function Docs() {
             {!picking ? <button className="btn ghost" onClick={() => { setPicking(true); setPicked(new Set()) }}><CheckSquare size={16} />선택</button> : <>
               <button className="btn ghost" onClick={() => setPicked(picked.size === shown.length ? new Set() : new Set(shown.map((d) => d.id)))}>{picked.size === shown.length ? '선택 해제' : `전체 선택(${shown.length})`}</button>
               <button className="btn" style={{ color: 'var(--danger, #c62828)' }} disabled={picked.size === 0 || !!busy} onClick={async () => {
-                if (!confirm(`선택한 ${picked.size}건을 이 기기 문서함에서 지울까? 되돌릴 수 없다(구글 드라이브·다른 기기에는 남는다)`)) return
+                if (!confirm(`선택한 ${picked.size}건을 이 기기 문서함에서 삭제할까요? 되돌릴 수 없습니다(구글 드라이브·다른 기기에는 남습니다).`)) return
                 await deleteDocs(docs!.filter((d) => picked.has(d.id)))
-                toast(`${picked.size}건을 지웠다`); setPicked(new Set()); setPicking(false)
+                toast(`${picked.size}건 삭제 완료`); setPicked(new Set()); setPicking(false)
               }}><Trash2 size={16} />{picked.size}건 삭제</button>
               <button className="btn ghost" onClick={() => { setPicking(false); setPicked(new Set()) }}>취소</button>
             </>}
@@ -83,7 +83,7 @@ export function Docs() {
           {docs === null && <div className="li muted small">불러오는 중…</div>}
           {docs !== null && shown.length === 0 && (
             <div className="li muted small" style={{ display: 'block' }}>
-              {docs.length === 0 ? <>아직 문서가 없다. 바우처·기차표 예매 확인·숙소 예약 확인·영수증 캡처를 넣어 두면 인터넷이 없어도 바로 꺼내 보여 줄 수 있다.</> : '조건에 맞는 문서가 없다'}
+              {docs.length === 0 ? <>아직 문서가 없다. 바우처·기차표 예매 확인·숙소 예약 확인·영수증 캡처를 넣어 두면 인터넷이 없어도 바로 꺼내 보여 줄 수 있다.</> : '조건에 맞는 문서 없음'}
             </div>
           )}
           {shown.map((d) => (
@@ -125,7 +125,7 @@ export function DocView() {
     return () => made.forEach((u) => URL.revokeObjectURL(u))
   }, [id])
 
-  if (docs && !meta) return <div className="page"><TopBar title="문서" /><div className="pad muted">문서를 찾을 수 없다(삭제됐거나 다른 기기에서 넣은 문서).</div></div>
+  if (docs && !meta) return <div className="page"><TopBar title="문서" /><div className="pad muted">문서를 찾을 수 없습니다(삭제됐거나 다른 기기에서 넣은 문서).</div></div>
   if (!meta) return <div className="page"><TopBar title="문서" /><div className="pad muted">불러오는 중…</div></div>
 
   const file = orig ? new File([orig], meta.fileName, { type: meta.mime }) : null
@@ -148,8 +148,8 @@ export function DocView() {
         <button className="iconbtn" aria-label="공유" onClick={share}><Share2 size={20} /></button>
       </>} />
       {edit && <DocEdit meta={meta} days={data.days.map((d) => d.id)} onDone={() => setEdit(false)} onDelete={async () => {
-        if (!confirm('이 문서를 삭제할까? 되돌릴 수 없다')) return
-        await deleteDocs([meta]); toast('삭제했다'); nav('/docs', { replace: true })
+        if (!confirm('이 문서를 삭제할까요? 되돌릴 수 없습니다.')) return
+        await deleteDocs([meta]); toast('삭제 완료'); nav('/docs', { replace: true })
       }} />}
       <div className="pad tiny muted row" style={{ gap: 6, flexWrap: 'wrap' }}>
         <KindBadge k={meta.kind} />{meta.dayId ?? '일차 없음'} · {fmtSize(meta.size)}{meta.pages ? ` · ${meta.pages}쪽` : ''}{meta.note ? ` · ${meta.note}` : ''}
@@ -191,7 +191,7 @@ function DocEdit({ meta, days, onDone, onDelete }: { meta: DocMeta; days: string
         <button className="btn ghost" onClick={onDelete} aria-label="삭제"><Trash2 size={18} />삭제</button>
         <span className="grow" />
         <button className="btn primary" disabled={!title.trim()} onClick={async () => {
-          await updateDoc({ ...meta, title: title.trim(), kind, dayId: day, note: note.trim() }); toast('저장했다'); onDone()
+          await updateDoc({ ...meta, title: title.trim(), kind, dayId: day, note: note.trim() }); toast('저장 완료'); onDone()
         }}>저장</button>
       </div>
     </div></div>
@@ -229,13 +229,13 @@ function DriveBackupBar({ docs }: { docs: DocMeta[] }) {
   /** force: 이미 올린 것도 다시 보낸다(드라이브에서 지웠을 때). 드라이브에 같은 이름이 있으면 그쪽에서 건너뛴다 */
   async function all(force = false) {
     const list = force ? docs : left
-    if (force && !confirm(`이 기기 문서 ${list.length}건을 드라이브로 다시 보낼까? 드라이브에 이미 있는 것은 건너뛰고, 지워진 것만 다시 만든다`)) return
+    if (force && !confirm(`${list.length}건을 드라이브에 다시 업로드할까요? 드라이브에 이미 있는 파일은 건너뛰고, 지워진 파일만 다시 만듭니다.`)) return
     let ok = 0, fail = 0
     for (const [i, d] of list.entries()) {
-      setRun(`드라이브로 올리는 중 ${i + 1}/${list.length}`)
+      setRun(`업로드 중 ${i + 1}/${list.length}`)
       try { await backupDoc(d, force); ok++ } catch { fail++ }
     }
-    setRun(null); toast(fail ? `${ok}건 보냄 · ${fail}건 실패(인터넷 확인 후 다시)` : `${ok}건을 드라이브로 보냈다`)
+    setRun(null); toast(fail ? `${ok}건 업로드 · ${fail}건 실패(인터넷 연결 후 다시 시도하세요)` : `${ok}건 업로드 완료`)
   }
   /** 드라이브(문서함)에 있는데 이 기기에 없는 문서를 가져온다 */
   async function pull() {
@@ -247,23 +247,23 @@ function DriveBackupBar({ docs }: { docs: DocMeta[] }) {
       const localNames = new Set(docs.map((d) => driveName(d.dayId, d.title, d.id, d.fileName)))
       const gone = deletedSet()
       const todo = files.filter((f) => !imported[f.id] && !gone.has(f.id) && !gone.has(f.name) && !gone.has(parseDriveName(f.name).id ?? '-') && !localNames.has(f.name) && !localIds.has(parseDriveName(f.name).id ?? ''))
-      if (!todo.length) { toast('가져올 새 문서가 없다'); return }
-      if (!confirm(`드라이브에서 ${todo.length}건을 이 기기 문서함으로 가져올까?`)) return
+      if (!todo.length) { toast('가져올 새 문서 없음'); return }
+      if (!confirm(`드라이브에서 ${todo.length}건을 이 기기 문서함으로 가져올까요?`)) return
       let ok = 0, fail = 0
       for (const [i, f] of todo.entries()) {
         setRun(`가져오는 중 ${i + 1}/${todo.length}`)
         try { await importOne(f.id, f.sub, f.name, data); ok++ } catch { fail++ }
       }
-      toast(fail ? `${ok}건 가져옴 · ${fail}건 실패` : `${ok}건을 가져왔다`)
-    } catch (e) { toast(`가져오지 못했다: ${(e as Error).message}`) } finally { setRun(null) }
+      toast(fail ? `${ok}건 가져오기 · ${fail}건 실패` : `${ok}건 가져오기 완료`)
+    } catch (e) { toast(`가져오기 실패: ${(e as Error).message}`) } finally { setRun(null) }
   }
   return (
     <div className="stack" data-testid="drive-bar" style={{ gap: 6 }}>
       <div className="row" style={{ gap: 8, justifyContent: 'space-between' }}>
         <span className="tiny muted"><CloudUpload size={14} style={{ verticalAlign: -2 }} /> 드라이브 백업 {docs.length - left.length}/{docs.length}</span>
         {left.length > 0
-          ? <button className="btn" disabled={!!run} onClick={() => all()}><CloudUpload size={16} />드라이브로 백업 ({left.length}건)</button>
-          : <button className="btn ghost" data-testid="drive-reupload" disabled={!!run || docs.length === 0} onClick={() => all(true)}><CloudUpload size={16} />모두 올렸다 · 다시 올리기</button>}
+          ? <button className="btn" disabled={!!run} onClick={() => all()}><CloudUpload size={16} />업로드하기 ({left.length}건)</button>
+          : <button className="btn ghost" data-testid="drive-reupload" disabled={!!run || docs.length === 0} onClick={() => all(true)}><CloudUpload size={16} />업로드하기</button>}
       </div>
       <button className="btn ghost" data-testid="drive-pull" disabled={!!run} onClick={pull}><CloudDownload size={16} />드라이브에서 가져오기(앱·다른 기기 문서)</button>
       {run && <div className="tiny muted">{run}</div>}
@@ -279,8 +279,8 @@ function DriveDocButton({ meta }: { meta: DocMeta }) {
   return (
     <button className="btn block" data-testid="drive-doc" disabled={busy || done} onClick={async () => {
       setBusy(true)
-      try { await backupDoc(meta); toast('드라이브에 올렸다') } catch (e) { toast(`올리지 못했다: ${(e as Error).message}`) } finally { setBusy(false) }
-    }}><CloudUpload size={18} />{done ? '드라이브에 올렸다' : busy ? '올리는 중…' : '드라이브로 올리기'}</button>
+      try { await backupDoc(meta); toast('업로드 완료') } catch (e) { toast(`업로드 실패: ${(e as Error).message}`) } finally { setBusy(false) }
+    }}><CloudUpload size={18} />{done ? '업로드 완료' : busy ? '업로드 중…' : '드라이브에 업로드'}</button>
   )
 }
 

@@ -25,7 +25,7 @@ export function MilkTea() {
       </ShowCard>
     )
   }
-  if (!b) return <div className="page"><TopBar title="밀크티 종류" /><div className="pad muted">자료가 없다</div></div>
+  if (!b) return <div className="page"><TopBar title="밀크티 종류" /><div className="pad muted">자료 없음</div></div>
   return (
     <div className="page">
       <TopBar title="밀크티 종류" />

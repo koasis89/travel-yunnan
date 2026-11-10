@@ -66,7 +66,7 @@ export function PreTripList() {
     <>
       <div className="pad" style={{ padding: '4px 20px 10px' }}>
         <div className="bold" style={{ fontSize: '1.15em' }}>사전 일정 · 출발 전에 할 일</div>
-        <div className="tiny faint">완료하면 '했다'를 누른다</div>
+        <div className="tiny faint">마친 일은 '완료'를 누르세요</div>
       </div>
       <div className="stack" style={{ padding: '0 16px', gap: 8 }}>
         {data.pretrip.map((x) => {
@@ -81,7 +81,7 @@ export function PreTripList() {
               <div className="wrap" style={{ marginTop: 10 }}>
                 {x.link === '/arrival-card' && <Link className="btn primary" to="/arrival-card"><QrCode size={16} />방법·붙여 넣을 값</Link>}
                 {tl && <Link className="btn primary" to={`/templates?link=${tl.id}`}><PenLine size={16} />위챗: 가이드 첫 연락 문장</Link>}
-                <button className="btn" onClick={() => setDone((d) => (d.includes(x.id) ? d.filter((y) => y !== x.id) : [...d, x.id]))}>{ok ? '완료 취소' : '했다'}</button>
+                <button className="btn" onClick={() => setDone((d) => (d.includes(x.id) ? d.filter((y) => y !== x.id) : [...d, x.id]))}>{ok ? '완료 취소' : '완료'}</button>
               </div>
               {x.notificationId && <div className="tiny faint" style={{ marginTop: 6 }}>캘린더 알림 파일(교통·열차·알림)에 {x.dateLabel} {x.time} 알림이 들어 있다.</div>}
             </div>

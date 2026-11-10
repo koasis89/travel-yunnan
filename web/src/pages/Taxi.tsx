@@ -12,12 +12,12 @@ export function Taxi() {
   // 택시 카드에서 다른 카드로 바로 이동하면(주소만 바뀜) 새 대상으로 바꾼다
   useEffect(() => { setCur(id ?? '') }, [type, id])
   const card = buildTaxiCard(data, type as TargetType, cur)
-  if (!card) return <div className="page"><TopBar title="택시 카드" /><p className="pad muted">대상을 찾지 못했다</p></div>
+  if (!card) return <div className="page"><TopBar title="택시 카드" /><p className="pad muted">대상 없음</p></div>
   const head = data.phrase('px-001')
   const target = card.addrZh || card.nameZh
   return (
     <ShowCard header="기사님께 보여주세요" onClose={() => nav(-1)} actions={<>
-      <button className="btn" onClick={() => copyText(target, '주소를 복사했다')}><Copy size={16} />주소 복사</button>
+      <button className="btn" onClick={() => copyText(target, '주소 복사 완료')}><Copy size={16} />주소 복사</button>
       {card.amapUrl && <a className="btn" href={card.amapUrl} target="_blank" rel="noreferrer"><MapPin size={16} />지도</a>}
       <a className="btn" href={amapSearchUrl(target)} target="_blank" rel="noreferrer"><Search size={16} />지도 검색</a>
       {card.siblings.length > 0 && <div style={{ width: '100%' }} className="small bold">다른 선택지</div>}
@@ -39,11 +39,11 @@ export function ShowPhrase() {
   const data = useData(); const nav = useNavigate()
   const { id } = useParams()
   const p = data.phrase(id)
-  if (!p) return <div className="page"><TopBar title="보여주기" /><p className="pad muted">문장을 찾지 못했다</p></div>
+  if (!p) return <div className="page"><TopBar title="보여주기" /><p className="pad muted">문장 없음</p></div>
   const long = p.copyOnly || p.zh.length > 30
   return (
     <ShowCard header={p.copyOnly ? '매니저에게 보여주세요' : '보여주기'} onClose={() => nav(-1)} actions={
-      <button className="btn" onClick={() => copyText(p.zh, '문장을 복사했다. 위챗에 붙여넣는다')}><Copy size={16} />복사(위챗용)</button>
+      <button className="btn" onClick={() => copyText(p.zh, '문장 복사 완료 · 위챗에 붙여넣으세요')}><Copy size={16} />복사(위챗용)</button>
     }>
       <div className={`${long ? 'long' : 'phrase'} zh`}>{p.zh}</div>
       {!long && <div className="note">{p.pinyin}</div>}

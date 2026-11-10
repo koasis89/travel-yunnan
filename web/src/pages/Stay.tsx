@@ -49,7 +49,7 @@ function Lodgings({ focus }: { focus: string | null }) {
           <div className="wrap" style={{ marginTop: 10 }}>
             <Link className="btn" to={`/taxi/lodging/${l.id}`}><CarTaxiFront size={16} />택시 카드</Link>
             {l.amapUrl && <a className="btn" href={l.amapUrl} target="_blank" rel="noreferrer"><MapPin size={16} />지도</a>}
-            <button className="btn" onClick={() => copyText(`${l.nameZh} ${l.addrZh}`.trim(), '주소를 복사했다')}><Copy size={16} />주소 복사</button>
+            <button className="btn" onClick={() => copyText(`${l.nameZh} ${l.addrZh}`.trim(), '주소 복사 완료')}><Copy size={16} />주소 복사</button>
             <Link className="btn" to="/show/px-006"><Users size={16} />3인 확인 문장</Link>
           </div>
           {data.todosOf(l.id).length > 0 && <>
@@ -97,7 +97,7 @@ function Meals({ dayArg }: { dayArg: string | null }) {
                 <div className="wrap" style={{ marginTop: 8 }}>
                   {data.restaurantOfOption(o.id) && <Link className="btn" data-testid="eat-link" to={`/eats/${data.restaurantOfOption(o.id)!.id}`}><BookOpen size={16} />식당 정보·메뉴판</Link>}
                   {isTaxiable(o) && <Link className="btn" to={`/taxi/meal/${o.id}`}><CarTaxiFront size={16} />택시 카드</Link>}
-                  {o.addrZh && <button className="btn" onClick={() => copyText(o.addrZh, '주소를 복사했다')}><Copy size={16} />주소</button>}
+                  {o.addrZh && <button className="btn" onClick={() => copyText(o.addrZh, '주소 복사 완료')}><Copy size={16} />주소</button>}
                   {o.amapUrl && <a className="btn" href={o.amapUrl} target="_blank" rel="noreferrer"><MapPin size={16} />지도</a>}
                   <Link className="btn" to={`/menu${f ? `?food=${encodeURIComponent(f.nameZh)}` : ''}`}>주문{f ? `: ${f.nameZh}` : ' 문장'}</Link>
                 </div>

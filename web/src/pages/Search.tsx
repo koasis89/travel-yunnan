@@ -46,7 +46,7 @@ export function Search() {
       </div>
       {!q && (
         <div className="pad stack" style={{ gap: 8 }}>
-          <div className="small muted">한국어·중국어 모두 된다. 띄어 쓰면 낱말이 모두 들어간 것만 찾는다.</div>
+          <div className="small muted">한국어·중국어 모두 검색할 수 있습니다. 띄어 쓰면 모든 낱말이 들어간 항목만 찾습니다.</div>
           <div className="wrap">{EXAMPLES.map((x) => <button key={x} className="chip" onClick={() => set(x)}>{x}</button>)}</div>
         </div>
       )}
@@ -56,7 +56,7 @@ export function Search() {
           {kinds.map((k) => <button key={k} className={`chip ${kind === k ? 'on' : ''}`} onClick={() => set(q, k)}>{k} {all.filter((h) => h.kind === k).length}</button>)}
         </div>
         {shown.length === 0
-          ? <div className="pad muted">찾는 내용이 없다. 낱말을 줄이거나 다르게 써 본다.</div>
+          ? <div className="pad muted">검색 결과 없음 · 낱말을 줄이거나 다르게 입력하세요.</div>
           : <div className="pad" style={{ paddingTop: 4 }}><div className="card flat" style={{ padding: 0 }}>
               {shown.map((h, i) => (
                 <Link key={`${h.to}-${h.title}-${i}`} to={h.to} onClick={flush} className="li" data-testid="search-hit" style={{ textDecoration: 'none', color: 'inherit', alignItems: 'flex-start', gap: 10 }}>

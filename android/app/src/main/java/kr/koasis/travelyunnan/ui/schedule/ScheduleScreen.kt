@@ -93,7 +93,7 @@ fun PreTripList(data: TripData, flags: Set<String>, onToggleDone: (String) -> Un
     LazyColumn(contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         item {
             Text("사전 일정 · 출발 전에 할 일", style = MaterialTheme.typography.titleLarge)
-            Text("완료하면 '했다'를 누른다", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
+            Text("마친 일은 '완료'를 누르세요", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
         }
         items(data.pretrip, key = { it.id }) { x ->
             val ok = "done:${x.id}" in flags
@@ -108,7 +108,7 @@ fun PreTripList(data: TripData, flags: Set<String>, onToggleDone: (String) -> Un
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(top = 6.dp)) {
                         if (x.link == "/arrival-card") Button(onClick = actions.openArrivalCard) { Text("방법·붙여 넣을 값") }
                         if (tl != null) Button(onClick = { actions.openTemplates(tl.templateId, tl.id) }) { Text("위챗: 가이드 첫 연락 문장") }
-                        OutlinedButton(onClick = { onToggleDone("done:${x.id}") }) { Text(if (ok) "완료 취소" else "했다") }
+                        OutlinedButton(onClick = { onToggleDone("done:${x.id}") }) { Text(if (ok) "완료 취소" else "완료") }
                     }
                     if (x.notificationId != null) Text("캘린더 알림 파일(교통·열차·알림)에 ${x.dateLabel} ${x.time} 알림이 들어 있다.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
                 }

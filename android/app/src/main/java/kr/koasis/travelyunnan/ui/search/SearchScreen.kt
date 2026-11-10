@@ -47,7 +47,7 @@ fun SearchScreen(data: TripData, initial: String = "") {
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search))
         if (q.isBlank()) {
             Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text("한국어·중국어 모두 된다. 띄어 쓰면 낱말이 모두 들어간 것만 찾는다.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text("한국어·중국어 모두 검색할 수 있습니다. 띄어 쓰면 모든 낱말이 들어간 항목만 찾습니다.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) { EXAMPLES.forEach { x -> AssistChip(onClick = { q = x }, label = { Text(x) }) } }
             }
             return@Column
@@ -56,7 +56,7 @@ fun SearchScreen(data: TripData, initial: String = "") {
             item { FilterChip(kind.isEmpty(), onClick = { kind = "" }, label = { Text("전체 ${all.size}") }) }
             items(kinds) { k -> FilterChip(kind == k, onClick = { kind = k }, label = { Text("$k ${all.count { it.kind == k }}") }) }
         }
-        if (shown.isEmpty()) Text("찾는 내용이 없다. 낱말을 줄이거나 다르게 써 본다.", Modifier.padding(16.dp), color = MaterialTheme.colorScheme.onSurfaceVariant)
+        if (shown.isEmpty()) Text("검색 결과 없음 · 낱말을 줄이거나 다르게 입력하세요.", Modifier.padding(16.dp), color = MaterialTheme.colorScheme.onSurfaceVariant)
         LazyColumn(contentPadding = PaddingValues(16.dp, 8.dp, 16.dp, 24.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
             items(shown) { h ->
                 Row(Modifier.fillMaxWidth().clickable { open(actions, h.target) }.padding(vertical = 8.dp), verticalAlignment = Alignment.Top) {

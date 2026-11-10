@@ -25,7 +25,7 @@ fun TaxiScreen(data: TripData, type: TargetType?, id: String, appInstalled: (Str
     var currentId by remember(id) { mutableStateOf(id) }
     val card = remember(type, currentId) { type?.let { TaxiCards.build(data, it, currentId) } }
     if (card == null) {
-        Column { AppTopBar("택시 카드", onBack = actions.back); EmptyState("대상을 찾지 못했다") }
+        Column { AppTopBar("택시 카드", onBack = actions.back); EmptyState("대상 없음") }
         return
     }
     val head = data.phrase("px-001")
@@ -46,7 +46,7 @@ fun TaxiScreen(data: TripData, type: TargetType?, id: String, appInstalled: (Str
 
     ShowCardScreen(lines, onClose = actions.back, header = "기사님께 보여주세요") {
         FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            SmallAction(Icons.Filled.ContentCopy, "주소 복사") { External.copy(ctx, target, "주소를 복사했다") }
+            SmallAction(Icons.Filled.ContentCopy, "주소 복사") { External.copy(ctx, target, "주소 복사 완료") }
             // 지도: 고덕지도 링크(공유받은 위치·검색)가 있으면 그것을, 없으면 고덕지도 앱 검색
             if (card.amapUrl != null) SmallAction(Icons.Filled.Map, "지도") { External.openUrl(ctx, card.amapUrl) }
             // 지도 검색: 주소로 고덕지도 검색(앱이 있으면 앱, 없으면 웹)

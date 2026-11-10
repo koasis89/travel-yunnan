@@ -60,7 +60,7 @@ fun EatsScreen(vm: AppViewModel, data: TripData, dayArg: String?) {
                     Card(Modifier.padding(horizontal = 16.dp, vertical = 6.dp).fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)) {
                         Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                             Text(t, style = MaterialTheme.typography.bodyMedium)
-                            if (ph != null) SmallAction(Icons.Filled.ContentCopy, "숙소 번호 복사 · $ph") { External.copy(ctx, ph, "숙소 전화번호를 복사했다") }
+                            if (ph != null) SmallAction(Icons.Filled.ContentCopy, "숙소 번호 복사 · $ph") { External.copy(ctx, ph, "숙소 전화번호 복사 완료") }
                         }
                     }
                 }
@@ -95,7 +95,7 @@ fun EatScreen(data: TripData, id: String) {
     val r = data.restaurant(id)
     var board by remember { mutableStateOf(false) }
     val sel = remember(id) { mutableStateMapOf<String, Int>() }
-    if (r == null) { Column { AppTopBar("맛집", onBack = actions.back); Text("찾을 수 없다", Modifier.padding(16.dp)) }; return }
+    if (r == null) { Column { AppTopBar("맛집", onBack = actions.back); Text("찾을 수 없습니다", Modifier.padding(16.dp)) }; return }
     val taxiOpt = r.optionIds.mapNotNull { data.mealOption(it)?.second }.firstOrNull { TaxiCards.isTaxiable(it) }
     val taxiPlace = if (taxiOpt == null) data.place(r.placeId) else null
     if (board) {
@@ -146,7 +146,7 @@ fun EatScreen(data: TripData, id: String) {
                             }
                         }
                     }
-                    Text("${data.ratingsNote} 인기 메뉴를 누르면 주문 목록에 담긴다.", style = MaterialTheme.typography.bodySmall,
+                    Text("${data.ratingsNote} 인기 메뉴를 누르면 주문 목록에 담깁니다.", style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.outline, modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp))
                 }
                 SectionTitle("메뉴판 (누를 때마다 1→2→3→빼기, 여러 개 선택)")

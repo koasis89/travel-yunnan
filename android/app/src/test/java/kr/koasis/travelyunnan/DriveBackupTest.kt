@@ -62,7 +62,7 @@ class DriveBackupTest {
             assertEquals("문서함", j["folder"]!!.jsonPrimitive.content); assertEquals("D3", j["sub"]!!.jsonPrimitive.content)
             assertEquals("AQID", j["data"]!!.jsonPrimitive.content)
             val err = runCatching { DriveBackup.upload(DriveBackup.Config(url, "bad"), "문서함", null, "x", "text/plain", null, text = "memo") }
-            assertEquals("백업 키가 맞지 않는다", err.exceptionOrNull()?.message)
+            assertEquals("백업 키 불일치", err.exceptionOrNull()?.message)
             val files = DriveBackup.list(DriveBackup.Config(url, "k"))
             assertEquals(listOf("f1"), files.map { it.id }); assertEquals("D5", files[0].sub)
             val (name, mime, bytes) = DriveBackup.download(DriveBackup.Config(url, "k"), "f1")

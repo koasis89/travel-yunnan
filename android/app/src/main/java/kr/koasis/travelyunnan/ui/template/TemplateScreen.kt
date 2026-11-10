@@ -41,14 +41,14 @@ fun TemplateScreen(data: TripData, idArg: String?, linkArg: String? = null) {
     var showLine by remember { mutableStateOf<kr.koasis.travelyunnan.domain.TemplateLine?>(null) }
     showLine?.let { l ->
         ShowCardScreen(listOf(ShowLine(l.zh, ShowStyle.Long), ShowLine(l.ko, ShowStyle.Small)), onClose = { showLine = null }, header = "보여 주세요") {
-            SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, l.zh, "문장을 복사했다") }
+            SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, l.zh, "문장 복사 완료") }
         }
         return
     }
     if (showMode) {
         ShowCardScreen(listOf(ShowLine(zh, ShowStyle.Long), ShowLine(koLine, ShowStyle.Small)), onClose = { showMode = false }, header = "매니저에게 보여주세요") {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, zh, "문장을 복사했다") }
+                SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, zh, "문장 복사 완료") }
                 SmallAction(Icons.AutoMirrored.Filled.Chat, "위챗으로") { External.openWechat(ctx, zh) }
             }
         }
@@ -75,7 +75,7 @@ fun TemplateScreen(data: TripData, idArg: String?, linkArg: String? = null) {
                             Text(l.zh, fontSize = 19.sp, lineHeight = 28.sp)
                             Text(l.ko, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, l.zh, "복사했다") }
+                                SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, l.zh, "복사 완료") }
                                 SmallAction(Icons.Filled.Fullscreen, "크게") { showLine = l }
                             }
                         }
@@ -86,7 +86,7 @@ fun TemplateScreen(data: TripData, idArg: String?, linkArg: String? = null) {
                     Text(zh, fontSize = 19.sp, lineHeight = 28.sp)
                     Text(koLine, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, zh, "문장을 복사했다") }
+                        SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, zh, "문장 복사 완료") }
                         SmallAction(Icons.AutoMirrored.Filled.Chat, "위챗으로") { External.openWechat(ctx, zh) }
                         SmallAction(Icons.Filled.Fullscreen, "크게") { showMode = true }
                     }
@@ -98,12 +98,12 @@ fun TemplateScreen(data: TripData, idArg: String?, linkArg: String? = null) {
                         Text(c.name, fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold)
                         Text("위챗 ID  ${c.wechat}", style = MaterialTheme.typography.titleMedium)
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            SmallAction(Icons.Filled.ContentCopy, "위챗 ID 복사") { External.copy(ctx, c.wechat, "위챗 ID를 복사했다. 친구 추가 검색창에 붙여넣는다") }
+                            SmallAction(Icons.Filled.ContentCopy, "위챗 ID 복사") { External.copy(ctx, c.wechat, "위챗 ID 복사 완료 · 친구 추가 검색창에 붙여넣으세요") }
                             SmallAction(Icons.AutoMirrored.Filled.Chat, "위챗 열기") { External.openWechat(ctx, c.wechat) }
                         }
                         if (c.bookingRef.isNotBlank()) Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                             Text("대표 예약자 ${c.booker} · 예약 번호 ${c.bookingRef}", style = MaterialTheme.typography.bodyMedium, fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold, modifier = Modifier.weight(1f))
-                            SmallAction(Icons.Filled.ContentCopy, "예약 번호") { External.copy(ctx, c.bookingRef, "예약 번호를 복사했다") }
+                            SmallAction(Icons.Filled.ContentCopy, "예약 번호") { External.copy(ctx, c.bookingRef, "예약 번호 복사 완료") }
                         }
                         Text("친구 추가: 위챗 → 오른쪽 위 ⊕ → 친구 추가(添加朋友) → 검색창에 ID 붙여넣기 → 요청 메시지에 아래 문장", style = MaterialTheme.typography.bodySmall)
                         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -111,7 +111,7 @@ fun TemplateScreen(data: TripData, idArg: String?, linkArg: String? = null) {
                                 Text(c.friendNote, style = MaterialTheme.typography.bodyMedium)
                                 if (c.friendNoteKo.isNotBlank()) Text(c.friendNoteKo, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                             }
-                            SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, c.friendNote, "친구 요청 문장을 복사했다") }
+                            SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, c.friendNote, "친구 요청 문장 복사 완료") }
                         }
                         OutlinedButton(onClick = { sel = "tpl-wechat-qr" }) { Text("QR·아이디 주고받기 회화") }
                         if (c.note.isNotBlank()) Text(c.note, style = MaterialTheme.typography.bodySmall)

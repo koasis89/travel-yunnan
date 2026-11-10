@@ -64,7 +64,7 @@ fun EmergencyScreen(vm: AppViewModel, data: TripData) {
     }
 
     fun authenticate() {
-        if (activity == null) { error = "인증 화면을 열 수 없다"; return }
+        if (activity == null) { error = "인증 화면을 열 수 없습니다"; return }
         if (!canAuth) { unlocked = true; return } // 잠금 설정이 없는 기기는 그대로 연다
         val prompt = BiometricPrompt(activity, ContextCompat.getMainExecutor(ctx), object : BiometricPrompt.AuthenticationCallback() {
             override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) { unlocked = true; error = null }
@@ -138,7 +138,7 @@ fun EmergencyContent(
             item {
                 if (!unlocked) {
                     Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text(if (canAuth) "지문·얼굴 또는 기기 잠금으로 확인한 뒤 볼 수 있다. 이 화면은 캡처가 막힌다." else "기기에 화면 잠금이 없어 바로 연다. 화면 잠금 설정을 권장한다.",
+                        Text(if (canAuth) "지문·얼굴 또는 기기 잠금으로 확인한 뒤 볼 수 있습니다. 이 화면은 캡처가 차단됩니다." else "기기에 화면 잠금이 없어 바로 엽니다. 화면 잠금 설정을 권장합니다.",
                             style = MaterialTheme.typography.bodyMedium)
                         lockedMessage?.let { Text(it, color = MaterialTheme.colorScheme.error) }
                         Button(onClick = onUnlock) { Icon(Icons.Filled.Fingerprint, null); Spacer(Modifier.width(6.dp)); Text("잠금 해제") }

@@ -21,7 +21,7 @@ export const FEATURES: { title: string; sub: string; to: string; words: string }
   { title: '식사', sub: '끼니별 식당 선택지·택시 카드', to: '/stay?tab=meals', words: '점심 저녁 아침 끼니 맛집' },
   { title: '음식 도감', sub: '음식 사진·설명', to: '/stay?tab=foods', words: '요리 메뉴 음식 이름' },
   { title: '음식 사진', sub: '리장 음식 사진 모음', to: '/stay?tab=photos', words: '사진 갤러리' },
-  { title: '사진 일기', sub: '앱(안드로이드)에만 있다 · 웹은 문서함에 사진을 넣는다', to: '/docs', words: '사진일기 일기 다이어리 기록 사진' },
+  { title: '사진 일기', sub: '앱(안드로이드) 전용 · 웹은 문서함에 사진 보관', to: '/docs', words: '사진일기 일기 다이어리 기록 사진' },
   { title: '숫자 카드', sub: '금액을 크게, 중국어 읽기·흥정 문장', to: '/number', words: '숫자 금액 가격 돈 위안 흥정 깎아 얼마' },
   { title: '경비', sub: '예산 대비 지출·영수증·CSV', to: '/expense', words: '지출 돈 예산 가계부 정산 영수증 환율' },
   { title: '문서함', sub: '바우처·기차표·숙소 예약·영수증 보관, 드라이브 백업', to: '/docs', words: '서류 바우처 기차표 티켓 예약 확인서 영수증 pdf 드라이브 백업 구글' },

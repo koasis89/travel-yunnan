@@ -111,7 +111,7 @@ private fun DriveSettings(vm: AppViewModel) {
                 val c = kr.koasis.travelyunnan.data.DriveBackup.Config(url.trim(), token.trim()); vm.saveDriveConfig(c); msg = "확인 중…"
                 scope.launch { msg = runCatching { kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) { kr.koasis.travelyunnan.data.DriveBackup.ping(c) } }.fold({ "연결됨 · 폴더 「$it」" }, { "연결 실패: ${it.message}" }) }
             }) { Text("저장·연결 확인") }
-            if (cur.url.isNotBlank() || url.isNotBlank()) OutlinedButton(onClick = { vm.saveDriveConfig(null); url = ""; token = ""; msg = "지웠다" }) { Text("지우기") }
+            if (cur.url.isNotBlank() || url.isNotBlank()) OutlinedButton(onClick = { vm.saveDriveConfig(null); url = ""; token = ""; msg = "삭제 완료" }) { Text("지우기") }
         }
         msg?.let { Text(it, style = MaterialTheme.typography.bodyMedium) }
     }
@@ -133,7 +133,7 @@ fun SettingsContent(
         SwitchRow("3회 반복", "음성을 세 번 이어서 재생", s.ttsRepeat3, setRepeat)
         HorizontalDivider(Modifier.padding(vertical = 8.dp))
         SectionTitle("날짜 지정 모드")
-        Text("여행 전에 특정 날짜·시각의 화면을 미리 본다. 현지 시각 기준이다.",
+        Text("여행 전에 특정 날짜·시각의 화면을 미리 봅니다(현지 시각 기준).",
             style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(horizontal = 16.dp))
         SwitchRow("사용", "현재: " + current.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")), s.overrideDateTime != null) { on ->
             setOverride(if (on) "${data.days.first().date}T09:00" else null)

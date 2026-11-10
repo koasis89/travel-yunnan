@@ -111,7 +111,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         if (e.uri != null) {
             val uri = android.net.Uri.parse(e.uri)
             val mime = ctx.contentResolver.getType(uri) ?: "image/jpeg"
-            val bytes = ctx.contentResolver.openInputStream(uri)?.use { it.readBytes() } ?: error("사진을 열 수 없다")
+            val bytes = ctx.contentResolver.openInputStream(uri)?.use { it.readBytes() } ?: error("사진을 열 수 없음")
             val ext = android.webkit.MimeTypeMap.getSingleton().getExtensionFromMimeType(mime) ?: "jpg"
             kr.koasis.travelyunnan.data.DriveBackup.upload(c, "사진일기", e.dayId, "$name.$ext", mime, bytes, e.memo)
         } else if (e.memo.isNotBlank()) {
@@ -127,8 +127,8 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         val ds = if (docsToo) docs.value.filter { force || "drive:doc:${it.id}" !in f } else emptyList()
         val es = if (diaryToo) diary.value.filter { (force || "drive:diary:${it.id}" !in f) && (it.uri != null || it.memo.isNotBlank()) } else emptyList()
         val total = ds.size + es.size; var i = 0
-        ds.forEach { d -> progress("드라이브로 올리는 중 ${++i}/$total"); if (runCatching { backupDoc(d) }.isSuccess) ok++ else fail++ }
-        es.forEach { e -> progress("드라이브로 올리는 중 ${++i}/$total"); if (runCatching { backupDiary(e) }.isSuccess) ok++ else fail++ }
+        ds.forEach { d -> progress("업로드 중 ${++i}/$total"); if (runCatching { backupDoc(d) }.isSuccess) ok++ else fail++ }
+        es.forEach { e -> progress("업로드 중 ${++i}/$total"); if (runCatching { backupDiary(e) }.isSuccess) ok++ else fail++ }
         ok to fail
     }
     fun updateDoc(d: TripDoc) = viewModelScope.launch(Dispatchers.IO) { dao.upsertDoc(d) }

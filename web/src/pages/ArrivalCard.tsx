@@ -39,7 +39,7 @@ export function ArrivalCard() {
                         : <div className={canCopy ? 'bold zh' : 'bold'} style={{ wordBreak: 'break-all' }}>{v}</div>}
                       {f.note && <div className="tiny faint">{f.note}</div>}
                     </div>
-                    {canCopy && <button className="btn" style={{ flex: 'none' }} disabled={!v} onClick={() => copyText(v, `${f.label}을(를) 복사했다`)}><Copy size={16} />복사</button>}
+                    {canCopy && <button className="btn" style={{ flex: 'none' }} disabled={!v} onClick={() => copyText(v, `${f.label} 복사 완료`)}><Copy size={16} />복사</button>}
                   </div>
                 )
               })}

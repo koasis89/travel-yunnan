@@ -17,12 +17,12 @@ export function Login({ onOpen }: { onOpen: (b: Record<string, unknown>) => void
     try {
       const b = await unlock(email)
       if (b) onOpen(b)
-      else { recordFail(); setWait(lockSeconds()); setErr('등록된 가족 이메일이 아니다') }
-    } catch { setErr('데이터를 받지 못했다. 인터넷 연결을 확인한다') } finally { setBusy(false) }
+      else { recordFail(); setWait(lockSeconds()); setErr('등록된 가족 이메일이 아닙니다') }
+    } catch { setErr('데이터 받기 실패 · 인터넷 연결을 확인하세요') } finally { setBusy(false) }
   }
   return (
     <div className="login app">
-      <BrandHeader status="가족 이메일로 들어간다" sub="처음 한 번만 입력하면 이 기기에서는 자동으로 열린다" />
+      <BrandHeader status="가족 이메일로 로그인" sub="처음 한 번만 입력하면 이 기기에서는 자동으로 열립니다" />
       <form onSubmit={submit}>
         <div className="field">
           <label htmlFor="email">이메일</label>

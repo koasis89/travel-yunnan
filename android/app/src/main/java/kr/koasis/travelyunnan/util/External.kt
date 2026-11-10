@@ -42,7 +42,7 @@ object External {
     }
 
     fun openAmapSearch(ctx: Context, keyword: String) {
-        copy(ctx, keyword, "주소를 복사했다")
+        copy(ctx, keyword, "주소 복사 완료")
         val uri = Uri.parse("androidamap://poi?sourceApplication=travelyunnan&keywords=" + Uri.encode(keyword) + "&dev=0")
         val intent = Intent(Intent.ACTION_VIEW, uri).setPackage(AMAP)
         if (!start(ctx, intent)) launch(ctx, AMAP)
@@ -50,12 +50,12 @@ object External {
 
     /** DiDi 실행. 주소를 먼저 복사해 두면 목적지 칸에 붙여넣을 수 있다. */
     fun openDidi(ctx: Context, address: String) {
-        copy(ctx, address, "주소를 복사했다. DiDi 목적지에 붙여넣는다")
+        copy(ctx, address, "주소 복사 완료 · 디디 목적지에 붙여넣으세요")
         launch(ctx, DIDI)
     }
 
     fun openWechat(ctx: Context, text: String) {
-        copy(ctx, text, "문장을 복사했다. 위챗 대화창에 붙여넣는다")
+        copy(ctx, text, "문장 복사 완료 · 위챗 대화창에 붙여넣으세요")
         launch(ctx, WECHAT)
     }
 

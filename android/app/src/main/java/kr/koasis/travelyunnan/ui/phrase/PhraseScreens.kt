@@ -69,9 +69,9 @@ fun PhrasesScreen(vm: AppViewModel, data: TripData, catArg: String?) {
 
 private fun ttsHelp(ctx: Context, tts: TtsPlayer) {
     val msg = when (tts.status) {
-        TtsPlayer.Status.Initializing -> "음성 엔진을 준비 중이다. 잠시 후 다시 누른다"
-        TtsPlayer.Status.MissingData -> "중국어 음성 데이터가 없다. 상단 안내에서 설치한다"
-        else -> "이 기기에서 음성 재생을 할 수 없다"
+        TtsPlayer.Status.Initializing -> "음성 엔진 준비 중 · 잠시 후 다시 누르세요"
+        TtsPlayer.Status.MissingData -> "중국어 음성 데이터 없음 · 상단 안내에서 설치하세요"
+        else -> "이 기기에서는 음성 재생 불가"
     }
     Toast.makeText(ctx, msg, Toast.LENGTH_LONG).show()
 }
@@ -109,11 +109,11 @@ fun PhrasesContent(
         }
         if (ttsMissing) Box(Modifier.padding(horizontal = 16.dp)) {
             Column {
-                InfoBanner("중국어 음성 데이터가 없다. 설치하면 소리로 들을 수 있다.", Icons.Filled.RecordVoiceOver)
+                InfoBanner("중국어 음성 데이터 없음 · 설치하면 소리로 들을 수 있습니다.", Icons.Filled.RecordVoiceOver)
                 TextButton(onClick = cb.installTts) { Text("음성 데이터 설치") }
             }
         }
-        if (items.isEmpty()) EmptyState(if (tab == TAB_FAV) "문장의 별을 누르면 여기에 모인다" else "아직 없다")
+        if (items.isEmpty()) EmptyState(if (tab == TAB_FAV) "문장의 별을 누르면 여기에 모입니다" else "아직 없음")
         LazyColumn(contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             items(items, key = { it.id }) { item ->
                 PhraseCard(item, fav = item.id in favs, canFav = data.phrase(item.id) != null, cb = cb)
@@ -138,7 +138,7 @@ private fun PhraseCard(item: SpeakItem, fav: Boolean, canFav: Boolean, cb: Phras
                 if (item.koRead.isNotBlank()) Text(item.koRead, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 Text(item.ko, style = MaterialTheme.typography.bodyLarge, maxLines = if (item.copyOnly) 3 else Int.MAX_VALUE)
                 if (item.copyOnly) FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(top = 6.dp)) {
-                    SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, item.zh, "문장을 복사했다") }
+                    SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, item.zh, "문장 복사 완료") }
                     SmallAction(Icons.AutoMirrored.Filled.Chat, "위챗으로") { External.openWechat(ctx, item.zh) }
                 }
             }
@@ -168,7 +168,7 @@ fun ShowPhraseContent(data: TripData, id: String, onSpeak: (Phrase) -> Unit = {}
     val actions = LocalActions.current
     val ctx = LocalContext.current
     val p = data.phrase(id)
-    if (p == null) { Column { AppTopBar("보여주기", onBack = actions.back); EmptyState("문장을 찾지 못했다") }; return }
+    if (p == null) { Column { AppTopBar("보여주기", onBack = actions.back); EmptyState("문장 없음") }; return }
     val long = p.copyOnly || p.zh.length > 30
     val lines = listOfNotNull(
         ShowLine(p.zh, if (long) ShowStyle.Long else ShowStyle.Phrase),
@@ -178,7 +178,7 @@ fun ShowPhraseContent(data: TripData, id: String, onSpeak: (Phrase) -> Unit = {}
     ShowCardScreen(lines, onClose = actions.back, header = if (p.copyOnly) "매니저에게 보여주세요" else "보여주기") {
         FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             if (!p.copyOnly) SmallAction(Icons.AutoMirrored.Filled.VolumeUp, "듣기") { onSpeak(p) }
-            SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, p.zh, "문장을 복사했다") }
+            SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, p.zh, "문장 복사 완료") }
             if (p.copyOnly) SmallAction(Icons.AutoMirrored.Filled.Chat, "위챗으로") { External.openWechat(ctx, p.zh) }
         }
     }

@@ -27,8 +27,8 @@ export function FoodPhotos({ foodId, onClearFood }: { foodId?: string | null; on
     setBusy('사진을 여는 중…')
     try {
       const n = await importPhotos(files, (d, t) => setBusy(`사진 넣는 중… ${d}/${t}`), data.docxPhotoIds)
-      toast(n ? `사진 ${n}장을 넣었다` : '넣을 사진을 찾지 못했다')
-    } catch { toast('사진을 넣지 못했다') } finally { setBusy(null) }
+      toast(n ? `사진 ${n}장 저장 완료` : '넣을 사진 없음')
+    } catch { toast('사진 저장 실패') } finally { setBusy(null) }
   }
   const picker = (
     <label className="btn primary" data-testid="photo-add"><ImagePlus size={18} />{busy ?? '사진 묶음(zip·워드)·사진 넣기'}

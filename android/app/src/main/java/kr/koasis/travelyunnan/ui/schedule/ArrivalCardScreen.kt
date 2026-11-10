@@ -68,7 +68,7 @@ fun ArrivalCardScreen(data: TripData) {
                                     else Text(v, style = MaterialTheme.typography.titleMedium)
                                     if (f.note.isNotBlank()) Text(f.note, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
                                 }
-                                if (f.copy && v.isNotBlank()) SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, v, "${f.label}을(를) 복사했다") }
+                                if (f.copy && v.isNotBlank()) SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, v, "${f.label} 복사 완료") }
                             }
                         }
                     }

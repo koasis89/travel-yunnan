@@ -104,13 +104,13 @@ fun SightScreen(vm: AppViewModel, data: TripData, id: String) {
         scope.launch {
             val d = vm.addDocs(listOf(uri), null).firstOrNull()
             blogBusy = null
-            if (d == null) { android.widget.Toast.makeText(ctx, "PDF 를 넣지 못했다", android.widget.Toast.LENGTH_SHORT).show(); return@launch }
+            if (d == null) { android.widget.Toast.makeText(ctx, "PDF 저장 실패", android.widget.Toast.LENGTH_SHORT).show(); return@launch }
             vm.updateDoc(d.copy(title = b.title, kind = "블로그", note = "${b.blog} · ${b.date}\n${b.url}"))
             actions.openDoc(d.id, false)
         }
     }
     val s = data.sight(id)
-    if (s == null) { Column { AppTopBar("관광지", onBack = actions.back); Text("찾을 수 없다", Modifier.padding(16.dp)) }; return }
+    if (s == null) { Column { AppTopBar("관광지", onBack = actions.back); Text("찾을 수 없습니다", Modifier.padding(16.dp)) }; return }
     val place = data.place(s.placeId)
     val rows = remember(s) { data.schedule.filter { r -> r.dayId in s.dayIds && s.keywords.any { k -> "${r.from} ${r.via} ${r.to} ${r.tip}".contains(k) } } }
     Column(Modifier.fillMaxSize()) {
@@ -228,7 +228,7 @@ fun AmapLinksScreen(data: TripData) {
     val rows = all.filter { group == null || it.group == group }
     Column(Modifier.fillMaxSize()) {
         AppTopBar("지도 링크 모음", onBack = actions.back) {
-            IconButton(onClick = { External.copy(ctx, rows.joinToString("\n\n") { kr.koasis.travelyunnan.domain.AmapLinks.text(it) }, "${rows.size}곳을 복사했다") }) {
+            IconButton(onClick = { External.copy(ctx, rows.joinToString("\n\n") { kr.koasis.travelyunnan.domain.AmapLinks.text(it) }, "${rows.size}곳 복사 완료") }) {
                 Icon(Icons.Filled.ContentCopy, "전체 복사")
             }
         }
@@ -251,7 +251,7 @@ fun AmapLinksScreen(data: TripData) {
                     ListItem(
                         headlineContent = { Text(r.nameKo + if (r.exact) "  · 정확" else "") },
                         supportingContent = { Column { Text(listOf(r.nameZh, r.addrZh).filter { it.isNotBlank() }.joinToString("\n")); KoGloss(r.addrZh) } },
-                        trailingContent = { IconButton(onClick = { External.copy(ctx, kr.koasis.travelyunnan.domain.AmapLinks.text(r), "이름·주소·링크를 복사했다") }) { Icon(Icons.Filled.ContentCopy, "복사") } },
+                        trailingContent = { IconButton(onClick = { External.copy(ctx, kr.koasis.travelyunnan.domain.AmapLinks.text(r), "이름·주소·링크 복사 완료") }) { Icon(Icons.Filled.ContentCopy, "복사") } },
                         modifier = Modifier.clickable { External.openUrl(ctx, r.url) },
                     )
                 }

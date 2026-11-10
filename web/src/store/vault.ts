@@ -10,7 +10,7 @@ interface Box { v: number; iv: string; data: string }
 async function load(): Promise<[KeysFile, Box]> {
   const base = import.meta.env.BASE_URL
   const [k, b] = await Promise.all([fetch(`${base}keys.json`, { cache: 'no-cache' }), fetch(`${base}data.enc`, { cache: 'no-cache' })])
-  if (!k.ok || !b.ok) throw new Error('데이터 파일을 받지 못했다')
+  if (!k.ok || !b.ok) throw new Error('데이터 파일 받기 실패')
   return [await k.json(), await b.json()]
 }
 

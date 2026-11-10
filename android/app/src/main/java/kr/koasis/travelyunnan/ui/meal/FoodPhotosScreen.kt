@@ -69,7 +69,7 @@ fun FoodPhotosScreen(data: TripData, foodId: String? = null) {
         scope.launch {
             val n = withContext(Dispatchers.IO) { runCatching { FoodPhotoStore.import(ctx, uris, data.foodPhotoFood.keys) { busy = "사진 넣는 중… $it" } }.getOrDefault(0) }
             busy = null; version++
-            Toast.makeText(ctx, if (n > 0) "사진 ${n}장을 넣었다" else "넣을 사진을 찾지 못했다", Toast.LENGTH_SHORT).show()
+            Toast.makeText(ctx, if (n > 0) "사진 ${n}장 저장 완료" else "넣을 사진 없음", Toast.LENGTH_SHORT).show()
         }
     }
     val pick = { picker.launch(arrayOf("application/zip", "application/x-zip-compressed", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "image/*")) }

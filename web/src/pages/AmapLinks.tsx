@@ -15,7 +15,7 @@ export function AmapLinks() {
   const shown = matched.filter((r) => !group || r.group === group)
   return (
     <div className="page">
-      <TopBar title="지도 링크 모음" right={<button className="iconbtn" aria-label="전체 복사" onClick={() => copyText(shown.map(amapText).join('\n\n'), `${shown.length}곳을 복사했다`)}><Copy size={20} /></button>} />
+      <TopBar title="지도 링크 모음" right={<button className="iconbtn" aria-label="전체 복사" onClick={() => copyText(shown.map(amapText).join('\n\n'), `${shown.length}곳 복사 완료`)}><Copy size={20} /></button>} />
       <div className="pad stack">
         <Banner icon={<MapPin size={18} />}>고덕지도(Amap) 앱을 깔고 링크를 누른다. <b>정확</b> 표시는 고덕지도에서 공유받은 위치이고, 나머지는 이름·주소 검색 링크라 검색 결과에서 맞는 곳을 고른다. 오른쪽 위 버튼은 보이는 목록 전체를 복사한다.</Banner>
         <div className="row" style={{ gap: 8 }}><Search size={18} /><input className="input grow" placeholder="이름·주소 검색" value={q} onChange={(e) => setQ(e.target.value)} /></div>
@@ -38,7 +38,7 @@ export function AmapLinks() {
                     {r.nameZh && <div className="small zh">{r.nameZh}</div>}
                     {r.addrZh && <div className="tiny muted">{r.addrZh}</div>}<Ko zh={r.addrZh} className="tiny faint" />
                   </a>
-                  <button className="iconbtn" aria-label="복사" onClick={() => copyText(amapText(r), '이름·주소·링크를 복사했다')}><Copy size={18} /></button>
+                  <button className="iconbtn" aria-label="복사" onClick={() => copyText(amapText(r), '이름·주소·링크 복사 완료')}><Copy size={18} /></button>
                 </div>
               ))}
             </div></div>

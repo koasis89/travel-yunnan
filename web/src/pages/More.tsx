@@ -51,14 +51,14 @@ function UpdateRow() {
     setBusy(true)
     try {
       const r = await checkUpdate()
-      toast(r === 'new' ? '새 버전을 받는 중이다. 다 받으면 화면이 저절로 새로고침된다'
+      toast(r === 'new' ? '새 버전 받는 중 · 다 받으면 자동으로 새로고침됩니다'
         : r === 'latest' ? `최신 버전이다(웹 ${__APP_VERSION__})`
-        : r === 'offline' ? '인터넷이 연결되지 않았다' : '이 브라우저는 자동 업데이트를 지원하지 않는다. 새로고침한다')
+        : r === 'offline' ? '인터넷 연결 없음' : '자동 업데이트를 지원하지 않는 브라우저 · 새로고침하세요')
       if (r === 'unsupported') location.reload()
-    } catch { toast('확인하지 못했다. 잠시 후 다시 해 본다') } finally { setBusy(false) }
+    } catch { toast('확인 실패 · 잠시 후 다시 시도하세요') } finally { setBusy(false) }
   }
   const reinstall = () => {
-    if (!navigator.onLine) { toast('인터넷이 될 때만 다시 받을 수 있다'); return }
+    if (!navigator.onLine) { toast('인터넷에 연결되어 있을 때만 다시 받을 수 있습니다'); return }
     if (confirm('앱 파일을 지우고 서버에서 다시 받는다. 문서함 파일·체크·경비·설정은 그대로 남는다. 할까?')) reinstallApp()
   }
   return (
@@ -84,7 +84,7 @@ export function Settings() {
       </div>
       <div className="section">날짜 지정 모드</div>
       <div className="card stack" style={{ margin: '0 16px' }}>
-        <div className="small muted">여행 전에 특정 날짜·시각 화면을 미리 본다. 현지 시각 기준이다.</div>
+        <div className="small muted">여행 전에 특정 날짜·시각 화면을 미리 봅니다(현지 시각 기준).</div>
         <label className="check" style={{ padding: 0 }}><input type="checkbox" checked={!!s.override} onChange={() => setS({ ...s, override: s.override ? null : `${data.days[0].date}T09:00` })} />
           <span className="grow bold">사용 · 현재 {now.replace('T', ' ')}</span></label>
         {s.override && <>
@@ -118,7 +118,7 @@ function DriveSettings() {
           saveDriveConfig({ url, token }); setMsg('확인 중…')
           try { setMsg(`연결됨 · 폴더 「${await pingDrive({ url: url.trim(), token: token.trim() })}」`) } catch (e) { setMsg(`연결 실패: ${(e as Error).message}`) }
         }}><CloudUpload size={16} />저장·연결 확인</button>
-        {ready && <button className="btn ghost" onClick={() => { saveDriveConfig(null); setUrl(''); setToken(''); setMsg('지웠다') }}>지우기</button>}
+        {ready && <button className="btn ghost" onClick={() => { saveDriveConfig(null); setUrl(''); setToken(''); setMsg('삭제 완료') }}>지우기</button>}
       </div>
       {msg && <div className="small" data-testid="drive-msg">{msg}</div>}
       {!msg && ready && <div className="tiny muted">설정됨</div>}

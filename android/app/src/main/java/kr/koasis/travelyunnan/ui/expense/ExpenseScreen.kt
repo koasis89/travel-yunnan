@@ -138,10 +138,10 @@ fun ExpenseScreen(vm: AppViewModel, data: TripData) {
         scope.launch {
             val g = runCatching { ReceiptParser.parse(ReceiptOcr.read(ctx, uri), data.days) }.getOrNull()
             reading = false
-            if (g == null) android.widget.Toast.makeText(ctx, "영수증을 읽지 못했다", android.widget.Toast.LENGTH_SHORT).show()
+            if (g == null) android.widget.Toast.makeText(ctx, "영수증 인식 실패", android.widget.Toast.LENGTH_SHORT).show()
             else {
                 prefill = g to uri
-                android.widget.Toast.makeText(ctx, if (g.amount != null) "¥${g.amount} 를 읽었다. 확인 후 저장한다" else "금액을 찾지 못했다. 직접 입력한다", android.widget.Toast.LENGTH_SHORT).show()
+                android.widget.Toast.makeText(ctx, if (g.amount != null) "¥${g.amount} 인식 · 확인 후 저장하세요" else "금액 인식 실패 · 직접 입력하세요", android.widget.Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -151,9 +151,9 @@ fun ExpenseScreen(vm: AppViewModel, data: TripData) {
             val r = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
                 runCatching { ctx.contentResolver.openInputStream(uri)?.use { it.readBytes().decodeToString() }?.let { ExpenseCsv.parse(it, list) } }.getOrNull()
             }
-            if (r == null) { android.widget.Toast.makeText(ctx, "CSV 를 읽지 못했다", android.widget.Toast.LENGTH_SHORT).show(); return@launch }
+            if (r == null) { android.widget.Toast.makeText(ctx, "CSV 읽기 실패", android.widget.Toast.LENGTH_SHORT).show(); return@launch }
             r.added.forEach { vm.addExpense(it) }
-            android.widget.Toast.makeText(ctx, "${r.added.size}건을 추가했다" + (if (r.skipped > 0) " · 이미 있는 ${r.skipped}건은 건너뛰었다" else "") + (if (r.bad > 0) " · 읽지 못한 줄 ${r.bad}개" else ""), android.widget.Toast.LENGTH_LONG).show()
+            android.widget.Toast.makeText(ctx, "${r.added.size}건 추가 완료" + (if (r.skipped > 0) " · 이미 있는 ${r.skipped}건은 중복이라 제외" else "") + (if (r.bad > 0) " · 읽지 못한 줄 ${r.bad}개" else ""), android.widget.Toast.LENGTH_LONG).show()
         }
     }
     ExpenseContent(
@@ -190,7 +190,7 @@ fun ExpenseContent(
             IconButton(onClick = { showSettings = true }) { Icon(Icons.Filled.Tune, "환율·현금") }
             IconButton(onClick = {
                 val csv = expensesCsv(list, rate)
-                External.copy(ctx, csv, "CSV 를 복사했다")
+                External.copy(ctx, csv, "CSV 복사 완료")
                 runCatching { ctx.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_SUBJECT, "윈난 여행 지출").putExtra(Intent.EXTRA_TEXT, csv), "지출 내보내기")) }
             }) { Icon(Icons.Filled.Share, "CSV 내보내기") }
         }
@@ -220,7 +220,7 @@ fun ExpenseContent(
                     Icon(Icons.Filled.UploadFile, null); Spacer(Modifier.width(6.dp)); Text("CSV 가져오기 (내보낸 경비 파일)")
                 }
             }
-            if (list.isEmpty()) item { EmptyState("아직 기록이 없다. 아래 버튼으로 추가한다") }
+            if (list.isEmpty()) item { EmptyState("기록 없음 · 아래 버튼으로 추가하세요") }
             items(list, key = { it.id }) { e -> ExpenseRow(e, rate, onFixKrw = { onFixKrw(e) }) { onDelete(e) } }
         }
         // 영수증 추가 · 지출 추가를 한 줄에
@@ -285,7 +285,7 @@ private fun AddExpenseSheet(todayId: String, dayIds: List<String>, onDismiss: ()
                 thumb?.let { Image(it, "영수증", Modifier.size(64.dp).clip(RoundedCornerShape(12.dp)), contentScale = ContentScale.Crop); Spacer(Modifier.width(10.dp)) }
                 Column {
                     Text("영수증에서 읽은 값", style = MaterialTheme.typography.titleMedium)
-                    Text((if (guess.source.isNotBlank()) "근거: ${guess.source}" else "금액 근거를 찾지 못했다") + (guess.date?.let { " · $it ${guess.time ?: ""}" } ?: ""),
+                    Text((if (guess.source.isNotBlank()) "근거: ${guess.source}" else "금액 근거 없음") + (guess.date?.let { " · $it ${guess.time ?: ""}" } ?: ""),
                         style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }

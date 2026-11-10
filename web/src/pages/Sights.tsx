@@ -49,7 +49,7 @@ export function Sights() {
 export function SightView() {
   const { id = '' } = useParams(); const data = useData()
   const s = data.sight(id)
-  if (!s) return <div className="page"><TopBar title="관광지" /><div className="pad muted">찾을 수 없다</div></div>
+  if (!s) return <div className="page"><TopBar title="관광지" /><div className="pad muted">찾을 수 없습니다</div></div>
   const src = img(s); const place = data.place(s.placeId)
   const rows = data.schedule.filter((r) => s.dayIds.includes(r.dayId) && s.keywords.some((k) => `${r.from} ${r.via} ${r.to} ${r.tip}`.includes(k)))
   return (
@@ -97,8 +97,8 @@ function BlogSection({ blogs }: { blogs: Blog[] }) {
     try {
       const m = await addDoc(f, data.days, { dayId: null })
       await updateDoc({ ...m, title: b.title, kind: '블로그', note: `${b.blog} · ${b.date}\n${b.url}` })
-      toast('문서함에 넣었다'); nav(`/docs/${m.id}`)
-    } catch { toast('PDF 를 넣지 못했다') } finally { setBusy(null) }
+      toast('문서함 저장 완료'); nav(`/docs/${m.id}`)
+    } catch { toast('PDF 저장 실패') } finally { setBusy(null) }
   }
   return (
     <>
