@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { CloudDownload, CloudUpload, FileText, FolderOpen, Pencil, Plus, Search, Share2, Trash2 } from 'lucide-react'
+import { CheckSquare, CloudDownload, CloudUpload, FileText, FolderOpen, Pencil, Plus, Search, Share2, Trash2 } from 'lucide-react'
 import { Banner, DayChips, TopBar, toast } from '../components/ui'
 import { useData, useNow } from '../store/data'
 import { resolvePhase } from '../domain/tripTime'
 import { DOC_KINDS, filterDocs, fmtSize, sortDocs, type DocKind, type DocMeta } from '../domain/docs'
 import { addDoc, deleteDoc, getFile, storageUse, updateDoc, useDocs } from '../store/docs'
-import { driveName, driveReady, getDriveFile, importedMap, listDrive, markImported, parseDriveName, uploadToDrive, useDrive } from '../store/drive'
+import { deletedSet, driveName, driveReady, getDriveFile, importedMap, listDrive, markImported, parseDriveName, rememberDeleted, uploadToDrive, useDrive } from '../store/drive'
 
 const KIND_TONE: Record<DocKind, string> = {
   '바우처': '#6f42c1', '기차표': '#1f4e79', '항공권': '#4b5563', '숙소 예약': '#b4442e', '영수증': '#e09a2b', '보험·신분': '#1f6f6b', '블로그': '#03a94f', '기타': '#6e6a64',
@@ -27,6 +27,8 @@ export function Docs() {
   const day = sp.get('day')
   const [q, setQ] = useState('')
   const [busy, setBusy] = useState<string | null>(null)
+  const [picking, setPicking] = useState(false)
+  const [picked, setPicked] = useState<Set<string>>(new Set())
   const [use, setUse] = useState<string | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
   const nav = useNavigate()
@@ -64,6 +66,19 @@ export function Docs() {
       </div>
       {(docs?.length ?? 0) > 5 && <div className="pad"><div className="row" style={{ gap: 8 }}><Search size={18} /><input className="input grow" placeholder="제목·메모 검색" value={q} onChange={(e) => setQ(e.target.value)} /></div></div>}
       <div className="pad">
+        {(docs?.length ?? 0) > 0 && (
+          <div className="row" data-testid="doc-select-bar" style={{ gap: 8, marginBottom: 8, flexWrap: 'wrap' }}>
+            {!picking ? <button className="btn ghost" onClick={() => { setPicking(true); setPicked(new Set()) }}><CheckSquare size={16} />선택</button> : <>
+              <button className="btn ghost" onClick={() => setPicked(picked.size === shown.length ? new Set() : new Set(shown.map((d) => d.id)))}>{picked.size === shown.length ? '선택 해제' : `전체 선택(${shown.length})`}</button>
+              <button className="btn" style={{ color: 'var(--danger, #c62828)' }} disabled={picked.size === 0 || !!busy} onClick={async () => {
+                if (!confirm(`선택한 ${picked.size}건을 이 기기 문서함에서 지울까? 되돌릴 수 없다(구글 드라이브·다른 기기에는 남는다)`)) return
+                await deleteDocs(docs!.filter((d) => picked.has(d.id)))
+                toast(`${picked.size}건을 지웠다`); setPicked(new Set()); setPicking(false)
+              }}><Trash2 size={16} />{picked.size}건 삭제</button>
+              <button className="btn ghost" onClick={() => { setPicking(false); setPicked(new Set()) }}>취소</button>
+            </>}
+          </div>
+        )}
         <div className="card flat" style={{ padding: 0 }}>
           {docs === null && <div className="li muted small">불러오는 중…</div>}
           {docs !== null && shown.length === 0 && (
@@ -72,7 +87,8 @@ export function Docs() {
             </div>
           )}
           {shown.map((d) => (
-            <Link key={d.id} to={`/docs/${d.id}`} className="li" data-testid="doc-row">
+            <Link key={d.id} to={`/docs/${d.id}`} className="li" data-testid="doc-row" onClick={(e) => { if (picking) { e.preventDefault(); const n = new Set(picked); if (n.has(d.id)) n.delete(d.id); else n.add(d.id); setPicked(n) } }}>
+              {picking && <input type="checkbox" readOnly checked={picked.has(d.id)} data-testid="doc-pick" style={{ width: 22, height: 22, flex: 'none', accentColor: 'var(--primary)' }} />}
               {d.thumb ? <img src={d.thumb} alt="" style={{ width: 52, height: 52, objectFit: 'cover', borderRadius: 10, flex: 'none', border: '1px solid var(--line)' }} />
                 : <span className="ic" style={{ width: 52, height: 52 }}><FileText size={24} /></span>}
               <span className="grow">
@@ -133,7 +149,7 @@ export function DocView() {
       </>} />
       {edit && <DocEdit meta={meta} days={data.days.map((d) => d.id)} onDone={() => setEdit(false)} onDelete={async () => {
         if (!confirm('이 문서를 삭제할까? 되돌릴 수 없다')) return
-        await deleteDoc(meta.id); toast('삭제했다'); nav('/docs', { replace: true })
+        await deleteDocs([meta]); toast('삭제했다'); nav('/docs', { replace: true })
       }} />}
       <div className="pad tiny muted row" style={{ gap: 6, flexWrap: 'wrap' }}>
         <KindBadge k={meta.kind} />{meta.dayId ?? '일차 없음'} · {fmtSize(meta.size)}{meta.pages ? ` · ${meta.pages}쪽` : ''}{meta.note ? ` · ${meta.note}` : ''}
@@ -197,10 +213,10 @@ export function DayDocsLink({ dayId }: { dayId: string }) {
 }
 
 /** 문서 1건을 드라이브(문서함/D3/…)로 올린다 */
-export async function backupDoc(m: DocMeta) {
+export async function backupDoc(m: DocMeta, force = false) {
   const f = await getFile(m.id)
   if (!f) throw new Error('파일 없음')
-  return uploadToDrive(`doc:${m.id}`, { folder: '문서함', sub: m.dayId ?? '공통', name: driveName(m.dayId, m.title, m.id, m.fileName), blob: f.blob, memo: [m.kind, m.note].filter(Boolean).join(' · ') })
+  return uploadToDrive(`doc:${m.id}`, { folder: '문서함', sub: m.dayId ?? '공통', name: driveName(m.dayId, m.title, m.id, m.fileName), blob: f.blob, memo: [m.kind, m.note].filter(Boolean).join(' · ') }, force)
 }
 
 /** 문서함 위: 드라이브 백업 상태·한꺼번에 올리기(설정 안 했으면 설정 안내) */
@@ -210,13 +226,16 @@ function DriveBackupBar({ docs }: { docs: DocMeta[] }) {
   const [run, setRun] = useState<string | null>(null)
   const left = docs.filter((d) => !up(`doc:${d.id}`))
   if (!ready) return <Link className="tiny muted" to="/settings" data-testid="drive-setup-link" style={{ textAlign: 'center' }}>구글 드라이브 백업 설정하기 →</Link>
-  async function all() {
+  /** force: 이미 올린 것도 다시 보낸다(드라이브에서 지웠을 때). 드라이브에 같은 이름이 있으면 그쪽에서 건너뛴다 */
+  async function all(force = false) {
+    const list = force ? docs : left
+    if (force && !confirm(`이 기기 문서 ${list.length}건을 드라이브로 다시 보낼까? 드라이브에 이미 있는 것은 건너뛰고, 지워진 것만 다시 만든다`)) return
     let ok = 0, fail = 0
-    for (const [i, d] of left.entries()) {
-      setRun(`드라이브로 올리는 중 ${i + 1}/${left.length}`)
-      try { await backupDoc(d); ok++ } catch { fail++ }
+    for (const [i, d] of list.entries()) {
+      setRun(`드라이브로 올리는 중 ${i + 1}/${list.length}`)
+      try { await backupDoc(d, force); ok++ } catch { fail++ }
     }
-    setRun(null); toast(fail ? `${ok}건 올림 · ${fail}건 실패(인터넷 확인 후 다시)` : `${ok}건을 드라이브에 올렸다`)
+    setRun(null); toast(fail ? `${ok}건 보냄 · ${fail}건 실패(인터넷 확인 후 다시)` : `${ok}건을 드라이브로 보냈다`)
   }
   /** 드라이브(문서함)에 있는데 이 기기에 없는 문서를 가져온다 */
   async function pull() {
@@ -226,7 +245,8 @@ function DriveBackupBar({ docs }: { docs: DocMeta[] }) {
       const imported = importedMap()
       const localIds = new Set(docs.map((d) => d.id))
       const localNames = new Set(docs.map((d) => driveName(d.dayId, d.title, d.id, d.fileName)))
-      const todo = files.filter((f) => !imported[f.id] && !localNames.has(f.name) && !localIds.has(parseDriveName(f.name).id ?? ''))
+      const gone = deletedSet()
+      const todo = files.filter((f) => !imported[f.id] && !gone.has(f.id) && !gone.has(f.name) && !gone.has(parseDriveName(f.name).id ?? '-') && !localNames.has(f.name) && !localIds.has(parseDriveName(f.name).id ?? ''))
       if (!todo.length) { toast('가져올 새 문서가 없다'); return }
       if (!confirm(`드라이브에서 ${todo.length}건을 이 기기 문서함으로 가져올까?`)) return
       let ok = 0, fail = 0
@@ -241,7 +261,9 @@ function DriveBackupBar({ docs }: { docs: DocMeta[] }) {
     <div className="stack" data-testid="drive-bar" style={{ gap: 6 }}>
       <div className="row" style={{ gap: 8, justifyContent: 'space-between' }}>
         <span className="tiny muted"><CloudUpload size={14} style={{ verticalAlign: -2 }} /> 드라이브 백업 {docs.length - left.length}/{docs.length}</span>
-        <button className="btn" disabled={!!run || left.length === 0} onClick={all}><CloudUpload size={16} />{left.length ? `드라이브로 백업 (${left.length}건)` : '모두 올렸다'}</button>
+        {left.length > 0
+          ? <button className="btn" disabled={!!run} onClick={() => all()}><CloudUpload size={16} />드라이브로 백업 ({left.length}건)</button>
+          : <button className="btn ghost" data-testid="drive-reupload" disabled={!!run || docs.length === 0} onClick={() => all(true)}><CloudUpload size={16} />모두 올렸다 · 다시 올리기</button>}
       </div>
       <button className="btn ghost" data-testid="drive-pull" disabled={!!run} onClick={pull}><CloudDownload size={16} />드라이브에서 가져오기(앱·다른 기기 문서)</button>
       {run && <div className="tiny muted">{run}</div>}
@@ -272,4 +294,14 @@ async function importOne(driveId: string, sub: string, name: string, data: Retur
   const dayId = /^D\d+$/.test(sub) ? sub : p.dayId ?? meta.dayId
   await updateDoc({ ...meta, title: p.title || meta.title, dayId, kind, note: (DOC_KINDS as readonly string[]).includes(k) ? rest.join(' · ') : memo })
   markImported(driveId, meta.id)
+}
+
+/** 여러 건 지우기(이 기기만). 드라이브에서 다시 가져오지 않게 이름·드라이브 id 를 기억한다 */
+export async function deleteDocs(list: DocMeta[]) {
+  const imp = importedMap()
+  for (const m of list) {
+    const driveIds = Object.entries(imp).filter(([, local]) => local === m.id).map(([driveId]) => driveId)
+    rememberDeleted([m.id, driveName(m.dayId, m.title, m.id, m.fileName), ...driveIds])
+    await deleteDoc(m.id)
+  }
 }

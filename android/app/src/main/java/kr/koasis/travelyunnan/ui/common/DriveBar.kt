@@ -28,12 +28,22 @@ fun DriveBar(vm: AppViewModel, done: Int, total: Int, docs: Boolean, diary: Bool
     }
     Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
         Text("드라이브 백업 $done/$total", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f))
-        FilledTonalButton(enabled = run == null && done < total, onClick = {
+        var ask by remember { mutableStateOf(false) }
+        val go = { force: Boolean ->
             scope.launch {
-                val (ok, fail) = vm.backupAll(docs, diary) { run = it }
+                val (ok, fail) = vm.backupAll(docs, diary, force) { run = it }
                 run = null
-                Toast.makeText(ctx, if (fail > 0) "${ok}건 올림 · ${fail}건 실패(인터넷 확인 후 다시)" else "${ok}건을 드라이브에 올렸다", Toast.LENGTH_SHORT).show()
+                Toast.makeText(ctx, if (fail > 0) "${ok}건 보냄 · ${fail}건 실패(인터넷 확인 후 다시)" else "${ok}건을 드라이브로 보냈다", Toast.LENGTH_SHORT).show()
             }
-        }) { Icon(Icons.Filled.CloudUpload, null); Spacer(Modifier.width(6.dp)); Text(run ?: if (done < total) "드라이브로 백업 (${total - done}건)" else "모두 올렸다") }
+        }
+        if (done < total) FilledTonalButton(enabled = run == null, onClick = { go(false) }) {
+            Icon(Icons.Filled.CloudUpload, null); Spacer(Modifier.width(6.dp)); Text(run ?: "드라이브로 백업 (${total - done}건)")
+        } else OutlinedButton(enabled = run == null && total > 0, onClick = { ask = true }) {
+            Icon(Icons.Filled.CloudUpload, null); Spacer(Modifier.width(6.dp)); Text(run ?: "모두 올렸다 · 다시 올리기")
+        }
+        if (ask) AlertDialog(onDismissRequest = { ask = false },
+            text = { Text("${total}건을 드라이브로 다시 보낼까? 드라이브에 이미 있는 것은 건너뛰고, 지워진 것만 다시 만든다.") },
+            confirmButton = { TextButton(onClick = { ask = false; go(true) }) { Text("다시 올리기") } },
+            dismissButton = { TextButton(onClick = { ask = false }) { Text("그만두기") } })
     }
 }

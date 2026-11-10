@@ -121,10 +121,11 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     /** 아직 안 올린 문서·사진 일기를 모두 올린다. (올림, 실패) */
-    suspend fun backupAll(docsToo: Boolean = true, diaryToo: Boolean = true, progress: (String) -> Unit = {}): Pair<Int, Int> = withContext(Dispatchers.IO) {
+    /** force: 이미 올린 것도 다시 보낸다(드라이브에서 지웠을 때). 드라이브에 같은 이름이 있으면 그쪽에서 건너뛴다 */
+    suspend fun backupAll(docsToo: Boolean = true, diaryToo: Boolean = true, force: Boolean = false, progress: (String) -> Unit = {}): Pair<Int, Int> = withContext(Dispatchers.IO) {
         val f = flags.value; var ok = 0; var fail = 0
-        val ds = if (docsToo) docs.value.filter { "drive:doc:${it.id}" !in f } else emptyList()
-        val es = if (diaryToo) diary.value.filter { "drive:diary:${it.id}" !in f && (it.uri != null || it.memo.isNotBlank()) } else emptyList()
+        val ds = if (docsToo) docs.value.filter { force || "drive:doc:${it.id}" !in f } else emptyList()
+        val es = if (diaryToo) diary.value.filter { (force || "drive:diary:${it.id}" !in f) && (it.uri != null || it.memo.isNotBlank()) } else emptyList()
         val total = ds.size + es.size; var i = 0
         ds.forEach { d -> progress("드라이브로 올리는 중 ${++i}/$total"); if (runCatching { backupDoc(d) }.isSuccess) ok++ else fail++ }
         es.forEach { e -> progress("드라이브로 올리는 중 ${++i}/$total"); if (runCatching { backupDiary(e) }.isSuccess) ok++ else fail++ }

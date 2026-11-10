@@ -77,6 +77,9 @@ fun DocsScreen(vm: AppViewModel, data: TripData, dayArg: String?) {
     var kind by rememberSaveable { mutableStateOf<String?>(null) }
     var busy by remember { mutableStateOf<String?>(null) }
     val scope = rememberCoroutineScope()
+    var picking by rememberSaveable { mutableStateOf(false) }
+    var picked by remember { mutableStateOf(setOf<String>()) }
+    var askDelete by remember { mutableStateOf(false) }
     val picker = rememberLauncherForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { uris ->
         if (uris.isEmpty()) return@rememberLauncherForActivityResult
         busy = "${uris.size}건 저장 중… (PDF 는 쪽을 그림으로 펼친다)"
@@ -105,6 +108,20 @@ fun DocsScreen(vm: AppViewModel, data: TripData, dayArg: String?) {
                     items(DocRules.KINDS) { k -> FilterChip(kind == k, onClick = { kind = if (kind == k) null else k }, label = { Text(k) }) }
                 }
             }
+            if (docs.isNotEmpty()) item {
+                Row(Modifier.padding(horizontal = 16.dp, vertical = 4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                    if (!picking) OutlinedButton(onClick = { picking = true; picked = emptySet() }) { Icon(Icons.Filled.Checklist, null); Spacer(Modifier.width(6.dp)); Text("선택") }
+                    else {
+                        TextButton(onClick = { picked = if (picked.size == shown.size) emptySet() else shown.map { it.id }.toSet() }) { Text(if (picked.size == shown.size) "선택 해제" else "전체 선택(${shown.size})") }
+                        Button(enabled = picked.isNotEmpty(), onClick = { askDelete = true }, colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)) { Icon(Icons.Filled.Delete, null); Spacer(Modifier.width(6.dp)); Text("${picked.size}건 삭제") }
+                        TextButton(onClick = { picking = false; picked = emptySet() }) { Text("취소") }
+                    }
+                }
+                if (askDelete) AlertDialog(onDismissRequest = { askDelete = false },
+                    text = { Text("선택한 ${picked.size}건을 이 휴대폰 문서함에서 지울까? 되돌릴 수 없다(구글 드라이브·다른 기기에는 남는다).") },
+                    confirmButton = { TextButton(onClick = { docs.filter { it.id in picked }.forEach { vm.deleteDoc(it) }; askDelete = false; picking = false; picked = emptySet() }) { Text("지우기") } },
+                    dismissButton = { TextButton(onClick = { askDelete = false }) { Text("그만두기") } })
+            }
             if (shown.isEmpty()) item {
                 Text(if (docs.isEmpty()) "아직 문서가 없다. 바우처·기차표 예매 확인·숙소 예약 확인·영수증 캡처를 넣어 두면 인터넷이 없어도 바로 꺼내 보여 줄 수 있다." else "조건에 맞는 문서가 없다",
                     style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(16.dp))
@@ -113,7 +130,8 @@ fun DocsScreen(vm: AppViewModel, data: TripData, dayArg: String?) {
                 val thumb = rememberFileImage(DocStore.thumb(ctx, d.id))
                 ListItem(
                     leadingContent = {
-                        Box(Modifier.size(52.dp).clip(RoundedCornerShape(10.dp)).background(MaterialTheme.colorScheme.surfaceContainer), contentAlignment = Alignment.Center) {
+                        if (picking) Checkbox(d.id in picked, onCheckedChange = null)
+                        else Box(Modifier.size(52.dp).clip(RoundedCornerShape(10.dp)).background(MaterialTheme.colorScheme.surfaceContainer), contentAlignment = Alignment.Center) {
                             if (thumb != null) Image(thumb, null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop) else Icon(Icons.Filled.Description, null)
                         }
                     },
@@ -125,7 +143,7 @@ fun DocsScreen(vm: AppViewModel, data: TripData, dayArg: String?) {
                                 style = MaterialTheme.typography.bodySmall)
                         }
                     },
-                    modifier = Modifier.clickable { actions.openDoc(d.id, false) },
+                    modifier = Modifier.clickable { if (picking) picked = if (d.id in picked) picked - d.id else picked + d.id else actions.openDoc(d.id, false) },
                 )
             }
             item {

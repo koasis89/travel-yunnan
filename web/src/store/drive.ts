@@ -58,8 +58,8 @@ export async function pingDrive(c: DriveConfig = driveConfig()): Promise<string>
 }
 
 /** 한 파일 올리기. key 로 이미 올린 것은 건너뛴다(드라이브 쪽도 같은 이름이면 건너뛴다) */
-export async function uploadToDrive(key: string, f: { folder: string; sub?: string | null; name: string; blob: Blob; memo?: string }): Promise<'uploaded' | 'skipped'> {
-  if (isUploaded(key)) return 'skipped'
+export async function uploadToDrive(key: string, f: { folder: string; sub?: string | null; name: string; blob: Blob; memo?: string }, force = false): Promise<'uploaded' | 'skipped'> {
+  if (!force && isUploaded(key)) return 'skipped'
   const c = driveConfig()
   if (!driveReady()) throw new Error('드라이브 백업이 설정되지 않았다')
   const body = JSON.stringify({ token: c.token, folder: f.folder, sub: f.sub ?? '', name: f.name, mime: f.blob.type || 'application/octet-stream', data: await toBase64(f.blob), memo: f.memo ?? '' })
@@ -127,4 +127,14 @@ export function markImported(driveId: string, localId: string) {
   const m = importedMap(); m[driveId] = localId
   try { localStorage.setItem(IMPORTED, JSON.stringify(m)) } catch { /* 무시 */ }
   markUploaded(`doc:${localId}`)
+}
+
+// 이 기기에서 지운 문서: '드라이브에서 가져오기'가 다시 들여오지 않게 기억한다(드라이브 이름·드라이브 파일 id)
+const DELETED = 'yn.drive.deleted'
+export function deletedSet(): Set<string> {
+  try { return new Set(JSON.parse(localStorage.getItem(DELETED) ?? '[]') as string[]) } catch { return new Set() }
+}
+export function rememberDeleted(keys: string[]) {
+  const s = deletedSet(); keys.filter(Boolean).forEach((k) => s.add(k))
+  try { localStorage.setItem(DELETED, JSON.stringify([...s])) } catch { /* 무시 */ }
 }
