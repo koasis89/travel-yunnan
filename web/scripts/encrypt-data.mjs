@@ -11,7 +11,7 @@ if (!process.env.ALLOWED_EMAILS && existsSync('.env.local')) {
 }
 const emails = (process.env.ALLOWED_EMAILS ?? '').split(',').map((e) => e.trim().toLowerCase()).filter(Boolean)
 if (emails.length === 0) {
-  console.error('ALLOWED_EMAILS 가 비어 있다. Cloudflare Pages 환경 변수 또는 web/.env.local 에 설정한다.')
+  console.error('ALLOWED_EMAILS(접속 아이디, 쉼표 구분 · 이메일이 아니어도 된다)가 비어 있다. Cloudflare 빌드 변수 또는 web/.env.local 에 설정한다.')
   process.exit(1)
 }
 const ITER = 600000

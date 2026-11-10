@@ -1,6 +1,9 @@
 // 브라우저 실제 렌더링 점검: 로그인·거부·자동 로그인·각 화면·오프라인. node tests/e2e/smoke.cjs [baseUrl] [outDir]
 const { chromium } = require('playwright')
 const base = process.argv[2] || 'http://localhost:4173/'
+// 접속 아이디: SMOKE_ID 환경 변수 또는 web/.env.local 의 ALLOWED_EMAILS 첫 값(저장소에 아이디를 적지 않는다)
+const LOGIN_ID = process.env.SMOKE_ID || (() => { try { const m = require('fs').readFileSync(require('path').join(__dirname, '../../.env.local'), 'utf8').match(/^\s*ALLOWED_EMAILS\s*=\s*["']?([^,"'\n]+)/m); return m ? m[1].trim() : '' } catch { return '' } })()
+if (!LOGIN_ID) { console.error('SMOKE_ID 또는 web/.env.local 의 ALLOWED_EMAILS 가 필요하다'); process.exit(2) }
 const out = process.argv[3] || 'shots'
 const results = []
 const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', name, extra]); return cond }
@@ -24,17 +27,17 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
 
   // 거부
   await page.fill('#email', 'someone@gmail.com'); await page.click('button:has-text("들어가기")')
-  await page.waitForSelector('text=등록된 가족 이메일이 아닙니다', { timeout: 15000 })
-  ok('비허용 이메일 거부', true)
+  await page.waitForSelector('text=등록된 아이디가 아닙니다', { timeout: 15000 })
+  ok('등록 안 된 아이디 거부', true)
 
   // 허용(대문자·공백)
-  await page.fill('#email', '  KOASIS03@Gmail.com '); await page.click('button:has-text("들어가기")')
-  ok('허용 이메일 로그인(대소문자·공백 무시)', await page.waitForSelector('text=바로가기', { timeout: 20000 }).then(() => true).catch(() => false))
+  await page.fill('#email', `  ${LOGIN_ID.toUpperCase()} `); await page.click('button:has-text("들어가기")')
+  ok('허용 아이디 로그인(대소문자·공백 무시)', await page.waitForSelector('text=바로가기', { timeout: 20000 }).then(() => true).catch(() => false))
 
   // 날짜 지정: D5 12:30
   await page.evaluate(() => localStorage.setItem('yn.settings', JSON.stringify({ override: '2026-12-20T12:30', bigFont: false, cnyRate: null, cash: 0 })))
   await page.reload(); await page.waitForSelector('text=바로가기', { timeout: 15000 })
-  ok('자동 로그인(재실행 시 이메일 재입력 없음)', true)
+  ok('자동 로그인(재실행 시 아이디 재입력 없음)', true)
   ok('홈 D5 지금 일정 = 빌라→Come Inn 직행', await page.isVisible('text=Rishine 빌라 → Come Inn(行者民宿·Come Inn, 本地湾)'))
   await page.screenshot({ path: `${out}/w02_home_d5.png`, fullPage: false })
 
@@ -476,7 +479,7 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   // 다크 모드
   const dark = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, colorScheme: 'dark' })
   const dp = await dark.newPage(); await dp.goto(base)
-  await dp.fill('#email', 'koasis99@gmail.com'); await dp.click('button:has-text("들어가기")')
+  await dp.fill('#email', LOGIN_ID); await dp.click('button:has-text("들어가기")')
   await dp.waitForSelector('text=바로가기', { timeout: 15000 }); await dp.screenshot({ path: `${out}/w19_home_dark.png` })
   ok('다크 모드 로그인·홈', true)
 
