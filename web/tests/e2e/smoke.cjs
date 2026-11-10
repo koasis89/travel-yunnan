@@ -9,6 +9,11 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   const browser = await chromium.launch()
   const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, locale: 'ko-KR', timezoneId: 'Asia/Seoul' })
   const page = await ctx.newPage()
+  // 실제 구글 드라이브(Apps Script)로는 절대 보내지 않는다. 라이브 사이트에는 드라이브 주소가 기본값으로 들어 있다
+  let blockedDrive = 0
+  const blockDrive = (route) => { blockedDrive++; return route.fulfill({ contentType: 'application/json', body: JSON.stringify({ ok: false, error: 'test-blocked' }) }) }
+  await ctx.route('https://script.google.com/**', blockDrive)
+  await ctx.route('https://script.googleusercontent.com/**', blockDrive)
   const errors = []
   page.on('pageerror', (e) => errors.push(String(e)))
   page.on('console', (m) => { if (m.type() === 'error' && !m.text().startsWith('Warning: Parameter not found')) errors.push(m.text()) }) // Tesseract 엔진 설정 경고는 무해
@@ -372,7 +377,7 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   // 구글 드라이브 백업(가짜 Apps Script 주소로 확인): 설정 → 연결 확인 → 문서함 한꺼번에 올리기
   {
     const posts = []
-    await page.route('https://script.google.com/**', async (route) => {
+    const fakeDrive = async (route) => {
       const req = route.request()
       if (req.method() === 'POST') { const b = JSON.parse(req.postData() || '{}'); posts.push(b); return route.fulfill({ contentType: 'application/json', body: JSON.stringify(b.token === 'k-test' ? { ok: true, id: 'x' } : { ok: false, error: 'token' }) }) }
       const sp = new URL(req.url()).searchParams
@@ -383,7 +388,8 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
         { id: 'app1', name: 'D5_차마객잔 빵차 영수증_app77.png', mime: 'image/png', size: 70, sub: 'D5', memo: '영수증 · ¥80 위챗페이', created: 2 }] }) })
       if (sp.get('action') === 'get') return route.fulfill({ contentType: 'application/json', body: JSON.stringify({ ok: true, name: 'D5_차마객잔 빵차 영수증_app77.png', mime: 'image/png', memo: '영수증 · ¥80 위챗페이', data: png }) })
       return route.fulfill({ contentType: 'application/json', body: JSON.stringify({ ok: true, folder: '윈난 여행 앱 백업' }) })
-    })
+    }
+    await page.route('https://script.google.com/**', fakeDrive)
     ok('문서함: 드라이브 설정 안내 링크 또는(기본값 있으면) 백업 줄', await page.isVisible('[data-testid=drive-setup-link]') || await page.isVisible('[data-testid=drive-bar]'))
     await page.goto(base + '#/settings'); await page.waitForSelector('[data-testid=drive-settings]', { timeout: 5000 }).catch(() => {})
     await page.fill('[data-testid=drive-settings] input >> nth=0', 'https://script.google.com/macros/s/TEST/exec')
@@ -407,7 +413,7 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
     await pulled.click(); await page.waitForSelector('[aria-label="정보 고치기"]', { timeout: 5000 })
     await page.click('[aria-label="정보 고치기"]'); await page.click('button[aria-label="삭제"]')
     await page.waitForSelector('[data-testid=doc-row]', { timeout: 5000 }).catch(() => {})
-    await page.unroute('https://script.google.com/**')
+    await page.unroute('https://script.google.com/**', fakeDrive)
     await page.evaluate(() => { localStorage.removeItem('yn.drive'); localStorage.removeItem('yn.drive.done') })
     await page.goto(base + '#/docs'); await page.waitForSelector('[data-testid=doc-row]', { timeout: 5000 }).catch(() => {})
   }
@@ -468,6 +474,7 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   await browser.close()
   for (const r of results) console.log(r.join('  '))
   const fail = results.filter((r) => r[0] === 'FAIL').length
+  console.log(`실제 드라이브로 가려던 요청 ${blockedDrive}건은 막았다(시험이 드라이브를 건드리지 않음)`)
   console.log(`\n${results.length - fail} 통과 / ${fail} 실패`)
   process.exit(fail ? 1 : 0)
 })().catch((e) => { console.error(e); process.exit(2) })
