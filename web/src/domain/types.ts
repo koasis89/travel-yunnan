@@ -31,7 +31,7 @@ export interface MilkTeaBrand { id: string; nameZh: string; pinyin: string; name
 export interface MilkTea { items: MilkTeaBrand[]; sugar: [string, string][]; ice: [string, string][] }
 /** 여행 전(사전) 일정: data/pretrip.json */
 export interface CheckItem { id: string; text: string }
-export interface PreTrip { id: string; date: string; dateLabel: string; time: string; title: string; detail: string; tips: string[]; templateLinkId?: string; notificationId?: string; checklist?: CheckItem[]; link?: string }
+export interface PreTrip { id: string; date: string; dateLabel: string; time: string; title: string; detail: string; tips: string[]; templateLinkId?: string; notificationId?: string; checklist?: CheckItem[]; link?: string; copy?: { label: string; value: string; note?: string }[] }
 export interface ArrivalField { group: string; label: string; value: string; note?: string; copy?: boolean; input?: string }
 export interface NextDayList { dayId: string; nextId: string; title: string; items: CheckItem[] }
 export interface Checklists {

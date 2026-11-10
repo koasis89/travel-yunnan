@@ -381,3 +381,11 @@ describe('기능 검색', () => {
     expect(searchIndex(idx, '설정')[0].to).toBe('/settings')
   })
 })
+describe('항공편(전자 항공권 기준, 3명 같음)', () => {
+  it('입국신고 값과 사전 일정 복사 항목', () => {
+    const f = data.checklists.arrivalCard.fields
+    expect(f.find((x) => x.label === '입국 항공편')!.value).toBe('KE161')
+    expect(f.find((x) => x.label === '출국 항공편')!.value).toBe('KE162')
+    expect(data.pretrip.find((p) => p.id === 'p-04')!.copy!.map((c) => c.value)).toEqual(['KE161', '20261216', '昆明长水国际机场', 'KE162', '20261223'])
+  })
+})

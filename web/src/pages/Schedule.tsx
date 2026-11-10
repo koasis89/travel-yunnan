@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { Bus, Car, CarTaxiFront, CheckCircle2, Clock, Footprints, Landmark, MapPin, UtensilsCrossed, MessageSquareText, Mountain, PenLine, QrCode, TrainFront } from 'lucide-react'
-import { CheckList, DayChips, Ko, TopBar } from '../components/ui'
+import { Copy, Bus, Car, CarTaxiFront, CheckCircle2, Clock, Footprints, Landmark, MapPin, UtensilsCrossed, MessageSquareText, Mountain, PenLine, QrCode, TrainFront } from 'lucide-react'
+import { CheckList, DayChips, Ko, TopBar, copyText } from '../components/ui'
 import { DayDocsLink } from './Docs'
 import { useData, useNow } from '../store/data'
 import { useStored } from '../store/local'
@@ -77,6 +77,14 @@ export function PreTripList() {
               <h3 style={{ margin: '4px 0' }}>{x.title}</h3>
               <div className="small">{x.detail}</div>
               {x.tips.map((t) => <div key={t} className="tiny muted" style={{ marginTop: 4 }}>· {t}</div>)}
+              {x.copy && x.copy.length > 0 && <div className="card flat" data-testid="pretrip-copy" style={{ padding: 0, marginTop: 8 }}>
+                {x.copy.map((c) => (
+                  <div key={c.label} className="li" style={{ gap: 10 }}>
+                    <div className="grow" style={{ minWidth: 0 }}><div className="tiny muted">{c.label}</div><div className="bold zh">{c.value}</div>{c.note && <div className="tiny faint">{c.note}</div>}</div>
+                    <button className="btn" style={{ flex: 'none' }} onClick={() => copyText(c.value, `${c.label} 복사 완료`)}><Copy size={16} />복사</button>
+                  </div>
+                ))}
+              </div>}
               {x.checklist && x.checklist.length > 0 && <div style={{ marginTop: 8 }}><CheckList items={x.checklist} testId="pretrip-check" /></div>}
               <div className="wrap" style={{ marginTop: 10 }}>
                 {x.link === '/arrival-card' && <Link className="btn primary" to="/arrival-card"><QrCode size={16} />방법·붙여 넣을 값</Link>}

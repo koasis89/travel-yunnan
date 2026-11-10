@@ -185,7 +185,12 @@ data class PreTrip(
     val id: String, val date: String = "", val dateLabel: String = "", val time: String = "", val title: String = "",
     val detail: String = "", val tips: List<String> = emptyList(), val templateLinkId: String? = null, val notificationId: String? = null,
     val checklist: List<CheckItem> = emptyList(), val link: String? = null,
+    val copy: List<CopyRow> = emptyList(),
 )
+
+/** 복사해 붙여 넣을 값(예: 입국신고서 항공편) */
+@Serializable
+data class CopyRow(val label: String, val value: String, val note: String = "")
 
 /** 체크리스트 항목(data/checklists.json, pretrip.json). 체크 상태는 flags 'chk:<id>' */
 @Serializable

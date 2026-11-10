@@ -185,7 +185,8 @@ class DocRulesTest {
         assertEquals(listOf("입국 정보", "머무를 호텔", "출국 정보"), f.map { it.group }.distinct())
         assertTrue(f.first { it.label == "상세 주소(중국어)" }.value.contains(d.lodging("kunming1")!!.addrZh))
         assertEquals(false, f.first { it.label == "입국 사유" }.copy)
-        assertEquals("flightIn", f.first { it.label == "입국 항공편" }.input)
+        assertEquals("KE161", f.first { it.label == "입국 항공편" }.value); assertEquals("KE162", f.first { it.label == "출국 항공편" }.value)
+        assertEquals(listOf("KE161", "20261216", "昆明长水国际机场", "KE162", "20261223"), TripDataHolder.data.pretrip.first { it.id == "p-04" }.copy.map { it.value })
     }
 
     @Test fun longhuaDimSum() {

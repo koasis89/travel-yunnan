@@ -104,6 +104,19 @@ fun PreTripList(data: TripData, flags: Set<String>, onToggleDone: (String) -> Un
                     Text(x.title, style = MaterialTheme.typography.titleMedium)
                     Text(x.detail, style = MaterialTheme.typography.bodyMedium)
                     x.tips.forEach { Text("· $it", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+                    if (x.copy.isNotEmpty()) {
+                        val ctx = androidx.compose.ui.platform.LocalContext.current
+                        x.copy.forEach { c ->
+                            Row(Modifier.fillMaxWidth().padding(top = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+                                Column(Modifier.weight(1f)) {
+                                    Text(c.label, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                    Text(c.value, style = MaterialTheme.typography.titleMedium)
+                                    if (c.note.isNotBlank()) Text(c.note, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
+                                }
+                                kr.koasis.travelyunnan.ui.common.SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, c.value, "${c.label} 복사 완료") }
+                            }
+                        }
+                    }
                     if (x.checklist.isNotEmpty()) kr.koasis.travelyunnan.ui.common.CheckListCard(null, null, x.checklist, flags, onToggleDone, Modifier.padding(top = 6.dp))
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(top = 6.dp)) {
                         if (x.link == "/arrival-card") Button(onClick = actions.openArrivalCard) { Text("방법·붙여 넣을 값") }

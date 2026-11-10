@@ -321,10 +321,10 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
   await page.screenshot({ path: `${out}/w35_nextday_check.png`, fullPage: true })
   await page.goto(base + '#/schedule?day=pre'); await page.waitForSelector('[data-testid=pretrip]', { timeout: 5000 }).catch(() => {})
   ok('사전 일정 5개·체크리스트·출국 당일', (await page.locator('[data-testid=pretrip]').count()) === 5 && (await page.locator('[data-testid=pretrip-check]').count()) >= 4 && await page.isVisible('[data-testid=departure-check]') && await page.isVisible('text=eSIM 구매'))
+  ok('사전 일정 입국신고: 항공편·일자 복사', (await page.locator('[data-testid=pretrip-copy] button:has-text("복사")').count()) === 5 && await page.isVisible('[data-testid=pretrip-copy] >> text=KE161'))
   await page.click('text=방법·붙여 넣을 값'); await page.waitForSelector('[data-testid=arrival-step]', { timeout: 5000 }).catch(() => {})
   ok('입국신고 QR 화면: 순서 7단계·값 복사', (await page.locator('[data-testid=arrival-step]').count()) === 7 && await page.isVisible('text=云南省昆明市官渡区永平路7号 格菲酒店(昆明火车站北广场店)') && (await page.locator('[data-testid=arrival-field] button:has-text("복사")').count()) >= 8)
-  await page.fill('[data-testid=arrival-field] input >> nth=0', 'ab 123')
-  ok('항공편 입력(대문자·공백 제거)', (await page.inputValue('[data-testid=arrival-field] input >> nth=0')) === 'AB123')
+  ok('항공편 값(KE161·KE162) 복사 버튼', await page.isVisible('[data-testid=arrival-field]:has-text("KE161") button:has-text("복사")') && await page.isVisible('[data-testid=arrival-field]:has-text("KE162") button:has-text("복사")'))
   await page.screenshot({ path: `${out}/w36_arrival_card.png`, fullPage: true })
 
   // 템플릿 날짜·시각 숫자 칸 + 배달 요청사항(문장별 복사)
