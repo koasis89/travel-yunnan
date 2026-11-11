@@ -28,12 +28,14 @@ import kr.koasis.travelyunnan.ui.nav.LocalActions
 import kr.koasis.travelyunnan.util.External
 
 /** 주문 문장(웹 milkTeaOrder 와 같다): "你好，我要一杯伯牙绝弦，少糖，去冰。" */
-fun milkTeaOrder(zh: String, sugar: String, ice: String): String =
-    "你好，我要一杯$zh" + (if (sugar.isNotBlank()) "，$sugar" else "") + (if (ice.isNotBlank()) "，$ice" else "") + "。"
+/** 맞춤 옵션(opt)이 있으면 옵션을 그대로 붙이고 당도·얼음 선택은 쓰지 않는다(웹 milkTeaOrder 와 같다) */
+fun milkTeaOrder(zh: String, sugar: String, ice: String, opt: String = ""): String =
+    if (opt.isNotBlank()) "你好，我要一杯$zh，$opt。"
+    else "你好，我要一杯$zh" + (if (sugar.isNotBlank()) "，$sugar" else "") + (if (ice.isNotBlank()) "，$ice" else "") + "。"
 
 private fun parseColor(hex: String): Color = runCatching { Color(android.graphics.Color.parseColor(hex)) }.getOrDefault(Color(0xFFC62828))
 
-/** 더보기 → 밀크티 종류(웹 pages/MilkTea.tsx): 브랜드별 추천 BEST 5 + 당도·얼음 골라 주문 문장 */
+/** 더보기 → 밀크티 종류(웹 pages/MilkTea.tsx): 브랜드별 추천(맞춤 옵션 포함) + 당도·얼음 골라 주문 문장 */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun MilkTeaScreen(data: TripData) {
@@ -48,8 +50,8 @@ fun MilkTeaScreen(data: TripData) {
     fun ko(pairs: List<List<String>>, z: String) = pairs.firstOrNull { it.firstOrNull() == z }?.getOrNull(1).orEmpty()
 
     show?.let { d ->
-        val s = milkTeaOrder(d.zh, sugar, ice)
-        val sub = "${d.koRead} 한 잔" + (if (sugar.isNotBlank()) " · ${ko(mt.sugar, sugar)}" else "") + (if (ice.isNotBlank()) " · ${ko(mt.ice, ice)}" else "")
+        val s = milkTeaOrder(d.zh, sugar, ice, d.opt)
+        val sub = "${d.koRead} 한 잔" + if (d.opt.isNotBlank()) " · 맞춤 옵션 그대로" else (if (sugar.isNotBlank()) " · ${ko(mt.sugar, sugar)}" else "") + (if (ice.isNotBlank()) " · ${ko(mt.ice, ice)}" else "")
         ShowCardScreen(lines = listOf(ShowLine(s, ShowStyle.Phrase), ShowLine(sub, ShowStyle.Sub)), onClose = { show = null }, header = "점원에게 보여주세요") {
             SmallAction(Icons.Filled.ContentCopy, "복사") { External.copy(ctx, s) }
         }
@@ -74,7 +76,8 @@ fun MilkTeaScreen(data: TripData) {
                                 Text(b.nameEn, color = Color.White, style = MaterialTheme.typography.labelMedium,
                                     modifier = Modifier.align(Alignment.CenterVertically).clip(RoundedCornerShape(8.dp)).background(col).padding(horizontal = 8.dp, vertical = 2.dp))
                             }
-                            Text("${b.pinyin} · 추천 BEST 5", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text("${b.pinyin} · 추천 ${b.drinks.size}가지", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            if (b.note.isNotBlank()) Text(b.note, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 4.dp))
                         }
                     }
                 }
@@ -87,13 +90,15 @@ fun MilkTeaScreen(data: TripData) {
                         Column(Modifier.weight(1f)) {
                             Text(d.zh, fontSize = 22.sp, fontWeight = FontWeight.Bold)
                             Text("${d.pinyin} · ${d.koRead}", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            if (d.tag.isNotBlank()) Text(d.tag, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(top = 4.dp))
+                            if (d.opt.isNotBlank()) Text(d.opt, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(top = 2.dp))
                             Text(d.desc, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(top = 4.dp))
                         }
                         FilledTonalButton(onClick = { show = d }) { Icon(Icons.Filled.Fullscreen, null); Spacer(Modifier.width(4.dp)); Text("주문") }
                     }
                 }
             }
-            item { SectionTitle("주문할 때 당도·얼음 (고르면 '주문' 문장에 붙는다)") }
+            item { SectionTitle("주문할 때 당도·얼음 (맞춤 주문 메뉴는 옵션 그대로)") }
             item {
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     mt.sugar.forEach { p -> val z = p.getOrElse(0) { "" }; FilterChip(sugar == z, onClick = { sugar = if (sugar == z) "" else z }, label = { Text("$z ${p.getOrElse(1) { "" }}") }) }
@@ -105,7 +110,7 @@ fun MilkTeaScreen(data: TripData) {
                 }
             }
             item {
-                Text("브랜드별 추천 메뉴는 인스타그램 '중국 나이차 브랜드별 추천 BEST 5'(chinese_shenjie)를 정리한 것이다. 메뉴·가격은 매장·계절마다 다르다. 12월엔 따뜻하게(热的)가 좋다.",
+                Text("브랜드별 추천 메뉴는 인스타그램 chinese_shenjie·hyorin_c·raraclass_chinese 게시물을 정리한 것이다. 메뉴·가격·한정 메뉴는 매장·계절마다 다르다. 12월엔 따뜻하게(热的)가 좋다.",
                     style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.outline)
             }
         }

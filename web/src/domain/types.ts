@@ -26,8 +26,8 @@ export interface MenuItem { zh: string; ko: string; desc: string; image?: string
 export interface Rating { source: string; name: string; score: number | null; reviews: number | null; price: string; addr: string; popular: { zh: string; ko: string }[]; label?: string; note?: string }
 export interface Restaurant { id: string; region: string; nameKo: string; nameZh: string; optionIds: string[]; dayIds: string[]; slots: string[]; kind: string; summary: string; menu: MenuItem[]; tips: string[]; perPerson: string; hours: string; image: string | null; credit: SightCredit | null; imageNote: string; keywords: string[]; amapUrl?: string | null; placeId?: string | null; ratings?: Rating[]; routes?: { label: string; url: string; note?: string }[] }
 /** 밀크티 종류: data/milktea.json */
-export interface MilkTeaDrink { id: string; zh: string; pinyin: string; koRead: string; desc: string }
-export interface MilkTeaBrand { id: string; nameZh: string; pinyin: string; nameKo: string; nameEn: string; color: string; drinks: MilkTeaDrink[] }
+export interface MilkTeaDrink { id: string; zh: string; pinyin: string; koRead: string; desc: string; opt?: string; tag?: string }
+export interface MilkTeaBrand { id: string; nameZh: string; pinyin: string; nameKo: string; nameEn: string; color: string; note?: string; drinks: MilkTeaDrink[] }
 export interface MilkTea { items: MilkTeaBrand[]; sugar: [string, string][]; ice: [string, string][] }
 /** 여행 전(사전) 일정: data/pretrip.json */
 export interface CheckItem { id: string; text: string }

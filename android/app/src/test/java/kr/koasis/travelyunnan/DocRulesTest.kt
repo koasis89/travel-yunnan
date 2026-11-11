@@ -133,10 +133,12 @@ class DocRulesTest {
 
     @Test fun milkTea() {
         val m = TripDataHolder.data.milktea
-        assertEquals(listOf("霸王茶姬", "喜茶", "茶百道", "瑞幸咖啡", "蜜雪冰城", "奈雪的茶"), m.items.map { it.nameZh })
-        assertTrue(m.items.all { b -> b.drinks.size == 5 && b.drinks.all { it.zh.isNotBlank() && it.koRead.isNotBlank() && it.desc.isNotBlank() } })
+        assertEquals(listOf("霸王茶姬", "喜茶", "茶百道", "瑞幸咖啡", "蜜雪冰城", "奈雪的茶", "爷爷不泡茶", "KOI 可宜"), m.items.map { it.nameZh })
+        assertTrue(m.items.all { b -> b.drinks.isNotEmpty() && b.drinks.all { it.zh.isNotBlank() && it.koRead.isNotBlank() && it.desc.isNotBlank() } })
         assertEquals("你好，我要一杯伯牙绝弦，少糖，热的。", kr.koasis.travelyunnan.ui.meal.milkTeaOrder("伯牙绝弦", "少糖", "热的"))
         assertEquals("你好，我要一杯生椰拿铁。", kr.koasis.travelyunnan.ui.meal.milkTeaOrder("生椰拿铁", "", ""))
+        assertEquals("你好，我要一杯小黄油拿铁，全冰去水，深烘，不另外加糖，黄油减半。", kr.koasis.travelyunnan.ui.meal.milkTeaOrder("小黄油拿铁", "少糖", "热的", "全冰去水，深烘，不另外加糖，黄油减半"))
+        assertEquals("加马蹄丸子", m.items.first { it.id == "yeye" }.drinks.first { it.zh == "栀子龙眼椰" }.opt)
     }
 
     @Test fun koGloss() {

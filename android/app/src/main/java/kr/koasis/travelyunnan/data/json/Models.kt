@@ -171,10 +171,10 @@ data class SightCredit(val title: String = "", val author: String = "", val lice
 
 /** 밀크티 종류(data/milktea.json) */
 @Serializable
-data class MilkTeaDrink(val id: String, val zh: String = "", val pinyin: String = "", val koRead: String = "", val desc: String = "")
+data class MilkTeaDrink(val id: String, val zh: String = "", val pinyin: String = "", val koRead: String = "", val desc: String = "", val opt: String = "", val tag: String = "")
 
 @Serializable
-data class MilkTeaBrand(val id: String, val nameZh: String = "", val pinyin: String = "", val nameKo: String = "", val nameEn: String = "", val color: String = "#c62828", val drinks: List<MilkTeaDrink> = emptyList())
+data class MilkTeaBrand(val id: String, val nameZh: String = "", val pinyin: String = "", val nameKo: String = "", val nameEn: String = "", val color: String = "#c62828", val note: String = "", val drinks: List<MilkTeaDrink> = emptyList())
 
 @Serializable
 data class MilkTeaFile(val items: List<MilkTeaBrand> = emptyList(), val sugar: List<List<String>> = emptyList(), val ice: List<List<String>> = emptyList())

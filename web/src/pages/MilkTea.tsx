@@ -4,10 +4,11 @@ import { ShowCard, TopBar, copyText } from '../components/ui'
 import { useData } from '../store/data'
 import type { MilkTeaDrink } from '../domain/types'
 
-/** 주문 문장: "你好，我要一杯伯牙绝弦，少糖，去冰。" */
-export const milkTeaOrder = (zh: string, sugar: string, ice: string) => `你好，我要一杯${zh}${sugar ? `，${sugar}` : ''}${ice ? `，${ice}` : ''}。`
+/** 주문 문장: "你好，我要一杯伯牙绝弦，少糖，去冰。". 맞춤 옵션(opt)이 있으면 옵션을 그대로 붙이고 당도·얼음 선택은 쓰지 않는다 */
+export const milkTeaOrder = (zh: string, sugar: string, ice: string, opt?: string) =>
+  opt ? `你好，我要一杯${zh}，${opt}。` : `你好，我要一杯${zh}${sugar ? `，${sugar}` : ''}${ice ? `，${ice}` : ''}。`
 
-/** 더보기 → 밀크티 종류: 브랜드별 추천 BEST 5(이름·병음·한글 읽기·설명) + 당도·얼음 골라 주문 문장 */
+/** 더보기 → 밀크티 종류: 브랜드별 추천(이름·병음·한글 읽기·설명·맞춤 옵션) + 당도·얼음 골라 주문 문장 */
 export function MilkTea() {
   const data = useData(); const mt = data.milktea
   const [brand, setBrand] = useState(mt.items[0]?.id ?? '')
@@ -17,11 +18,11 @@ export function MilkTea() {
   const b = mt.items.find((x) => x.id === brand) ?? mt.items[0]
   const ko = (pairs: [string, string][], z: string) => pairs.find(([x]) => x === z)?.[1] ?? ''
   if (show) {
-    const s = milkTeaOrder(show.zh, sugar, ice)
+    const s = milkTeaOrder(show.zh, sugar, ice, show.opt)
     return (
       <ShowCard header="점원에게 보여주세요" onClose={() => setShow(null)} actions={<button className="btn" onClick={() => copyText(s)}><Copy size={16} />복사</button>}>
         <div className="phrase zh">{s}</div>
-        <div className="sub">{show.koRead} 한 잔{sugar ? ` · ${ko(mt.sugar, sugar)}` : ''}{ice ? ` · ${ko(mt.ice, ice)}` : ''}</div>
+        <div className="sub">{show.koRead} 한 잔{show.opt ? ' · 맞춤 옵션 그대로' : `${sugar ? ` · ${ko(mt.sugar, sugar)}` : ''}${ice ? ` · ${ko(mt.ice, ice)}` : ''}`}</div>
       </ShowCard>
     )
   }
@@ -39,7 +40,8 @@ export function MilkTea() {
             <span className="bold" style={{ fontSize: '1.15em' }}>{b.nameKo}</span>
             <span className="tag" style={{ background: b.color, color: '#fff' }}>{b.nameEn}</span>
           </div>
-          <div className="small muted">{b.pinyin} · 추천 BEST 5</div>
+          <div className="small muted">{b.pinyin} · 추천 {b.drinks.length}가지</div>
+          {b.note && <div className="tiny muted" style={{ marginTop: 4 }}>{b.note}</div>}
         </div>
       </div>
       <div className="pad"><div className="card flat" style={{ padding: 0 }}>
@@ -49,18 +51,20 @@ export function MilkTea() {
             <div className="grow" style={{ minWidth: 0 }}>
               <div className="zh bold" style={{ fontSize: '1.35em' }}>{d.zh}</div>
               <div className="tiny muted">{d.pinyin} · {d.koRead}</div>
+              {d.tag && <span className="tag" style={{ marginTop: 4, display: 'inline-block' }}>{d.tag}</span>}
+              {d.opt && <div className="small zh" data-testid="milktea-opt" style={{ marginTop: 4 }}>{d.opt}</div>}
               <div className="small" style={{ marginTop: 4 }}>{d.desc}</div>
             </div>
             <button className="btn" style={{ flex: 'none' }} onClick={() => setShow(d)}><Maximize2 size={16} />주문</button>
           </div>
         ))}
       </div></div>
-      <div className="section row"><CupSoda size={18} /><span>주문할 때 당도·얼음 (고르면 '주문' 문장에 붙는다)</span></div>
+      <div className="section row"><CupSoda size={18} /><span>주문할 때 당도·얼음 (고르면 주문 문장에 붙음 · 맞춤 주문 메뉴는 옵션 그대로)</span></div>
       <div className="pad stack" style={{ gap: 8 }}>
         <div className="wrap" data-testid="milktea-sugar">{mt.sugar.map(([z, k]) => <button key={z} className={`chip ${sugar === z ? 'on' : ''}`} onClick={() => setSugar(sugar === z ? '' : z)}><span className="zh">{z}</span> {k}</button>)}</div>
         <div className="wrap" data-testid="milktea-ice">{mt.ice.map(([z, k]) => <button key={z} className={`chip ${ice === z ? 'on' : ''}`} onClick={() => setIce(ice === z ? '' : z)}><span className="zh">{z}</span> {k}</button>)}</div>
       </div>
-      <p className="pad tiny faint">브랜드별 추천 메뉴는 인스타그램 '중국 나이차 브랜드별 추천 BEST 5'(chinese_shenjie)를 정리한 것이다. 메뉴·가격은 매장·계절마다 다르다. 12월엔 따뜻하게(热的)가 좋다.</p>
+      <p className="pad tiny faint">브랜드별 추천 메뉴는 인스타그램 chinese_shenjie·hyorin_c·raraclass_chinese 게시물을 정리한 것이다. 메뉴·가격·한정 메뉴는 매장·계절마다 다르다. 12월엔 따뜻하게(热的)가 좋다.</p>
     </div>
   )
 }
