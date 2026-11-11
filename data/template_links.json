@@ -5,7 +5,7 @@
     {
       "id": "tl-01",
       "dayId": "D1",
-      "timeStart": "23:40",
+      "timeStart": "00:20",
       "templateId": "tpl-pickup",
       "label": "물라뉴 호텔에 픽업·짐 운반 요청",
       "values": {
@@ -17,7 +17,7 @@
     {
       "id": "tl-02",
       "dayId": "D1",
-      "timeStart": "23:40",
+      "timeStart": "00:20",
       "templateId": "tpl-delivery",
       "label": "야식 배달 주소 요청",
       "values": {
@@ -141,7 +141,7 @@
     {
       "id": "tl-15",
       "dayId": "D1",
-      "timeStart": "22:50",
+      "timeStart": "23:35",
       "templateId": "tpl-wechat-qr",
       "label": "디디 기사와 위챗 QR 주고받기",
       "values": {}

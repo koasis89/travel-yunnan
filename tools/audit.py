@@ -59,19 +59,27 @@ def main():
         if not rows:
             errors.append(f"[일정] {d['id']} 행 없음"); continue
         prev_end = None
+        off = 0  # 자정을 넘는 행(예: D1 23:35~00:20, 00:20~)은 +24시간으로 본다(웹·앱 findNow 와 같다)
         for r in rows:
             s, e = r["timeStart"], r["timeEnd"]
             if not re.match(r"^\d\d:\d\d$", s or ""):
                 errors.append(f"[일정] {r['id']} 시작 시각 형식 {s}")
                 continue
-            if e and t2m(e) <= t2m(s):
-                errors.append(f"[일정] {r['id']} 종료({e})가 시작({s})보다 빠름")
+            sm = t2m(s) + off
+            if prev_end is not None and sm < prev_end - 360:
+                off += 1440; sm += 1440
+            em = (t2m(e) + off) if e else None
+            if em is not None and em <= sm:
+                if sm % 1440 >= 18 * 60 and t2m(e) <= 6 * 60:
+                    em += 1440  # 밤에 시작해 새벽에 끝나는 행
+                else:
+                    errors.append(f"[일정] {r['id']} 종료({e})가 시작({s})보다 빠름")
             if prev_end is not None:
-                if t2m(s) < prev_end:
+                if sm < prev_end:
                     errors.append(f"[일정] {r['id']} 이전 행과 겹침 ({s} < 이전 종료)")
-                elif t2m(s) - prev_end >= 60:
-                    warns.append(f"[일정] {r['id']} 이전 행 종료 후 {(t2m(s) - prev_end) // 60}시간 공백")
-            prev_end = t2m(e) if e else t2m(s)
+                elif sm - prev_end >= 60:
+                    warns.append(f"[일정] {r['id']} 이전 행 종료 후 {(sm - prev_end) // 60}시간 공백")
+            prev_end = em if em is not None else sm
             if r["transport"] in ("", "-") and re.search(r"[\u4e00-\u9fff]", r["to"]) and r["from"] != r["to"]:
                 warns.append(f"[일정] {r['id']} 이동수단 비어 있음: {r['from']} → {r['to']}")
             if "도보" == r["transport"] and re.search(r"\d+\s*km", r["duration"]):

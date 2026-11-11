@@ -34,13 +34,22 @@ export interface NowState { current: Schedule | null; next: Schedule | null }
 export function findNow(rows: Schedule[], time: string): NowState {
   const t = toMin(time)
   const timed = rows.filter((r) => r.timeStart).sort((a, b) => a.seq - b.seq)
+  // 자정을 넘는 행(예: D1 23:35~00:20, 00:20~)은 다음 날 시각(+24시간)으로 본다
+  const starts: number[] = []
+  let off = 0
+  timed.forEach((r, i) => {
+    let s = toMin(r.timeStart!) + off
+    if (i > 0 && s < starts[i - 1] - 360) { off += 1440; s += 1440 }
+    starts.push(s)
+  })
   let current: Schedule | null = null
   timed.forEach((r, i) => {
-    const s = toMin(r.timeStart!)
-    const e = r.timeEnd ? toMin(r.timeEnd) : timed[i + 1]?.timeStart ? toMin(timed[i + 1].timeStart!) : null
+    const s = starts[i]
+    let e = r.timeEnd ? toMin(r.timeEnd) + (s >= 1440 ? 1440 : 0) : starts[i + 1] ?? null
+    if (e !== null && e <= s) e += 1440
     if (t >= s && (e === null || t < e)) current = r
   })
-  const next = timed.find((r) => toMin(r.timeStart!) > t && r !== current) ?? null
+  const next = timed.find((r, i) => starts[i] > t && r !== current) ?? null
   return { current, next }
 }
 

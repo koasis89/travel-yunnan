@@ -20,7 +20,7 @@ describe('일차·현재 일정 (앱 DomainTest 와 동일)', () => {
     expect(p).toEqual({ kind: 'before', daysLeft: 41 })
     expect(focusDay(p, data.days).id).toBe('D1')
   })
-  it('D1 22:30 공항 도착', () => { const s = nowAt('2026-12-16T22:30'); expect(s.current?.id).toBe('D1-01'); expect(s.next?.id).toBe('D1-02') })
+  it('D1 23:00 공항 도착(22:45 착륙)', () => { expect(nowAt('2026-12-16T22:30').current).toBeNull(); const s = nowAt('2026-12-16T23:00'); expect(s.current?.id).toBe('D1-01'); expect(s.next?.id).toBe('D1-02') })
   it('D3 05:50 투어 픽업', () => { const s = nowAt('2026-12-18T05:50'); expect(s.current?.timeStart).toBe('05:00'); expect(s.next?.transport).toContain('투어 차량') })
   it('D5 12:30 Come Inn 직행 · 15:00 차마객잔 트레킹', () => {
     const car = nowAt('2026-12-20T12:30').current!; expect(car.from).toBe('Rishine 빌라'); expect(car.to).toContain('Come Inn')
@@ -38,7 +38,13 @@ describe('일차·현재 일정 (앱 DomainTest 와 동일)', () => {
     const d7 = nextMove('2026-12-22T05:00', data.days, rows)!
     expect(d7.row.transport).toContain('C644'); expect(d7.row.timeStart).toBe('07:22')
   })
-  it('종료 시각 없는 행은 다음 행 전까지', () => expect(nowAt('2026-12-16T23:55').current?.timeStart).toBe('23:40'))
+  it('자정을 넘는 행(D1 23:35~00:20, 00:20~)', () => {
+    expect(nowAt('2026-12-16T23:00').current?.timeStart).toBe('22:45')
+    const s = nowAt('2026-12-16T23:55')
+    expect(s.current?.timeStart).toBe('23:35'); expect(s.next?.timeStart).toBe('00:20')
+    const rows = data.scheduleOf('D1')
+    expect(findNow(rows, '23:59').current?.id).toBe('D1-02')
+  })
   it('남은 시간 표기', () => { expect(formatLeft(30)).toBe('30분 후'); expect(formatLeft(149)).toBe('2시간 29분 후'); expect(formatLeft(1500)).toBe('1일 1시간 후') })
   it('현지 시각 = 한국 -1시간', () => expect(tripNow(null, new Date('2026-12-20T03:30:00Z'))).toBe('2026-12-20T11:30'))
 })
@@ -72,7 +78,7 @@ describe('템플릿·숫자·경비·캘린더', () => {
     const d5 = rows('D5').find((r) => r.timeStart === '17:10')!
     const link = data.templatesFor(d5)[0]
     expect(templateById(link.templateId)!.render(link.values)).toContain('上午10点半')
-    const d1 = rows('D1').find((r) => r.timeStart === '23:40')!
+    const d1 = rows('D1').find((r) => r.timeStart === '00:20')!
     expect(new Set(data.templatesFor(d1).map((t) => t.templateId))).toEqual(new Set(['tpl-pickup', 'tpl-delivery']))
   })
   it('주문 문장', () => {

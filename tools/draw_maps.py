@@ -202,13 +202,13 @@ def map01():
     f.place(km, "쿤밍 · Gefei VX 호텔\nD1·D7 숙박 · 1,890m", "lodging", "l",
             H("쿤밍 · Gefei VX Hotel", "lodging", "kunming1", ["Gefei", "쿤밍역", "쿤밍 숙소"], note="D1·D7 숙박. 쿤밍역 북광장 360m"))
     f.place(ap, "창수이 공항", "place", "b",
-            H("창수이 국제공항", "place", "kmg_airport", ["창수이", "공항"], "昆明长水国际机场", "D1 22:00 도착 · D8 23:55 출발"))
+            H("창수이 국제공항", "place", "kmg_airport", ["창수이", "공항"], "昆明长水国际机场", "D1 22:45 도착(KE161) · D8 23:55 출발(KE162)"))
     f.place(yl, "옥룡설산 대索道\n4,506m", "place", "r",
             H("옥룡설산 투어", "place", "yulong_cableway", ["옥룡설산", "대索道"], "玉龙雪山", "D3 투어 · 사방가 픽업"), size=15)
     f.dot(ljst, "poi", 9)
     f.label(ljst, "리장역", "r", size=14.5, box=False, color=MUTED)
     f.seg((99, 34), ap, "flight", rad=0.2)
-    f.tag((93, 36), "D1 22:00\n서울→쿤밍", "flight", size=13.5)
+    f.tag((93, 36), "D1 22:45\n서울→쿤밍", "flight", size=13.5)
     f.seg(ap, km, "taxi", rad=0.2)
     f.seg(km, ljst, "train", rad=0.12)
     f.tag((72, 30), "D2 C446 고속열차\n08:29 → 12:27", "train")
@@ -227,7 +227,7 @@ def map01():
     f.seg(ap, (99, 8), "flight", rad=-0.2)
     f.tag((93, 6), "D8 23:55 출발", "flight", size=13.5)
     f.legend(["train", "car", "taxi", "tour", "flight"], "upper right")
-    rows = [("D1 12/16", C["flight"], "서울 → 쿤밍 22:00 도착, 택시로 쿤밍역 앞 호텔"),
+    rows = [("D1 12/16", C["flight"], "서울 → 쿤밍 22:45 도착(KE161), 디디로 쿤밍역 앞 호텔 0시 20분쯤"),
             ("D2 12/17", C["train"], "C446 열차로 리장(12:27), 고성 산책"),
             ("D3 12/18", C["tour"], "옥룡설산 투어(대索道 4,506m·람월곡·인상리장)"),
             ("D4 12/19", C["taxi"], "고성 → 백사 Rishine 빌라, 백사고진·수허고진"),
@@ -247,15 +247,15 @@ KM_HOTEL, KM_ST = K(102.7232, 25.0205), K(102.7225, 25.0160)
 
 def map_d1():
     x0, _ = K(102.60, 0); x1, _ = K(102.97, 0)
-    f = Fig("map_d1", "D1 쿤밍 도착 (12/16 밤)", "창수이 공항 22:00 도착 → 택시·디디 약 45분 → 쿤밍역 북광장 Gefei VX 호텔",
+    f = Fig("map_d1", "D1 쿤밍 도착 (12/16 밤)", "창수이 공항 22:45 도착(KE161) → 디디 약 45분 → 0시 20분쯤 쿤밍역 북광장 Gefei VX 호텔",
             (x0, x1), (24.97, 25.135), panels=[("note", 150)])
     ax = f.ax
     dian = [K(*q) for q in [(102.62, 24.995), (102.675, 24.985), (102.70, 24.97), (102.62, 24.96)]]
     ax.add_patch(Polygon(dian, closed=True, fc=WATER, ec="none", alpha=0.8, zorder=1))
     ax.text(*K(102.672, 24.976), "전지(滇池)", fontsize=14, color="#3d78b3", ha="center")
     ap = K(102.929, 25.101)
-    f.place(ap, "창수이 국제공항\n22:00 도착", "place", "b",
-            H("창수이 국제공항", "place", "kmg_airport", ["창수이", "공항"], "昆明长水国际机场", "D1 22:00 도착 · 입국·수하물 약 50분"))
+    f.place(ap, "창수이 국제공항\n22:45 도착", "place", "b",
+            H("창수이 국제공항", "place", "kmg_airport", ["창수이", "공항"], "昆明长水国际机场", "D1 22:45 도착(KE161) · 입국·수하물 약 50분"))
     f.place(KM_HOTEL, "Gefei VX 호텔 (숙소)\n永平路7号 · 쿤밍역 북광장", "lodging", (14, 30, "left", "bottom"),
             H("쿤밍역 · Gefei VX Hotel", "lodging", "kunming1", ["쿤밍역", "Gefei", "숙소"], note="D1·D7 숙박. 역 북광장 360m"))
     f.place(KM_ST, "쿤밍역(昆明站)", "place", "br",
@@ -264,12 +264,12 @@ def map_d1():
     f.dot(cu, "poi", 9)
     f.label(cu, "취호·남병가(시내 중심)", "l", size=14, box=False, color=MUTED)
     f.seg(ap, KM_HOTEL, "taxi", rad=0.18, lw=4.4)
-    f.tag(K(102.83, 25.09), "택시·디디 약 45분\n22:50 → 23:40", "taxi", size=16)
+    f.tag(K(102.83, 25.09), "택시·디디 약 45분\n23:35 → 0:20", "taxi", size=16)
     f.legend(["taxi"], "upper left")
     pa = f.panels[0]
     pa.text(34, 16, "도착 후 할 일", fontsize=18, fontweight="bold", color=INK, va="top")
     pa.text(34, 54, "• 도착 로비에서 위챗페이·알리페이·유심 작동 확인 → 디디 호출(짐 3개 고지)\n"
-                    "• 23:30 이후 늦은 체크인은 호텔에 미리 알림 · D2 아침 07:30 체크아웃 → 역까지 도보 5분",
+                    "• 0시 30분쯤 늦은 체크인은 호텔에 미리 알림 · D2 아침 07:30 체크아웃 → 역까지 도보 5분",
             fontsize=15.5, color=INK, va="top", linespacing=1.5)
     f.save("map_d1_kunming_arrival.png")
 

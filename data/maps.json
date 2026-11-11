@@ -12,7 +12,7 @@
    "id": "map_d1",
    "file": "maps/map_d1_kunming_arrival.png",
    "title": "D1 쿤밍 도착",
-   "caption": "창수이 공항 22:00 → 택시 45분 → 쿤밍역 북광장 호텔",
+   "caption": "창수이 공항 22:45(KE161) → 디디 45분 → 0시 20분쯤 쿤밍역 북광장 호텔",
    "dayIds": [
     "D1"
    ]

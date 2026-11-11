@@ -30,7 +30,7 @@ class DomainTest {
     }
 
     @Test fun d1_night_airportArrival() {
-        val s = nowState("2026-12-16T22:30")
+        val s = nowState("2026-12-16T23:00")
         assertEquals("D1-01", s.current?.id)
         assertEquals("D1-02", s.next?.id)
     }
@@ -76,9 +76,11 @@ class DomainTest {
     }
 
     @Test fun openEndedRow_lastsUntilNextRow() {
-        // D1 23:40~ 행은 종료 시각이 없어도 이후 진행 중으로 본다
+        // D1 은 자정을 넘는다(23:35~00:20 디디, 00:20~ 호텔). 23:55 는 디디 이동 중, 다음은 0시 20분 호텔
+        assertEquals("22:45", nowState("2026-12-16T23:00").current?.timeStart)
         val s = nowState("2026-12-16T23:55")
-        assertEquals("23:40", s.current?.timeStart)
+        assertEquals("23:35", s.current?.timeStart)
+        assertEquals("00:20", s.next?.timeStart)
     }
 
     @Test fun cleanAddress_removesKoreanNotes() {
@@ -162,7 +164,7 @@ class S6Test {
         val d5 = d.scheduleOf("D5").first { it.timeStart == "17:10" }
         val sh = d.templatesFor(d5).single { it.templateId == "tpl-shangrila" }
         assertTrue(Templates.shangrila.render(sh.values).contains("上午10点半"))
-        val d1 = d.scheduleOf("D1").first { it.timeStart == "23:40" }
+        val d1 = d.scheduleOf("D1").first { it.timeStart == "00:20" }
         assertEquals(setOf("tpl-pickup", "tpl-delivery"), d.templatesFor(d1).map { it.templateId }.toSet())
         val d3 = d.scheduleOf("D3").first { it.timeStart == "05:00" }
         assertEquals(setOf("tpl-guide", "tpl-guide-arrive", "tpl-guide-late"), d.templatesFor(d3).map { it.templateId }.toSet())

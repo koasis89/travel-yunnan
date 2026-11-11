@@ -56,13 +56,23 @@ object CurrentScheduleFinder {
      */
     fun find(rows: List<Schedule>, time: LocalTime): NowState {
         val timed = rows.filter { parseTime(it.timeStart) != null }.sortedBy { it.seq }
+        fun min(t: LocalTime) = t.hour * 60 + t.minute
+        // 자정을 넘는 행(예: D1 23:35~00:20, 00:20~)은 다음 날 시각(+24시간)으로 본다(웹 findNow 와 같다)
+        val starts = IntArray(timed.size); var off = 0
+        for ((i, r) in timed.withIndex()) {
+            var s = min(parseTime(r.timeStart)!!) + off
+            if (i > 0 && s < starts[i - 1] - 360) { off += 1440; s += 1440 }
+            starts[i] = s
+        }
+        val t = min(time)
         var current: Schedule? = null
         for ((i, r) in timed.withIndex()) {
-            val s = parseTime(r.timeStart)!!
-            val e = parseTime(r.timeEnd) ?: timed.getOrNull(i + 1)?.let { parseTime(it.timeStart) }
-            if (!time.isBefore(s) && (e == null || time.isBefore(e))) current = r
+            val s = starts[i]
+            var e: Int? = parseTime(r.timeEnd)?.let { min(it) + if (s >= 1440) 1440 else 0 } ?: starts.getOrNull(i + 1)
+            if (e != null && e <= s) e += 1440
+            if (t >= s && (e == null || t < e)) current = r
         }
-        val next = timed.firstOrNull { parseTime(it.timeStart)!!.isAfter(time) && it != current }
+        val next = timed.withIndex().firstOrNull { (i, r) -> starts[i] > t && r != current }?.value
         return NowState(current, next)
     }
 }
