@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Copy, CupSoda, Maximize2 } from 'lucide-react'
+import { Copy, CupSoda, MapPin, Maximize2 } from 'lucide-react'
 import { ShowCard, TopBar, copyText } from '../components/ui'
 import { useData } from '../store/data'
 import type { MilkTeaDrink } from '../domain/types'
@@ -42,6 +42,15 @@ export function MilkTea() {
           </div>
           <div className="small muted">{b.pinyin} · 추천 {b.drinks.length}가지</div>
           {b.note && <div className="tiny muted" style={{ marginTop: 4 }}>{b.note}</div>}
+          {!!b.maps?.length && (
+            <div style={{ marginTop: 10 }}>
+              <div className="small bold row" style={{ gap: 4 }}><MapPin size={15} />매장 찾기 (고덕지도)</div>
+              <div className="wrap" data-testid="milktea-maps" style={{ marginTop: 6 }}>
+                {b.maps.map((x) => <a key={x.ko} className="chip" href={x.url} target="_blank" rel="noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>{x.ko} <span className="tiny muted">{x.days}</span></a>)}
+              </div>
+              <div className="tiny faint" style={{ marginTop: 4 }}>브랜드 이름으로 그 동네를 검색한다. 결과에서 가까운 매장을 고르고, 없으면 다른 브랜드를 찾는다.</div>
+            </div>
+          )}
         </div>
       </div>
       <div className="pad"><div className="card flat" style={{ padding: 0 }}>

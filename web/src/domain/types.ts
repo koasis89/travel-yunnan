@@ -27,7 +27,9 @@ export interface Rating { source: string; name: string; score: number | null; re
 export interface Restaurant { id: string; region: string; nameKo: string; nameZh: string; optionIds: string[]; dayIds: string[]; slots: string[]; kind: string; summary: string; menu: MenuItem[]; tips: string[]; perPerson: string; hours: string; image: string | null; credit: SightCredit | null; imageNote: string; keywords: string[]; amapUrl?: string | null; placeId?: string | null; ratings?: Rating[]; routes?: { label: string; url: string; note?: string }[] }
 /** 밀크티 종류: data/milktea.json */
 export interface MilkTeaDrink { id: string; zh: string; pinyin: string; koRead: string; desc: string; opt?: string; tag?: string }
-export interface MilkTeaBrand { id: string; nameZh: string; pinyin: string; nameKo: string; nameEn: string; color: string; note?: string; drinks: MilkTeaDrink[] }
+/** 매장 찾기: 고덕지도 검색 링크(tools/amap_links.py 가 일정의 동네별로 만든다) */
+export interface MilkTeaMap { ko: string; days: string; url: string }
+export interface MilkTeaBrand { id: string; nameZh: string; pinyin: string; nameKo: string; nameEn: string; color: string; note?: string; maps?: MilkTeaMap[]; drinks: MilkTeaDrink[] }
 export interface MilkTea { items: MilkTeaBrand[]; sugar: [string, string][]; ice: [string, string][] }
 /** 여행 전(사전) 일정: data/pretrip.json */
 export interface CheckItem { id: string; text: string }

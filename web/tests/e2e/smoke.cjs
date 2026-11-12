@@ -264,6 +264,7 @@ const ok = (name, cond, extra = '') => { results.push([cond ? 'PASS' : 'FAIL', n
 
   // 더보기 → 밀크티 종류: 브랜드 8개(첫 브랜드 5잔), 당도·얼음 골라 주문 문장
   await page.goto(base + '#/more'); await page.click('text=밀크티 종류'); await page.waitForSelector('[data-testid=milktea-drink]', { timeout: 5000 }).catch(() => {})
+  ok('밀크티 매장 찾기 링크 7곳(고덕지도)', (await page.locator('[data-testid=milktea-maps] a').count()) === 7 && (await page.getAttribute('[data-testid=milktea-maps] a >> nth=2', 'href')).startsWith('https://uri.amap.com/search?keyword=') && await page.isVisible('[data-testid=milktea-maps] >> text=리장 고성'))
   ok('밀크티 브랜드 8개·첫 브랜드 5잔', (await page.locator('[data-testid=milktea-brands] button').count()) === 8 && (await page.locator('[data-testid=milktea-drink]').count()) === 5 && await page.isVisible('text=伯牙绝弦'))
   await page.click('[data-testid=milktea-brands] >> text=瑞幸咖啡'); ok('브랜드 바꾸기(루이싱 生椰拿铁)', await page.isVisible('text=生椰拿铁') && await page.isVisible('text=코코넛 밀크에 에스프레소를 더한 대표 라떼'))
   await page.click('[data-testid=milktea-sugar] >> text=少糖'); await page.click('[data-testid=milktea-ice] >> text=热的')

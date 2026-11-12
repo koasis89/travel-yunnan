@@ -139,6 +139,8 @@ class DocRulesTest {
         assertEquals("你好，我要一杯生椰拿铁。", kr.koasis.travelyunnan.ui.meal.milkTeaOrder("生椰拿铁", "", ""))
         assertEquals("你好，我要一杯小黄油拿铁，全冰去水，深烘，不另外加糖，黄油减半。", kr.koasis.travelyunnan.ui.meal.milkTeaOrder("小黄油拿铁", "少糖", "热的", "全冰去水，深烘，不另外加糖，黄油减半"))
         assertEquals("加马蹄丸子", m.items.first { it.id == "yeye" }.drinks.first { it.zh == "栀子龙眼椰" }.opt)
+        assertTrue(m.items.all { b -> b.maps.size == 7 && b.maps.all { it.url.startsWith("https://uri.amap.com/search?keyword=") } })
+        assertEquals("내 주변", m.items[0].maps[0].ko)
     }
 
     @Test fun koGloss() {

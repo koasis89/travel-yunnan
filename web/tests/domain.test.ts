@@ -234,6 +234,12 @@ describe('밀크티 종류', () => {
     expect(data.milktea.items.map((b) => b.nameZh)).toEqual(['霸王茶姬', '喜茶', '茶百道', '瑞幸咖啡', '蜜雪冰城', '奈雪的茶', '爷爷不泡茶', 'KOI 可宜'])
     expect(data.milktea.items.every((b) => b.drinks.length >= 1 && b.drinks.every((d) => d.zh && d.pinyin && d.koRead && d.desc))).toBe(true)
     expect(new Set(data.milktea.items.flatMap((b) => b.drinks.map((d) => d.id))).size).toBe(data.milktea.items.reduce((n, b) => n + b.drinks.length, 0))
+    // 매장 찾기: 브랜드마다 '내 주변'(도시 없음) + 일정 동네 6곳 고덕지도 검색 링크
+    expect(data.milktea.items.every((b) => b.maps?.length === 7 && b.maps.every((x) => x.url.startsWith('https://uri.amap.com/search?keyword=')))).toBe(true)
+    const chagee = data.milktea.items[0].maps!
+    expect(chagee[0].ko).toBe('내 주변'); expect(chagee[0].url).not.toContain('city=')
+    expect(decodeURIComponent(chagee.find((x) => x.ko === '리장 고성')!.url)).toContain('keyword=霸王茶姬 丽江古城&city=丽江')
+    expect(decodeURIComponent(data.milktea.items.find((b) => b.id === 'koi')!.maps![0].url)).toContain('keyword=KOI Thé&')
     const lk = data.milktea.items.find((b) => b.id === 'luckin')!
     expect(lk.drinks.find((d) => d.zh === '小黄油拿铁')!.opt).toBe('全冰去水，深烘，不另外加糖，黄油减半')
     expect(milkTeaOrder('小黄油拿铁', '少糖', '热的', '全冰去水，深烘，不另外加糖，黄油减半')).toBe('你好，我要一杯小黄油拿铁，全冰去水，深烘，不另外加糖，黄油减半。')

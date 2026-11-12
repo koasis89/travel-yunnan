@@ -50,7 +50,7 @@ def search_url(keyword: str, city: str) -> str:
 def main(d: Path):
     load = lambda n: json.loads((d / n).read_text(encoding="utf-8"))  # noqa: E731
     save = lambda n, o: (d / n).write_text(json.dumps(o, ensure_ascii=False, indent=2), encoding="utf-8")  # noqa: E731
-    rows = {"숙소": [], "관광지·장소": [], "식당": []}
+    rows = {"숙소": [], "관광지·장소": [], "식당": []}  # + 밀크티 매장(아래)
 
     lod = load("lodgings.json")
     # 숙소 id 와 같은 장소(places.json)에 공유받은 정확한 링크가 있으면 그것을 쓴다(예: oura)
@@ -112,6 +112,18 @@ def main(d: Path):
             (place[r["placeId"]]["amapUrl"] if r.get("placeId") in place else None) or search_url(r["nameZh"].split("/")[0].strip(), city_of(r["nameZh"], r["region"]))
     save("restaurants.json", rest)
 
+    # 밀크티 매장 찾기: 브랜드 이름 + 일정의 동네(또는 '내 주변' = 지금 위치 근처) 검색 링크
+    rows["밀크티 매장"] = []
+    mt = load("milktea.json")
+    for br in mt["items"]:
+        kw = br.get("mapKeyword") or br["nameZh"]
+        br["maps"] = [{"ko": a["ko"], "days": a.get("days", ""),
+                       "url": search_url(f"{kw} {a['near']}".strip(), a["city"])} for a in mt.get("areas", [])]
+        for x in br["maps"]:
+            if x["days"] != "지금 위치":
+                rows["밀크티 매장"].append((br["id"], f"{br['nameKo']} · {x['ko']}({x['days']})", kw, "", x["url"]))
+    save("milktea.json", mt)
+
     out = ["# 고덕지도(Amap) 링크 모음", "",
            "> `tools/amap_links.py` 가 만든다(손으로 고치지 않는다). 고덕지도 앱을 깔고 링크를 누르거나 복사해 붙여넣는다.",
            "> `surl.amap.com` 은 고덕지도에서 공유받은 정확한 위치, `uri.amap.com/search` 는 이름·주소 검색 링크다(검색 결과에서 맞는 곳을 고른다).", ""]
@@ -127,7 +139,7 @@ def main(d: Path):
     if missing:
         print(f"경고: 한국어 이름이 없는 식사 선택지 {len(missing)}건 → data/meal_names_ko.json 에 추가: {missing}")
     n = sum(len(v) for v in rows.values())
-    print(f"고덕지도 링크 {n}건(숙소 {len(rows['숙소'])}·관광지 {len(rows['관광지·장소'])}·식당 {len(rows['식당'])}) → docs/고덕지도_링크모음.md")
+    print(f"고덕지도 링크 {n}건(숙소 {len(rows['숙소'])}·관광지 {len(rows['관광지·장소'])}·식당 {len(rows['식당'])}·밀크티 매장 {len(rows['밀크티 매장'])}) → docs/고덕지도_링크모음.md")
 
 
 if __name__ == "__main__":

@@ -173,8 +173,12 @@ data class SightCredit(val title: String = "", val author: String = "", val lice
 @Serializable
 data class MilkTeaDrink(val id: String, val zh: String = "", val pinyin: String = "", val koRead: String = "", val desc: String = "", val opt: String = "", val tag: String = "")
 
+/** 매장 찾기: 고덕지도 검색 링크(tools/amap_links.py 가 일정의 동네별로 만든다) */
 @Serializable
-data class MilkTeaBrand(val id: String, val nameZh: String = "", val pinyin: String = "", val nameKo: String = "", val nameEn: String = "", val color: String = "#c62828", val note: String = "", val drinks: List<MilkTeaDrink> = emptyList())
+data class MilkTeaMap(val ko: String = "", val days: String = "", val url: String = "")
+
+@Serializable
+data class MilkTeaBrand(val id: String, val nameZh: String = "", val pinyin: String = "", val nameKo: String = "", val nameEn: String = "", val color: String = "#c62828", val note: String = "", val maps: List<MilkTeaMap> = emptyList(), val drinks: List<MilkTeaDrink> = emptyList())
 
 @Serializable
 data class MilkTeaFile(val items: List<MilkTeaBrand> = emptyList(), val sugar: List<List<String>> = emptyList(), val ice: List<List<String>> = emptyList())

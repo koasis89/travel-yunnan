@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Fullscreen
+import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -78,6 +79,17 @@ fun MilkTeaScreen(data: TripData) {
                             }
                             Text("${b.pinyin} · 추천 ${b.drinks.size}가지", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                             if (b.note.isNotBlank()) Text(b.note, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 4.dp))
+                            if (b.maps.isNotEmpty()) {
+                                Row(Modifier.padding(top = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+                                    Icon(Icons.Filled.Place, null, Modifier.size(16.dp)); Spacer(Modifier.width(4.dp))
+                                    Text("매장 찾기 (고덕지도)", style = MaterialTheme.typography.titleSmall)
+                                }
+                                FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                                    b.maps.forEach { x -> AssistChip(onClick = { External.openUrl(ctx, x.url) }, label = { Text("${x.ko} · ${x.days}") }) }
+                                }
+                                Text("브랜드 이름으로 그 동네를 검색한다. 결과에서 가까운 매장을 고르고, 없으면 다른 브랜드를 찾는다.",
+                                    style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.outline)
+                            }
                         }
                     }
                 }
